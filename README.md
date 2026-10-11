@@ -8,7 +8,7 @@ Spotlight is the product; the app is the place to create, edit and copy what Spo
 
 ```
 Mindrop/
-├── Mindrop.xcodeproj
+├── Mindrop.xcodeproj           project.xcproj — the JSON format, not project.pbxproj
 ├── MindropCore/                 Swift package shared by the app and the extension
 │   └── Sources/MindropCore/
 │       ├── Memory.swift              model, validation, normalisation
@@ -37,6 +37,23 @@ Mindrop/
 Shared code is a local Swift package rather than files in two targets: the app and the
 extension cannot drift, and `swift test` runs the whole suite in under a second with no
 simulator involved.
+
+## The project file
+
+`Mindrop.xcodeproj/project.xcproj` is Xcode 26's JSON project format, not the old
+`project.pbxproj`. It is a fifth the size, readable, and diffs sensibly, which matters here
+because the project is maintained by hand. Converted with:
+
+```bash
+xcodebuild -project Mindrop.xcodeproj -convert-project "Xcode Project"
+```
+
+The folders are synchronized (`"kind": "folder"`), so a new source file in `Mindrop/`,
+`MindropShare/` or `MindropAction/` joins its target with no project edit at all.
+
+One consequence to know about: the `xcodeproj` Ruby gem cannot parse this format, so
+fastlane's `build_app` has to be pointed at `Mindrop.xcodeproj/project.xcworkspace` rather
+than the project, or it fails while listing build configurations.
 
 ## Build and run
 
