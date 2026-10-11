@@ -39,9 +39,11 @@ public struct CoreSpotlightIndexer: SpotlightIndexing, @unchecked Sendable {
         let attributes = SpotlightAttributesFactory.make(for: memory)
         let attributeSet = CSSearchableItemAttributeSet(contentType: .text)
         attributeSet.title = attributes.title
+        attributeSet.displayName = attributes.displayName
         attributeSet.contentDescription = attributes.contentDescription
         attributeSet.keywords = attributes.keywords
-        attributeSet.displayName = attributes.title
+        attributeSet.alternateNames = attributes.alternateNames
+        attributeSet.textContent = attributes.textContent
 
         let item = CSSearchableItem(
             uniqueIdentifier: attributes.identifier,

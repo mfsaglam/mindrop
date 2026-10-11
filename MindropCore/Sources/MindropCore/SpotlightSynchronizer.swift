@@ -9,7 +9,8 @@ import os
 @MainActor
 public final class SpotlightSynchronizer {
     /// Raise this when the indexed metadata changes, to force one reconciliation pass.
-    public static let currentIndexFormatVersion = 1
+    /// 2: the keyword moved into the title, after metadata-only matching failed on device.
+    public static let currentIndexFormatVersion = 2
 
     private let indexer: SpotlightIndexing
     private let stateStore: SpotlightSyncStateStore

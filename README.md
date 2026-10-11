@@ -58,19 +58,28 @@ Per memory:
 | Field | Value | Reason |
 |---|---|---|
 | `uniqueIdentifier` | the memory's UUID | how a tapped result routes back to the memory |
-| `title` | the **value** | Spotlight renders the title as the result's prominent line |
-| `displayName` | the value | some surfaces prefer `displayName` over `title` |
-| `contentDescription` | the keyword | searched by Spotlight, and shown as the smaller second line |
-| `keywords` | the keyword, plus each of its words | `"office door"` is also findable by typing `door` |
+| `title` | the **value**, then the keyword | Spotlight renders the title as the result's prominent line, and it is the only field observed to match a query |
+| `displayName` | same as the title | some surfaces prefer `displayName` over `title` |
+| `contentDescription` | the keyword | shown as the smaller second line |
+| `keywords` | the keyword, plus each of its words | `"office door"` should also be findable by typing `door` |
+| `alternateNames` | the same words | matched but not displayed |
+| `textContent` | keyword and value | full-text matching, not displayed |
 | `domainIdentifier` | `memory` | lets one call clear everything Mindrop indexed |
 | `expirationDate` | `.distantFuture` | **without this, indexed items expire about a month after indexing** |
 
-`contentDescription = keyword` is a deliberate hedge. Apple documents that `keywords`
-participates in matching but guarantees nothing about prefix behaviour, and a keyword that
-exists *only* in metadata is the single riskiest assumption in the product. Putting the
-keyword in a searched, user-visible field as well costs one small grey line under the value
-and makes matching far more dependable. Remove it in `SpotlightAttributesFactory` if you
-want metadata-only matching.
+The keyword sits in the title because **metadata-only keyword matching does not work on
+device**. Measured on a physical iPhone: searching a memory's value finds it, searching its
+keyword does not — with `keywords` and `contentDescription` both populated. So the matcher
+is reading the title and ignoring the metadata fields, whatever the documentation implies.
+
+The title is therefore `"SuperFast2026! — wifi"`: the value still leads the line and stays the
+prominent text, and `wifi` now has something to match against. `alternateNames` and
+`textContent` carry the keyword too, in case a future iOS consults them.
+
+`SpotlightAttributesFactory.keywordInTitle = false` restores a value-only title if you want
+to retest metadata-only matching on a later iOS. Changing the metadata shape means bumping
+`SpotlightSynchronizer.currentIndexFormatVersion`, which triggers one full reindex on the
+next launch.
 
 ### Index synchronisation
 
@@ -91,9 +100,14 @@ opens, copies, edits and deletes memories; deletions and edits reach storage; `U
 receives the complete value; indexing is attempted exactly once per change and not repeated
 on later launches.
 
-**Not verified, and it is the important one: whether memories actually appear in Spotlight.**
-On this simulator runtime they do not, and the reason is on the system side, not in the
-metadata. Core Spotlight accepts every donation and reports success, while `searchd` drops it:
+Verified on a physical iPhone (iOS 26): indexing works, and a memory is found by searching
+its **value**. Searching its **keyword** returned nothing while the keyword lived only in
+`keywords` and `contentDescription` — which is what moved the keyword into the title. Retest
+after a reinstall: the first launch reindexes everything once, because the format version
+changed.
+
+On the **simulator** (iOS 27.0) nothing is searchable at all, for a different and system-side
+reason. Core Spotlight accepts every donation and reports success, while `searchd` drops it:
 
 ```
 Submitting donation: {CSInlineDonation[async]: "mfsaglam.Mindrop" add-update-items:6 ...}
@@ -107,7 +121,7 @@ Calendar results normally, so Spotlight itself works there; only third-party don
 refused. Note the trap this creates: **the API reports success, so an app cannot detect that
 its items were dropped** — the pending-retry machinery has nothing to retry.
 
-There is no app-side fix for this. It needs a physical iPhone.
+There is no app-side fix for this; Spotlight work has to be checked on a physical iPhone.
 
 ### Device verification checklist
 
@@ -125,10 +139,11 @@ Run these on a real iPhone, which is the only authoritative environment:
 7. Share text from Safari → Mindrop → save with a keyword → search it in Spotlight **without
    opening the app**.
 
-If keyword-only matching turns out to be unreliable even on device, the next lever is to
-append the keyword to the title (`"SuperFast2026! — wifi"`), which trades some of the value's
-prominence for certain matching. Do not expect more than that: result ordering, fonts,
-truncation and layout belong to Spotlight.
+Still open: whether the keyword previously failed because Spotlight never matched the
+metadata, or because it matched and the result ranked below the system's own hits for a
+common word like `wifi`. Searching an unusual keyword that has no system results would tell
+them apart. Either way the title now carries the keyword, which addresses both. Do not expect
+more than that: result ordering, fonts, truncation and layout belong to Spotlight.
 
 ### Limits Apple imposes
 

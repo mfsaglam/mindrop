@@ -5,15 +5,35 @@ import Testing
 
 @Suite("Spotlight metadata and routing")
 struct SpotlightMetadataTests {
-    @Test("The value is the title, so Spotlight shows it as the prominent line")
-    func valueIsTitle() {
+    @Test("The title leads with the value and carries the keyword, which is what Spotlight matches")
+    func titleLeadsWithValue() {
         let memory = makeMemory(keyword: "wifi", value: "SuperFast2026!")
         let attributes = SpotlightAttributesFactory.make(for: memory)
 
-        #expect(attributes.title == "SuperFast2026!")
+        #expect(attributes.title.hasPrefix("SuperFast2026!"))
+        #expect(attributes.title.contains("wifi"))
+        #expect(attributes.displayName == attributes.title)
         #expect(attributes.contentDescription == "wifi")
         #expect(attributes.identifier == memory.id.uuidString)
         #expect(attributes.domainIdentifier == SpotlightAttributes.domain)
+    }
+
+    @Test("Turning the title hint off leaves the value alone")
+    func valueOnlyTitleWhenDisabled() {
+        // Guards the documented escape hatch in SpotlightAttributesFactory.
+        let memory = makeMemory(keyword: "wifi", value: "SuperFast2026!")
+        let expected = SpotlightAttributesFactory.keywordInTitle ? "SuperFast2026! — wifi" : "SuperFast2026!"
+        #expect(SpotlightAttributesFactory.title(for: memory) == expected)
+    }
+
+    @Test("The keyword is also offered through every field Spotlight may consult")
+    func keywordReachesEveryMatchableField() {
+        let attributes = SpotlightAttributesFactory.make(for: makeMemory(keyword: "office door", value: "482916"))
+
+        #expect(attributes.keywords == ["office door", "office", "door"])
+        #expect(attributes.alternateNames == ["office door", "office", "door"])
+        #expect(attributes.textContent.contains("office door"))
+        #expect(attributes.textContent.contains("482916"))
     }
 
     @Test("A multi-word keyword is indexed whole and word by word")
@@ -33,8 +53,10 @@ struct SpotlightMetadataTests {
         let item = CoreSpotlightIndexer.searchableItem(for: memory)
 
         #expect(item.uniqueIdentifier == memory.id.uuidString)
-        #expect(item.attributeSet.title == "TR12 3456")
+        #expect(item.attributeSet.title?.hasPrefix("TR12 3456") == true)
         #expect(item.attributeSet.keywords == ["iban"])
+        #expect(item.attributeSet.alternateNames == ["iban"])
+        #expect(item.attributeSet.textContent?.contains("iban") == true)
         #expect(item.expirationDate == .distantFuture)
     }
 }
