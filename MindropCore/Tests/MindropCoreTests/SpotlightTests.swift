@@ -110,4 +110,25 @@ struct SharedTextParserTests {
     func returnsNilWhenEmpty() {
         #expect(SharedTextParser.value(from: [nil, "", "  "]) == nil)
     }
+
+    @Test("A shared link becomes its full address")
+    func readsURLs() {
+        let url = URL(string: "https://example.com/a/b?c=d")!
+        #expect(SharedTextParser.text(fromLoadedItem: url) == "https://example.com/a/b?c=d")
+    }
+
+    @Test("Every shape an item provider hands back is understood")
+    func readsEveryItemShape() {
+        #expect(SharedTextParser.text(fromLoadedItem: "482916") == "482916")
+        #expect(SharedTextParser.text(fromLoadedItem: NSAttributedString(string: "482916")) == "482916")
+        #expect(SharedTextParser.text(fromLoadedItem: Data("482916".utf8)) == "482916")
+    }
+
+    @Test("Anything else is refused rather than stringified")
+    func refusesUnknownItems() {
+        // Describing an arbitrary object would put something like "<NSObject: 0x…>"
+        // in the value field.
+        #expect(SharedTextParser.text(fromLoadedItem: NSObject()) == nil)
+        #expect(SharedTextParser.text(fromLoadedItem: nil) == nil)
+    }
 }

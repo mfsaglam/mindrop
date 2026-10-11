@@ -21,11 +21,15 @@ Mindrop/
 │       ├── SpotlightSyncState.swift  what is known about the index between launches
 │       ├── SpotlightRouter.swift     Spotlight result → memory id
 │       └── SharedTextParser.swift    share sheet input → a value
+│   └── Sources/MindropSaveUI/        the save form, shared by both extensions
+│       ├── SaveToMindropView.swift
+│       └── SaveToMindropViewController.swift
 ├── Mindrop/                     app target (iOS 26+)
 │   ├── App/                          MindropApp, RootView, session and routing
 │   ├── Features/                     MemoryList, MemoryDetail, MemoryEditor
 │   └── Resources/Assets.xcassets     app icon, accent colour
-├── MindropShare/                share extension (text only)
+├── MindropShare/                share extension — the share sheet's app row
+├── MindropAction/               action extension — the share sheet's action row
 ├── Tools/RenderAppIcon.swift    renders the icon from the Lucide SVG
 └── Design/                      lucide-brain.svg and its ISC licence
 ```
@@ -48,7 +52,8 @@ App Group `group.mfsaglam.Mindrop`; bundle ids `mfsaglam.Mindrop` and `mfsaglam.
 Regenerate the icon after changing the SVG:
 
 ```bash
-swift Mindrop/Tools/RenderAppIcon.swift Mindrop/Design/lucide-brain.svg Mindrop/Mindrop/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+swift Tools/RenderAppIcon.swift Design/lucide-brain.svg Mindrop/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+swift Tools/RenderAppIcon.swift Design/lucide-brain.svg MindropAction/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png --template
 ```
 
 ## Spotlight: what is indexed, and why
@@ -158,7 +163,8 @@ Run these on a real iPhone, which is the only authoritative environment:
 5. Edit the value, search again → the new value shows. Delete it, search again → gone.
 6. Repeat in light and dark appearance.
 7. Share text from Safari → Mindrop → save with a keyword → search it in Spotlight **without
-   opening the app**.
+   opening the app**. Then repeat from the action row, and once more by sharing a page so the
+   link arrives as the value.
 
 Still open: whether the keyword previously failed because Spotlight never matched the
 metadata, or because it matched and the result ranked below the system's own hits for a
@@ -173,6 +179,34 @@ more than that: result ordering, fonts, truncation and layout belong to Spotligh
 - Indexing is asynchronous; a new memory may take a few seconds to become findable.
 - Matching usually needs more than three typed characters (iOS 17+).
 - Indexed titles are visible to anyone who can unlock the phone, which is why the editor says so.
+
+## The share sheet
+
+Two extensions, because iOS splits the share sheet into two rows that are populated
+by two different extension points:
+
+| Row | Extension point | Target |
+|---|---|---|
+| Apps (AirDrop, Messages, Mail, …) | `com.apple.share-services` | `MindropShare` |
+| Actions (Copy, Add to Amazon, Ask ChatGPT, …) | `com.apple.ui-services` | `MindropAction` |
+
+They do the same thing and share all their code: `SaveToMindropViewController` and
+`SaveToMindropView` live in `MindropSaveUI`, and each target is a one-line subclass.
+
+**Placement is not ours to control.** The app row is Favorites, which the user sets and
+orders, followed by Suggestions, which iOS orders by its own relevance model. A freshly
+installed extension lands at the end of Suggestions, behind the *More* button, and no API
+promotes it. Users pin it through More → Edit → (+). The action row works the same way via
+*Edit Actions…*; it is simply shorter in practice, so Mindrop is easier to spot there.
+
+Both extensions accept **text and web URLs**. For a page share the value is the link; for a
+text selection it is the text. When a host offers both, selected text wins, then the link,
+and the host's own description last — for a page share that description is the page title,
+which is rarely what someone wants stored.
+
+The action extension ships its own icon: iOS draws action icons as a mask of the alpha
+channel, so the opaque app icon would come out as a filled square. `RenderAppIcon.swift
+--template` renders the same Lucide brain on a transparent background instead.
 
 ## Privacy
 

@@ -4,7 +4,11 @@
 // data itself: white stroke, solid black background, centred, with generous space.
 // Lucide icons are ISC licensed — see Design/LUCIDE-LICENSE.txt.
 //
-// Usage: swift Tools/RenderAppIcon.swift <input.svg> <output.png>
+// Usage: swift Tools/RenderAppIcon.swift <input.svg> <output.png> [--template]
+//
+// `--template` renders the brain on a transparent background and larger in the frame.
+// iOS draws an action extension's icon as a mask of its alpha channel, so the app's
+// opaque black square would come out as a filled square there.
 
 import CoreGraphics
 import Foundation
@@ -12,8 +16,6 @@ import ImageIO
 import UniformTypeIdentifiers
 
 let canvas = 1024.0
-/// Fraction of the canvas edge the 24×24 Lucide artboard spans.
-let symbolScale = 0.46
 let viewBox = 24.0
 
 // MARK: - SVG path parsing
@@ -158,10 +160,14 @@ struct PathParser {
 // MARK: - Rendering
 
 let arguments = CommandLine.arguments
-guard arguments.count == 3 else {
-    FileHandle.standardError.write(Data("usage: RenderAppIcon.swift <input.svg> <output.png>\n".utf8))
+guard (3...4).contains(arguments.count) else {
+    FileHandle.standardError.write(Data("usage: RenderAppIcon.swift <input.svg> <output.png> [--template]\n".utf8))
     exit(2)
 }
+let isTemplate = arguments.count == 4 && arguments[3] == "--template"
+/// Fraction of the canvas edge the 24×24 Lucide artboard spans. A template icon is
+/// drawn into a tighter frame, since iOS adds its own padding around it.
+let symbolScale = isTemplate ? 0.78 : 0.46
 let svg = try String(contentsOfFile: arguments[1], encoding: .utf8)
 let attribute = try Regex("d=\"([^\"]+)\"")
 let pathData = svg.matches(of: attribute).compactMap { $0[1].substring.map(String.init) }
@@ -181,8 +187,10 @@ guard let context = CGContext(
     bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
 ) else { fatalError("Could not create a bitmap context") }
 
-context.setFillColor(CGColor(red: 0, green: 0, blue: 0, alpha: 1))
-context.fill(CGRect(x: 0, y: 0, width: canvas, height: canvas))
+if !isTemplate {
+    context.setFillColor(CGColor(red: 0, green: 0, blue: 0, alpha: 1))
+    context.fill(CGRect(x: 0, y: 0, width: canvas, height: canvas))
+}
 
 // Flip to SVG's top-left origin, then place the artboard in the middle of the canvas.
 context.translateBy(x: offset, y: canvas - offset)

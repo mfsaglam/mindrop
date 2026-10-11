@@ -9,27 +9,39 @@
 /* Begin PBXBuildFile section */
 		MD0000000000000000000001 /* MindropCore in Frameworks */ = {isa = PBXBuildFile; productRef = MD0000000000000000000002 /* MindropCore */; };
 		MD0000000000000000000003 /* MindropCore in Frameworks */ = {isa = PBXBuildFile; productRef = MD0000000000000000000004 /* MindropCore */; };
-		MD0000000000000000000005 /* MindropShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = MD0000000000000000000006 /* MindropShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		MD0000000000000000000005 /* MindropSaveUI in Frameworks */ = {isa = PBXBuildFile; productRef = MD0000000000000000000006 /* MindropSaveUI */; };
+		MD0000000000000000000007 /* MindropCore in Frameworks */ = {isa = PBXBuildFile; productRef = MD0000000000000000000008 /* MindropCore */; };
+		MD0000000000000000000009 /* MindropSaveUI in Frameworks */ = {isa = PBXBuildFile; productRef = MD000000000000000000000A /* MindropSaveUI */; };
+		MD000000000000000000000B /* MindropShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = MD000000000000000000000C /* MindropShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		MD000000000000000000000D /* MindropAction.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = MD000000000000000000000E /* MindropAction.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		MD0000000000000000000007 /* PBXContainerItemProxy */ = {
+		MD000000000000000000000F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = MD0000000000000000000008 /* Project object */;
+			containerPortal = MD0000000000000000000010 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = MD0000000000000000000009;
+			remoteGlobalIDString = MD0000000000000000000011;
 			remoteInfo = MindropShare;
+		};
+		MD0000000000000000000012 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = MD0000000000000000000010 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = MD0000000000000000000013;
+			remoteInfo = MindropAction;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		MD000000000000000000000A /* Embed Foundation Extensions */ = {
+		MD0000000000000000000014 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				MD0000000000000000000005 /* MindropShare.appex in Embed Foundation Extensions */,
+				MD000000000000000000000B /* MindropShare.appex in Embed Foundation Extensions */,
+				MD000000000000000000000D /* MindropAction.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -37,49 +49,65 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		MD000000000000000000000B /* Mindrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mindrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		MD0000000000000000000006 /* MindropShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MindropShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		MD000000000000000000000C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		MD0000000000000000000015 /* Mindrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mindrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		MD000000000000000000000C /* MindropShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MindropShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		MD000000000000000000000E /* MindropAction.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MindropAction.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		MD0000000000000000000016 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		MD000000000000000000000D /* Exceptions for "Mindrop" folder in "Mindrop" target */ = {
+		MD0000000000000000000017 /* Exceptions for "Mindrop" folder in "Mindrop" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = MD000000000000000000000E /* Mindrop */;
+			target = MD0000000000000000000018 /* Mindrop */;
 		};
-		MD000000000000000000000F /* Exceptions for "MindropShare" folder in "MindropShare" target */ = {
+		MD0000000000000000000019 /* Exceptions for "MindropShare" folder in "MindropShare" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = MD0000000000000000000009 /* MindropShare */;
+			target = MD0000000000000000000011 /* MindropShare */;
+		};
+		MD000000000000000000001A /* Exceptions for "MindropAction" folder in "MindropAction" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = MD0000000000000000000013 /* MindropAction */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		MD0000000000000000000010 /* Mindrop */ = {
+		MD000000000000000000001B /* Mindrop */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				MD000000000000000000000D /* Exceptions for "Mindrop" folder in "Mindrop" target */,
+				MD0000000000000000000017 /* Exceptions for "Mindrop" folder in "Mindrop" target */,
 			);
 			path = Mindrop;
 			sourceTree = "<group>";
 		};
-		MD0000000000000000000011 /* MindropShare */ = {
+		MD000000000000000000001C /* MindropShare */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				MD000000000000000000000F /* Exceptions for "MindropShare" folder in "MindropShare" target */,
+				MD0000000000000000000019 /* Exceptions for "MindropShare" folder in "MindropShare" target */,
 			);
 			path = MindropShare;
+			sourceTree = "<group>";
+		};
+		MD000000000000000000001D /* MindropAction */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				MD000000000000000000001A /* Exceptions for "MindropAction" folder in "MindropAction" target */,
+			);
+			path = MindropAction;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		MD0000000000000000000012 /* Frameworks */ = {
+		MD000000000000000000001E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -87,32 +115,44 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		MD0000000000000000000013 /* Frameworks */ = {
+		MD000000000000000000001F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				MD0000000000000000000003 /* MindropCore in Frameworks */,
+				MD0000000000000000000005 /* MindropSaveUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		MD0000000000000000000020 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				MD0000000000000000000007 /* MindropCore in Frameworks */,
+				MD0000000000000000000009 /* MindropSaveUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		MD0000000000000000000014 = {
+		MD0000000000000000000021 = {
 			isa = PBXGroup;
 			children = (
-				MD000000000000000000000C /* README.md */,
-				MD0000000000000000000010 /* Mindrop */,
-				MD0000000000000000000011 /* MindropShare */,
-				MD0000000000000000000015 /* Products */,
+				MD0000000000000000000016 /* README.md */,
+				MD000000000000000000001B /* Mindrop */,
+				MD000000000000000000001C /* MindropShare */,
+				MD000000000000000000001D /* MindropAction */,
+				MD0000000000000000000022 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		MD0000000000000000000015 /* Products */ = {
+		MD0000000000000000000022 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				MD000000000000000000000B /* Mindrop.app */,
-				MD0000000000000000000006 /* MindropShare.appex */,
+				MD0000000000000000000015 /* Mindrop.app */,
+				MD000000000000000000000C /* MindropShare.appex */,
+				MD000000000000000000000E /* MindropAction.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -120,104 +160,141 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		MD000000000000000000000E /* Mindrop */ = {
+		MD0000000000000000000018 /* Mindrop */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = MD0000000000000000000016 /* Build configuration list for PBXNativeTarget "Mindrop" */;
+			buildConfigurationList = MD0000000000000000000025 /* Build configuration list for PBXNativeTarget "Mindrop" */;
 			buildPhases = (
-				MD0000000000000000000017 /* Sources */,
-				MD0000000000000000000012 /* Frameworks */,
-				MD0000000000000000000018 /* Resources */,
-				MD000000000000000000000A /* Embed Foundation Extensions */,
+				MD0000000000000000000026 /* Sources */,
+				MD000000000000000000001E /* Frameworks */,
+				MD0000000000000000000027 /* Resources */,
+				MD0000000000000000000014 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				MD0000000000000000000019 /* PBXTargetDependency */,
+				MD0000000000000000000023 /* PBXTargetDependency */,
+				MD0000000000000000000024 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				MD0000000000000000000010 /* Mindrop */,
+				MD000000000000000000001B /* Mindrop */,
 			);
 			name = Mindrop;
 			packageProductDependencies = (
 				MD0000000000000000000002 /* MindropCore */,
 			);
 			productName = Mindrop;
-			productReference = MD000000000000000000000B /* Mindrop.app */;
+			productReference = MD0000000000000000000015 /* Mindrop.app */;
 			productType = "com.apple.product-type.application";
 		};
-		MD0000000000000000000009 /* MindropShare */ = {
+		MD0000000000000000000011 /* MindropShare */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = MD000000000000000000001A /* Build configuration list for PBXNativeTarget "MindropShare" */;
+			buildConfigurationList = MD0000000000000000000028 /* Build configuration list for PBXNativeTarget "MindropShare" */;
 			buildPhases = (
-				MD000000000000000000001B /* Sources */,
-				MD0000000000000000000013 /* Frameworks */,
-				MD000000000000000000001C /* Resources */,
+				MD0000000000000000000029 /* Sources */,
+				MD000000000000000000001F /* Frameworks */,
+				MD000000000000000000002A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				MD0000000000000000000011 /* MindropShare */,
+				MD000000000000000000001C /* MindropShare */,
 			);
 			name = MindropShare;
 			packageProductDependencies = (
 				MD0000000000000000000004 /* MindropCore */,
+				MD0000000000000000000006 /* MindropSaveUI */,
 			);
 			productName = MindropShare;
-			productReference = MD0000000000000000000006 /* MindropShare.appex */;
+			productReference = MD000000000000000000000C /* MindropShare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		MD0000000000000000000013 /* MindropAction */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = MD000000000000000000002B /* Build configuration list for PBXNativeTarget "MindropAction" */;
+			buildPhases = (
+				MD000000000000000000002C /* Sources */,
+				MD0000000000000000000020 /* Frameworks */,
+				MD000000000000000000002D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				MD000000000000000000001D /* MindropAction */,
+			);
+			name = MindropAction;
+			packageProductDependencies = (
+				MD0000000000000000000008 /* MindropCore */,
+				MD000000000000000000000A /* MindropSaveUI */,
+			);
+			productName = MindropAction;
+			productReference = MD000000000000000000000E /* MindropAction.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		MD0000000000000000000008 /* Project object */ = {
+		MD0000000000000000000010 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2720;
 				LastUpgradeCheck = 2720;
 				TargetAttributes = {
-					MD000000000000000000000E = {
+					MD0000000000000000000018 = {
 						CreatedOnToolsVersion = 27.2;
 					};
-					MD0000000000000000000009 = {
+					MD0000000000000000000011 = {
+						CreatedOnToolsVersion = 27.2;
+					};
+					MD0000000000000000000013 = {
 						CreatedOnToolsVersion = 27.2;
 					};
 				};
 			};
-			buildConfigurationList = MD000000000000000000001D /* Build configuration list for PBXProject "Mindrop" */;
+			buildConfigurationList = MD000000000000000000002E /* Build configuration list for PBXProject "Mindrop" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = MD0000000000000000000014;
+			mainGroup = MD0000000000000000000021;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				MD000000000000000000001E /* XCLocalSwiftPackageReference "MindropCore" */,
+				MD000000000000000000002F /* XCLocalSwiftPackageReference "MindropCore" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = MD0000000000000000000015 /* Products */;
+			productRefGroup = MD0000000000000000000022 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				MD000000000000000000000E /* Mindrop */,
-				MD0000000000000000000009 /* MindropShare */,
+				MD0000000000000000000018 /* Mindrop */,
+				MD0000000000000000000011 /* MindropShare */,
+				MD0000000000000000000013 /* MindropAction */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		MD0000000000000000000018 /* Resources */ = {
+		MD0000000000000000000027 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		MD000000000000000000001C /* Resources */ = {
+		MD000000000000000000002A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		MD000000000000000000002D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -227,14 +304,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		MD0000000000000000000017 /* Sources */ = {
+		MD0000000000000000000026 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		MD000000000000000000001B /* Sources */ = {
+		MD0000000000000000000029 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		MD000000000000000000002C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -244,15 +328,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		MD0000000000000000000019 /* PBXTargetDependency */ = {
+		MD0000000000000000000023 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = MD0000000000000000000009 /* MindropShare */;
-			targetProxy = MD0000000000000000000007 /* PBXContainerItemProxy */;
+			target = MD0000000000000000000011 /* MindropShare */;
+			targetProxy = MD000000000000000000000F /* PBXContainerItemProxy */;
+		};
+		MD0000000000000000000024 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = MD0000000000000000000013 /* MindropAction */;
+			targetProxy = MD0000000000000000000012 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		MD000000000000000000001F /* Debug */ = {
+		MD0000000000000000000030 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -300,7 +389,7 @@
 			};
 			name = Debug;
 		};
-		MD0000000000000000000020 /* Release */ = {
+		MD0000000000000000000031 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -341,7 +430,7 @@
 			};
 			name = Release;
 		};
-		MD0000000000000000000021 /* Debug */ = {
+		MD0000000000000000000032 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -372,7 +461,7 @@
 			};
 			name = Debug;
 		};
-		MD0000000000000000000022 /* Release */ = {
+		MD0000000000000000000033 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -403,7 +492,7 @@
 			};
 			name = Release;
 		};
-		MD0000000000000000000023 /* Debug */ = {
+		MD0000000000000000000034 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "MindropShare/MindropShare.entitlements";
@@ -427,7 +516,7 @@
 			};
 			name = Debug;
 		};
-		MD0000000000000000000024 /* Release */ = {
+		MD0000000000000000000035 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "MindropShare/MindropShare.entitlements";
@@ -443,6 +532,56 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = mfsaglam.Mindrop.Share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		MD0000000000000000000036 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "MindropAction/MindropAction.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MindropAction/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Mindrop;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mfsaglam.Mindrop.Action;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		MD0000000000000000000037 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "MindropAction/MindropAction.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MindropAction/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Mindrop;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mfsaglam.Mindrop.Action;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
@@ -454,29 +593,38 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		MD000000000000000000001D /* Build configuration list for PBXProject "Mindrop" */ = {
+		MD000000000000000000002E /* Build configuration list for PBXProject "Mindrop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				MD000000000000000000001F /* Debug */,
-				MD0000000000000000000020 /* Release */,
+				MD0000000000000000000030 /* Debug */,
+				MD0000000000000000000031 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		MD0000000000000000000016 /* Build configuration list for PBXNativeTarget "Mindrop" */ = {
+		MD0000000000000000000025 /* Build configuration list for PBXNativeTarget "Mindrop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				MD0000000000000000000021 /* Debug */,
-				MD0000000000000000000022 /* Release */,
+				MD0000000000000000000032 /* Debug */,
+				MD0000000000000000000033 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		MD000000000000000000001A /* Build configuration list for PBXNativeTarget "MindropShare" */ = {
+		MD0000000000000000000028 /* Build configuration list for PBXNativeTarget "MindropShare" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				MD0000000000000000000023 /* Debug */,
-				MD0000000000000000000024 /* Release */,
+				MD0000000000000000000034 /* Debug */,
+				MD0000000000000000000035 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		MD000000000000000000002B /* Build configuration list for PBXNativeTarget "MindropAction" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				MD0000000000000000000036 /* Debug */,
+				MD0000000000000000000037 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -484,7 +632,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		MD000000000000000000001E /* XCLocalSwiftPackageReference "MindropCore" */ = {
+		MD000000000000000000002F /* XCLocalSwiftPackageReference "MindropCore" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = MindropCore;
 		};
@@ -499,7 +647,19 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = MindropCore;
 		};
+		MD0000000000000000000006 /* MindropSaveUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MindropSaveUI;
+		};
+		MD0000000000000000000008 /* MindropCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MindropCore;
+		};
+		MD000000000000000000000A /* MindropSaveUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MindropSaveUI;
+		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = MD0000000000000000000008 /* Project object */;
+	rootObject = MD0000000000000000000010 /* Project object */;
 }

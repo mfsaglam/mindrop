@@ -1,8 +1,12 @@
+#if os(iOS)
 import MindropCore
 import SwiftUI
 
 /// Save-only form: the shared text arrives as the value, the user adds a keyword.
-struct ShareView: View {
+///
+/// Shown by both extensions — the share sheet's app row and its action row — which
+/// differ only in how iOS lists them, not in what the user does here.
+public struct SaveToMindropView: View {
     let loadSharedValue: () async -> String?
     let onFinish: () -> Void
     let onCancel: () -> Void
@@ -12,11 +16,21 @@ struct ShareView: View {
     @State private var isSaving = false
     @State private var errorMessage: String?
 
+    public init(
+        loadSharedValue: @escaping () async -> String?,
+        onFinish: @escaping () -> Void,
+        onCancel: @escaping () -> Void
+    ) {
+        self.loadSharedValue = loadSharedValue
+        self.onFinish = onFinish
+        self.onCancel = onCancel
+    }
+
     private var canSave: Bool {
         !isSaving && (try? MemoryNormalizer.validate(keyword: keyword, value: value)) != nil
     }
 
-    var body: some View {
+    public var body: some View {
         NavigationStack {
             Form {
                 Section {
@@ -66,3 +80,4 @@ struct ShareView: View {
         }
     }
 }
+#endif

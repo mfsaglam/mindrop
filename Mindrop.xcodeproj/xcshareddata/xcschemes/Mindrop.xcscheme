@@ -5,7 +5,7 @@
          <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "MD000000000000000000000E"
+               BlueprintIdentifier = "MD0000000000000000000018"
                BuildableName = "Mindrop.app"
                BlueprintName = "Mindrop"
                ReferencedContainer = "container:Mindrop.xcodeproj">
@@ -21,7 +21,7 @@
       <BuildableProductRunnable runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "MD000000000000000000000E"
+            BlueprintIdentifier = "MD0000000000000000000018"
             BuildableName = "Mindrop.app"
             BlueprintName = "Mindrop"
             ReferencedContainer = "container:Mindrop.xcodeproj">
@@ -32,7 +32,7 @@
       <BuildableProductRunnable runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "MD000000000000000000000E"
+            BlueprintIdentifier = "MD0000000000000000000018"
             BuildableName = "Mindrop.app"
             BlueprintName = "Mindrop"
             ReferencedContainer = "container:Mindrop.xcodeproj">

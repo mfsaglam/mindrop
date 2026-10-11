@@ -11,4 +11,18 @@ public enum SharedTextParser {
         }
         return nil
     }
+
+    /// Converts whatever `NSItemProvider` hands back into text.
+    ///
+    /// A shared link arrives as a URL rather than a string, and some hosts pass
+    /// attributed text or raw UTF-8 data.
+    public static func text(fromLoadedItem item: Any?) -> String? {
+        switch item {
+        case let string as String: string
+        case let attributed as NSAttributedString: attributed.string
+        case let url as URL: url.absoluteString
+        case let data as Data: String(data: data, encoding: .utf8)
+        default: nil
+        }
+    }
 }
