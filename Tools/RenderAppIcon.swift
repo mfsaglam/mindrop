@@ -8,7 +8,10 @@
 //
 // `--template` renders the brain on a transparent background and larger in the frame.
 // iOS draws an action extension's icon as a mask of its alpha channel, so the app's
-// opaque black square would come out as a filled square there.
+// icon would come out there as a filled square.
+//
+// The app icon is written without an alpha channel at all: App Store validation
+// rejects a large app icon that has one, even when every pixel is opaque.
 
 import CoreGraphics
 import Foundation
@@ -184,7 +187,7 @@ guard let context = CGContext(
     bitsPerComponent: 8,
     bytesPerRow: 0,
     space: CGColorSpace(name: CGColorSpace.sRGB)!,
-    bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+    bitmapInfo: (isTemplate ? CGImageAlphaInfo.premultipliedLast : .noneSkipLast).rawValue
 ) else { fatalError("Could not create a bitmap context") }
 
 if !isTemplate {

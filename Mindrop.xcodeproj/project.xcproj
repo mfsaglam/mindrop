@@ -120,6 +120,7 @@
         "GENERATE_INFOPLIST_FILE": "YES",
         "INFOPLIST_FILE": "Mindrop/Info.plist",
         "INFOPLIST_KEY_CFBundleDisplayName": "Mindrop",
+        "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",
         "INFOPLIST_KEY_UIApplicationSceneManifest_Generation": "YES",
         "INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents": "YES",
         "INFOPLIST_KEY_UISupportedInterfaceOrientations": "UIInterfaceOrientationPortrait",
@@ -163,6 +164,7 @@
         "GENERATE_INFOPLIST_FILE": "YES",
         "INFOPLIST_FILE": "MindropShare/Info.plist",
         "INFOPLIST_KEY_CFBundleDisplayName": "Mindrop",
+        "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",
         "LD_RUNPATH_SEARCH_PATHS": [
           "$(inherited)",
           "@executable_path/Frameworks",
@@ -203,6 +205,7 @@
         "GENERATE_INFOPLIST_FILE": "YES",
         "INFOPLIST_FILE": "MindropAction/Info.plist",
         "INFOPLIST_KEY_CFBundleDisplayName": "Mindrop",
+        "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",
         "LD_RUNPATH_SEARCH_PATHS": [
           "$(inherited)",
           "@executable_path/Frameworks",
