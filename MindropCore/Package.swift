@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "MindropCore",
+    defaultLocalization: "en",
     platforms: [.iOS(.v26), .macOS(.v15)],
     products: [
         .library(name: "MindropCore", targets: ["MindropCore"]),
@@ -10,7 +11,11 @@ let package = Package(
     ],
     targets: [
         .target(name: "MindropCore"),
-        .target(name: "MindropSaveUI", dependencies: ["MindropCore"]),
+        .target(
+            name: "MindropSaveUI",
+            dependencies: ["MindropCore"],
+            resources: [.process("Localizable.xcstrings")]
+        ),
         .testTarget(name: "MindropCoreTests", dependencies: ["MindropCore"]),
     ]
 )

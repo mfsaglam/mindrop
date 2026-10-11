@@ -50,10 +50,18 @@ struct MemoryDetailView: View {
                 .accessibilityValue(memory.value)
                 .accessibilityHint("Double tap to copy to the clipboard")
 
-                Text(didCopy ? "Copied" : " ")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    .accessibilityHidden(!didCopy)
+                // The blank placeholder keeps the layout from jumping, and must not
+                // be looked up for translation.
+                Group {
+                    if didCopy {
+                        Text("Copied")
+                    } else {
+                        Text(verbatim: " ")
+                    }
+                }
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .accessibilityHidden(!didCopy)
             }
             .padding(.horizontal)
             .padding(.top, 8)

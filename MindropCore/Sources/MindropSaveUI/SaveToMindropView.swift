@@ -34,28 +34,29 @@ public struct SaveToMindropView: View {
         NavigationStack {
             Form {
                 Section {
-                    TextField("Keyword", text: $keyword)
+                    TextField(text: $keyword) { localized("Keyword") }
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
-                    TextField("Value", text: $value, axis: .vertical)
+                    TextField(text: $value, axis: .vertical) { localized("Value") }
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                 } footer: {
-                    Text("Saved values can show up directly in Spotlight search results, where anyone using this iPhone may see them.")
+                    localized("Saved values can show up directly in Spotlight search results, where anyone using this iPhone may see them.")
                 }
             }
-            .navigationTitle("Save to Mindrop")
+            .navigationTitle(localized("Save to Mindrop"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel", action: onCancel)
+                    Button(action: onCancel) { localized("Cancel") }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { Task { await save() } }.disabled(!canSave)
+                    Button { Task { await save() } } label: { localized("Save") }
+                        .disabled(!canSave)
                 }
             }
-            .alert("Couldn’t save", isPresented: .constant(errorMessage != nil)) {
-                Button("OK") { errorMessage = nil }
+            .alert(localized("Couldn’t save"), isPresented: .constant(errorMessage != nil)) {
+                Button { errorMessage = nil } label: { localized("OK") }
             } message: {
                 Text(errorMessage ?? "")
             }
@@ -65,6 +66,12 @@ public struct SaveToMindropView: View {
                 value = shared
             }
         }
+    }
+
+    /// Strings in a package resolve against `Bundle.main`, which inside an extension
+    /// is the extension's own bundle, so the catalog has to be named explicitly.
+    private func localized(_ key: LocalizedStringKey) -> Text {
+        Text(key, bundle: .module)
     }
 
     private func save() async {

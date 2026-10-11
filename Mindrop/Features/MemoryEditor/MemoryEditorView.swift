@@ -64,7 +64,9 @@ struct MemoryEditorView: View {
         }
     }
 
-    private var title: String {
+    /// A `LocalizedStringKey`, not a `String`: `navigationTitle` only localises
+    /// literals, so a plain String variable would ship the English through.
+    private var title: LocalizedStringKey {
         switch mode {
         case .create: "New Memory"
         case .edit: "Edit Memory"

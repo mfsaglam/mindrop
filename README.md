@@ -208,6 +208,38 @@ The action extension ships its own icon: iOS draws action icons as a mask of the
 channel, so the opaque app icon would come out as a filled square. `RenderAppIcon.swift
 --template` renders the same Lucide brain on a transparent background instead.
 
+## Localization
+
+English plus 14 languages: Turkish, German, French, Spanish, Italian, Portuguese (Brazil),
+Dutch, Russian, Arabic, Hindi, Japanese, Korean, Simplified and Traditional Chinese.
+
+Two String Catalogs, because the extensions cannot reach the app's:
+
+- `Mindrop/Resources/Localizable.xcstrings` — the app.
+- `MindropCore/Sources/MindropSaveUI/Localizable.xcstrings` — the save form both
+  extensions show. Strings in a package resolve against `Bundle.main`, which inside an
+  extension is the extension's own bundle, so that view goes through a `localized(_:)`
+  helper that names `Bundle.module`.
+
+Two traps worth remembering:
+
+- **`navigationTitle(someString)` does not localize.** Only literals become a
+  `LocalizedStringKey`; a `String` variable ships the English through. The editor's title
+  is typed as `LocalizedStringKey` for exactly this reason, and it was caught only by
+  running the app in Arabic.
+- A memory's keyword and value are user content and must never be looked up. They reach
+  `Text` as `String` variables, which is the verbatim initializer, so they are safe.
+
+"Memory" is rendered as *entry* or *record* in every language — the literal translation
+means a recollection and reads wrong for a saved keyword/value pair.
+
+Arabic flips the layout right to left; the native components handle it, and it was checked
+on the simulator. Add a language by adding its code to each catalog and to `knownRegions`
+in the project.
+
+These translations have not been reviewed by native speakers. The strings are short and
+conventional, but Arabic, Hindi and Korean deserve a pass before release.
+
 ## Privacy
 
 Values are treated as arbitrary text: no classification, no detection, no per-record

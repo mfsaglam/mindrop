@@ -49,9 +49,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		MD0000000000000000000015 /* Mindrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mindrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		MD000000000000000000000C /* MindropShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MindropShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		MD000000000000000000000E /* MindropAction.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MindropAction.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		MD0000000000000000000015 /* Mindrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mindrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		MD0000000000000000000016 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,32 +160,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		MD0000000000000000000018 /* Mindrop */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = MD0000000000000000000025 /* Build configuration list for PBXNativeTarget "Mindrop" */;
-			buildPhases = (
-				MD0000000000000000000026 /* Sources */,
-				MD000000000000000000001E /* Frameworks */,
-				MD0000000000000000000027 /* Resources */,
-				MD0000000000000000000014 /* Embed Foundation Extensions */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				MD0000000000000000000023 /* PBXTargetDependency */,
-				MD0000000000000000000024 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				MD000000000000000000001B /* Mindrop */,
-			);
-			name = Mindrop;
-			packageProductDependencies = (
-				MD0000000000000000000002 /* MindropCore */,
-			);
-			productName = Mindrop;
-			productReference = MD0000000000000000000015 /* Mindrop.app */;
-			productType = "com.apple.product-type.application";
-		};
 		MD0000000000000000000011 /* MindropShare */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = MD0000000000000000000028 /* Build configuration list for PBXNativeTarget "MindropShare" */;
@@ -234,6 +208,32 @@
 			productReference = MD000000000000000000000E /* MindropAction.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		MD0000000000000000000018 /* Mindrop */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = MD0000000000000000000025 /* Build configuration list for PBXNativeTarget "Mindrop" */;
+			buildPhases = (
+				MD0000000000000000000026 /* Sources */,
+				MD000000000000000000001E /* Frameworks */,
+				MD0000000000000000000027 /* Resources */,
+				MD0000000000000000000014 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				MD0000000000000000000023 /* PBXTargetDependency */,
+				MD0000000000000000000024 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				MD000000000000000000001B /* Mindrop */,
+			);
+			name = Mindrop;
+			packageProductDependencies = (
+				MD0000000000000000000002 /* MindropCore */,
+			);
+			productName = Mindrop;
+			productReference = MD0000000000000000000015 /* Mindrop.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -244,13 +244,13 @@
 				LastSwiftUpdateCheck = 2720;
 				LastUpgradeCheck = 2720;
 				TargetAttributes = {
-					MD0000000000000000000018 = {
-						CreatedOnToolsVersion = 27.2;
-					};
 					MD0000000000000000000011 = {
 						CreatedOnToolsVersion = 27.2;
 					};
 					MD0000000000000000000013 = {
+						CreatedOnToolsVersion = 27.2;
+					};
+					MD0000000000000000000018 = {
 						CreatedOnToolsVersion = 27.2;
 					};
 				};
@@ -260,6 +260,20 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ar,
+				de,
+				es,
+				fr,
+				hi,
+				it,
+				ja,
+				ko,
+				nl,
+				"pt-BR",
+				ru,
+				tr,
+				"zh-Hans",
+				"zh-Hant",
 				Base,
 			);
 			mainGroup = MD0000000000000000000021;
@@ -435,12 +449,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Mindrop/Mindrop.entitlements";
+				CODE_SIGN_ENTITLEMENTS = Mindrop/Mindrop.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Mindrop/Info.plist";
+				INFOPLIST_FILE = Mindrop/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Mindrop;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -466,12 +480,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Mindrop/Mindrop.entitlements";
+				CODE_SIGN_ENTITLEMENTS = Mindrop/Mindrop.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Mindrop/Info.plist";
+				INFOPLIST_FILE = Mindrop/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Mindrop;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -495,11 +509,11 @@
 		MD0000000000000000000034 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "MindropShare/MindropShare.entitlements";
+				CODE_SIGN_ENTITLEMENTS = MindropShare/MindropShare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "MindropShare/Info.plist";
+				INFOPLIST_FILE = MindropShare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Mindrop;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -519,11 +533,11 @@
 		MD0000000000000000000035 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "MindropShare/MindropShare.entitlements";
+				CODE_SIGN_ENTITLEMENTS = MindropShare/MindropShare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "MindropShare/Info.plist";
+				INFOPLIST_FILE = MindropShare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Mindrop;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -544,11 +558,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "MindropAction/MindropAction.entitlements";
+				CODE_SIGN_ENTITLEMENTS = MindropAction/MindropAction.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "MindropAction/Info.plist";
+				INFOPLIST_FILE = MindropAction/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Mindrop;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -569,11 +583,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "MindropAction/MindropAction.entitlements";
+				CODE_SIGN_ENTITLEMENTS = MindropAction/MindropAction.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "MindropAction/Info.plist";
+				INFOPLIST_FILE = MindropAction/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Mindrop;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -593,15 +607,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		MD000000000000000000002E /* Build configuration list for PBXProject "Mindrop" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				MD0000000000000000000030 /* Debug */,
-				MD0000000000000000000031 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		MD0000000000000000000025 /* Build configuration list for PBXNativeTarget "Mindrop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -625,6 +630,15 @@
 			buildConfigurations = (
 				MD0000000000000000000036 /* Debug */,
 				MD0000000000000000000037 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		MD000000000000000000002E /* Build configuration list for PBXProject "Mindrop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				MD0000000000000000000030 /* Debug */,
+				MD0000000000000000000031 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
