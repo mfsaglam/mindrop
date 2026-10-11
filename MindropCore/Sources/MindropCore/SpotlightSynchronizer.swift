@@ -13,7 +13,8 @@ public final class SpotlightSynchronizer {
     /// 3: dropped `contentDescription` and `textContent`, which Spotlight was drawing.
     /// 4: the keyword is back in `displayName`, which is the field that actually matches.
     /// 5: keyword moved to `textContent`, to find out whether that field matches too.
-    public static let currentIndexFormatVersion = 5
+    /// 6: it does not — back to the keyword in `displayName`, the only matched field.
+    public static let currentIndexFormatVersion = 6
 
     private let indexer: SpotlightIndexing
     private let stateStore: SpotlightSyncStateStore

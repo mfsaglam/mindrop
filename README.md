@@ -70,15 +70,16 @@ Per memory:
 
 Three rounds on a physical iPhone (iOS 26), each a reinstall and a reindex:
 
-| Round | Metadata | Keyword search |
+| Round | Where the keyword was | Keyword search |
 |---|---|---|
-| 1 | keyword in `keywords` + `contentDescription`; title and display name = value | **fails** |
-| 2 | keyword appended to title *and* display name; `textContent` added | works, but the row showed the keyword three times |
-| 3 | `contentDescription` and `textContent` dropped; display name back to value alone | **fails** again |
+| 1 | `keywords`, `alternateNames`, `contentDescription` | **fails** |
+| 2 | …and `title`, `displayName`, `textContent` | works — but the row showed the keyword three times |
+| 3 | …minus `contentDescription` and `textContent`, so `title` but not `displayName` | **fails** |
+| 4 | `textContent` only, display name back to the value | **fails** |
 
-The conclusion is narrow and worth stating plainly: **Spotlight matches what it draws.**
-`keywords`, `alternateNames` and `contentDescription` never reach the matcher, and a keyword
-that sits only in `title` does not either once `displayName` overrides it for display.
+That isolates it: **`displayName` is the only field a Spotlight query matches against.**
+`keywords`, `alternateNames`, `contentDescription`, `textContent` and even `title` are all
+ignored by the matcher, whatever the documentation implies.
 
 The practical consequence is that *the keyword must be visible in the result row for keyword
 search to work at all*. There is no configuration that both hides the keyword and finds it.
@@ -88,11 +89,11 @@ prominent text.
 
 `KeywordPlacement` is the single switch, and the cases are the trade:
 
-- `.displayedName` → `"SuperFast2026! · wifi"` on one line. Confirmed working.
-- `.bodyText` → big line `"SuperFast2026!"`, small line `"wifi"` under it. **Under test**: if
-  the keyword stops being findable, `textContent` is not matched either, and round 2's result
-  came from `displayName` alone.
-- `.hidden` → value only, and no keyword search.
+- `.displayedName` → `"SuperFast2026! · wifi"` on one line. **Shipped**, and the only case in
+  which keyword search works.
+- `.bodyText` → big line `"SuperFast2026!"`, small `"wifi"` under it. Nicer, and the keyword
+  cannot be found. Kept for retesting on a later iOS.
+- `.hidden` → value only, no keyword search.
 
 `keywords` and `alternateNames` stay populated in every case: no visual cost, and a later iOS
 may consult them.
@@ -123,9 +124,8 @@ Verified on a physical iPhone (iOS 26): indexing works, the value is found, and 
 is found as long as it is part of the drawn name — see the table above for the three rounds
 that established this. Each reinstall reindexes once, because the format version changed.
 
-Round 4 is in flight: keyword in `textContent` only, to find out whether that field matches
-as well. If it does, the keyword moves off the value's line for good; if not, `.displayedName`
-is the final answer and the one-line row is as clean as this gets.
+Round 4 settled the last open question: `textContent` is not matched either, so the keyword
+has to share the value's line. The one-line row is as clean as this gets on iOS 26.
 
 On the **simulator** (iOS 27.0) nothing is searchable at all, for a different and system-side
 reason. Core Spotlight accepts every donation and reports success, while `searchd` drops it:

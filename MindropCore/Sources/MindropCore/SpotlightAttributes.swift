@@ -25,25 +25,26 @@ public struct SpotlightAttributes: Equatable, Sendable {
 
 /// Where the keyword is put so that Spotlight will match it.
 ///
-/// Measured on a physical iPhone (iOS 26). `keywords`, `alternateNames` and
-/// `contentDescription` never reach the matcher, and neither does `title` once
-/// `displayName` overrides it, so Spotlight appears to match only what it draws.
-/// Each case below therefore trades a visible keyword against keyword search.
+/// Measured on a physical iPhone (iOS 26) over four rounds: `keywords`,
+/// `alternateNames`, `contentDescription`, `textContent` and `title` are all ignored
+/// by the matcher. `displayName` is the only field a Spotlight query matches against.
+///
+/// So the keyword is findable only when it is part of the drawn name, and each case
+/// below is really a choice between a visible keyword and keyword search at all.
 public enum KeywordPlacement: Sendable {
     /// Appended to the drawn name: `"SuperFast2026! · wifi"`, one line.
     /// Confirmed working on device.
     case displayedName
-    /// In `textContent`, which Spotlight draws as a smaller second line under the
-    /// value: the big line stays `"SuperFast2026!"` and `"wifi"` sits beneath it.
-    /// Under test — if the keyword stops being findable, this field is not matched
-    /// either and `.displayedName` is the answer.
+    /// In `textContent`, drawn as a smaller second line under the value.
+    /// Tested on device: the row looks better and the keyword is not findable,
+    /// because `textContent` is not matched. Kept for retesting on a later iOS.
     case bodyText
     /// Nowhere visible. The row is just the value, and keyword search does not work.
     case hidden
 }
 
 public enum SpotlightAttributesFactory {
-    public static let keywordPlacement: KeywordPlacement = .bodyText
+    public static let keywordPlacement: KeywordPlacement = .displayedName
 
     public static func make(for memory: Memory) -> SpotlightAttributes {
         let words = searchKeywords(for: memory.keyword)
