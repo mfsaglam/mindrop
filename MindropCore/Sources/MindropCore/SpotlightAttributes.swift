@@ -4,71 +4,75 @@ import Foundation
 ///
 /// Kept free of Core Spotlight types so the indexing strategy — the riskiest
 /// assumption in the product — is unit-testable without a search index.
-///
-/// Deliberately absent: `contentDescription` and `textContent`. Both were set while
-/// hunting for a field Spotlight would match the keyword against; both turned out to
-/// be drawn in the result row, which put the keyword on screen twice more under the
-/// title. Only the title matches, so only the title carries the keyword.
 public struct SpotlightAttributes: Equatable, Sendable {
     /// Must be the memory's UUID: it is how a tapped Spotlight result is routed back.
     public let identifier: String
-    /// The value, then the keyword.
+    /// Kept equal to `displayName`, for any surface that reads the title instead.
     public let title: String
-    /// What Spotlight both draws and matches against, so it carries the keyword too.
+    /// The line Spotlight draws, and the line it matches against.
     public let displayName: String
-    /// The keyword as a whole plus its individual words. Not displayed.
+    /// Body text. Spotlight draws it as a smaller second line when it is set.
+    public let textContent: String?
+    /// The keyword as a whole plus its individual words. Never displayed, and on
+    /// iOS 26 never matched either; kept in case a later release consults them.
     public let keywords: [String]
-    /// The same words again, through a second metadata field. Not displayed.
+    /// The same words again, through a second metadata field.
     public let alternateNames: [String]
     public let domainIdentifier: String
 
     public static let domain = "memory"
 }
 
-/// What three rounds of testing on a physical iPhone (iOS 26) established:
+/// Where the keyword is put so that Spotlight will match it.
 ///
-/// 1. Keyword in `keywords` + `contentDescription`, value as the title and display
-///    name: the value finds the memory, the keyword does not.
-/// 2. Keyword appended to both the title and the display name: the keyword finds it.
-///    The row then showed the keyword three times, because Spotlight also draws
-///    `contentDescription` and `textContent`.
-/// 3. Those two dropped and the display name set back to the value alone, keyword
-///    still in the title: the keyword stops finding it again.
-///
-/// So `keywords`, `alternateNames` and `contentDescription` do not reach the matcher,
-/// and `title` on its own does not either — what Spotlight *draws* is what it matches.
-/// The keyword has to be visible in the row for keyword search to work at all.
-public enum SpotlightAttributesFactory {
-    /// Whether the keyword is appended to the title. False gives up keyword search.
-    public static let keywordInTitle = true
+/// Measured on a physical iPhone (iOS 26). `keywords`, `alternateNames` and
+/// `contentDescription` never reach the matcher, and neither does `title` once
+/// `displayName` overrides it, so Spotlight appears to match only what it draws.
+/// Each case below therefore trades a visible keyword against keyword search.
+public enum KeywordPlacement: Sendable {
+    /// Appended to the drawn name: `"SuperFast2026! · wifi"`, one line.
+    /// Confirmed working on device.
+    case displayedName
+    /// In `textContent`, which Spotlight draws as a smaller second line under the
+    /// value: the big line stays `"SuperFast2026!"` and `"wifi"` sits beneath it.
+    /// Under test — if the keyword stops being findable, this field is not matched
+    /// either and `.displayedName` is the answer.
+    case bodyText
+    /// Nowhere visible. The row is just the value, and keyword search does not work.
+    case hidden
+}
 
-    /// Whether the displayed name is the value alone.
-    ///
-    /// Round 3 above: true looks cleaner and breaks keyword search, so it stays false.
-    /// The display name is the title, and the row reads `"SuperFast2026! · wifi"`.
-    public static let displayValueOnly = false
+public enum SpotlightAttributesFactory {
+    public static let keywordPlacement: KeywordPlacement = .bodyText
 
     public static func make(for memory: Memory) -> SpotlightAttributes {
         let words = searchKeywords(for: memory.keyword)
+        let name = displayName(for: memory)
         return SpotlightAttributes(
             identifier: memory.id.uuidString,
-            title: title(for: memory),
-            displayName: displayName(for: memory),
+            title: name,
+            displayName: name,
+            textContent: textContent(for: memory),
             keywords: words,
             alternateNames: words,
             domainIdentifier: SpotlightAttributes.domain
         )
     }
 
-    /// The matched line. The value leads it, so the value stays the prominent text
-    /// even where Spotlight draws the title.
-    static func title(for memory: Memory) -> String {
-        guard keywordInTitle else { return memory.value }
-        return "\(memory.value) · \(memory.keyword)"
+    /// The value always leads, so it stays the prominent text whatever else is shown.
+    static func displayName(for memory: Memory) -> String {
+        switch keywordPlacement {
+        case .displayedName: "\(memory.value) · \(memory.keyword)"
+        case .bodyText, .hidden: memory.value
+        }
     }
 
-    static func displayName(for memory: Memory) -> String {
-        displayValueOnly ? memory.value : title(for: memory)
+    /// The keyword alone: repeating the value here would draw it twice.
+    static func textContent(for memory: Memory) -> String? {
+        switch keywordPlacement {
+        case .bodyText: memory.keyword
+        case .displayedName, .hidden: nil
+        }
     }
 
     /// `"office door"` → `["office door", "office", "door"]`.

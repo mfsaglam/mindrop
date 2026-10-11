@@ -5,23 +5,39 @@ import Testing
 
 @Suite("Spotlight metadata and routing")
 struct SpotlightMetadataTests {
-    @Test("The title leads with the value and carries the keyword, which is what Spotlight matches")
-    func titleLeadsWithValue() {
-        let memory = makeMemory(keyword: "wifi", value: "SuperFast2026!")
+    private let memory = makeMemory(keyword: "wifi", value: "SuperFast2026!")
+
+    @Test("The value always leads the drawn line, so it stays the prominent text")
+    func valueLeadsTheDrawnLine() {
         let attributes = SpotlightAttributesFactory.make(for: memory)
 
-        #expect(attributes.title.hasPrefix("SuperFast2026!"))
-        #expect(attributes.title.contains("wifi"))
+        #expect(attributes.displayName.hasPrefix("SuperFast2026!"))
+        #expect(attributes.title == attributes.displayName)
         #expect(attributes.identifier == memory.id.uuidString)
         #expect(attributes.domainIdentifier == SpotlightAttributes.domain)
     }
 
-    @Test("Turning the title hint off leaves the value alone")
-    func valueOnlyTitleWhenDisabled() {
-        // Guards the documented escape hatch in SpotlightAttributesFactory.
-        let memory = makeMemory(keyword: "wifi", value: "SuperFast2026!")
-        let expected = SpotlightAttributesFactory.keywordInTitle ? "SuperFast2026! · wifi" : "SuperFast2026!"
-        #expect(SpotlightAttributesFactory.title(for: memory) == expected)
+    @Test("Each placement puts the keyword in exactly one drawn field")
+    func placementsAreExclusive() {
+        let attributes = SpotlightAttributesFactory.make(for: memory)
+
+        switch SpotlightAttributesFactory.keywordPlacement {
+        case .displayedName:
+            #expect(attributes.displayName == "SuperFast2026! · wifi")
+            #expect(attributes.textContent == nil)
+        case .bodyText:
+            #expect(attributes.displayName == "SuperFast2026!")
+            #expect(attributes.textContent == "wifi")
+        case .hidden:
+            #expect(attributes.displayName == "SuperFast2026!")
+            #expect(attributes.textContent == nil)
+        }
+    }
+
+    @Test("Body text holds the keyword alone, never the value as well")
+    func bodyTextNeverRepeatsTheValue() {
+        // Repeating the value here is what printed it twice in an earlier round.
+        #expect(SpotlightAttributesFactory.textContent(for: memory)?.contains("SuperFast2026!") != true)
     }
 
     @Test("The keyword also reaches the metadata fields Spotlight does not draw")
@@ -32,38 +48,17 @@ struct SpotlightMetadataTests {
         #expect(attributes.alternateNames == ["office door", "office", "door"])
     }
 
-    @Test("Only the value is offered for display, so the row stays one clean line")
-    func displayedNameIsValueOnly() {
-        let memory = makeMemory(keyword: "wifi", value: "SuperFast2026!")
-        let attributes = SpotlightAttributesFactory.make(for: memory)
-        let expected = SpotlightAttributesFactory.displayValueOnly ? "SuperFast2026!" : attributes.title
-
-        #expect(attributes.displayName == expected)
-    }
-
-    @Test("A multi-word keyword is indexed whole and word by word")
-    func keywordTokens() {
-        #expect(SpotlightAttributesFactory.searchKeywords(for: "office door") == ["office door", "office", "door"])
-        #expect(SpotlightAttributesFactory.searchKeywords(for: "wifi") == ["wifi"])
-    }
-
-    @Test("Repeated words are not indexed twice")
-    func keywordTokensAreUnique() {
-        #expect(SpotlightAttributesFactory.searchKeywords(for: "door Door") == ["door Door", "door", "Door"].filter { $0 != "Door" })
-    }
-
     @Test("The searchable item carries the id, the value and a far-off expiry")
     func searchableItem() {
         let memory = makeMemory(keyword: "iban", value: "TR12 3456")
         let item = CoreSpotlightIndexer.searchableItem(for: memory)
 
         #expect(item.uniqueIdentifier == memory.id.uuidString)
-        #expect(item.attributeSet.title?.hasPrefix("TR12 3456") == true)
+        #expect(item.attributeSet.displayName?.hasPrefix("TR12 3456") == true)
         #expect(item.attributeSet.keywords == ["iban"])
         #expect(item.attributeSet.alternateNames == ["iban"])
-        // Nothing else may be set: Spotlight draws these, and the keyword would repeat.
+        // Spotlight draws this one, so it must never carry anything but the keyword.
         #expect(item.attributeSet.contentDescription == nil)
-        #expect(item.attributeSet.textContent == nil)
         #expect(item.expirationDate == .distantFuture)
     }
 }

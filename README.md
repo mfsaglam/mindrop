@@ -58,9 +58,10 @@ Per memory:
 | Field | Value | Reason |
 |---|---|---|
 | `uniqueIdentifier` | the memory's UUID | how a tapped result routes back to the memory |
-| `title` | the **value**, then the keyword | fallback for surfaces that read it |
-| `displayName` | the same string | what Spotlight both draws and matches against |
-| `keywords` | the keyword, plus each of its words | not displayed |
+| `displayName` | the **value**, and the keyword when placement is `.displayedName` | what Spotlight draws, and matches against |
+| `title` | the same string | fallback for surfaces that read the title |
+| `textContent` | the keyword, when placement is `.bodyText` | drawn as a smaller second line |
+| `keywords` | the keyword, plus each of its words | not displayed, and not matched on iOS 26 |
 | `alternateNames` | the same words | not displayed |
 | `domainIdentifier` | `memory` | lets one call clear everything Mindrop indexed |
 | `expirationDate` | `.distantFuture` | **without this, indexed items expire about a month after indexing** |
@@ -85,14 +86,16 @@ The brief's "the keyword does not need to appear in the result" is not achievabl
 iOS version alongside keyword search; the value still leads the line, so it remains the
 prominent text.
 
-Shipped: `title` and `displayName` are both `"SuperFast2026! · wifi"`, nothing else is set,
-and the row is one line. `keywords` and `alternateNames` stay populated at no visual cost,
-in case a future iOS consults them.
+`KeywordPlacement` is the single switch, and the cases are the trade:
 
-Two switches in `SpotlightAttributesFactory`, both covered by tests:
+- `.displayedName` → `"SuperFast2026! · wifi"` on one line. Confirmed working.
+- `.bodyText` → big line `"SuperFast2026!"`, small line `"wifi"` under it. **Under test**: if
+  the keyword stops being findable, `textContent` is not matched either, and round 2's result
+  came from `displayName` alone.
+- `.hidden` → value only, and no keyword search.
 
-- `keywordInTitle = false` → value-only row, no keyword search.
-- `displayValueOnly = true` → value-only row, no keyword search (round 3).
+`keywords` and `alternateNames` stay populated in every case: no visual cost, and a later iOS
+may consult them.
 
 Changing any of this means bumping `SpotlightSynchronizer.currentIndexFormatVersion`, which
 triggers one full reindex on the next launch.
@@ -120,9 +123,9 @@ Verified on a physical iPhone (iOS 26): indexing works, the value is found, and 
 is found as long as it is part of the drawn name — see the table above for the three rounds
 that established this. Each reinstall reindexes once, because the format version changed.
 
-One question left unresolved, because answering it costs another round: whether the matching
-field is `displayName` specifically, or whether `textContent` was also matching in round 2.
-If it was, the keyword could sit on a second, smaller line instead of inline with the value.
+Round 4 is in flight: keyword in `textContent` only, to find out whether that field matches
+as well. If it does, the keyword moves off the value's line for good; if not, `.displayedName`
+is the final answer and the one-line row is as clean as this gets.
 
 On the **simulator** (iOS 27.0) nothing is searchable at all, for a different and system-side
 reason. Core Spotlight accepts every donation and reports success, while `searchd` drops it:
