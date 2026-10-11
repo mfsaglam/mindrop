@@ -10,7 +10,8 @@ import os
 public final class SpotlightSynchronizer {
     /// Raise this when the indexed metadata changes, to force one reconciliation pass.
     /// 2: the keyword moved into the title, after metadata-only matching failed on device.
-    public static let currentIndexFormatVersion = 2
+    /// 3: dropped `contentDescription` and `textContent`, which Spotlight was drawing.
+    public static let currentIndexFormatVersion = 3
 
     private let indexer: SpotlightIndexing
     private let stateStore: SpotlightSyncStateStore

@@ -4,22 +4,22 @@ import Foundation
 ///
 /// Kept free of Core Spotlight types so the indexing strategy — the riskiest
 /// assumption in the product — is unit-testable without a search index.
+///
+/// Deliberately absent: `contentDescription` and `textContent`. Both were set while
+/// hunting for a field Spotlight would match the keyword against; both turned out to
+/// be drawn in the result row, which put the keyword on screen twice more under the
+/// title. Only the title matches, so only the title carries the keyword.
 public struct SpotlightAttributes: Equatable, Sendable {
     /// Must be the memory's UUID: it is how a tapped Spotlight result is routed back.
     public let identifier: String
-    /// Spotlight renders this as the result's primary line, and it is the field the
-    /// system reliably matches a query against. Value first, keyword after it.
+    /// The field Spotlight matches a query against: the value, then the keyword.
     public let title: String
-    /// What Spotlight displays as the primary line. Kept identical to `title`.
+    /// What Spotlight draws. Value only, when the system honours it.
     public let displayName: String
-    /// The keyword, shown as the smaller second line.
-    public let contentDescription: String
-    /// The keyword as a whole plus its individual words.
+    /// The keyword as a whole plus its individual words. Not displayed.
     public let keywords: [String]
-    /// Extra names to match on, which Spotlight does not display.
+    /// The same words again, through a second metadata field. Not displayed.
     public let alternateNames: [String]
-    /// Body text for full-text matching, which Spotlight does not display.
-    public let textContent: String
     public let domainIdentifier: String
 
     public static let domain = "memory"
@@ -28,33 +28,43 @@ public struct SpotlightAttributes: Equatable, Sendable {
 public enum SpotlightAttributesFactory {
     /// Whether the keyword is appended to the title.
     ///
-    /// On a physical iPhone (iOS 26), searching a memory's *value* finds it, while
-    /// searching its *keyword* does not — so neither `keywords` nor
-    /// `contentDescription` is reaching the matcher, and the title is. Appending the
-    /// keyword there is what makes `wifi` find `SuperFast2026!`.
-    ///
-    /// The value still leads the line, so it stays the prominent text. Set this to
-    /// false to go back to a value-only title and retest metadata-only matching.
+    /// On a physical iPhone (iOS 26), searching a memory's *value* finds it while
+    /// searching its *keyword* does not, even with `keywords`, `alternateNames` and
+    /// `contentDescription` all populated. The title is the one field that matches,
+    /// so the keyword has to live there. Setting this to false gives a value-only
+    /// title and gives up keyword search.
     public static let keywordInTitle = true
 
+    /// Whether the displayed name stays value-only while the title carries the keyword.
+    ///
+    /// Spotlight draws `displayName` in preference to `title` but matches against the
+    /// title, so this should leave a clean single line reading just the value. If a
+    /// device test shows the keyword in the row anyway, nothing is lost. If keyword
+    /// search stops working, set this to false: the row then reads
+    /// `"SuperFast2026! · wifi"`, which is known to match.
+    public static let displayValueOnly = true
+
     public static func make(for memory: Memory) -> SpotlightAttributes {
-        let title = title(for: memory)
+        let words = searchKeywords(for: memory.keyword)
         return SpotlightAttributes(
             identifier: memory.id.uuidString,
-            title: title,
-            displayName: title,
-            contentDescription: memory.keyword,
-            keywords: searchKeywords(for: memory.keyword),
-            alternateNames: searchKeywords(for: memory.keyword),
-            // Both fields, so a query matches whichever one the system consults.
-            textContent: "\(memory.keyword)\n\(memory.value)",
+            title: title(for: memory),
+            displayName: displayName(for: memory),
+            keywords: words,
+            alternateNames: words,
             domainIdentifier: SpotlightAttributes.domain
         )
     }
 
+    /// The matched line. The value leads it, so the value stays the prominent text
+    /// even where Spotlight draws the title.
     static func title(for memory: Memory) -> String {
         guard keywordInTitle else { return memory.value }
-        return "\(memory.value) — \(memory.keyword)"
+        return "\(memory.value) · \(memory.keyword)"
+    }
+
+    static func displayName(for memory: Memory) -> String {
+        displayValueOnly ? memory.value : title(for: memory)
     }
 
     /// `"office door"` → `["office door", "office", "door"]`.

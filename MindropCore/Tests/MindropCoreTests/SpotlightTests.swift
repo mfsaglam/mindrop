@@ -12,8 +12,6 @@ struct SpotlightMetadataTests {
 
         #expect(attributes.title.hasPrefix("SuperFast2026!"))
         #expect(attributes.title.contains("wifi"))
-        #expect(attributes.displayName == attributes.title)
-        #expect(attributes.contentDescription == "wifi")
         #expect(attributes.identifier == memory.id.uuidString)
         #expect(attributes.domainIdentifier == SpotlightAttributes.domain)
     }
@@ -22,18 +20,25 @@ struct SpotlightMetadataTests {
     func valueOnlyTitleWhenDisabled() {
         // Guards the documented escape hatch in SpotlightAttributesFactory.
         let memory = makeMemory(keyword: "wifi", value: "SuperFast2026!")
-        let expected = SpotlightAttributesFactory.keywordInTitle ? "SuperFast2026! — wifi" : "SuperFast2026!"
+        let expected = SpotlightAttributesFactory.keywordInTitle ? "SuperFast2026! · wifi" : "SuperFast2026!"
         #expect(SpotlightAttributesFactory.title(for: memory) == expected)
     }
 
-    @Test("The keyword is also offered through every field Spotlight may consult")
-    func keywordReachesEveryMatchableField() {
+    @Test("The keyword also reaches the metadata fields Spotlight does not draw")
+    func keywordReachesHiddenFields() {
         let attributes = SpotlightAttributesFactory.make(for: makeMemory(keyword: "office door", value: "482916"))
 
         #expect(attributes.keywords == ["office door", "office", "door"])
         #expect(attributes.alternateNames == ["office door", "office", "door"])
-        #expect(attributes.textContent.contains("office door"))
-        #expect(attributes.textContent.contains("482916"))
+    }
+
+    @Test("Only the value is offered for display, so the row stays one clean line")
+    func displayedNameIsValueOnly() {
+        let memory = makeMemory(keyword: "wifi", value: "SuperFast2026!")
+        let attributes = SpotlightAttributesFactory.make(for: memory)
+        let expected = SpotlightAttributesFactory.displayValueOnly ? "SuperFast2026!" : attributes.title
+
+        #expect(attributes.displayName == expected)
     }
 
     @Test("A multi-word keyword is indexed whole and word by word")
@@ -56,7 +61,9 @@ struct SpotlightMetadataTests {
         #expect(item.attributeSet.title?.hasPrefix("TR12 3456") == true)
         #expect(item.attributeSet.keywords == ["iban"])
         #expect(item.attributeSet.alternateNames == ["iban"])
-        #expect(item.attributeSet.textContent?.contains("iban") == true)
+        // Nothing else may be set: Spotlight draws these, and the keyword would repeat.
+        #expect(item.attributeSet.contentDescription == nil)
+        #expect(item.attributeSet.textContent == nil)
         #expect(item.expirationDate == .distantFuture)
     }
 }
