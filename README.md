@@ -58,28 +58,41 @@ Per memory:
 | Field | Value | Reason |
 |---|---|---|
 | `uniqueIdentifier` | the memory's UUID | how a tapped result routes back to the memory |
-| `title` | the **value**, then the keyword | the one field observed to match a query on device |
-| `displayName` | the value alone | what Spotlight draws, in preference to the title |
+| `title` | the **value**, then the keyword | fallback for surfaces that read it |
+| `displayName` | the same string | what Spotlight both draws and matches against |
 | `keywords` | the keyword, plus each of its words | not displayed |
 | `alternateNames` | the same words | not displayed |
 | `domainIdentifier` | `memory` | lets one call clear everything Mindrop indexed |
 | `expirationDate` | `.distantFuture` | **without this, indexed items expire about a month after indexing** |
 
-The keyword sits in the title because **metadata-only keyword matching does not work on
-device**. Measured on a physical iPhone (iOS 26): searching a memory's value finds it,
-searching its keyword does not, with `keywords`, `alternateNames` and `contentDescription`
-all populated. The matcher reads the title and ignores the rest, whatever the documentation
-implies. The title is therefore `"SuperFast2026! · wifi"`, value first.
+### What the device actually does
 
-`contentDescription` and `textContent` are deliberately **not** set. They were tried as
-matching fields, did not help, and Spotlight draws both — which printed the keyword twice
-more beneath the title. `displayName` is set to the value alone, since Spotlight prefers it
-for drawing while still matching the title, which should leave one clean line.
+Three rounds on a physical iPhone (iOS 26), each a reinstall and a reindex:
 
-Two switches in `SpotlightAttributesFactory`, both verified by tests:
+| Round | Metadata | Keyword search |
+|---|---|---|
+| 1 | keyword in `keywords` + `contentDescription`; title and display name = value | **fails** |
+| 2 | keyword appended to title *and* display name; `textContent` added | works, but the row showed the keyword three times |
+| 3 | `contentDescription` and `textContent` dropped; display name back to value alone | **fails** again |
 
-- `keywordInTitle = false` → value-only title, and keyword search stops working.
-- `displayValueOnly = false` → the row shows the matched title, keyword and all.
+The conclusion is narrow and worth stating plainly: **Spotlight matches what it draws.**
+`keywords`, `alternateNames` and `contentDescription` never reach the matcher, and a keyword
+that sits only in `title` does not either once `displayName` overrides it for display.
+
+The practical consequence is that *the keyword must be visible in the result row for keyword
+search to work at all*. There is no configuration that both hides the keyword and finds it.
+The brief's "the keyword does not need to appear in the result" is not achievable on this
+iOS version alongside keyword search; the value still leads the line, so it remains the
+prominent text.
+
+Shipped: `title` and `displayName` are both `"SuperFast2026! · wifi"`, nothing else is set,
+and the row is one line. `keywords` and `alternateNames` stay populated at no visual cost,
+in case a future iOS consults them.
+
+Two switches in `SpotlightAttributesFactory`, both covered by tests:
+
+- `keywordInTitle = false` → value-only row, no keyword search.
+- `displayValueOnly = true` → value-only row, no keyword search (round 3).
 
 Changing any of this means bumping `SpotlightSynchronizer.currentIndexFormatVersion`, which
 triggers one full reindex on the next launch.
@@ -103,14 +116,13 @@ opens, copies, edits and deletes memories; deletions and edits reach storage; `U
 receives the complete value; indexing is attempted exactly once per change and not repeated
 on later launches.
 
-Verified on a physical iPhone (iOS 26), in this order: indexing works and a memory is found
-by its **value**; searching its **keyword** found nothing while the keyword lived only in
-metadata; with the keyword in the title, **keyword search works**. The row was then cluttered
-— keyword in the title and twice again below it — which is what removed `contentDescription`
-and `textContent`. Each reinstall reindexes once, because the format version changed.
+Verified on a physical iPhone (iOS 26): indexing works, the value is found, and the keyword
+is found as long as it is part of the drawn name — see the table above for the three rounds
+that established this. Each reinstall reindexes once, because the format version changed.
 
-Still to confirm on device: that `displayName` wins over `title` for drawing, leaving a row
-that reads only the value.
+One question left unresolved, because answering it costs another round: whether the matching
+field is `displayName` specifically, or whether `textContent` was also matching in round 2.
+If it was, the keyword could sit on a second, smaller line instead of inline with the value.
 
 On the **simulator** (iOS 27.0) nothing is searchable at all, for a different and system-side
 reason. Core Spotlight accepts every donation and reports success, while `searchd` drops it:

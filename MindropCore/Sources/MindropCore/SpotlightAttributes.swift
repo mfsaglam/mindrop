@@ -12,9 +12,9 @@ import Foundation
 public struct SpotlightAttributes: Equatable, Sendable {
     /// Must be the memory's UUID: it is how a tapped Spotlight result is routed back.
     public let identifier: String
-    /// The field Spotlight matches a query against: the value, then the keyword.
+    /// The value, then the keyword.
     public let title: String
-    /// What Spotlight draws. Value only, when the system honours it.
+    /// What Spotlight both draws and matches against, so it carries the keyword too.
     public let displayName: String
     /// The keyword as a whole plus its individual words. Not displayed.
     public let keywords: [String]
@@ -25,24 +25,28 @@ public struct SpotlightAttributes: Equatable, Sendable {
     public static let domain = "memory"
 }
 
+/// What three rounds of testing on a physical iPhone (iOS 26) established:
+///
+/// 1. Keyword in `keywords` + `contentDescription`, value as the title and display
+///    name: the value finds the memory, the keyword does not.
+/// 2. Keyword appended to both the title and the display name: the keyword finds it.
+///    The row then showed the keyword three times, because Spotlight also draws
+///    `contentDescription` and `textContent`.
+/// 3. Those two dropped and the display name set back to the value alone, keyword
+///    still in the title: the keyword stops finding it again.
+///
+/// So `keywords`, `alternateNames` and `contentDescription` do not reach the matcher,
+/// and `title` on its own does not either — what Spotlight *draws* is what it matches.
+/// The keyword has to be visible in the row for keyword search to work at all.
 public enum SpotlightAttributesFactory {
-    /// Whether the keyword is appended to the title.
-    ///
-    /// On a physical iPhone (iOS 26), searching a memory's *value* finds it while
-    /// searching its *keyword* does not, even with `keywords`, `alternateNames` and
-    /// `contentDescription` all populated. The title is the one field that matches,
-    /// so the keyword has to live there. Setting this to false gives a value-only
-    /// title and gives up keyword search.
+    /// Whether the keyword is appended to the title. False gives up keyword search.
     public static let keywordInTitle = true
 
-    /// Whether the displayed name stays value-only while the title carries the keyword.
+    /// Whether the displayed name is the value alone.
     ///
-    /// Spotlight draws `displayName` in preference to `title` but matches against the
-    /// title, so this should leave a clean single line reading just the value. If a
-    /// device test shows the keyword in the row anyway, nothing is lost. If keyword
-    /// search stops working, set this to false: the row then reads
-    /// `"SuperFast2026! · wifi"`, which is known to match.
-    public static let displayValueOnly = true
+    /// Round 3 above: true looks cleaner and breaks keyword search, so it stays false.
+    /// The display name is the title, and the row reads `"SuperFast2026! · wifi"`.
+    public static let displayValueOnly = false
 
     public static func make(for memory: Memory) -> SpotlightAttributes {
         let words = searchKeywords(for: memory.keyword)
