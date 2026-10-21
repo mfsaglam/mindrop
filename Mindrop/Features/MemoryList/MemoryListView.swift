@@ -16,6 +16,8 @@ struct MemoryListView: View {
     @State private var categoryFilter: MemoryCategory?
     @State private var sheet: Sheet?
     @State private var deletionError: String?
+    /// The memory the user swiped to delete, waiting for them to confirm.
+    @State private var pendingDeletion: Memory?
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
 
     /// The filter, unless its last memory has since left that category.
@@ -84,6 +86,16 @@ struct MemoryListView: View {
                 SettingsView(repository: repository, categorizationLog: categorizationLog)
             }
         }
+        .alert(
+            deletionTitle,
+            isPresented: Binding(get: { pendingDeletion != nil }, set: { if !$0 { pendingDeletion = nil } }),
+            presenting: pendingDeletion
+        ) { memory in
+            Button("Delete", role: .destructive) { delete([memory.id]) }
+            Button("Cancel", role: .cancel) {}
+        } message: { _ in
+            Text("This memory will be permanently deleted and removed from Spotlight. This can’t be undone.")
+        }
         .alert("Couldn’t delete", isPresented: .constant(deletionError != nil)) {
             Button("OK") { deletionError = nil }
         } message: {
@@ -134,10 +146,27 @@ struct MemoryListView: View {
             NavigationLink(value: memory.id) {
                 MemoryRow(memory: memory, showsCategory: showsCategory)
             }
+            .swipeActions(edge: .trailing) {
+                deleteAction(for: memory)
+            }
         }
-        .onDelete { offsets in
-            delete(offsets.map { memories[$0].id })
+    }
+
+    /// Deleting is permanent, so a swipe only asks; the alert does the deleting. Not
+    /// `onDelete`, which removes the row at once, and not a `.destructive` role, which
+    /// animates the row away before the user has answered.
+    private func deleteAction(for memory: Memory) -> some View {
+        Button {
+            pendingDeletion = memory
+        } label: {
+            Label("Delete", systemImage: "trash")
         }
+        .tint(.red)
+    }
+
+    private var deletionTitle: Text {
+        // The keyword is user content, so it is interpolated, never looked up.
+        Text("Delete “\(pendingDeletion?.keyword ?? "")”?")
     }
 
     private func delete(_ ids: [UUID]) {
