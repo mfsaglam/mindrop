@@ -22,6 +22,7 @@ Mindrop/
 │       ├── SpotlightSyncState.swift  what is known about the index between launches
 │       ├── SpotlightRouter.swift     Spotlight result → memory id
 │       └── SharedTextParser.swift    share sheet input → a value
+│   └── Sources/MindropIntents/       NewMemoryIntent, shared by the app and MindropControls
 │   └── Sources/MindropSaveUI/        the save form, shared by both extensions
 │       ├── SaveToMindropView.swift
 │       └── SaveToMindropViewController.swift
@@ -31,6 +32,7 @@ Mindrop/
 │   └── Resources/Assets.xcassets     app icon, accent colour
 ├── MindropShare/                share extension — the share sheet's app row
 ├── MindropAction/               action extension — the share sheet's action row
+├── MindropControls/             widget extension — the New Memory control for Control Center
 ├── Tools/RenderAppIcon.swift    renders the icon from the Lucide SVG
 └── Design/                      lucide-brain.svg and its ISC licence
 ```
@@ -226,18 +228,45 @@ The action extension ships its own icon: iOS draws action icons as a mask of the
 channel, so the opaque app icon would come out as a filled square. `RenderAppIcon.swift
 --template` renders the same Lucide brain on a transparent background instead.
 
+## New Memory from anywhere
+
+One intent, `NewMemoryIntent`, opens Mindrop on a blank editor with the keyboard up. It is
+offered in three places:
+
+- **Control Center and the Lock Screen**: the *New Memory* control, from the
+  `MindropControls` widget extension. Added through Control Center → + → Add a Control →
+  Mindrop.
+- **The Action button**: an App Shortcut, so Settings → Action Button → Shortcut lists
+  Mindrop → New Memory with nothing to build in the Shortcuts app.
+- **Siri**: "New memory in Mindrop", "Add a memory to Mindrop", translated in
+  `AppShortcuts.xcstrings`.
+
+The intent lives in its own package target, `MindropIntents`, because a control's intent
+must be compiled into both the app and the widget extension, and the share extensions,
+which link `MindropCore`, must not offer it. It sets `openAppWhenRun`, so it always runs in
+the app. All it does is raise `NewMemoryRequest.shared.isPending`; the list watches that
+flag and presents the editor. A flag rather than a call, because the intent can run before
+the list is on screen on a cold launch.
+
+Verified on the iPhone 18 Pro Max simulator (iOS 27): the control appears in the gallery
+under Mindrop, and tapping it opens the editor both from a cold launch and with the app
+in the background. The simulator's control gallery only picked the control up after the
+simulator was restarted. The Action button needs a device.
+
 ## Localization
 
 English plus 14 languages: Turkish, German, French, Spanish, Italian, Portuguese (Brazil),
 Dutch, Russian, Arabic, Hindi, Japanese, Korean, Simplified and Traditional Chinese.
 
-Two String Catalogs, because the extensions cannot reach the app's:
+Three String Catalogs, because the extensions cannot reach the app's (plus
+`Mindrop/Resources/AppShortcuts.xcstrings` for Siri's phrases):
 
 - `Mindrop/Resources/Localizable.xcstrings` — the app.
 - `MindropCore/Sources/MindropSaveUI/Localizable.xcstrings` — the save form both
   extensions show. Strings in a package resolve against `Bundle.main`, which inside an
   extension is the extension's own bundle, so that view goes through a `localized(_:)`
   helper that names `Bundle.module`.
+- `MindropControls/Localizable.xcstrings` — the control's name and description.
 
 Two traps worth remembering:
 

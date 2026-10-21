@@ -14,6 +14,7 @@ struct MemoryEditorView: View {
     @State private var keyword: String
     @State private var value: String
     @State private var saveError: String?
+    @FocusState private var isKeywordFocused: Bool
 
     init(mode: Mode, repository: MemoryRepository) {
         self.mode = mode
@@ -39,6 +40,7 @@ struct MemoryEditorView: View {
                     TextField("Keyword", text: $keyword)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
+                        .focused($isKeywordFocused)
                     TextField("Value", text: $value, axis: .vertical)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
@@ -48,6 +50,11 @@ struct MemoryEditorView: View {
             }
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
+            // A new memory starts with the keyboard up, so the control and the Action
+            // button land the user straight in typing.
+            .onAppear {
+                if case .create = mode { isKeywordFocused = true }
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }

@@ -1,4 +1,5 @@
 import MindropCore
+import MindropIntents
 import SwiftUI
 
 struct MemoryListView: View {
@@ -19,6 +20,7 @@ struct MemoryListView: View {
     /// The memory the user swiped to delete, waiting for them to confirm.
     @State private var pendingDeletion: Memory?
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
+    private let newMemoryRequest = NewMemoryRequest.shared
 
     /// The filter, unless its last memory has since left that category.
     private var activeCategory: MemoryCategory? {
@@ -85,6 +87,13 @@ struct MemoryListView: View {
             case .settings:
                 SettingsView(repository: repository, categorizationLog: categorizationLog)
             }
+        }
+        // The Control Center control, the Action button or Siri asked for a new memory.
+        // Replaces Settings if it was open: the user came here to write something down.
+        .onChange(of: newMemoryRequest.isPending, initial: true) { _, isPending in
+            guard isPending else { return }
+            newMemoryRequest.isPending = false
+            sheet = .newMemory
         }
         .alert(
             deletionTitle,

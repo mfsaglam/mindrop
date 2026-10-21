@@ -75,12 +75,27 @@
         },
       ],
     }, {
+      "kind": "folder",
+      "path": "MindropControls",
+      "target-membership": [
+        "MindropControls",
+      ],
+      "membership-exceptions": [
+        {
+          "target": "MindropControls",
+          "exclusions": [
+            "Info.plist",
+          ],
+        },
+      ],
+    }, {
       "kind": "group",
       "name": "Products",
       "children": [
         { "path": "<PRODUCTS>/Mindrop.app", "id": "MD0000000000000000000015", "type": "wrapper.application", "index": false },
         { "path": "<PRODUCTS>/MindropShare.appex", "id": "MD000000000000000000000C", "type": "wrapper.app-extension", "index": false, "target-membership": [ { "build-phase": "Mindrop/copy/Embed Foundation Extensions", "header-preservation": "remove-on-copy" } ] },
         { "path": "<PRODUCTS>/MindropAction.appex", "id": "MD000000000000000000000E", "type": "wrapper.app-extension", "index": false, "target-membership": [ { "build-phase": "Mindrop/copy/Embed Foundation Extensions", "header-preservation": "remove-on-copy" } ] },
+        { "path": "<PRODUCTS>/MindropControls.appex", "id": "MD0000000000000000000020", "type": "wrapper.app-extension", "index": false, "target-membership": [ { "build-phase": "Mindrop/copy/Embed Foundation Extensions", "header-preservation": "remove-on-copy" } ] },
       ],
     },
   ],
@@ -93,6 +108,7 @@
       "dependencies": [
         "MindropShare",
         "MindropAction",
+        "MindropControls",
       ],
       "build-phases": [
         "compile-sources",
@@ -107,6 +123,9 @@
       "package-product-members": [
         {
           "product-name": "MindropCore",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "product-name": "MindropIntents",
           "build-phase": { "build-phase": "frameworks" },
         },
       ],
@@ -215,6 +234,41 @@
         "PRODUCT_BUNDLE_IDENTIFIER": "mfsaglam.Mindrop.Action",
         "PRODUCT_NAME": "$(TARGET_NAME)",
         "REGISTER_APP_GROUPS": "YES",
+        "SKIP_INSTALL": "YES",
+        "SUPPORTED_PLATFORMS": "iphoneos iphonesimulator",
+        "SWIFT_EMIT_LOC_STRINGS": "YES",
+      },
+    }, {
+      "name": "MindropControls",
+      "id": "MD0000000000000000000021",
+      "product": "Products/MindropControls.appex",
+      "product-type": "app-extension",
+      "build-phases": [
+        "compile-sources",
+        "frameworks",
+        "resources",
+      ],
+      "package-product-members": [
+        {
+          "product-name": "MindropIntents",
+          "build-phase": { "build-phase": "frameworks" },
+        },
+      ],
+      "build-settings": {
+        "CODE_SIGN_STYLE": "Automatic",
+        "CURRENT_PROJECT_VERSION": "1",
+        "GENERATE_INFOPLIST_FILE": "YES",
+        "INFOPLIST_FILE": "MindropControls/Info.plist",
+        "INFOPLIST_KEY_CFBundleDisplayName": "Mindrop",
+        "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",
+        "LD_RUNPATH_SEARCH_PATHS": [
+          "$(inherited)",
+          "@executable_path/Frameworks",
+          "@executable_path/../../Frameworks",
+        ],
+        "MARKETING_VERSION": "1.0",
+        "PRODUCT_BUNDLE_IDENTIFIER": "mfsaglam.Mindrop.Controls",
+        "PRODUCT_NAME": "$(TARGET_NAME)",
         "SKIP_INSTALL": "YES",
         "SUPPORTED_PLATFORMS": "iphoneos iphonesimulator",
         "SWIFT_EMIT_LOC_STRINGS": "YES",

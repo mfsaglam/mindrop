@@ -8,6 +8,7 @@ let package = Package(
     products: [
         .library(name: "MindropCore", targets: ["MindropCore"]),
         .library(name: "MindropSaveUI", targets: ["MindropSaveUI"]),
+        .library(name: "MindropIntents", targets: ["MindropIntents"]),
     ],
     targets: [
         .target(name: "MindropCore"),
@@ -16,6 +17,7 @@ let package = Package(
             dependencies: ["MindropCore"],
             resources: [.process("Localizable.xcstrings")]
         ),
+        .target(name: "MindropIntents"),
         .testTarget(name: "MindropCoreTests", dependencies: ["MindropCore"]),
     ]
 )
