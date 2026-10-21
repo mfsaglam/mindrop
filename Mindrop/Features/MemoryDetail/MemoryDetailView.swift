@@ -160,7 +160,7 @@ struct MemoryDetailView: View {
             .font(.footnote.weight(.medium))
             .padding(.horizontal, 10)
             .padding(.vertical, 5)
-            .background(.tint.opacity(0.12), in: .capsule)
+            .background((memory.category?.category.tint ?? .gray).opacity(0.15), in: .capsule)
         }
         .accessibilityLabel("Category")
     }

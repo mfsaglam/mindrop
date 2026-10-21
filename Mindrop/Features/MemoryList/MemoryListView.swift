@@ -234,13 +234,13 @@ private struct MemoryRow: View {
                 Group {
                     if let category = memory.category?.category {
                         Image(systemName: category.symbolName)
+                            .foregroundStyle(category.tint)
                             .accessibilityLabel(Text(category.title))
                     } else {
                         Color.clear
                     }
                 }
                 .font(.body)
-                .foregroundStyle(.tint)
                 .frame(width: 28)
             }
 

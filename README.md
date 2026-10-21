@@ -348,6 +348,9 @@ screen shows the category and lets the user pick another, or hand it back with *
 Until anything is categorised the list stays flat, so without Apple Intelligence it looks as
 it always did.
 
+- **A colour per category**, from the thirteen system colours (Wi-Fi blue, Banking green,
+  Health red, …), on the icon in rows, section headers and the detail screen's chip. The
+  names stay in the text colour, so they read well whatever the tint.
 - **Fixed, not free-form.** A model naming categories freely produces "Wi-Fi", "WiFi
   Password" and "Network" for the same thing, which defeats a filter and cannot be
   translated. The reply is checked against the raw values.

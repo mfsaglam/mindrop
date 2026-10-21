@@ -39,7 +39,29 @@ extension MemoryCategory {
         }
     }
 
+    /// One system colour per category, all thirteen distinct, so a category can be told
+    /// apart at a glance. System colours adapt to light and dark mode on their own.
+    var tint: Color {
+        switch self {
+        case .network: .blue
+        case .account: .indigo
+        case .code: .purple
+        case .finance: .green
+        case .contact: .teal
+        case .people: .pink
+        case .address: .orange
+        case .home: .brown
+        case .vehicle: .cyan
+        case .document: .yellow
+        case .health: .red
+        case .link: .mint
+        case .other: .gray
+        }
+    }
+
+    /// The icon carries the colour; the name stays in the text colour, so it reads well
+    /// whatever the tint.
     var label: some View {
-        Label { Text(title) } icon: { Image(systemName: symbolName) }
+        Label { Text(title) } icon: { Image(systemName: symbolName).foregroundStyle(tint) }
     }
 }

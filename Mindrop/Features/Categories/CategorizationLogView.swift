@@ -118,9 +118,9 @@ private struct OutcomeLabel: View {
     var body: some View {
         switch outcome {
         case .model(let category):
-            Label { Text(verbatim: "\(category.rawValue)") } icon: { Image(systemName: category.symbolName) }
+            Label { Text(verbatim: "\(category.rawValue)") } icon: { Image(systemName: category.symbolName).foregroundStyle(category.tint) }
         case .rule(let category):
-            Label { Text(verbatim: "\(category.rawValue) · rule") } icon: { Image(systemName: category.symbolName) }
+            Label { Text(verbatim: "\(category.rawValue) · rule") } icon: { Image(systemName: category.symbolName).foregroundStyle(category.tint) }
         case .unparsed:
             Label { Text(verbatim: "unparsed reply") } icon: { Image(systemName: "questionmark.circle") }
                 .foregroundStyle(.orange)
