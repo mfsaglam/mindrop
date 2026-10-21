@@ -1,10 +1,15 @@
 import MindropCore
+import MindropSaveUI
 import SwiftUI
 
 struct MemoryEditorView: View {
     enum Mode {
         case create
         case edit(Memory)
+
+        var memory: Memory? {
+            if case .edit(let memory) = self { memory } else { nil }
+        }
     }
 
     let mode: Mode
@@ -13,6 +18,8 @@ struct MemoryEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var keyword: String
     @State private var value: String
+    @State private var lifetime: MemoryLifetime.Option
+    @State private var untilDate: Date
     @State private var saveError: String?
     @FocusState private var isKeywordFocused: Bool
 
@@ -27,6 +34,11 @@ struct MemoryEditorView: View {
             _keyword = State(initialValue: memory.keyword)
             _value = State(initialValue: memory.value)
         }
+        // An existing expiry shows as its date, so saving a text edit leaves it exactly
+        // where it was.
+        let expiresAt = mode.memory?.expiresAt
+        _lifetime = State(initialValue: expiresAt == nil ? .forever : .date)
+        _untilDate = State(initialValue: expiresAt ?? .now.addingTimeInterval(7 * 24 * 60 * 60))
     }
 
     private var canSave: Bool {
@@ -47,6 +59,11 @@ struct MemoryEditorView: View {
                 } footer: {
                     Text("Saved values can show up directly in Spotlight search results, where anyone using this iPhone may see them.")
                 }
+                MemoryLifetimeSection(
+                    option: $lifetime,
+                    date: $untilDate,
+                    earliestDate: mode.memory?.expiresAt.map { min($0, .now) } ?? .now
+                )
             }
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
@@ -82,11 +99,12 @@ struct MemoryEditorView: View {
 
     private func save() {
         do {
+            let expiresAt = MemoryLifetime(lifetime, until: untilDate).expiry(from: .now)
             switch mode {
             case .create:
-                try repository.create(keyword: keyword, value: value)
+                try repository.create(keyword: keyword, value: value, expiresAt: expiresAt)
             case .edit(let memory):
-                try repository.update(memory, keyword: keyword, value: value)
+                try repository.update(memory, keyword: keyword, value: value, expiresAt: expiresAt)
             }
             dismiss()
         } catch {

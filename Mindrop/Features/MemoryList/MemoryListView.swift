@@ -31,6 +31,11 @@ struct MemoryListView: View {
         repository.results(for: query, in: activeCategory)
     }
 
+    /// Hidden while filtering by category: an expired memory is no longer really in one.
+    private var expiredResults: [Memory] {
+        activeCategory == nil ? repository.expiredResults(for: query) : []
+    }
+
     /// Sections only once something is categorised: a list of nothing but "No Category"
     /// would just be the flat list with a heading.
     private var showsSections: Bool {
@@ -54,6 +59,27 @@ struct MemoryListView: View {
             } else {
                 rows(results, showsCategory: true)
             }
+
+            if !expiredResults.isEmpty {
+                Section {
+                    ForEach(expiredResults) { memory in
+                        NavigationLink(value: memory.id) {
+                            MemoryRow(memory: memory, showsCategory: !showsSections)
+                        }
+                        .swipeActions(edge: .trailing) {
+                            deleteAction(for: memory)
+                        }
+                        .swipeActions(edge: .leading) {
+                            Button("Recover", systemImage: "arrow.uturn.backward") { recover(memory) }
+                                .tint(.green)
+                        }
+                    }
+                } header: {
+                    Label("Expired", systemImage: "clock.badge.xmark")
+                } footer: {
+                    Text("Expired memories are deleted for good 7 days after they expire.")
+                }
+            }
         }
         .animation(.default, value: showsSections)
         .navigationTitle("Mindrop")
@@ -75,7 +101,7 @@ struct MemoryListView: View {
             }
         }
         .overlay {
-            if results.isEmpty {
+            if results.isEmpty && expiredResults.isEmpty {
                 emptyState
             }
         }
@@ -178,6 +204,15 @@ struct MemoryListView: View {
         Text("Delete “\(pendingDeletion?.keyword ?? "")”?")
     }
 
+    /// Brings an expired memory back for good, not on a new timer.
+    private func recover(_ memory: Memory) {
+        do {
+            try repository.setExpiry(nil, for: memory)
+        } catch {
+            deletionError = String(describing: error)
+        }
+    }
+
     private func delete(_ ids: [UUID]) {
         do {
             try repository.delete(ids: ids)
@@ -216,8 +251,39 @@ private struct MemoryRow: View {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
+                if let expiry = ExpiryText(memory: memory) {
+                    expiry
+                        .font(.caption)
+                        .foregroundStyle(.orange)
+                }
             }
         }
         .accessibilityElement(children: .combine)
+    }
+}
+
+/// "Expires tomorrow" for a temporary memory, "Deleted for good in 6 days" for an expired
+/// one, nothing for a memory kept forever. Shared by the list and the detail screen.
+struct ExpiryText: View {
+    private let memory: Memory
+    private let isExpired: Bool
+
+    init?(memory: Memory, now: Date = .now) {
+        guard memory.expiresAt != nil else { return nil }
+        self.memory = memory
+        isExpired = memory.isExpired(at: now)
+    }
+
+    /// An `HStack`, not a `Label`: in a list row a label's icon moves the row's separator.
+    var body: some View {
+        HStack(spacing: 4) {
+            if isExpired, let deletion = memory.deletionDate {
+                Image(systemName: "trash")
+                Text("Deleted for good \(deletion, format: .relative(presentation: .named))")
+            } else if let expiry = memory.expiresAt {
+                Image(systemName: "timer")
+                Text("Expires \(expiry, format: .relative(presentation: .named))")
+            }
+        }
     }
 }

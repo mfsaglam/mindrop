@@ -43,6 +43,7 @@ final class MindropSession {
         do {
             let repository = try MemoryRepository.live(categorizer: AppleIntelligenceCategorizer(log: categorizationLog))
             try repository.load()
+            try? repository.deleteExpired()
             // Show the list first: reconciling the Spotlight index can take seconds.
             phase = .ready(repository)
             repository.categorizePending()
@@ -53,9 +54,11 @@ final class MindropSession {
     }
 
     /// Picks up memories the share extension added while the app was in the background,
-    /// and categorises them, since the extension does not.
+    /// and categorises them, since the extension does not. Also where expired memories
+    /// past their 7 days are deleted for good.
     func refresh() {
         try? repository?.load()
+        try? repository?.deleteExpired()
         repository?.categorizePending()
     }
 

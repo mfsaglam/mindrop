@@ -51,7 +51,7 @@ public struct CoreSpotlightIndexer: SpotlightIndexing, @unchecked Sendable {
         )
         // Indexed items otherwise expire about a month after indexing, which would
         // make saved memories quietly disappear from Spotlight.
-        item.expirationDate = .distantFuture
+        item.expirationDate = attributes.expirationDate
         return item
     }
 }

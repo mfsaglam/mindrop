@@ -13,6 +13,7 @@ Mindrop/
 │   └── Sources/MindropCore/
 │       ├── Memory.swift              model, validation, normalisation
 │       ├── MemoryCategory.swift      the fixed categories, and the categorizer protocol
+│       ├── MemoryLifetime.swift      how long a temporary memory is kept
 │       ├── MemoryRepository.swift    the single owner of memories
 │       ├── MemoryStore.swift         JSON persistence in the App Group
 │       ├── CoordinatedFile.swift     cross-process safe file access
@@ -24,6 +25,7 @@ Mindrop/
 │       └── SharedTextParser.swift    share sheet input → a value
 │   └── Sources/MindropIntents/       NewMemoryIntent, shared by the app and MindropControls
 │   └── Sources/MindropSaveUI/        the save form, shared by both extensions
+│       ├── MemoryLifetimeSection.swift  the Keep picker, also used by the app's editor
 │       ├── SaveToMindropView.swift
 │       └── SaveToMindropViewController.swift
 ├── Mindrop/                     app target (iOS 26+)
@@ -89,7 +91,7 @@ Per memory:
 | `keywords` | the keyword, plus each of its words | not displayed, and not matched on iOS 26 |
 | `alternateNames` | the same words | not displayed |
 | `domainIdentifier` | `memory` | lets one call clear everything Mindrop indexed |
-| `expirationDate` | `.distantFuture` | **without this, indexed items expire about a month after indexing** |
+| `expirationDate` | the memory's expiry, else `.distantFuture` | **without this, indexed items expire about a month after indexing**; a temporary memory leaves Spotlight at its expiry even if the app is never opened |
 
 ### What the device actually does
 
@@ -228,6 +230,31 @@ The action extension ships its own icon: iOS draws action icons as a mask of the
 channel, so the opaque app icon would come out as a filled square. `RenderAppIcon.swift
 --template` renders the same Lucide brain on a transparent background instead.
 
+## Temporary memories
+
+A hotel room, a parking spot, a guest Wi-Fi password: things worth keeping for a while,
+not forever. The editor and the share sheet's save form both have a **Keep** row —
+Forever (the default), 1 Day, 1 Week, 1 Month, or Until a Date — shared as
+`MemoryLifetimeSection` in `MindropSaveUI`.
+
+- **At expiry it leaves Spotlight by itself.** The memory's expiry is the indexed item's
+  `expirationDate`, so Spotlight drops it on time even if Mindrop is not opened.
+- **In the app it is not deleted straight away.** It moves to an *Expired* section at the
+  bottom of the list, saying when it will be deleted for good, and stays there for 7 days
+  (`MemoryLifetime.expiredRetention`). Deletion for good happens at launch and on returning
+  to the foreground (`MemoryRepository.deleteExpired`).
+- **Recover** (a swipe in the list, or a button on the detail screen) brings an expired
+  memory back for good, not on a new timer, and reindexes it.
+- **Before it expires** the row says "Expires tomorrow", and the detail screen's expiry
+  chip offers 1 More Day, 1 More Week or Keep Forever.
+- **Not a category.** How long something is kept says nothing about what it is: a hotel
+  room code is still a code. Changing only the expiry does not move a memory up the list.
+- Older files decode as kept forever: `expiresAt` is optional.
+
+Verified on the simulator: the Keep picker, saving with 1 Week (stored expiry exactly a
+week later), the timer on rows, the Expired section, and Recover. Spotlight dropping the
+item at expiry needs a device, since the simulator's Spotlight drops all third-party items.
+
 ## New Memory from anywhere
 
 One intent, `NewMemoryIntent`, opens Mindrop on a blank editor with the keyboard up. It is
@@ -348,10 +375,11 @@ metadata stays private.
 
 ## Tests
 
-61 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
+68 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
 and value validation, value preservation, file persistence across processes, Spotlight
 metadata, index recovery after failures, routing by UUID, missing memories, and share
-extension input, and categorisation (automatic and manual, stale results, edits). The repository exposes `indexingTask` so tests await indexing instead of
+extension input, categorisation (automatic and manual, stale results, edits), and temporary
+memories (lifetimes, expiry, recovery, deletion after 7 days). The repository exposes `indexingTask` so tests await indexing instead of
 guessing at timing.
 
 What the unit tests cannot cover, and what therefore needs the checklist above: whether iOS

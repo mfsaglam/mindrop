@@ -13,6 +13,8 @@ public struct SaveToMindropView: View {
 
     @State private var keyword = ""
     @State private var value = ""
+    @State private var lifetime = MemoryLifetime.Option.forever
+    @State private var untilDate = Date.now.addingTimeInterval(7 * 24 * 60 * 60)
     @State private var isSaving = false
     @State private var errorMessage: String?
 
@@ -43,6 +45,7 @@ public struct SaveToMindropView: View {
                 } footer: {
                     localized("Saved values can show up directly in Spotlight search results, where anyone using this iPhone may see them.")
                 }
+                MemoryLifetimeSection(option: $lifetime, date: $untilDate)
             }
             .navigationTitle(localized("Save to Mindrop"))
             .navigationBarTitleDisplayMode(.inline)
@@ -79,7 +82,8 @@ public struct SaveToMindropView: View {
         do {
             let repository = try MemoryRepository.live()
             try repository.load()
-            try await repository.createAwaitingIndex(keyword: keyword, value: value)
+            let expiresAt = MemoryLifetime(lifetime, until: untilDate).expiry(from: .now)
+            try await repository.createAwaitingIndex(keyword: keyword, value: value, expiresAt: expiresAt)
             onFinish()
         } catch {
             errorMessage = String(describing: error)

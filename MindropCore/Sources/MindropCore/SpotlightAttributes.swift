@@ -19,6 +19,9 @@ public struct SpotlightAttributes: Equatable, Sendable {
     /// The same words again, through a second metadata field.
     public let alternateNames: [String]
     public let domainIdentifier: String
+    /// When Spotlight drops the item by itself: a temporary memory's expiry, so it
+    /// disappears on time even if the app is not opened. Never for a memory kept forever.
+    public let expirationDate: Date
 
     public static let domain = "memory"
 }
@@ -56,7 +59,8 @@ public enum SpotlightAttributesFactory {
             textContent: textContent(for: memory),
             keywords: words,
             alternateNames: words,
-            domainIdentifier: SpotlightAttributes.domain
+            domainIdentifier: SpotlightAttributes.domain,
+            expirationDate: memory.expiresAt ?? .distantFuture
         )
     }
 

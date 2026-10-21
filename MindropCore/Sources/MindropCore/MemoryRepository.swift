@@ -70,22 +70,36 @@ public final class MemoryRepository {
         memories.first { $0.id == id }
     }
 
-    /// In-app filtering, newest first. An empty query and no category return everything.
+    /// In-app filtering, newest first. An empty query and no category return every memory
+    /// that has not expired.
     public func results(for query: String, in category: MemoryCategory? = nil) -> [Memory] {
-        memories.filter { memory in
-            (category == nil || memory.category?.category == category) && memory.matches(query: query)
+        let now = now()
+        return memories.filter { memory in
+            !memory.isExpired(at: now)
+                && (category == nil || memory.category?.category == category)
+                && memory.matches(query: query)
         }
     }
 
-    /// The categories at least one memory is in, in declaration order — what a filter offers.
+    /// Expired memories matching the query, most recently expired first. Kept apart from
+    /// `results` so they can be recovered but never get in the way.
+    public func expiredResults(for query: String) -> [Memory] {
+        let now = now()
+        return memories
+            .filter { $0.isExpired(at: now) && $0.matches(query: query) }
+            .sorted { ($0.expiresAt ?? .distantPast) > ($1.expiresAt ?? .distantPast) }
+    }
+
+    /// The categories at least one live memory is in, in declaration order — what a
+    /// filter offers.
     public var categoriesInUse: [MemoryCategory] {
-        let used = Set(memories.compactMap(\.category?.category))
+        let used = Set(results(for: "").compactMap(\.category?.category))
         return MemoryCategory.allCases.filter(used.contains)
     }
 
     @discardableResult
-    public func create(keyword: String, value: String) throws -> Memory {
-        let memory = try insert(keyword: keyword, value: value)
+    public func create(keyword: String, value: String, expiresAt: Date? = nil) throws -> Memory {
+        let memory = try insert(keyword: keyword, value: value, expiresAt: expiresAt)
         indexInBackground([memory])
         categorizePending()
         return memory
@@ -96,24 +110,30 @@ public final class MemoryRepository {
     /// The share extension is torn down as soon as it completes its request, so it
     /// cannot leave indexing running in the background the way the app can.
     @discardableResult
-    public func createAwaitingIndex(keyword: String, value: String) async throws -> Memory {
-        let memory = try insert(keyword: keyword, value: value)
+    public func createAwaitingIndex(keyword: String, value: String, expiresAt: Date? = nil) async throws -> Memory {
+        let memory = try insert(keyword: keyword, value: value, expiresAt: expiresAt)
         await synchronizer.index([memory])
         return memory
     }
 
-    private func insert(keyword: String, value: String) throws -> Memory {
-        let memory = try Memory.make(keyword: keyword, value: value, now: now())
+    private func insert(keyword: String, value: String, expiresAt: Date?) throws -> Memory {
+        let memory = try Memory.make(keyword: keyword, value: value, now: now(), expiresAt: expiresAt)
         var updated = memories
         updated.append(memory)
         try commit(updated)
         return memory
     }
 
-    /// Saves an edit. Returns the stored memory, unchanged if nothing differed.
+    /// Saves an edit of the text, keeping the memory's expiry.
     @discardableResult
     public func update(_ memory: Memory, keyword: String, value: String) throws -> Memory {
-        let edited = try memory.updating(keyword: keyword, value: value, now: now())
+        try update(memory, keyword: keyword, value: value, expiresAt: memory.expiresAt)
+    }
+
+    /// Saves an edit. Returns the stored memory, unchanged if nothing differed.
+    @discardableResult
+    public func update(_ memory: Memory, keyword: String, value: String, expiresAt: Date?) throws -> Memory {
+        let edited = try memory.updating(keyword: keyword, value: value, expiresAt: expiresAt, now: now())
         guard edited != memory, let position = memories.firstIndex(where: { $0.id == memory.id }) else {
             return memory
         }
@@ -195,6 +215,23 @@ public final class MemoryRepository {
         else { return }
         stored[position].category = CategoryAssignment(category: category, source: .automatic, version: version)
         try commit(stored)
+    }
+
+    /// Moves a memory's expiry, or with `nil` keeps it forever. Recovering an expired
+    /// memory is this with `nil`: it comes back for good, not on a new timer. Reindexed,
+    /// because Spotlight drops an item at its expiry.
+    public func setExpiry(_ expiresAt: Date?, for memory: Memory) throws {
+        guard let current = self.memory(id: memory.id) else { return }
+        try update(current, keyword: current.keyword, value: current.value, expiresAt: expiresAt)
+    }
+
+    /// Deletes for good every memory that expired more than
+    /// `MemoryLifetime.expiredRetention` ago. Call at launch and on returning to the
+    /// foreground.
+    public func deleteExpired() throws {
+        let now = now()
+        let doomed = memories.filter { $0.deletionDate.map { $0 <= now } ?? false }
+        try delete(ids: doomed.map(\.id))
     }
 
     public func delete(ids: [UUID]) throws {

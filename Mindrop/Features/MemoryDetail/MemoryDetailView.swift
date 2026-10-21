@@ -37,6 +37,8 @@ struct MemoryDetailView: View {
 
                 categoryMenu(for: memory)
 
+                expiry(for: memory)
+
                 Button {
                     copy(memory.value)
                 } label: {
@@ -85,6 +87,51 @@ struct MemoryDetailView: View {
             Button("OK") { categoryError = nil }
         } message: {
             Text(categoryError ?? "")
+        }
+    }
+
+    /// A temporary memory says when it expires and can be kept longer; an expired one
+    /// says when it will be deleted and can be recovered. Nothing for one kept forever.
+    @ViewBuilder
+    private func expiry(for memory: Memory) -> some View {
+        if let text = ExpiryText(memory: memory) {
+            if memory.isExpired(at: .now) {
+                HStack {
+                    text
+                        .foregroundStyle(.orange)
+                    Spacer()
+                    Button("Recover", systemImage: "arrow.uturn.backward") { setExpiry(nil, for: memory) }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.green)
+                }
+                .font(.footnote.weight(.medium))
+            } else if let expiresAt = memory.expiresAt {
+                Menu {
+                    Button("1 More Day", systemImage: "plus") {
+                        setExpiry(expiresAt.addingTimeInterval(24 * 60 * 60), for: memory)
+                    }
+                    Button("1 More Week", systemImage: "plus") {
+                        setExpiry(expiresAt.addingTimeInterval(7 * 24 * 60 * 60), for: memory)
+                    }
+                    Button("Keep Forever", systemImage: "infinity") { setExpiry(nil, for: memory) }
+                } label: {
+                    text
+                        .font(.footnote.weight(.medium))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(.orange.opacity(0.12), in: .capsule)
+                        .foregroundStyle(.orange)
+                }
+                .accessibilityLabel("Expiry")
+            }
+        }
+    }
+
+    private func setExpiry(_ expiresAt: Date?, for memory: Memory) {
+        do {
+            try repository.setExpiry(expiresAt, for: memory)
+        } catch {
+            categoryError = String(describing: error)
         }
     }
 

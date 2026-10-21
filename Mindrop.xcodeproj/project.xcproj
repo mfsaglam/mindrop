@@ -125,6 +125,9 @@
           "product-name": "MindropCore",
           "build-phase": { "build-phase": "frameworks" },
         }, {
+          "product-name": "MindropSaveUI",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
           "product-name": "MindropIntents",
           "build-phase": { "build-phase": "frameworks" },
         },
