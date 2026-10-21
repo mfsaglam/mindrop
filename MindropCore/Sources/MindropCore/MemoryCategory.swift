@@ -48,6 +48,11 @@ public enum MemoryCategory: String, Codable, Sendable, CaseIterable, Hashable {
             if digits.count >= 13 { break }
         }
         guard (13...19).contains(digits.count) else { return false }
+        return passesLuhn(digits)
+    }
+
+    /// The check digit test every card number passes.
+    static func passesLuhn(_ digits: [Int]) -> Bool {
         let sum = digits.reversed().enumerated().reduce(0) { sum, pair in
             guard pair.offset.isMultiple(of: 2) == false else { return sum + pair.element }
             let doubled = pair.element * 2

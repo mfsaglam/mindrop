@@ -14,6 +14,7 @@ Mindrop/
 │       ├── Memory.swift              model, validation, normalisation
 │       ├── MemoryCategory.swift      the fixed categories, and the categorizer protocol
 │       ├── MemoryLifetime.swift      how long a temporary memory is kept
+│       ├── ValueLayout.swift         card/IBAN groups, recovery phrases, Wi-Fi QR payloads
 │       ├── MemoryRepository.swift    the single owner of memories
 │       ├── MemoryStore.swift         JSON persistence in the App Group
 │       ├── CoordinatedFile.swift     cross-process safe file access
@@ -230,6 +231,29 @@ The action extension ships its own icon: iOS draws action icons as a mask of the
 channel, so the opaque app icon would come out as a filled square. `RenderAppIcon.swift
 --template` renders the same Lucide brain on a transparent background instead.
 
+## The detail screen's value
+
+Tapping a Spotlight result opens the memory's detail screen, so that is where a value is
+laid out to be read (`MemoryValueView`, using `ValueLayout`):
+
+- **Card numbers and IBANs in blocks of four**, when the whole value is one and passes its
+  check (Luhn, mod 97). A value with more after the number is shown as typed.
+- **Recovery phrases as numbered words**: 12 to 24 lowercase words.
+- **A QR code under a Wi-Fi memory**, for showing a guest the screen, made on the device by
+  Core Image. If the value names the network ("Network: Home / Password: …", also in
+  Turkish), the code joins it; otherwise it carries just the password, which a camera
+  offers to copy.
+
+Display only: tapping the value still copies it **exactly as saved**, never the grouped
+form. The category chip, the expiry chip and Edit work as before.
+
+Tried first, and dropped: the same view as Spotlight's long-press preview, through a Quick
+Look preview extension with `QLSupportsSearchableItems`. On a device (iOS 27) Spotlight never
+started the extension — not with the default content type, nor with an app-declared one
+listed in `QLSupportedContentTypes` — and showed its own card, the row's text with "0 KB".
+The extension was registered and its method reachable, so this looks reserved for Apple's
+apps (News and Wallet ship such extensions).
+
 ## Temporary memories
 
 A hotel room, a parking spot, a guest Wi-Fi password: things worth keeping for a while,
@@ -375,11 +399,12 @@ metadata stays private.
 
 ## Tests
 
-68 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
+75 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
 and value validation, value preservation, file persistence across processes, Spotlight
 metadata, index recovery after failures, routing by UUID, missing memories, and share
 extension input, categorisation (automatic and manual, stale results, edits), and temporary
-memories (lifetimes, expiry, recovery, deletion after 7 days). The repository exposes `indexingTask` so tests await indexing instead of
+memories (lifetimes, expiry, recovery, deletion after 7 days), and how a value is laid out
+(card numbers, IBANs, recovery phrases, Wi-Fi labels). The repository exposes `indexingTask` so tests await indexing instead of
 guessing at timing.
 
 What the unit tests cannot cover, and what therefore needs the checklist above: whether iOS

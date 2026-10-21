@@ -39,12 +39,11 @@ struct MemoryDetailView: View {
 
                 expiry(for: memory)
 
+                // Shown laid out, copied exactly as saved.
                 Button {
                     copy(memory.value)
                 } label: {
-                    Text(memory.value)
-                        .font(.largeTitle)
-                        .fontWeight(.semibold)
+                    MemoryValueView(value: memory.value)
                         .foregroundStyle(.primary)
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -67,6 +66,11 @@ struct MemoryDetailView: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .accessibilityHidden(!didCopy)
+
+                if memory.category?.category == .network, let credentials = WiFiCredentials(value: memory.value) {
+                    WiFiQRCodeView(credentials: credentials)
+                        .padding(.top, 8)
+                }
             }
             .padding(.horizontal)
             .padding(.top, 8)
