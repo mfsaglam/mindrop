@@ -15,6 +15,11 @@ public struct Memory: Identifiable, Codable, Sendable, Hashable {
     /// Kept out of Spotlight and hidden in the app until the user unlocks it. Off unless
     /// the user turns it on.
     public var isSensitive: Bool
+    /// When the memory last changed in any way, its text or anything about it. What iCloud
+    /// sync compares: the later change wins. `updatedAt` is the text edit alone.
+    public var modifiedAt: Date
+    /// When the memory was moved to Recently Deleted. Nil while it is not deleted.
+    public var deletedAt: Date?
 
     public init(
         id: UUID = UUID(),
@@ -24,7 +29,9 @@ public struct Memory: Identifiable, Codable, Sendable, Hashable {
         updatedAt: Date,
         category: CategoryAssignment? = nil,
         expiresAt: Date? = nil,
-        isSensitive: Bool = false
+        isSensitive: Bool = false,
+        modifiedAt: Date? = nil,
+        deletedAt: Date? = nil
     ) {
         self.id = id
         self.keyword = keyword
@@ -34,6 +41,8 @@ public struct Memory: Identifiable, Codable, Sendable, Hashable {
         self.category = category
         self.expiresAt = expiresAt
         self.isSensitive = isSensitive
+        self.modifiedAt = modifiedAt ?? updatedAt
+        self.deletedAt = deletedAt
     }
 
     /// Written out by hand only so that files saved before a field existed still decode.
@@ -47,6 +56,8 @@ public struct Memory: Identifiable, Codable, Sendable, Hashable {
         category = try container.decodeIfPresent(CategoryAssignment.self, forKey: .category)
         expiresAt = try container.decodeIfPresent(Date.self, forKey: .expiresAt)
         isSensitive = try container.decodeIfPresent(Bool.self, forKey: .isSensitive) ?? false
+        modifiedAt = try container.decodeIfPresent(Date.self, forKey: .modifiedAt) ?? updatedAt
+        deletedAt = try container.decodeIfPresent(Date.self, forKey: .deletedAt)
     }
 }
 
@@ -118,6 +129,7 @@ public extension Memory {
             copy.updatedAt = now
             if copy.category?.source == .automatic { copy.category = nil }
         }
+        if copy != self { copy.modifiedAt = now }
         return copy
     }
 
@@ -134,6 +146,44 @@ public extension Memory {
     /// When an expired memory is deleted for good. Nil for a memory kept forever.
     var deletionDate: Date? {
         expiresAt?.addingTimeInterval(MemoryLifetime.expiredRetention)
+    }
+
+    /// How long a deleted memory stays in Recently Deleted before it is deleted for good.
+    static let deletedRetention: TimeInterval = 30 * 24 * 60 * 60
+
+    /// In Recently Deleted: out of Spotlight and out of the list, but recoverable.
+    var isDeleted: Bool { deletedAt != nil }
+
+    /// When a memory in Recently Deleted is deleted for good.
+    var deletedForGoodDate: Date? {
+        deletedAt?.addingTimeInterval(Self.deletedRetention)
+    }
+
+    /// Past every retention: an expired memory 7 days on, a deleted one 30 days on.
+    func isDueForDeletion(at now: Date) -> Bool {
+        if let deletedForGoodDate, deletedForGoodDate <= now { return true }
+        if !isDeleted, let deletionDate, deletionDate <= now { return true }
+        return false
+    }
+
+    /// Two versions of the same memory, one from this device and one from iCloud, as one.
+    ///
+    /// The later change wins as a whole, with one exception: the text is never lost to a
+    /// later change of something else. If the other version's text is newer, it is kept,
+    /// along with its category unless the winner's category was picked by the user. So
+    /// one iPhone filing a memory while another edits it keeps the edit.
+    static func merged(local: Memory, remote: Memory) -> Memory {
+        let remoteWins = remote.modifiedAt > local.modifiedAt
+        var winner = remoteWins ? remote : local
+        let other = remoteWins ? local : remote
+        if other.updatedAt > winner.updatedAt {
+            winner.keyword = other.keyword
+            winner.value = other.value
+            winner.updatedAt = other.updatedAt
+            if winner.category?.source != .manual { winner.category = other.category }
+        }
+        winner.createdAt = min(local.createdAt, remote.createdAt)
+        return winner
     }
 
     /// Whether the categorizer should look at this memory: it has no category, or an

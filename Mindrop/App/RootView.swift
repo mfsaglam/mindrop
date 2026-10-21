@@ -12,7 +12,7 @@ struct RootView: View {
                 ProgressView()
             case .ready(let repository):
                 NavigationStack(path: Binding(get: { session.path }, set: { session.path = $0 })) {
-                    MemoryListView(repository: repository, categorizationLog: session.categorizationLog)
+                    MemoryListView(repository: repository, session: session)
                         .navigationDestination(for: UUID.self) { id in
                             MemoryDetailView(repository: repository, memoryID: id)
                         }

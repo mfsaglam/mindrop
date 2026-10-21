@@ -11,7 +11,7 @@ struct MemoryListView: View {
     }
 
     let repository: MemoryRepository
-    let categorizationLog: CategorizationLog?
+    let session: MindropSession
 
     @State private var query = ""
     @State private var categoryFilter: MemoryCategory?
@@ -34,6 +34,12 @@ struct MemoryListView: View {
     /// Hidden while filtering by category: an expired memory is no longer really in one.
     private var expiredResults: [Memory] {
         activeCategory == nil ? repository.expiredResults(for: query) : []
+    }
+
+    /// The way into Recently Deleted, at the very bottom, only when there is something
+    /// in it and the list is not being searched or filtered.
+    private var showsRecentlyDeleted: Bool {
+        !repository.deletedMemories.isEmpty && query.isEmpty && activeCategory == nil
     }
 
     /// Sections only once something is categorised: a list of nothing but "No Category"
@@ -80,6 +86,20 @@ struct MemoryListView: View {
                     Text("Expired memories are deleted for good 7 days after they expire.")
                 }
             }
+
+            if showsRecentlyDeleted {
+                Section {
+                    NavigationLink {
+                        RecentlyDeletedView(repository: repository)
+                    } label: {
+                        LabeledContent {
+                            Text(repository.deletedMemories.count, format: .number)
+                        } label: {
+                            Label("Recently Deleted", systemImage: "trash")
+                        }
+                    }
+                }
+            }
         }
         .animation(.default, value: showsSections)
         .navigationTitle("Mindrop")
@@ -101,7 +121,7 @@ struct MemoryListView: View {
             }
         }
         .overlay {
-            if results.isEmpty && expiredResults.isEmpty {
+            if results.isEmpty && expiredResults.isEmpty && !showsRecentlyDeleted {
                 emptyState
             }
         }
@@ -111,7 +131,7 @@ struct MemoryListView: View {
             case .newMemory:
                 MemoryEditorView(mode: .create, repository: repository)
             case .settings:
-                SettingsView(repository: repository, categorizationLog: categorizationLog)
+                SettingsView(repository: repository, categorizationLog: session.categorizationLog, session: session)
             }
         }
         // The Control Center control, the Action button or Siri asked for a new memory.
@@ -129,7 +149,7 @@ struct MemoryListView: View {
             Button("Delete", role: .destructive) { delete([memory.id]) }
             Button("Cancel", role: .cancel) {}
         } message: { _ in
-            Text("This memory will be permanently deleted and removed from Spotlight. This can’t be undone.")
+            Text("It will be removed from Spotlight and kept in Recently Deleted for 30 days.")
         }
         .alert("Couldn’t delete", isPresented: .constant(deletionError != nil)) {
             Button("OK") { deletionError = nil }
@@ -187,7 +207,7 @@ struct MemoryListView: View {
         }
     }
 
-    /// Deleting is permanent, so a swipe only asks; the alert does the deleting. Not
+    /// Deleting reaches every device, so a swipe only asks; the alert does the deleting. Not
     /// `onDelete`, which removes the row at once, and not a `.destructive` role, which
     /// animates the row away before the user has answered.
     private func deleteAction(for memory: Memory) -> some View {
@@ -222,7 +242,7 @@ struct MemoryListView: View {
     }
 }
 
-private struct MemoryRow: View {
+struct MemoryRow: View {
     let memory: Memory
     let showsCategory: Bool
 

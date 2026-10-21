@@ -1156,7 +1156,7 @@
       }
     },
     "Delete" : {
-      "comment" : "Swipe action and alert button that permanently delete an entry.",
+      "comment" : "Swipe action and alert button that delete an entry.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1240,6 +1240,184 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "刪除"
+          }
+        }
+      }
+    },
+    "Delete Now" : {
+      "comment" : "Swipe action in Recently Deleted that deletes a memory for good.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف الآن"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jetzt löschen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar ahora"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer maintenant"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अभी डिलीट करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina ora"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今すぐ削除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금 삭제"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu verwijderen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar Agora"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить сейчас"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şimdi Sil"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即删除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即刪除"
+          }
+        }
+      }
+    },
+    "Delete “%@” for Good?" : {
+      "comment" : "Title of the alert confirming deletion for good in Recently Deleted. %@ is the entry's keyword.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف «%@» نهائيًا؟"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ endgültig löschen?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar «%@» definitivamente?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer « %@ » définitivement ?"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” को हमेशा के लिए डिलीट करें?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminare “%@” definitivamente?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”を完全に削除しますか？"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’을(를) 영구적으로 삭제하겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’ definitief verwijderen?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar “%@” definitivamente?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить «%@» навсегда?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” kalıcı olarak silinsin mi?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要永久删除“%@”吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要永久刪除「%@」嗎？"
           }
         }
       }
@@ -1334,7 +1512,7 @@
       }
     },
     "Deleted for good %@" : {
-      "comment" : "Shown on an expired memory. %@ is a relative time such as “in 6 days”.",
+      "comment" : "Shown on an expired memory, and on one in Recently Deleted. %@ is a relative time such as “in 6 days”.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2666,6 +2844,95 @@
         }
       }
     },
+    "It will be removed from Spotlight and kept in Recently Deleted for 30 days." : {
+      "comment" : "Message of the alert confirming that a memory is deleted.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ستتم إزالته من Spotlight والاحتفاظ به في «المحذوفة مؤخرًا» لمدة 30 يومًا."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er wird aus Spotlight entfernt und 30 Tage lang in „Zuletzt gelöscht“ aufbewahrt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se quitará de Spotlight y se guardará en Eliminado recientemente durante 30 días."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il sera retiré de Spotlight et conservé 30 jours dans Suppressions récentes."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इसे Spotlight से हटा दिया जाएगा और 30 दिनों तक “हाल ही में डिलीट किए गए” में रखा जाएगा।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verrà rimosso da Spotlight e conservato in Eliminati di recente per 30 giorni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlightから削除され、「最近削除した項目」に30日間保管されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight에서 제거되고 30일 동안 최근 삭제된 항목에 보관됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het wordt uit Spotlight verwijderd en 30 dagen bewaard in Recent verwijderd."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Será removido do Spotlight e mantido em Apagados Recentemente por 30 dias."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запись будет удалена из Spotlight и сохранится в «Недавно удаленных» на 30 дней."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight’tan kaldırılır ve 30 gün boyunca Son Silinenler’de tutulur."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它会从 Spotlight 中移除，并在“最近删除”中保留 30 天。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它會從 Spotlight 中移除，並在「最近刪除」中保留 30 天。"
+          }
+        }
+      }
+    },
     "Keep Forever" : {
       "comment" : "Makes a temporary memory permanent.",
       "localizations" : {
@@ -2751,6 +3018,95 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "永久保留"
+          }
+        }
+      }
+    },
+    "Keeps your memories the same on every device signed in to your iCloud account. Keywords and values are end-to-end encrypted." : {
+      "comment" : "Footer under the iCloud Sync switch.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يُبقي ذكرياتك متطابقة على كل جهاز مسجّل الدخول إلى حساب iCloud الخاص بك. الكلمات المفتاحية والقيم مشفّرة تشفيرًا تامًا بين الطرفين."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hält deine Einträge auf allen Geräten gleich, die bei deinem iCloud-Account angemeldet sind. Stichwörter und Werte sind durchgehend verschlüsselt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantiene tus memorias iguales en todos los dispositivos con tu cuenta de iCloud. Las palabras clave y los valores tienen cifrado de extremo a extremo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Garde vos mémos identiques sur tous les appareils connectés à votre compte iCloud. Les mots-clés et les valeurs sont chiffrés de bout en bout."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आपकी यादों को आपके iCloud खाते में साइन इन किए गए हर डिवाइस पर एक जैसा रखता है। कीवर्ड और मान एंड-टू-एंड एन्क्रिप्टेड हैं।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantiene i tuoi ricordi uguali su tutti i dispositivi collegati al tuo account iCloud. Parole chiave e valori sono crittografati end-to-end."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloudアカウントにサインインしているすべてのデバイスでメモを同じ状態に保ちます。キーワードと値はエンドツーエンドで暗号化されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 계정에 로그인된 모든 기기에서 메모를 똑같이 유지합니다. 키워드와 값은 종단 간 암호화됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Houdt je herinneringen gelijk op elk apparaat dat met je iCloud-account is ingelogd. Trefwoorden en waarden zijn end-to-end versleuteld."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantém suas memórias iguais em todos os dispositivos conectados à sua conta do iCloud. Palavras-chave e valores têm criptografia de ponta a ponta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поддерживает одинаковые записи на всех устройствах с вашей учетной записью iCloud. Ключевые слова и значения защищены сквозным шифрованием."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anılarını iCloud hesabınla giriş yapılmış tüm aygıtlarda aynı tutar. Anahtar kelimeler ve değerler uçtan uca şifrelenir."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让你的记忆在登录同一 iCloud 账户的所有设备上保持一致。关键词和值经过端到端加密。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "讓你的記憶在登入同一個 iCloud 帳號的所有裝置上保持一致。關鍵字和值經過端對端加密。"
           }
         }
       }
@@ -2929,6 +3285,184 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "連結"
+          }
+        }
+      }
+    },
+    "Memories are deleted for good 30 days after you delete them, on all your devices." : {
+      "comment" : "Footer of Recently Deleted.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تُحذف الذكريات نهائيًا بعد 30 يومًا من حذفها، على جميع أجهزتك."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einträge werden 30 Tage nach dem Löschen endgültig gelöscht, auf allen deinen Geräten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las memorias se eliminan definitivamente 30 días después de borrarlas, en todos tus dispositivos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les mémos sont supprimés définitivement 30 jours après leur suppression, sur tous vos appareils."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "डिलीट करने के 30 दिन बाद यादें आपके सभी डिवाइस से हमेशा के लिए डिलीट हो जाती हैं।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I ricordi vengono eliminati definitivamente 30 giorni dopo, su tutti i tuoi dispositivi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "削除したメモは、30日後にすべてのデバイスから完全に削除されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "삭제한 메모는 30일 후 모든 기기에서 영구적으로 삭제됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herinneringen worden 30 dagen na verwijderen definitief verwijderd, op al je apparaten."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As memórias são apagadas definitivamente 30 dias depois, em todos os seus dispositivos."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Записи удаляются навсегда через 30 дней после удаления на всех ваших устройствах."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anılar, sildikten 30 gün sonra tüm aygıtlarından kalıcı olarak silinir."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记忆会在删除 30 天后从你的所有设备上永久删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記憶會在刪除 30 天後從你的所有裝置上永久刪除。"
+          }
+        }
+      }
+    },
+    "Memories you delete stay here for 30 days." : {
+      "comment" : "Empty state description of Recently Deleted.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تبقى الذكريات التي تحذفها هنا لمدة 30 يومًا."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelöschte Einträge bleiben 30 Tage lang hier."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las memorias que eliminas se quedan aquí 30 días."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les mémos supprimés restent ici pendant 30 jours."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आपकी डिलीट की गई यादें 30 दिनों तक यहाँ रहती हैं।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I ricordi eliminati restano qui per 30 giorni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "削除したメモはここに30日間残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "삭제한 메모는 30일 동안 여기에 남아 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijderde herinneringen blijven hier 30 dagen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As memórias apagadas ficam aqui por 30 dias."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удаленные записи хранятся здесь 30 дней."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sildiğin anılar 30 gün boyunca burada kalır."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除的记忆会在这里保留 30 天。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除的記憶會在這裡保留 30 天。"
           }
         }
       }
@@ -3287,6 +3821,95 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無類別"
+          }
+        }
+      }
+    },
+    "No Deleted Memories" : {
+      "comment" : "Empty state of Recently Deleted.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا توجد ذكريات محذوفة"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine gelöschten Einträge"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay memorias eliminadas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun mémo supprimé"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कोई डिलीट की गई याद नहीं"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun ricordo eliminato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "削除したメモはありません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "삭제된 메모 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen verwijderde herinneringen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma memória apagada"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет удаленных записей"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silinmiş Anı Yok"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有已删除的记忆"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有已刪除的記憶"
           }
         }
       }
@@ -3766,6 +4389,95 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "地點"
+          }
+        }
+      }
+    },
+    "Recently Deleted" : {
+      "comment" : "Row at the bottom of the list, and the title of the screen holding deleted memories for 30 days.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المحذوفة مؤخرًا"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zuletzt gelöscht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminado recientemente"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suppressions récentes"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हाल ही में डिलीट किए गए"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminati di recente"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近削除した項目"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최근 삭제된 항목"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent verwijderd"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagados Recentemente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Недавно удаленные"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son Silinenler"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近删除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近刪除"
           }
         }
       }
@@ -4834,91 +5546,91 @@
         }
       }
     },
-    "This memory will be permanently deleted and removed from Spotlight. This can’t be undone." : {
-      "comment" : "Message of the alert confirming deletion. 'Memory' is a saved entry.",
+    "This memory will be deleted on all your devices. This can’t be undone." : {
+      "comment" : "Message of the alert confirming deletion for good.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "سيُحذف هذا السجل نهائيًا ويُزال من Spotlight. لا يمكن التراجع عن ذلك."
+            "value" : "سيُحذف هذا السجل من جميع أجهزتك. لا يمكن التراجع عن ذلك."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dieser Eintrag wird endgültig gelöscht und aus Spotlight entfernt. Dies kann nicht widerrufen werden."
+            "value" : "Dieser Eintrag wird auf allen deinen Geräten gelöscht. Dies kann nicht widerrufen werden."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esta entrada se eliminará de forma permanente y desaparecerá de Spotlight. No se puede deshacer."
+            "value" : "Esta memoria se eliminará en todos tus dispositivos. Esta acción no se puede deshacer."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cette entrée sera définitivement supprimée et retirée de Spotlight. Cette action est irréversible."
+            "value" : "Ce mémo sera supprimé sur tous vos appareils. Cette action est irréversible."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "यह प्रविष्टि स्थायी रूप से हटा दी जाएगी और Spotlight से निकाल दी जाएगी। इसे पूर्ववत नहीं किया जा सकता।"
+            "value" : "यह याद आपके सभी डिवाइस से डिलीट हो जाएगी। इसे पहले जैसा नहीं किया जा सकता।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Questa voce verrà eliminata definitivamente e rimossa da Spotlight. L’operazione non può essere annullata."
+            "value" : "Questo ricordo verrà eliminato su tutti i tuoi dispositivi. L’operazione non può essere annullata."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "この項目は完全に削除され、Spotlightからも消えます。この操作は取り消せません。"
+            "value" : "このメモはすべてのデバイスから削除されます。この操作は取り消せません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 항목은 영구적으로 삭제되며 Spotlight에서도 제거됩니다. 이 작업은 취소할 수 없습니다."
+            "value" : "이 메모가 모든 기기에서 삭제됩니다. 이 작업은 실행 취소할 수 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dit item wordt definitief verwijderd en uit Spotlight gehaald. Dit kan niet ongedaan worden gemaakt."
+            "value" : "Deze herinnering wordt op al je apparaten verwijderd. Dit kan niet ongedaan worden gemaakt."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Este registro será apagado permanentemente e removido do Spotlight. Não é possível desfazer."
+            "value" : "Esta memória será apagada em todos os seus dispositivos. Não é possível desfazer."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Эта запись будет удалена навсегда и исчезнет из Spotlight. Это действие нельзя отменить."
+            "value" : "Эта запись будет удалена на всех ваших устройствах. Это действие нельзя отменить."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu kayıt kalıcı olarak silinecek ve Spotlight’tan kaldırılacak. Bu işlem geri alınamaz."
+            "value" : "Bu anı tüm aygıtlarından silinecek. Bu işlem geri alınamaz."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此条目将被永久删除，并从“聚焦”中移除。此操作无法撤销。"
+            "value" : "这条记忆将从你的所有设备上删除。此操作无法撤销。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此項目將被永久刪除，並從 Spotlight 中移除。此操作無法還原。"
+            "value" : "這則記憶將從你的所有裝置上刪除。此動作無法還原。"
           }
         }
       }
@@ -5186,6 +5898,95 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wi-Fi 與網路"
+          }
+        }
+      }
+    },
+    "iCloud Sync" : {
+      "comment" : "Settings switch that syncs memories through iCloud.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مزامنة iCloud"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud-Synchronisierung"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronización con iCloud"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Synchronisation iCloud"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud सिंक"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronizzazione iCloud"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud同期"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 동기화"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud-synchronisatie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronização com o iCloud"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Синхронизация с iCloud"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Eşzamanlama"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 同步"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 同步"
           }
         }
       }

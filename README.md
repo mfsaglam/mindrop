@@ -190,6 +190,9 @@ Run these on a real iPhone, which is the only authoritative environment:
    link arrives as the value.
 8. Turn on Sensitive for a memory, search its keyword → the result reads `keyword · 🔒`, with
    no value. Tap it → Mindrop opens it and asks for Face ID.
+9. With iCloud Sync on and both iPhones signed in to the same account: add a memory on one,
+   bring the other to the foreground → it appears there, and in that iPhone's Spotlight. Edit
+   it on the second, delete it on the first → Recently Deleted on both.
 
 Still open: whether the keyword previously failed because Spotlight never matched the
 metadata, or because it matched and the result ranked below the system's own hits for a
@@ -312,6 +315,53 @@ the Face ID prompt on opening (with simulated enrolment and a matching face), th
 unlocking, and dots again after going Home and coming back. The Spotlight line itself needs a
 device, since the simulator's Spotlight drops all third-party items.
 
+## iCloud sync and Recently Deleted
+
+Memories stay the same on every device signed in to the same iCloud account. Sync is on by
+default and can be turned off in Settings (**iCloud Sync**); turning it off deletes nothing,
+here or in iCloud, and turning it back on sends whatever changed in the meantime.
+
+- **CloudKit's private database, through `CKSyncEngine`** (`CloudSync` in `MindropCore`).
+  One record per memory, named by its UUID, in a zone called `Memories`, container
+  `iCloud.mfsaglam.Mindrop`. The engine does the batching, retries and push subscriptions;
+  Mindrop decides what changed and how two versions become one.
+- **The local file stays the source of truth.** The app works the same offline. Changes are
+  found by comparison, not recorded as they happen: a memory whose `modifiedAt` differs from
+  what iCloud last agreed to (`CloudSyncState.known`) is sent. So a memory saved by the share
+  extension, which does not sync itself, is sent the next time the app runs.
+- **End-to-end encrypted.** Keyword, value and category are CloudKit encrypted fields, with
+  keys in the user's iCloud Keychain: Apple cannot read them, whether or not Advanced Data
+  Protection is on. Dates and flags are plain. Sensitive memories sync like any other; on
+  every device Spotlight shows them only as `keyword · 🔒`. If the iCloud Keychain is reset,
+  the zone's data is lost to iCloud and the devices send their memories again.
+- **Two versions become one** (`Memory.merged`): the later change wins as a whole, except that
+  newer text is never lost to a later change of something else. If one iPhone files a memory
+  under a category while another edits its text, the edit is kept, with its own category
+  unless the user picked one. `modifiedAt` records any change; `updatedAt`, as before, only
+  text edits, and still orders the list.
+- **Each device keeps its own Spotlight index.** Changes from iCloud go through the same
+  Spotlight synchronisation as local edits (`MemoryRepository.applyRemote`).
+- **Pushes.** The remote-notification background mode lets iCloud wake Mindrop when another
+  device changes something, so its Spotlight catches up without the app being opened. iOS
+  decides when; on returning to the foreground the app also asks for changes.
+- **Accounts.** Signing out of iCloud keeps the memories on the device. Signing in, or
+  switching accounts, sends them all to the new account. Two iPhones that each had memories
+  before syncing keep both sets: nothing is matched by keyword.
+
+**Recently Deleted.** Because a delete now reaches every device, deleting no longer deletes:
+it moves the memory to Recently Deleted (`deletedAt`), out of the list and Spotlight, for 30
+days. The delete alert still asks first. Recently Deleted is a row at the bottom of the list,
+shown only when something is in it; there a memory can be recovered or deleted for good
+(**Delete Now**, which asks again). After 30 days it is deleted for good, on every device
+(`MemoryRepository.purge`, which also ends expired memories after their 7 days). A memory
+deleted for good is a deleted CloudKit record; Recently Deleted itself syncs as a field.
+
+Verified on the simulator: deleting, the Recently Deleted row and screen, Recover, and the
+sync engine starting and waiting for an account (the simulator was not signed in to iCloud).
+The device build is signed with the iCloud container and push entitlements. Not yet verified:
+sync between two real devices. Before an App Store release, the CloudKit schema has to be
+deployed from the development environment to production in the CloudKit Console.
+
 ## New Memory from anywhere
 
 One intent, `NewMemoryIntent`, opens Mindrop on a blank editor with the keyboard up. It is
@@ -425,7 +475,9 @@ it always did.
 
 ## Privacy
 
-Values are treated as arbitrary text and nothing leaves the device. A memory the user marks
+Values are treated as arbitrary text. With iCloud Sync on (the default), memories go to the
+user's private iCloud database, keyword, value and category end-to-end encrypted (see *iCloud
+sync and Recently Deleted*); nothing else leaves the device. A memory the user marks
 as sensitive is kept out of Spotlight and hidden in the app until Face ID or the passcode
 (see *Sensitive memories*); its value is stored like any other. Categorisation sends the keyword and the first 200 characters of the value to
 the on-device model only; Apple Intelligence's on-device model does not use the network. Storage lives in the App Group container with file
@@ -436,12 +488,14 @@ metadata stays private.
 
 ## Tests
 
-82 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
+97 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
 and value validation, value preservation, file persistence across processes, Spotlight
 metadata, index recovery after failures, routing by UUID, missing memories, and share
 extension input, categorisation (automatic and manual, stale results, edits), and temporary
 memories (lifetimes, expiry, recovery, deletion after 7 days), sensitive memories (what
-Spotlight receives, search, the switch, older files), and how a value is laid out
+Spotlight receives, search, the switch, older files), Recently Deleted (deleting, recovering,
+30 days, change times), iCloud sync (merging two versions, the CloudKit record, what is
+pending, the state file), and how a value is laid out
 (card numbers, IBANs, recovery phrases, Wi-Fi labels). The repository exposes `indexingTask` so tests await indexing instead of
 guessing at timing.
 

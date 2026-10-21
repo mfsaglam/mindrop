@@ -12,4 +12,5 @@ public enum AppGroup {
 
     public static let memoriesFileName = "memories.json"
     public static let syncStateFileName = "spotlight-sync.json"
+    public static let cloudSyncStateFileName = "cloud-sync.json"
 }

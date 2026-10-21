@@ -52,7 +52,7 @@ struct MemoryRepositoryTests {
         #expect(repository.memories == [memory])
     }
 
-    @Test("Deleting a memory removes it from storage and from the index")
+    @Test("Deleting a memory for good removes it from storage and from the index")
     func deleteRemovesEverywhere() async throws {
         let (repository, store, indexer) = try makeRepository()
         let memory = try repository.create(keyword: "wifi", value: "SuperFast2026!")
@@ -60,7 +60,7 @@ struct MemoryRepositoryTests {
         let survivor = try repository.create(keyword: "iban", value: "TR12")
         await repository.indexingTask?.value
 
-        try repository.delete(ids: [memory.id])
+        try repository.deletePermanently(ids: [memory.id])
 
         #expect(repository.memories == [survivor])
         #expect(try store.load() == [survivor])
@@ -80,7 +80,7 @@ struct MemoryRepositoryTests {
     func lookupAfterDelete() throws {
         let (repository, _, _) = try makeRepository()
         let memory = try repository.create(keyword: "wifi", value: "SuperFast2026!")
-        try repository.delete(ids: [memory.id])
+        try repository.deletePermanently(ids: [memory.id])
         #expect(repository.memory(id: memory.id) == nil)
     }
 

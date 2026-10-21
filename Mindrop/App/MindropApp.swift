@@ -1,5 +1,6 @@
 import MindropCore
 import SwiftUI
+import UIKit
 
 @main
 struct MindropApp: App {
@@ -25,6 +26,13 @@ final class MindropSession {
     private(set) var phase: Phase = .loading
     var path: [UUID] = []
     let sensitiveAccess = SensitiveAccess()
+    private(set) var cloudSync: CloudSync?
+
+    init() {
+        // Started here as well as by the first screen: a push from iCloud can launch the
+        // app in the background, where no screen appears to start it.
+        Task { await start() }
+    }
 
     /// What was asked of Apple Intelligence this launch. Debug builds only: it holds
     /// keywords and the start of each value.
@@ -44,9 +52,10 @@ final class MindropSession {
         do {
             let repository = try MemoryRepository.live(categorizer: AppleIntelligenceCategorizer(log: categorizationLog))
             try repository.load()
-            try? repository.deleteExpired()
+            try? repository.purge()
             // Show the list first: reconciling the Spotlight index can take seconds.
             phase = .ready(repository)
+            startCloudSync(for: repository)
             repository.categorizePending()
             await repository.resumeSpotlightSync()
         } catch {
@@ -59,8 +68,29 @@ final class MindropSession {
     /// past their 7 days are deleted for good.
     func refresh() {
         try? repository?.load()
-        try? repository?.deleteExpired()
+        try? repository?.purge()
         repository?.categorizePending()
+        cloudSync?.sendLocalChanges()
+        if let cloudSync { Task { await cloudSync.fetchChanges() } }
+    }
+
+    /// On unless the user turned it off in Settings.
+    private var syncsWithICloud: Bool {
+        UserDefaults.standard.object(forKey: Preference.syncsWithICloud) as? Bool ?? true
+    }
+
+    /// Follows the Settings switch.
+    func syncPreferenceChanged() {
+        if syncsWithICloud { cloudSync?.start() } else { cloudSync?.stop() }
+    }
+
+    private func startCloudSync(for repository: MemoryRepository) {
+        guard let cloudSync = try? CloudSync.live(repository: repository) else { return }
+        self.cloudSync = cloudSync
+        repository.onLocalChange = { [weak cloudSync] in cloudSync?.sendLocalChanges() }
+        // Lets iCloud wake the app when another device changes something.
+        UIApplication.shared.registerForRemoteNotifications()
+        if syncsWithICloud { cloudSync.start() }
     }
 
     /// Opens the memory behind a tapped Spotlight result, without animating in from

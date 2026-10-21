@@ -5,14 +5,17 @@ import SwiftUI
 /// than the App Group.
 enum Preference {
     static let groupsByCategory = "groupsByCategory"
+    static let syncsWithICloud = "syncsWithICloud"
 }
 
 struct SettingsView: View {
     let repository: MemoryRepository
     let categorizationLog: CategorizationLog?
+    let session: MindropSession
 
     @Environment(\.dismiss) private var dismiss
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
+    @AppStorage(Preference.syncsWithICloud) private var syncsWithICloud = true
 
     var body: some View {
         NavigationStack {
@@ -21,6 +24,13 @@ struct SettingsView: View {
                     Toggle("Group by Category", isOn: $groupsByCategory)
                 } footer: {
                     Text("Show memories in sections by category. Turn this off for a single list, most recent first.")
+                }
+
+                Section {
+                    Toggle("iCloud Sync", isOn: $syncsWithICloud)
+                        .onChange(of: syncsWithICloud) { session.syncPreferenceChanged() }
+                } footer: {
+                    Text("Keeps your memories the same on every device signed in to your iCloud account. Keywords and values are end-to-end encrypted.")
                 }
 
                 #if DEBUG

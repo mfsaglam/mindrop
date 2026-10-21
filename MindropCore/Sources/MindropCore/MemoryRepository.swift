@@ -23,6 +23,10 @@ public final class MemoryRepository {
     private let categorizer: (any MemoryCategorizing)?
     private let now: @Sendable () -> Date
 
+    /// Called after every change made on this device, not after changes that came from
+    /// iCloud. How iCloud sync learns there is something to send.
+    public var onLocalChange: (() -> Void)?
+
     /// Text the categorizer already declined this run, so a memory it cannot place is
     /// not sent again on every foregrounding. Keyed by content: an edit earns a retry.
     private var declinedCategorizations: Set<CategorizationKey> = []
@@ -63,7 +67,7 @@ public final class MemoryRepository {
     /// Finishes any Spotlight work left over from the last run. Call this after `load`,
     /// and never before showing the UI: talking to Core Spotlight can take seconds.
     public func resumeSpotlightSync() async {
-        await synchronizer.resume(allMemories: memories)
+        await synchronizer.resume(allMemories: memories.filter { !$0.isDeleted })
     }
 
     public func memory(id: UUID) -> Memory? {
@@ -71,11 +75,11 @@ public final class MemoryRepository {
     }
 
     /// In-app filtering, newest first. An empty query and no category return every memory
-    /// that has not expired.
+    /// that has not expired or been deleted.
     public func results(for query: String, in category: MemoryCategory? = nil) -> [Memory] {
         let now = now()
         return memories.filter { memory in
-            !memory.isExpired(at: now)
+            !memory.isExpired(at: now) && !memory.isDeleted
                 && (category == nil || memory.category?.category == category)
                 && memory.matches(query: query)
         }
@@ -86,8 +90,15 @@ public final class MemoryRepository {
     public func expiredResults(for query: String) -> [Memory] {
         let now = now()
         return memories
-            .filter { $0.isExpired(at: now) && $0.matches(query: query) }
+            .filter { $0.isExpired(at: now) && !$0.isDeleted && $0.matches(query: query) }
             .sorted { ($0.expiresAt ?? .distantPast) > ($1.expiresAt ?? .distantPast) }
+    }
+
+    /// Recently Deleted, most recently deleted first.
+    public var deletedMemories: [Memory] {
+        memories
+            .filter(\.isDeleted)
+            .sorted { ($0.deletedAt ?? .distantPast) > ($1.deletedAt ?? .distantPast) }
     }
 
     /// The categories at least one live memory is in, in declaration order — what a
@@ -175,6 +186,7 @@ public final class MemoryRepository {
         var stored = try store.load()
         guard let position = stored.firstIndex(where: { $0.id == memory.id }) else { return }
         stored[position].category = category.map { CategoryAssignment(category: $0, source: .manual) }
+        stored[position].modifiedAt = now()
         try commit(stored)
         if category == nil {
             declinedCategorizations.remove(CategorizationKey(stored[position]))
@@ -188,6 +200,7 @@ public final class MemoryRepository {
         var stored = try store.load()
         for position in stored.indices where stored[position].category?.source == .automatic {
             stored[position].category = nil
+            stored[position].modifiedAt = now()
         }
         try commit(stored)
         declinedCategorizations.removeAll()
@@ -212,7 +225,8 @@ public final class MemoryRepository {
         repeat {
             needsAnotherCategorizationPass = false
             let pending = memories.filter {
-                $0.needsCategory(categorizerVersion: categorizer.version)
+                !$0.isDeleted
+                    && $0.needsCategory(categorizerVersion: categorizer.version)
                     && !declinedCategorizations.contains(CategorizationKey($0))
             }
             for memory in pending {
@@ -237,6 +251,7 @@ public final class MemoryRepository {
               stored[position].needsCategory(categorizerVersion: version)
         else { return }
         stored[position].category = CategoryAssignment(category: category, source: .automatic, version: version)
+        stored[position].modifiedAt = now()
         try commit(stored)
     }
 
@@ -267,16 +282,48 @@ public final class MemoryRepository {
         )
     }
 
-    /// Deletes for good every memory that expired more than
-    /// `MemoryLifetime.expiredRetention` ago. Call at launch and on returning to the
+    /// Deletes for good every memory past its retention: expired more than 7 days ago, or
+    /// in Recently Deleted for more than 30 days. Call at launch and on returning to the
     /// foreground.
-    public func deleteExpired() throws {
+    public func purge() throws {
         let now = now()
-        let doomed = memories.filter { $0.deletionDate.map { $0 <= now } ?? false }
-        try delete(ids: doomed.map(\.id))
+        try deletePermanently(ids: memories.filter { $0.isDueForDeletion(at: now) }.map(\.id))
     }
 
+    /// Moves memories to Recently Deleted: out of the list and out of Spotlight, and
+    /// deleted for good 30 days later unless recovered.
     public func delete(ids: [UUID]) throws {
+        let doomed = Set(ids)
+        let now = now()
+        var updated = memories
+        var moved: [UUID] = []
+        for position in updated.indices where doomed.contains(updated[position].id) && !updated[position].isDeleted {
+            updated[position].deletedAt = now
+            updated[position].modifiedAt = now
+            moved.append(updated[position].id)
+        }
+        guard !moved.isEmpty else { return }
+        try commit(updated)
+        let synchronizer = synchronizer
+        indexingTask = Task { await synchronizer.remove(ids: moved) }
+    }
+
+    /// Brings a memory back from Recently Deleted, into Spotlight again. An expired one
+    /// goes back to the Expired section.
+    public func recoverDeleted(_ memory: Memory) throws {
+        guard let position = memories.firstIndex(where: { $0.id == memory.id }), memories[position].isDeleted else {
+            return
+        }
+        var updated = memories
+        updated[position].deletedAt = nil
+        updated[position].modifiedAt = now()
+        try commit(updated)
+        indexInBackground([updated[position]])
+    }
+
+    /// Deletes for good, here and, through iCloud, on every device. Recently Deleted's
+    /// Delete Now, and the end of every retention.
+    public func deletePermanently(ids: [UUID]) throws {
         let doomed = Set(ids)
         guard memories.contains(where: { doomed.contains($0.id) }) else { return }
         try commit(memories.filter { !doomed.contains($0.id) })
@@ -284,15 +331,59 @@ public final class MemoryRepository {
         indexingTask = Task { await synchronizer.remove(ids: ids) }
     }
 
-    private func commit(_ updated: [Memory]) throws {
+    /// Takes in what iCloud sent: changed memories, merged with this device's own version
+    /// (`Memory.merged`), and memories deleted for good elsewhere. Returns what is now
+    /// stored for each changed id. Not reported through `onLocalChange`.
+    @discardableResult
+    public func applyRemote(_ remote: [Memory], deletedIDs: [UUID]) throws -> [UUID: Memory] {
+        // From storage, so a save from the share extension is merged, not overwritten.
+        var stored = try store.load()
+        var result: [UUID: Memory] = [:]
+        var changed: [Memory] = []
+        for incoming in remote {
+            if let position = stored.firstIndex(where: { $0.id == incoming.id }) {
+                let merged = Memory.merged(local: stored[position], remote: incoming)
+                if merged != stored[position] {
+                    stored[position] = merged
+                    changed.append(merged)
+                }
+                result[incoming.id] = merged
+            } else {
+                stored.append(incoming)
+                changed.append(incoming)
+                result[incoming.id] = incoming
+            }
+        }
+        let doomed = Set(deletedIDs)
+        let removed = stored.filter { doomed.contains($0.id) }.map(\.id)
+        stored.removeAll { doomed.contains($0.id) }
+        guard !changed.isEmpty || !removed.isEmpty else { return result }
+
+        try commit(stored, isLocal: false)
+        let toIndex = changed.filter { !$0.isDeleted }
+        let toRemove = changed.filter(\.isDeleted).map(\.id) + removed
+        let synchronizer = synchronizer
+        indexingTask = Task {
+            await synchronizer.remove(ids: toRemove)
+            await synchronizer.index(toIndex)
+        }
+        categorizePending()
+        return result
+    }
+
+    private func commit(_ updated: [Memory], isLocal: Bool = true) throws {
         let sorted = updated.sorted(by: Self.isOrderedBefore)
         try store.save(sorted)
         memories = sorted
+        if isLocal { onLocalChange?() }
     }
 
+    /// A deleted memory is never indexed, whatever else changed about it.
     private func indexInBackground(_ memories: [Memory]) {
+        let live = memories.filter { !$0.isDeleted }
+        guard !live.isEmpty else { return }
         let synchronizer = synchronizer
-        indexingTask = Task { await synchronizer.index(memories) }
+        indexingTask = Task { await synchronizer.index(live) }
     }
 
     private struct CategorizationKey: Hashable {

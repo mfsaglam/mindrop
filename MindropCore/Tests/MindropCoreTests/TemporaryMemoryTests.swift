@@ -45,11 +45,11 @@ struct TemporaryMemoryTests {
         let wifi = try repository.create(keyword: "wifi", value: "SuperFast2026!")
 
         clock.now = clock.now.addingTimeInterval(7 * day)
-        try repository.deleteExpired()
+        try repository.purge()
         #expect(repository.memories.count == 2)
 
         clock.now = clock.now.addingTimeInterval(day)
-        try repository.deleteExpired()
+        try repository.purge()
         #expect(repository.memories == [wifi])
         #expect(try store.load() == [wifi])
         await repository.indexingTask?.value
