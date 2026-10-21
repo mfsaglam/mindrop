@@ -56,12 +56,14 @@ func makeRepository(
     store: InMemoryMemoryStore? = nil,
     indexer: SpotlightIndexerSpy = SpotlightIndexerSpy(),
     syncState: InMemorySpotlightSyncStateStore = InMemorySpotlightSyncStateStore(),
+    categorizer: (any MemoryCategorizing)? = nil,
     now: @escaping @Sendable () -> Date = { Date(timeIntervalSince1970: 1_000) }
 ) throws -> (MemoryRepository, InMemoryMemoryStore, SpotlightIndexerSpy) {
     let store = store ?? InMemoryMemoryStore(memories)
     let repository = MemoryRepository(
         store: store,
         synchronizer: SpotlightSynchronizer(indexer: indexer, stateStore: syncState),
+        categorizer: categorizer,
         now: now
     )
     try repository.load()
@@ -99,5 +101,33 @@ final class TestClock: @unchecked Sendable {
 
     var reading: @Sendable () -> Date {
         { [self] in now }
+    }
+}
+
+/// Answers from a keyword → category table, and records what it was asked.
+final class CategorizerStub: MemoryCategorizing, @unchecked Sendable {
+    private let lock = NSLock()
+    private var answers: [String: MemoryCategory]
+    private var _requests: [String] = []
+
+    let version: Int
+
+    init(_ answers: [String: MemoryCategory] = [:], version: Int = 1) {
+        self.answers = answers
+        self.version = version
+    }
+
+    /// Keywords asked about, in order.
+    var requests: [String] { lock.withLock { _requests } }
+
+    func answer(_ keyword: String, with category: MemoryCategory?) {
+        lock.withLock { answers[keyword] = category }
+    }
+
+    func category(for memory: Memory) async -> MemoryCategory? {
+        lock.withLock {
+            _requests.append(memory.keyword)
+            return answers[memory.keyword]
+        }
     }
 }

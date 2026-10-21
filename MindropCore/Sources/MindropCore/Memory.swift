@@ -1,19 +1,29 @@
 import Foundation
 
-/// A single keyword → value pair. This is the entire data model of Mindrop.
+/// A single keyword → value pair, optionally filed under a category.
 public struct Memory: Identifiable, Codable, Sendable, Hashable {
     public let id: UUID
     public var keyword: String
     public var value: String
     public var createdAt: Date
     public var updatedAt: Date
+    /// Optional, so files written before categories existed still decode.
+    public var category: CategoryAssignment?
 
-    public init(id: UUID = UUID(), keyword: String, value: String, createdAt: Date, updatedAt: Date) {
+    public init(
+        id: UUID = UUID(),
+        keyword: String,
+        value: String,
+        createdAt: Date,
+        updatedAt: Date,
+        category: CategoryAssignment? = nil
+    ) {
         self.id = id
         self.keyword = keyword
         self.value = value
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.category = category
     }
 }
 
@@ -54,6 +64,9 @@ public extension Memory {
     }
 
     /// Returns a copy with validated new fields, or the receiver unchanged if nothing differs.
+    ///
+    /// An automatic category is dropped, since it described the old text; the memory is
+    /// then categorised again. A category the user picked is kept.
     func updating(keyword: String, value: String, now: Date) throws -> Memory {
         let fields = try MemoryNormalizer.validate(keyword: keyword, value: value)
         guard fields.keyword != self.keyword || fields.value != self.value else { return self }
@@ -61,7 +74,15 @@ public extension Memory {
         copy.keyword = fields.keyword
         copy.value = fields.value
         copy.updatedAt = now
+        if copy.category?.source == .automatic { copy.category = nil }
         return copy
+    }
+
+    /// Whether the categorizer should look at this memory: it has no category, or an
+    /// automatic one from an older categorizer. A manual choice is final.
+    func needsCategory(categorizerVersion: Int) -> Bool {
+        guard let category else { return true }
+        return category.source == .automatic && category.version != categorizerVersion
     }
 
     /// In-app filtering. Matches on keyword and value, case- and diacritic-insensitively.

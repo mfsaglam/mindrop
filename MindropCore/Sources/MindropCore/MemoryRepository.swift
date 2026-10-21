@@ -14,28 +14,43 @@ public final class MemoryRepository {
     /// outlive it — and tests — can wait for Spotlight to settle.
     public private(set) var indexingTask: Task<Void, Never>?
 
+    /// The categorisation pass in progress, if any. Exposed for the same reason as
+    /// `indexingTask`.
+    public private(set) var categorizationTask: Task<Void, Never>?
+
     private let store: MemoryStore
     private let synchronizer: SpotlightSynchronizer
+    private let categorizer: (any MemoryCategorizing)?
     private let now: @Sendable () -> Date
+
+    /// Text the categorizer already declined this run, so a memory it cannot place is
+    /// not sent again on every foregrounding. Keyed by content: an edit earns a retry.
+    private var declinedCategorizations: Set<CategorizationKey> = []
+    private var needsAnotherCategorizationPass = false
 
     public init(
         store: MemoryStore,
         synchronizer: SpotlightSynchronizer,
+        categorizer: (any MemoryCategorizing)? = nil,
         now: @escaping @Sendable () -> Date = { Date() }
     ) {
         self.store = store
         self.synchronizer = synchronizer
+        self.categorizer = categorizer
         self.now = now
     }
 
-    /// The real configuration, shared by the app and the share extension.
-    public static func live() throws -> MemoryRepository {
+    /// The real configuration, shared by the app and the share extension. The extension
+    /// passes no categorizer: it is torn down too quickly, and the app catches up on
+    /// whatever it saved the next time it comes to the foreground.
+    public static func live(categorizer: (any MemoryCategorizing)? = nil) throws -> MemoryRepository {
         MemoryRepository(
             store: try FileMemoryStore.shared(),
             synchronizer: SpotlightSynchronizer(
                 indexer: CoreSpotlightIndexer(),
                 stateStore: try FileSpotlightSyncStateStore.shared()
-            )
+            ),
+            categorizer: categorizer
         )
     }
 
@@ -55,15 +70,24 @@ public final class MemoryRepository {
         memories.first { $0.id == id }
     }
 
-    /// In-app filtering, newest first. An empty query returns everything.
-    public func results(for query: String) -> [Memory] {
-        memories.filter { $0.matches(query: query) }
+    /// In-app filtering, newest first. An empty query and no category return everything.
+    public func results(for query: String, in category: MemoryCategory? = nil) -> [Memory] {
+        memories.filter { memory in
+            (category == nil || memory.category?.category == category) && memory.matches(query: query)
+        }
+    }
+
+    /// The categories at least one memory is in, in declaration order — what a filter offers.
+    public var categoriesInUse: [MemoryCategory] {
+        let used = Set(memories.compactMap(\.category?.category))
+        return MemoryCategory.allCases.filter(used.contains)
     }
 
     @discardableResult
     public func create(keyword: String, value: String) throws -> Memory {
         let memory = try insert(keyword: keyword, value: value)
         indexInBackground([memory])
+        categorizePending()
         return memory
     }
 
@@ -97,7 +121,80 @@ public final class MemoryRepository {
         updated[position] = edited
         try commit(updated)
         indexInBackground([edited])
+        categorizePending()
         return edited
+    }
+
+    /// Files a memory under a category the user picked, or with `nil` hands it back to
+    /// the categorizer. Not an edit: the memory keeps its place in the list, and Spotlight
+    /// is not touched because categories are not indexed.
+    public func setCategory(_ category: MemoryCategory?, for memory: Memory) throws {
+        var stored = try store.load()
+        guard let position = stored.firstIndex(where: { $0.id == memory.id }) else { return }
+        stored[position].category = category.map { CategoryAssignment(category: $0, source: .manual) }
+        try commit(stored)
+        if category == nil {
+            declinedCategorizations.remove(CategorizationKey(stored[position]))
+            categorizePending()
+        }
+    }
+
+    /// Drops every automatic category and categorises everything again. Manual choices
+    /// stay. For trying out a changed prompt without bumping the categorizer version.
+    public func resetAutomaticCategories() throws {
+        var stored = try store.load()
+        for position in stored.indices where stored[position].category?.source == .automatic {
+            stored[position].category = nil
+        }
+        try commit(stored)
+        declinedCategorizations.removeAll()
+        categorizePending()
+    }
+
+    /// Categorises every memory that has no category yet, or one from an older categorizer. Cheap to call often: it does
+    /// nothing without a categorizer, and coalesces with a pass already running.
+    public func categorizePending() {
+        guard let categorizer else { return }
+        guard categorizationTask == nil else {
+            needsAnotherCategorizationPass = true
+            return
+        }
+        categorizationTask = Task {
+            await categorizeUntilSettled(using: categorizer)
+            categorizationTask = nil
+        }
+    }
+
+    private func categorizeUntilSettled(using categorizer: any MemoryCategorizing) async {
+        repeat {
+            needsAnotherCategorizationPass = false
+            let pending = memories.filter {
+                $0.needsCategory(categorizerVersion: categorizer.version)
+                    && !declinedCategorizations.contains(CategorizationKey($0))
+            }
+            for memory in pending {
+                if let category = await categorizer.category(for: memory) {
+                    // Nothing to do if this fails: the memory stays uncategorised and the
+                    // next pass tries again.
+                    try? apply(category, version: categorizer.version, to: memory)
+                } else {
+                    declinedCategorizations.insert(CategorizationKey(memory))
+                }
+            }
+        } while needsAnotherCategorizationPass
+    }
+
+    /// Stores an automatic category, unless the memory changed while the model was
+    /// thinking. Reads storage first so it cannot overwrite what the share extension
+    /// saved in the meantime.
+    private func apply(_ category: MemoryCategory, version: Int, to original: Memory) throws {
+        var stored = try store.load()
+        guard let position = stored.firstIndex(where: { $0.id == original.id }),
+              CategorizationKey(stored[position]) == CategorizationKey(original),
+              stored[position].needsCategory(categorizerVersion: version)
+        else { return }
+        stored[position].category = CategoryAssignment(category: category, source: .automatic, version: version)
+        try commit(stored)
     }
 
     public func delete(ids: [UUID]) throws {
@@ -117,6 +214,18 @@ public final class MemoryRepository {
     private func indexInBackground(_ memories: [Memory]) {
         let synchronizer = synchronizer
         indexingTask = Task { await synchronizer.index(memories) }
+    }
+
+    private struct CategorizationKey: Hashable {
+        let id: UUID
+        let keyword: String
+        let value: String
+
+        init(_ memory: Memory) {
+            id = memory.id
+            keyword = memory.keyword
+            value = memory.value
+        }
     }
 
     private static func isOrderedBefore(_ lhs: Memory, _ rhs: Memory) -> Bool {

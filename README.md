@@ -12,6 +12,7 @@ Mindrop/
 ├── MindropCore/                 Swift package shared by the app and the extension
 │   └── Sources/MindropCore/
 │       ├── Memory.swift              model, validation, normalisation
+│       ├── MemoryCategory.swift      the fixed categories, and the categorizer protocol
 │       ├── MemoryRepository.swift    the single owner of memories
 │       ├── MemoryStore.swift         JSON persistence in the App Group
 │       ├── CoordinatedFile.swift     cross-process safe file access
@@ -26,7 +27,7 @@ Mindrop/
 │       └── SaveToMindropViewController.swift
 ├── Mindrop/                     app target (iOS 26+)
 │   ├── App/                          MindropApp, RootView, session and routing
-│   ├── Features/                     MemoryList, MemoryDetail, MemoryEditor
+│   ├── Features/                     MemoryList, MemoryDetail, MemoryEditor, Categories, Settings
 │   └── Resources/Assets.xcassets     app icon, accent colour
 ├── MindropShare/                share extension — the share sheet's app row
 ├── MindropAction/               action extension — the share sheet's action row
@@ -257,10 +258,60 @@ in the project.
 These translations have not been reviewed by native speakers. The strings are short and
 conventional, but Arabic, Hindi and Korean deserve a pass before release.
 
+## Categories
+
+Each memory is filed under one of a fixed set of categories (`MemoryCategory`) by the
+on-device Apple Intelligence model, through the Foundation Models framework. The list is in
+sections by category (uncategorised last), or, with *Group by Category* off in Settings, one
+list newest first with each category's symbol. A filter menu narrows either. The detail
+screen shows the category and lets the user pick another, or hand it back with *Automatic*.
+Until anything is categorised the list stays flat, so without Apple Intelligence it looks as
+it always did.
+
+- **Fixed, not free-form.** A model naming categories freely produces "Wi-Fi", "WiFi
+  Password" and "Network" for the same thing, which defeats a filter and cannot be
+  translated. The reply is checked against the raw values.
+- **Built from real misses.** Version 1 filed a child's social security number under
+  *vehicles* (the child is called Atlas), another under *codes*, blood types and birthdays
+  under *other*, a credit card under *codes*, and a coffee machine's descale button pattern
+  under *codes*. Version 2 adds *Family & People* and *Home & Devices*, and the prompt says
+  outright that a leading name is whose note it is, never what it is, and that being made of
+  digits does not make something a code. On a 33-entry set built from those misses: 21/33
+  for version 1, 33/33 for version 2. That set shaped the prompt, so expect less on real data.
+- **Permissive guardrails.** The default guardrails refuse card numbers, passports,
+  allergies and birthdays as "may contain sensitive content" — the very things people keep
+  here. `.permissiveContentTransformations` lets them through, but allows only a plain text
+  reply, not guided generation, so the model answers with one word and
+  `AppleIntelligenceCategorizer.parse` maps it back: a category name, or failing that the
+  category whose description the reply quotes (it often says "access" for a door code).
+- **Rules before the model.** A bare `http(s)` value is a link and a Luhn-valid card number
+  is banking (`MemoryCategory.evident(fromValue:)`); the model is not asked.
+- **The general model, not the `.contentTagging` adapter**, which filed lockers, bike locks
+  and links under *other*. Asking the model to describe the value before choosing ("think
+  first") scored no better, so it was dropped.
+- **Versioned.** `AppleIntelligenceCategorizer.version` is stored with each automatic
+  category; bumping it redoes every automatic category on the next launch. Manual ones stay.
+- **Automatic vs manual.** An automatic category is dropped when the keyword or value is
+  edited, and the memory is categorised again. A category the user picked is never
+  overwritten. Changing a category does not move the memory up the list or touch Spotlight.
+- **The app does it, not the extensions.** The share and action extensions are torn down
+  too quickly to wait for the model; the app categorises whatever they saved the next time
+  it comes to the foreground.
+- **Without Apple Intelligence** — an older iPhone, the feature turned off, the model still
+  downloading — memories stay uncategorised and the filter menu does not appear, so the app
+  looks as it did. Categories can still be set by hand.
+- **Speed.** About 16 seconds per memory on the simulator, one at a time in the
+  background. Not yet measured on a device.
+- **Debug log.** Debug builds add *Apple Intelligence Log* to Settings: every request this launch,
+  grouped by memory with a request count, each with its prompt, raw reply, outcome and
+  duration, plus *Recategorise All* for trying a prompt change. It lives in memory only and
+  is compiled out of Release builds, since it holds keywords and values.
+
 ## Privacy
 
-Values are treated as arbitrary text: no classification, no detection, no per-record
-protection, nothing leaves the device. Storage lives in the App Group container with file
+Values are treated as arbitrary text: no detection, no per-record protection, nothing leaves
+the device. Categorisation sends the keyword and the first 200 characters of the value to
+the on-device model only; Apple Intelligence's on-device model does not use the network. Storage lives in the App Group container with file
 protection `completeUnlessOpen`. Nothing logs keywords or values — the Spotlight logger
 records counts only. Both editors state plainly that saved values can appear in Spotlight,
 where anyone using the iPhone may see them. Device lock is not a guarantee that Spotlight
@@ -268,10 +319,10 @@ metadata stays private.
 
 ## Tests
 
-38 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
+61 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
 and value validation, value preservation, file persistence across processes, Spotlight
 metadata, index recovery after failures, routing by UUID, missing memories, and share
-extension input. The repository exposes `indexingTask` so tests await indexing instead of
+extension input, and categorisation (automatic and manual, stale results, edits). The repository exposes `indexingTask` so tests await indexing instead of
 guessing at timing.
 
 What the unit tests cannot cover, and what therefore needs the checklist above: whether iOS

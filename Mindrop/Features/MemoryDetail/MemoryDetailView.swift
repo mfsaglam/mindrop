@@ -9,6 +9,7 @@ struct MemoryDetailView: View {
     @State private var isEditing = false
     @State private var didCopy = false
     @State private var copyCount = 0
+    @State private var categoryError: String?
 
     private var memory: Memory? {
         repository.memory(id: memoryID)
@@ -33,6 +34,8 @@ struct MemoryDetailView: View {
                 Text(memory.keyword)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
+
+                categoryMenu(for: memory)
 
                 Button {
                     copy(memory.value)
@@ -78,6 +81,51 @@ struct MemoryDetailView: View {
             MemoryEditorView(mode: .edit(memory), repository: repository)
         }
         .sensoryFeedback(.success, trigger: copyCount)
+        .alert("Couldn’t save", isPresented: .constant(categoryError != nil)) {
+            Button("OK") { categoryError = nil }
+        } message: {
+            Text(categoryError ?? "")
+        }
+    }
+
+    /// Shows the category and lets the user overrule it. "Automatic" hands the choice
+    /// back to Apple Intelligence.
+    private func categoryMenu(for memory: Memory) -> some View {
+        Menu {
+            Picker("Category", selection: categoryBinding(for: memory)) {
+                Label("Automatic", systemImage: "sparkles").tag(MemoryCategory?.none)
+                ForEach(MemoryCategory.allCases, id: \.self) { category in
+                    category.label.tag(Optional(category))
+                }
+            }
+        } label: {
+            Group {
+                if let category = memory.category?.category {
+                    category.label
+                } else {
+                    Label("No Category", systemImage: "tag")
+                }
+            }
+            .font(.footnote.weight(.medium))
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(.tint.opacity(0.12), in: .capsule)
+        }
+        .accessibilityLabel("Category")
+    }
+
+    /// What the picker shows as chosen: only a manual pick, so "Automatic" stays ticked
+    /// while Apple Intelligence decides.
+    private func categoryBinding(for memory: Memory) -> Binding<MemoryCategory?> {
+        Binding {
+            memory.category?.source == .manual ? memory.category?.category : nil
+        } set: { category in
+            do {
+                try repository.setCategory(category, for: memory)
+            } catch {
+                categoryError = String(describing: error)
+            }
+        }
     }
 
     private func copy(_ value: String) {
