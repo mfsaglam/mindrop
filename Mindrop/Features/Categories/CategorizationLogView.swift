@@ -25,7 +25,11 @@ struct CategorizationLogView: View {
                     Section {
                         ForEach(group.entries) { entry in
                             NavigationLink {
-                                EntryDetailView(entry: entry)
+                                // Also for requests made before the memory was marked sensitive.
+                                EntryDetailView(
+                                    entry: entry,
+                                    hidesPrompt: repository.memory(id: group.memoryID)?.isSensitive == true
+                                )
                             } label: {
                                 EntryRow(entry: entry)
                             }
@@ -136,6 +140,7 @@ private struct OutcomeLabel: View {
 
 private struct EntryDetailView: View {
     let entry: CategorizationLog.Entry
+    let hidesPrompt: Bool
 
     var body: some View {
         List {
@@ -148,7 +153,7 @@ private struct EntryDetailView: View {
                     Text(verbatim: "Duration")
                 }
             }
-            Section { block(entry.prompt) } header: { Text(verbatim: "Prompt") }
+            Section { block(hidesPrompt ? "(hidden: sensitive)" : entry.prompt) } header: { Text(verbatim: "Prompt") }
             Section { block(entry.response ?? "—") } header: { Text(verbatim: "Raw reply") }
             switch entry.outcome {
             case .failed(let message), .unavailable(let message):

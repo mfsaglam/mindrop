@@ -10,6 +10,7 @@ struct MemoryDetailView: View {
     @State private var didCopy = false
     @State private var copyCount = 0
     @State private var categoryError: String?
+    @Environment(\.sensitiveAccess) private var sensitiveAccess
 
     private var memory: Memory? {
         repository.memory(id: memoryID)
@@ -31,28 +32,53 @@ struct MemoryDetailView: View {
     private func content(for memory: Memory) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
-                Text(memory.keyword)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                HStack(spacing: 4) {
+                    Text(memory.keyword)
+                    if memory.isSensitive {
+                        SensitiveBadge()
+                    }
+                }
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
 
                 categoryMenu(for: memory)
 
                 expiry(for: memory)
 
-                // Shown laid out, copied exactly as saved.
-                Button {
-                    copy(memory.value)
-                } label: {
-                    MemoryValueView(value: memory.value)
-                        .foregroundStyle(.primary)
-                        .multilineTextAlignment(.leading)
+                if sensitiveAccess.canShow(memory) {
+                    // Shown laid out, copied exactly as saved.
+                    Button {
+                        copy(memory.value)
+                    } label: {
+                        MemoryValueView(value: memory.value)
+                            .foregroundStyle(.primary)
+                            .multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .contentShape(.rect)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Value")
+                    .accessibilityValue(memory.value)
+                    .accessibilityHint("Double tap to copy to the clipboard")
+                } else {
+                    // Unlocking only reveals: copying is a second, deliberate tap.
+                    Button {
+                        Task { await sensitiveAccess.unlock() }
+                    } label: {
+                        VStack(alignment: .leading, spacing: 12) {
+                            HiddenValue()
+                                .font(.largeTitle)
+                                .foregroundStyle(.secondary)
+                            Label("Show Value", systemImage: "lock.open")
+                                .font(.body.weight(.medium))
+                                .foregroundStyle(.tint)
+                        }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .contentShape(.rect)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Show Value")
                 }
-                .buttonStyle(.plain)
-                .accessibilityLabel("Value")
-                .accessibilityValue(memory.value)
-                .accessibilityHint("Double tap to copy to the clipboard")
 
                 // The blank placeholder keeps the layout from jumping, and must not
                 // be looked up for translation.
@@ -67,7 +93,8 @@ struct MemoryDetailView: View {
                 .foregroundStyle(.secondary)
                 .accessibilityHidden(!didCopy)
 
-                if memory.category?.category == .network, let credentials = WiFiCredentials(value: memory.value) {
+                if memory.category?.category == .network, sensitiveAccess.canShow(memory),
+                   let credentials = WiFiCredentials(value: memory.value) {
                     WiFiQRCodeView(credentials: credentials)
                         .padding(.top, 8)
                 }
@@ -80,11 +107,22 @@ struct MemoryDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button("Edit", systemImage: "pencil") { isEditing = true }
+                // The editor shows the value, so a hidden one is unlocked first.
+                Button("Edit", systemImage: "pencil") {
+                    if memory.isSensitive {
+                        Task { isEditing = await sensitiveAccess.unlock() }
+                    } else {
+                        isEditing = true
+                    }
+                }
             }
         }
         .sheet(isPresented: $isEditing) {
             MemoryEditorView(mode: .edit(memory), repository: repository)
+        }
+        // Opening a sensitive memory, from the list or from Spotlight, is asking to see it.
+        .task(id: memoryID) {
+            if memory.isSensitive { await sensitiveAccess.unlock() }
         }
         .sensoryFeedback(.success, trigger: copyCount)
         .alert("Couldn’t save", isPresented: .constant(categoryError != nil)) {

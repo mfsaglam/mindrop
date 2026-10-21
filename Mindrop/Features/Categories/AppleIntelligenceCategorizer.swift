@@ -63,10 +63,14 @@ nonisolated struct AppleIntelligenceCategorizer: MemoryCategorizing {
             Keyword: \(memory.keyword)
             Value: \(memory.value.prefix(Self.valuePrefixLength))
             """
+        // The debug screen asks for no Face ID, so a sensitive value is never written to it.
+        let loggedPrompt = memory.isSensitive
+            ? "Keyword: \(memory.keyword)\nValue: (hidden: sensitive)"
+            : prompt
         func record(_ outcome: CategorizationLog.Outcome, response: String? = nil) async {
             await log?.record(.init(
                 memoryID: memory.id, keyword: memory.keyword, date: started,
-                duration: Date().timeIntervalSince(started), prompt: prompt,
+                duration: Date().timeIntervalSince(started), prompt: loggedPrompt,
                 response: response, outcome: outcome
             ))
         }

@@ -20,6 +20,7 @@ struct MemoryEditorView: View {
     @State private var value: String
     @State private var lifetime: MemoryLifetime.Option
     @State private var untilDate: Date
+    @State private var isSensitive: Bool
     @State private var saveError: String?
     @FocusState private var isKeywordFocused: Bool
 
@@ -36,6 +37,7 @@ struct MemoryEditorView: View {
         }
         // An existing expiry shows as its date, so saving a text edit leaves it exactly
         // where it was.
+        _isSensitive = State(initialValue: mode.memory?.isSensitive ?? false)
         let expiresAt = mode.memory?.expiresAt
         _lifetime = State(initialValue: expiresAt == nil ? .forever : .date)
         _untilDate = State(initialValue: expiresAt ?? .now.addingTimeInterval(7 * 24 * 60 * 60))
@@ -56,9 +58,8 @@ struct MemoryEditorView: View {
                     TextField("Value", text: $value, axis: .vertical)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
-                } footer: {
-                    Text("Saved values can show up directly in Spotlight search results, where anyone using this iPhone may see them.")
                 }
+                SensitiveSection(isSensitive: $isSensitive)
                 MemoryLifetimeSection(
                     option: $lifetime,
                     date: $untilDate,
@@ -102,9 +103,15 @@ struct MemoryEditorView: View {
             let expiresAt = MemoryLifetime(lifetime, until: untilDate).expiry(from: .now)
             switch mode {
             case .create:
-                try repository.create(keyword: keyword, value: value, expiresAt: expiresAt)
+                try repository.create(keyword: keyword, value: value, expiresAt: expiresAt, isSensitive: isSensitive)
             case .edit(let memory):
-                try repository.update(memory, keyword: keyword, value: value, expiresAt: expiresAt)
+                try repository.update(
+                    memory,
+                    keyword: keyword,
+                    value: value,
+                    expiresAt: expiresAt,
+                    isSensitive: isSensitive
+                )
             }
             dismiss()
         } catch {

@@ -3,7 +3,8 @@ import MindropCore
 import Observation
 
 /// Every categorisation request this launch, for the debug screen. Kept in memory only
-/// and never in Release builds: it holds keywords and the start of each value.
+/// and never in Release builds: it holds keywords and the start of each value, except
+/// for sensitive memories, whose value is left out.
 @MainActor
 @Observable
 final class CategorizationLog {

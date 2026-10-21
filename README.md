@@ -188,6 +188,8 @@ Run these on a real iPhone, which is the only authoritative environment:
 7. Share text from Safari → Mindrop → save with a keyword → search it in Spotlight **without
    opening the app**. Then repeat from the action row, and once more by sharing a page so the
    link arrives as the value.
+8. Turn on Sensitive for a memory, search its keyword → the result reads `keyword · 🔒`, with
+   no value. Tap it → Mindrop opens it and asks for Face ID.
 
 Still open: whether the keyword previously failed because Spotlight never matched the
 metadata, or because it matched and the result ranked below the system's own hits for a
@@ -278,6 +280,37 @@ Forever (the default), 1 Day, 1 Week, 1 Month, or Until a Date — shared as
 Verified on the simulator: the Keep picker, saving with 1 Week (stored expiry exactly a
 week later), the timer on rows, the Expired section, and Recover. Spotlight dropping the
 item at expiry needs a device, since the simulator's Spotlight drops all third-party items.
+
+## Sensitive memories
+
+Some values should not be readable by whoever picks up an unlocked iPhone and types a word
+into Spotlight: an ID number, a card, a PIN. The editor and the share sheet's save form both
+have a **Sensitive** switch (`SensitiveSection` in `MindropSaveUI`). It is off by default and
+only the user turns it on or off; nothing turns it on by itself, whatever the category.
+
+- **Spotlight never receives the value.** A sensitive memory is indexed as
+  `"atlas ssn · 🔒"`: the keyword stays in `displayName`, the only field Spotlight matches, so
+  it is still found, and tapping the result opens Mindrop. Spotlight itself cannot ask for
+  Face ID, so leaving the value out is the only way to hide it there.
+- **In the app the value is dots until unlocked**, in the list and on the detail screen.
+  Opening a sensitive memory asks for Face ID (or Touch ID, or the passcode) straight away;
+  cancelling leaves a **Show Value** button. Copying is a second tap after unlocking, and the
+  Wi-Fi QR code is hidden too. Edit asks first, because the editor shows the value.
+- **One unlock covers every sensitive memory until Mindrop goes to the background**
+  (`SensitiveAccess`), the way locked notes stay open while you work with them. Not on
+  merely becoming inactive: the Face ID prompt itself does that.
+- **In-app search matches a sensitive memory's keyword only**, so typing part of a hidden
+  value does not reveal which memory holds it.
+- **An iPhone without a passcode shows the value**: there is nothing for iOS to ask for, and
+  the phone is open to anyone anyway.
+- Changing only the switch is not an edit: the memory keeps its place and its category, and
+  is reindexed. Older files decode as not sensitive. Index format version 9 reindexes
+  everything once, so existing items pick up the new format.
+
+Verified on the simulator: the switch and its footer, saving, dots and the lock in the list,
+the Face ID prompt on opening (with simulated enrolment and a matching face), the value after
+unlocking, and dots again after going Home and coming back. The Spotlight line itself needs a
+device, since the simulator's Spotlight drops all third-party items.
 
 ## New Memory from anywhere
 
@@ -392,21 +425,23 @@ it always did.
 
 ## Privacy
 
-Values are treated as arbitrary text: no detection, no per-record protection, nothing leaves
-the device. Categorisation sends the keyword and the first 200 characters of the value to
+Values are treated as arbitrary text and nothing leaves the device. A memory the user marks
+as sensitive is kept out of Spotlight and hidden in the app until Face ID or the passcode
+(see *Sensitive memories*); its value is stored like any other. Categorisation sends the keyword and the first 200 characters of the value to
 the on-device model only; Apple Intelligence's on-device model does not use the network. Storage lives in the App Group container with file
 protection `completeUnlessOpen`. Nothing logs keywords or values — the Spotlight logger
 records counts only. Both editors state plainly that saved values can appear in Spotlight,
-where anyone using the iPhone may see them. Device lock is not a guarantee that Spotlight
+where anyone using the iPhone may see them, under the switch that prevents it. Device lock is not a guarantee that Spotlight
 metadata stays private.
 
 ## Tests
 
-75 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
+82 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
 and value validation, value preservation, file persistence across processes, Spotlight
 metadata, index recovery after failures, routing by UUID, missing memories, and share
 extension input, categorisation (automatic and manual, stale results, edits), and temporary
-memories (lifetimes, expiry, recovery, deletion after 7 days), and how a value is laid out
+memories (lifetimes, expiry, recovery, deletion after 7 days), sensitive memories (what
+Spotlight receives, search, the switch, older files), and how a value is laid out
 (card numbers, IBANs, recovery phrases, Wi-Fi labels). The repository exposes `indexingTask` so tests await indexing instead of
 guessing at timing.
 

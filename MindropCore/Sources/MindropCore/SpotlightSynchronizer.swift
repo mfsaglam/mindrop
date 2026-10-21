@@ -14,7 +14,9 @@ public final class SpotlightSynchronizer {
     /// 4: the keyword is back in `displayName`, which is the field that actually matches.
     /// 5: keyword moved to `textContent`, to find out whether that field matches too.
     /// 6: it does not — back to the keyword in `displayName`, the only matched field.
-    public static let currentIndexFormatVersion = 6
+    /// 9: sensitive memories show the keyword and a lock instead of the value. (7 and 8
+    /// were used by discarded experiments, and may still be stored on test devices.)
+    public static let currentIndexFormatVersion = 9
 
     private let indexer: SpotlightIndexing
     private let stateStore: SpotlightSyncStateStore

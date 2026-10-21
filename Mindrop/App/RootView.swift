@@ -25,12 +25,15 @@ struct RootView: View {
                 }
             }
         }
+        .environment(\.sensitiveAccess, session.sensitiveAccess)
         .task { await session.start() }
         .onContinueUserActivity(SpotlightRouter.activityType) { activity in
             session.open(activity: activity)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { session.refresh() }
+            // Not on `.inactive`: the Face ID prompt itself makes the app inactive.
+            if phase == .background { session.sensitiveAccess.lock() }
         }
     }
 }

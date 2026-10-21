@@ -226,6 +226,8 @@ private struct MemoryRow: View {
     let memory: Memory
     let showsCategory: Bool
 
+    @Environment(\.sensitiveAccess) private var sensitiveAccess
+
     var body: some View {
         HStack(spacing: 12) {
             // Always present in the flat list, so rows line up whether or not they are
@@ -245,12 +247,23 @@ private struct MemoryRow: View {
             }
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(memory.keyword)
-                    .font(.headline)
-                Text(memory.value)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
+                HStack(spacing: 4) {
+                    Text(memory.keyword)
+                    if memory.isSensitive {
+                        SensitiveBadge()
+                    }
+                }
+                .font(.headline)
+                Group {
+                    if sensitiveAccess.canShow(memory) {
+                        Text(memory.value)
+                    } else {
+                        HiddenValue()
+                    }
+                }
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
                 if let expiry = ExpiryText(memory: memory) {
                     expiry
                         .font(.caption)

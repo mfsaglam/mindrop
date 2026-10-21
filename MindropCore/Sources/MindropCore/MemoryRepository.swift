@@ -98,8 +98,8 @@ public final class MemoryRepository {
     }
 
     @discardableResult
-    public func create(keyword: String, value: String, expiresAt: Date? = nil) throws -> Memory {
-        let memory = try insert(keyword: keyword, value: value, expiresAt: expiresAt)
+    public func create(keyword: String, value: String, expiresAt: Date? = nil, isSensitive: Bool = false) throws -> Memory {
+        let memory = try insert(keyword: keyword, value: value, expiresAt: expiresAt, isSensitive: isSensitive)
         indexInBackground([memory])
         categorizePending()
         return memory
@@ -110,30 +110,53 @@ public final class MemoryRepository {
     /// The share extension is torn down as soon as it completes its request, so it
     /// cannot leave indexing running in the background the way the app can.
     @discardableResult
-    public func createAwaitingIndex(keyword: String, value: String, expiresAt: Date? = nil) async throws -> Memory {
-        let memory = try insert(keyword: keyword, value: value, expiresAt: expiresAt)
+    public func createAwaitingIndex(
+        keyword: String,
+        value: String,
+        expiresAt: Date? = nil,
+        isSensitive: Bool = false
+    ) async throws -> Memory {
+        let memory = try insert(keyword: keyword, value: value, expiresAt: expiresAt, isSensitive: isSensitive)
         await synchronizer.index([memory])
         return memory
     }
 
-    private func insert(keyword: String, value: String, expiresAt: Date?) throws -> Memory {
-        let memory = try Memory.make(keyword: keyword, value: value, now: now(), expiresAt: expiresAt)
+    private func insert(keyword: String, value: String, expiresAt: Date?, isSensitive: Bool) throws -> Memory {
+        let memory = try Memory.make(
+            keyword: keyword,
+            value: value,
+            now: now(),
+            expiresAt: expiresAt,
+            isSensitive: isSensitive
+        )
         var updated = memories
         updated.append(memory)
         try commit(updated)
         return memory
     }
 
-    /// Saves an edit of the text, keeping the memory's expiry.
+    /// Saves an edit of the text, keeping the memory's expiry and sensitivity.
     @discardableResult
     public func update(_ memory: Memory, keyword: String, value: String) throws -> Memory {
-        try update(memory, keyword: keyword, value: value, expiresAt: memory.expiresAt)
+        try update(memory, keyword: keyword, value: value, expiresAt: memory.expiresAt, isSensitive: memory.isSensitive)
     }
 
     /// Saves an edit. Returns the stored memory, unchanged if nothing differed.
     @discardableResult
-    public func update(_ memory: Memory, keyword: String, value: String, expiresAt: Date?) throws -> Memory {
-        let edited = try memory.updating(keyword: keyword, value: value, expiresAt: expiresAt, now: now())
+    public func update(
+        _ memory: Memory,
+        keyword: String,
+        value: String,
+        expiresAt: Date?,
+        isSensitive: Bool
+    ) throws -> Memory {
+        let edited = try memory.updating(
+            keyword: keyword,
+            value: value,
+            expiresAt: expiresAt,
+            isSensitive: isSensitive,
+            now: now()
+        )
         guard edited != memory, let position = memories.firstIndex(where: { $0.id == memory.id }) else {
             return memory
         }
@@ -222,7 +245,26 @@ public final class MemoryRepository {
     /// because Spotlight drops an item at its expiry.
     public func setExpiry(_ expiresAt: Date?, for memory: Memory) throws {
         guard let current = self.memory(id: memory.id) else { return }
-        try update(current, keyword: current.keyword, value: current.value, expiresAt: expiresAt)
+        try update(
+            current,
+            keyword: current.keyword,
+            value: current.value,
+            expiresAt: expiresAt,
+            isSensitive: current.isSensitive
+        )
+    }
+
+    /// Hides a memory's value from Spotlight, or shows it there again. Reindexed, since
+    /// that is the whole point; not an edit, so the memory keeps its place in the list.
+    public func setSensitive(_ isSensitive: Bool, for memory: Memory) throws {
+        guard let current = self.memory(id: memory.id) else { return }
+        try update(
+            current,
+            keyword: current.keyword,
+            value: current.value,
+            expiresAt: current.expiresAt,
+            isSensitive: isSensitive
+        )
     }
 
     /// Deletes for good every memory that expired more than

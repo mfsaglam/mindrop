@@ -1098,6 +1098,184 @@
         }
       }
     },
+    "Sensitive": {
+      "comment": "Switch that hides a memory's value from Spotlight and locks it in Mindrop.",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حساس"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vertraulich"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confidencial"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confidentiel"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "संवेदनशील"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riservato"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "機密"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "민감한 정보"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gevoelig"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confidencial"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Конфиденциально"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hassas"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "敏感"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "敏感"
+          }
+        }
+      }
+    },
+    "Spotlight shows only the keyword, and Mindrop hides the value until you unlock it.": {
+      "comment": "Footer under the Sensitive switch when it is on.",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعرض Spotlight الكلمة المفتاحية فقط، ويخفي Mindrop القيمة حتى تفتح قفلها."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotlight zeigt nur das Stichwort, und Mindrop blendet den Wert aus, bis du ihn entsperrst."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotlight solo muestra la palabra clave, y Mindrop oculta el valor hasta que lo desbloquees."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotlight n’affiche que le mot-clé, et Mindrop masque la valeur jusqu’à ce que vous la déverrouilliez."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotlight केवल कीवर्ड दिखाता है, और जब तक आप अनलॉक नहीं करते, Mindrop मान छिपाए रखता है।"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotlight mostra solo la parola chiave, e Mindrop nasconde il valore finché non lo sblocchi."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotlightにはキーワードだけが表示され、ロックを解除するまでMindropは値を隠します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotlight에는 키워드만 표시되고, 잠금을 해제할 때까지 Mindrop이 값을 숨깁니다."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotlight toont alleen het trefwoord, en Mindrop verbergt de waarde tot je die ontgrendelt."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Spotlight mostra apenas a palavra-chave, e o Mindrop oculta o valor até você desbloqueá-lo."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotlight показывает только ключевое слово, а Mindrop скрывает значение, пока вы его не разблокируете."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotlight yalnızca anahtar kelimeyi gösterir; Mindrop ise kilidini açana kadar değeri gizler."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotlight 只显示关键词，在你解锁之前，Mindrop 会隐藏值。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotlight 只會顯示關鍵字，在你解鎖之前，Mindrop 會隱藏值。"
+          }
+        }
+      }
+    },
     "Until": {
       "comment": "Label of the date picker for when a memory expires.",
       "localizations": {

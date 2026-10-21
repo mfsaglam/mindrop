@@ -15,6 +15,7 @@ public struct SaveToMindropView: View {
     @State private var value = ""
     @State private var lifetime = MemoryLifetime.Option.forever
     @State private var untilDate = Date.now.addingTimeInterval(7 * 24 * 60 * 60)
+    @State private var isSensitive = false
     @State private var isSaving = false
     @State private var errorMessage: String?
 
@@ -42,9 +43,8 @@ public struct SaveToMindropView: View {
                     TextField(text: $value, axis: .vertical) { localized("Value") }
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
-                } footer: {
-                    localized("Saved values can show up directly in Spotlight search results, where anyone using this iPhone may see them.")
                 }
+                SensitiveSection(isSensitive: $isSensitive)
                 MemoryLifetimeSection(option: $lifetime, date: $untilDate)
             }
             .navigationTitle(localized("Save to Mindrop"))
@@ -83,7 +83,12 @@ public struct SaveToMindropView: View {
             let repository = try MemoryRepository.live()
             try repository.load()
             let expiresAt = MemoryLifetime(lifetime, until: untilDate).expiry(from: .now)
-            try await repository.createAwaitingIndex(keyword: keyword, value: value, expiresAt: expiresAt)
+            try await repository.createAwaitingIndex(
+                keyword: keyword,
+                value: value,
+                expiresAt: expiresAt,
+                isSensitive: isSensitive
+            )
             onFinish()
         } catch {
             errorMessage = String(describing: error)

@@ -65,12 +65,17 @@ public enum SpotlightAttributesFactory {
     }
 
     /// The value always leads, so it stays the prominent text whatever else is shown.
+    /// A sensitive memory never hands its value to Spotlight: the keyword and a lock
+    /// stand in, so it is still found, and tapping it opens Mindrop, which asks to unlock.
     static func displayName(for memory: Memory) -> String {
-        switch keywordPlacement {
+        if memory.isSensitive { return "\(memory.keyword) · \(sensitivePlaceholder)" }
+        return switch keywordPlacement {
         case .displayedName: "\(memory.value) · \(memory.keyword)"
         case .bodyText, .hidden: memory.value
         }
     }
+
+    static let sensitivePlaceholder = "🔒"
 
     /// The keyword alone: repeating the value here would draw it twice.
     static func textContent(for memory: Memory) -> String? {

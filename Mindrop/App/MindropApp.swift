@@ -24,6 +24,7 @@ final class MindropSession {
 
     private(set) var phase: Phase = .loading
     var path: [UUID] = []
+    let sensitiveAccess = SensitiveAccess()
 
     /// What was asked of Apple Intelligence this launch. Debug builds only: it holds
     /// keywords and the start of each value.
