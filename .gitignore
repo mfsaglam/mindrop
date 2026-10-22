@@ -15,3 +15,9 @@ xcuserdata/
 .build/
 .swiftpm/
 Package.resolved
+
+## Design explorations: sketches, mock-ups and screenshots stay local.
+## The old icon's SVG and its licence stay tracked.
+/Design/*
+!/Design/lucide-brain.svg
+!/Design/LUCIDE-LICENSE.txt
