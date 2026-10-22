@@ -1,17 +1,20 @@
-// Renders the app icon from the original Lucide `brain` SVG geometry.
+// Renders Mindrop's app icon: the search field from the empty list's Spotlight guide, cut
+// into a square. The field's rounded left end is inside the icon and the rest runs off the
+// right edge; in it, the app's own search icon (Iconsax "search-normal", Linear) and a text
+// cursor waiting for a keyword. A grey panel behind, as in the guide.
 //
-// The SVG is parsed rather than redrawn, so the shipped icon is the Lucide path
-// data itself: white stroke, solid black background, centred, with generous space.
-// Lucide icons are ISC licensed — see Design/LUCIDE-LICENSE.txt.
+// Usage: swift Tools/RenderAppIcon.swift <output.png> [--template]
 //
-// Usage: swift Tools/RenderAppIcon.swift <input.svg> <output.png> [--template]
+// `--template` renders just the search icon and the cursor, on a transparent background and
+// larger in the frame, for the action extension: iOS draws an action extension's icon as a
+// mask of its alpha channel, so the app's icon would come out there as a filled square.
 //
-// `--template` renders the brain on a transparent background and larger in the frame.
-// iOS draws an action extension's icon as a mask of its alpha channel, so the app's
-// icon would come out there as a filled square.
+// The app icon is written without an alpha channel at all: App Store validation rejects a
+// large app icon that has one, even when every pixel is opaque.
 //
-// The app icon is written without an alpha channel at all: App Store validation
-// rejects a large app icon that has one, even when every pixel is opaque.
+// The search icon is Iconsax's (iconsax.io), free for apps without attribution. Its licence
+// does not allow a stock icon to become a registered trademark: if the icon is ever
+// registered, the magnifier should be redrawn first.
 
 import CoreGraphics
 import Foundation
@@ -19,7 +22,13 @@ import ImageIO
 import UniformTypeIdentifiers
 
 let canvas = 1024.0
-let viewBox = 24.0
+
+/// Iconsax "search-normal", Linear: a 24×24 artboard, stroked 1.5 wide with round ends.
+let searchIconPaths = [
+    "M11 20C15.9706 20 20 15.9706 20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20Z",
+    "M18.8978 20.4629C19.1822 22.1242 20.3546 22.4637 21.4838 21.2188C22.5159 20.0805 22.1195 18.9585 20.5969 18.7278C19.4713 18.5472 18.7052 19.3313 18.8978 20.4629Z",
+]
+let searchIconStroke = 1.5
 
 // MARK: - SVG path parsing
 
@@ -163,22 +172,16 @@ struct PathParser {
 // MARK: - Rendering
 
 let arguments = CommandLine.arguments
-guard (3...4).contains(arguments.count) else {
-    FileHandle.standardError.write(Data("usage: RenderAppIcon.swift <input.svg> <output.png> [--template]\n".utf8))
+guard (2...3).contains(arguments.count) else {
+    FileHandle.standardError.write(Data("usage: RenderAppIcon.swift <output.png> [--template]\n".utf8))
     exit(2)
 }
-let isTemplate = arguments.count == 4 && arguments[3] == "--template"
-/// Fraction of the canvas edge the 24×24 Lucide artboard spans. A template icon is
-/// drawn into a tighter frame, since iOS adds its own padding around it.
-let symbolScale = isTemplate ? 0.78 : 0.46
-let svg = try String(contentsOfFile: arguments[1], encoding: .utf8)
-let attribute = try Regex("d=\"([^\"]+)\"")
-let pathData = svg.matches(of: attribute).compactMap { $0[1].substring.map(String.init) }
-guard !pathData.isEmpty else { fatalError("No path data found in \(arguments[1])") }
+let isTemplate = arguments.count == 3 && arguments[2] == "--template"
+let sRGB = CGColorSpace(name: CGColorSpace.sRGB)!
 
-let strokeWidth = 2.0  // Lucide's own stroke-width, in artboard units.
-let scale = canvas * symbolScale / viewBox
-let offset = (canvas - viewBox * scale) / 2
+func color(_ red: Double, _ green: Double, _ blue: Double, _ alpha: Double = 1) -> CGColor {
+    CGColor(colorSpace: sRGB, components: [red / 255, green / 255, blue / 255, alpha])!
+}
 
 guard let context = CGContext(
     data: nil,
@@ -186,31 +189,93 @@ guard let context = CGContext(
     height: Int(canvas),
     bitsPerComponent: 8,
     bytesPerRow: 0,
-    space: CGColorSpace(name: CGColorSpace.sRGB)!,
+    space: sRGB,
     bitmapInfo: (isTemplate ? CGImageAlphaInfo.premultipliedLast : .noneSkipLast).rawValue
 ) else { fatalError("Could not create a bitmap context") }
 
-if !isTemplate {
-    context.setFillColor(CGColor(red: 0, green: 0, blue: 0, alpha: 1))
-    context.fill(CGRect(x: 0, y: 0, width: canvas, height: canvas))
+// Top-left origin, as in the design and in SVG.
+context.translateBy(x: 0, y: canvas)
+context.scaleBy(x: 1, y: -1)
+
+func linear(_ colors: [CGColor], from start: CGPoint, to end: CGPoint, locations: [CGFloat]? = nil) {
+    let gradient = CGGradient(colorsSpace: sRGB, colors: colors as CFArray, locations: locations)!
+    context.drawLinearGradient(gradient, start: start, end: end, options: [.drawsBeforeStartLocation, .drawsAfterEndLocation])
 }
 
-// Flip to SVG's top-left origin, then place the artboard in the middle of the canvas.
-context.translateBy(x: offset, y: canvas - offset)
-context.scaleBy(x: scale, y: -scale)
-
-context.setStrokeColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
-context.setLineWidth(strokeWidth)
-context.setLineCap(.round)
-context.setLineJoin(.round)
-for data in pathData {
-    var parser = PathParser(data)
-    context.addPath(parser.parse())
+/// The search icon centred on `center`, `side` points across, then the cursor after it.
+func drawSearchIconAndCursor(center: CGPoint, side: Double, stroke: Double = searchIconStroke, icon: CGColor, cursor: CGColor) {
+    let scale = side / 24
+    context.saveGState()
+    context.translateBy(x: center.x - 12 * scale, y: center.y - 12 * scale)
+    context.scaleBy(x: scale, y: scale)
+    context.setLineWidth(stroke)
+    context.setLineCap(.round)
+    context.setLineJoin(.round)
+    context.setStrokeColor(icon)
+    for data in searchIconPaths {
+        var parser = PathParser(data)
+        context.addPath(parser.parse())
+    }
     context.strokePath()
+    context.restoreGState()
+
+    let width = side * 0.058 * stroke
+    let bar = CGRect(x: center.x + side / 2 + side * 0.23, y: center.y - side * 0.55, width: width, height: side * 1.1)
+    context.addPath(CGPath(roundedRect: bar, cornerWidth: width / 2, cornerHeight: width / 2, transform: nil))
+    context.setFillColor(cursor)
+    context.fillPath()
+}
+
+if isTemplate {
+    // Shifted left so the icon and the cursor together are centred. Drawn heavier: the share
+    // sheet shows it small, as a single-colour shape.
+    let side = canvas * 0.6
+    drawSearchIconAndCursor(center: CGPoint(x: canvas / 2 - side * 0.17, y: canvas / 2), side: side, stroke: 2.4,
+                            icon: color(0, 0, 0), cursor: color(0, 0, 0))
+} else {
+    // The panel: light grey, lighter towards the top left.
+    linear([color(240, 240, 244), color(222, 222, 230)], from: .zero, to: CGPoint(x: 0, y: canvas))
+    let glow = CGGradient(colorsSpace: sRGB, colors: [color(255, 255, 255, 0.18), color(255, 255, 255, 0)] as CFArray, locations: nil)!
+    context.drawRadialGradient(glow, startCenter: CGPoint(x: 180, y: 140), startRadius: 0,
+                               endCenter: CGPoint(x: 180, y: 140), endRadius: 620, options: .drawsAfterEndLocation)
+
+    // The field: about two thirds of the icon's height, its left end inside, running off the right.
+    let height = 656.0, left = 130.0
+    let field = CGRect(x: left, y: (canvas - height) / 2, width: canvas + 400, height: height)
+    let capsule = CGPath(roundedRect: field, cornerWidth: height / 2, cornerHeight: height / 2, transform: nil)
+
+    context.saveGState()
+    // Shadow offsets are in device space, where up is positive: this one falls below.
+    context.setShadow(offset: CGSize(width: 0, height: -26), blur: 70, color: color(0, 0, 0, 0.16))
+    context.addPath(capsule)
+    context.setFillColor(color(246, 246, 250))
+    context.fillPath()
+    context.restoreGState()
+
+    context.saveGState()
+    context.addPath(capsule)
+    context.clip()
+    linear([color(255, 255, 255), color(246, 246, 250)], from: CGPoint(x: 0, y: field.minY), to: CGPoint(x: 0, y: field.maxY))
+    linear([color(255, 255, 255, 0.35), color(255, 255, 255, 0)], from: CGPoint(x: 0, y: field.minY), to: CGPoint(x: 0, y: field.midY))
+    context.restoreGState()
+
+    // Its glass edge: bright along the top and left, faint below.
+    context.saveGState()
+    context.addPath(capsule)
+    context.setLineWidth(7)
+    context.replacePathWithStrokedPath()
+    context.clip()
+    linear([color(255, 255, 255), color(255, 255, 255, 0.2), color(255, 255, 255, 0.45)],
+           from: CGPoint(x: field.minX, y: field.minY), to: CGPoint(x: field.minX + 600, y: field.maxY), locations: [0, 0.6, 1])
+    context.restoreGState()
+
+    // The search icon in the field's rounded end, as large against the field as in the app.
+    drawSearchIconAndCursor(center: CGPoint(x: left + height / 2, y: canvas / 2), side: height * 0.46,
+                            icon: color(120, 120, 128), cursor: color(20, 20, 24))
 }
 
 guard let image = context.makeImage() else { fatalError("Could not render the icon") }
-let output = URL(fileURLWithPath: arguments[2])
+let output = URL(fileURLWithPath: arguments[1])
 guard let destination = CGImageDestinationCreateWithURL(output as CFURL, UTType.png.identifier as CFString, 1, nil)
 else { fatalError("Could not open \(output.path) for writing") }
 CGImageDestinationAddImage(destination, image, nil)

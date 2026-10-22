@@ -39,8 +39,8 @@ Mindrop/
 ├── MindropShare/                share extension — the share sheet's app row
 ├── MindropAction/               action extension — the share sheet's action row
 ├── MindropControls/             widget extension — the New Memory control for Control Center
-├── Tools/RenderAppIcon.swift    renders the icon from the Lucide SVG
-└── Design/                      lucide-brain.svg and its ISC licence
+├── Tools/                       RenderAppIcon.swift (the app icon), MakeIconsaxSymbols.py
+└── Design/                      the earlier Lucide brain icon and its ISC licence
 ```
 
 Shared code is a local Swift package rather than files in two targets: the app and the
@@ -75,11 +75,11 @@ swift test --package-path Mindrop/MindropCore
 ```
 
 App Group `group.mfsaglam.Mindrop`; bundle ids `mfsaglam.Mindrop` and `mfsaglam.Mindrop.Share`.
-Regenerate the icon after changing the SVG:
+Regenerate the icons after changing the renderer:
 
 ```bash
-swift Tools/RenderAppIcon.swift Design/lucide-brain.svg Mindrop/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png
-swift Tools/RenderAppIcon.swift Design/lucide-brain.svg MindropAction/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png --template
+swift Tools/RenderAppIcon.swift Mindrop/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+swift Tools/RenderAppIcon.swift MindropAction/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png --template
 ```
 
 ## Spotlight: what is indexed, and why
@@ -274,7 +274,8 @@ which is rarely what someone wants stored.
 
 The action extension ships its own icon: iOS draws action icons as a mask of the alpha
 channel, so the opaque app icon would come out as a filled square. `RenderAppIcon.swift
---template` renders the same Lucide brain on a transparent background instead.
+--template` renders the icon's search glyph and cursor, drawn heavier, on a transparent
+background instead.
 
 ## The detail screen's value
 
@@ -636,6 +637,17 @@ actually shows the items.
 
 ## Icon
 
-`Tools/RenderAppIcon.swift` parses `Design/lucide-brain.svg` and strokes the original path
-data onto a 1024×1024 canvas — white on black, centred, about 46% of the canvas. The geometry
-is Lucide's, unmodified. Lucide is ISC licensed; the notice is in `Design/LUCIDE-LICENSE.txt`.
+The icon is the search field from the empty list's Spotlight guide, cut into a square: a
+white glass field about two thirds of the icon's height, its rounded left end inside the
+icon and the rest running off the right edge, on the guide's light grey panel. In the field,
+the app's own search icon (Iconsax "search-normal", Linear) and a black text cursor waiting
+for a keyword. It says what Mindrop is for, finding a saved value by searching, and stays
+readable as Spotlight's small badge on each result.
+
+`Tools/RenderAppIcon.swift` draws it with Core Graphics onto a 1024×1024 canvas, from the
+Iconsax path data written into the file, and writes it with no alpha channel, which App
+Store validation requires. Iconsax's free licence allows its icons in an app icon, but not
+a stock icon as a registered trademark: redraw the magnifier before registering the icon.
+
+Before it, the icon was Lucide's brain, white on black (`Design/lucide-brain.svg`, ISC
+licensed, notice in `Design/LUCIDE-LICENSE.txt`).
