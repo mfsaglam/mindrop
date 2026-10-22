@@ -24,7 +24,21 @@ final class MindropSession {
     }
 
     private(set) var phase: Phase = .loading
-    var path: [UUID] = []
+    /// Back at the list, a highlight from Spotlight has served its purpose.
+    var path: [UUID] = [] {
+        didSet { if path.isEmpty { spotlightHighlight = nil } }
+    }
+    /// A search carried on from Spotlight ("Search in Mindrop"), for the list to show.
+    /// The list clears it once shown.
+    var pendingSearch: String?
+    /// What was typed in Spotlight before the memory on screen was tapped, when Spotlight
+    /// passes it along, so the detail screen can mark it.
+    private(set) var spotlightHighlight: (memoryID: UUID, query: String)?
+    #if DEBUG
+    /// The last thing Spotlight handed the app, keys only, for the experiments screen:
+    /// whether a tapped result carries the typed text is documented nowhere.
+    private(set) var lastSpotlightActivity: (type: String, keys: [String])?
+    #endif
     let sensitiveAccess = SensitiveAccess()
     private(set) var cloudSync: CloudSync?
 
@@ -50,7 +64,10 @@ final class MindropSession {
     func start() async {
         guard case .loading = phase else { return }
         do {
-            let repository = try MemoryRepository.live(categorizer: AppleIntelligenceCategorizer(log: categorizationLog))
+            let repository = try MemoryRepository.live(
+                categorizer: AppleIntelligenceCategorizer(log: categorizationLog),
+                spotlightExtras: Self.spotlightExtras
+            )
             try repository.load()
             try? repository.purge()
             // Show the list first: reconciling the Spotlight index can take seconds.
@@ -94,14 +111,40 @@ final class MindropSession {
     }
 
     /// Opens the memory behind a tapped Spotlight result, without animating in from
-    /// the list first, so the detail screen is what the user sees.
+    /// the list first, so the detail screen is what the user sees. "Search in Mindrop"
+    /// goes back to the list, searching for what was typed.
     func open(activity: NSUserActivity) {
-        guard let id = SpotlightRouter.memoryID(activityType: activity.activityType, userInfo: activity.userInfo)
-        else { return }
-        var transaction = Transaction()
-        transaction.disablesAnimations = true
-        withTransaction(transaction) {
-            path = [id]
+        #if DEBUG
+        lastSpotlightActivity = (activity.activityType, (activity.userInfo ?? [:]).keys.map { "\($0)" }.sorted())
+        #endif
+        switch SpotlightRouter.destination(activityType: activity.activityType, userInfo: activity.userInfo) {
+        case .memory(let id, let query):
+            var transaction = Transaction()
+            transaction.disablesAnimations = true
+            withTransaction(transaction) {
+                path = [id]
+            }
+            spotlightHighlight = query.map { (id, $0) }
+        case .search(let query):
+            path = []
+            pendingSearch = query
+        case nil:
+            break
         }
+    }
+
+    /// What was typed in Spotlight, if the memory was opened from there with it.
+    func highlight(for memoryID: UUID) -> String? {
+        spotlightHighlight?.memoryID == memoryID ? spotlightHighlight?.query : nil
+    }
+
+    /// What only the app can give Spotlight. Locating addresses is a Debug-only
+    /// experiment: it sends them to Apple Maps.
+    private static var spotlightExtras: SpotlightExtras {
+        #if DEBUG
+        SpotlightExtras(categoryIcons: SpotlightIcons.make(), locate: { await AddressLocator.shared.locate($0) })
+        #else
+        SpotlightExtras(categoryIcons: SpotlightIcons.make())
+        #endif
     }
 }

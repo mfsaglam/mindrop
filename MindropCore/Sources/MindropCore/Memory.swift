@@ -193,14 +193,50 @@ public extension Memory {
         return category.source == .automatic && category.version != categorizerVersion
     }
 
-    /// In-app filtering. Matches on keyword and value, case- and diacritic-insensitively.
-    /// A sensitive memory matches on its keyword only, so typing part of a hidden value
-    /// does not reveal which memory holds it.
+    /// In-app filtering. Every word of the query must be found in the keyword or the
+    /// value, in any order, case- and diacritic-insensitively: "ev wifi" finds
+    /// "ev wifi şifresi", and so does "wifi ev", much as Spotlight would. That matters for
+    /// a search carried on from Spotlight. A sensitive memory matches on its keyword only,
+    /// so typing part of a hidden value does not reveal which memory holds it.
     func matches(query: String) -> Bool {
-        let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !query.isEmpty else { return true }
-        let options: String.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
-        return keyword.range(of: query, options: options) != nil
-            || (!isSensitive && value.range(of: query, options: options) != nil)
+        SearchHighlight.terms(in: query).allSatisfy { term in
+            SearchHighlight.contains(term, in: keyword) || (!isSensitive && SearchHighlight.contains(term, in: value))
+        }
+    }
+}
+
+/// Where a search's words appear in a text, for highlighting them in results.
+public enum SearchHighlight {
+    private static let options: String.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
+
+    /// The query's words, without repeats.
+    public static func terms(in query: String) -> [String] {
+        var seen: Set<String> = []
+        return query.split(whereSeparator: \.isWhitespace).map(String.init).filter { seen.insert($0.lowercased()).inserted }
+    }
+
+    static func contains(_ term: String, in text: String) -> Bool {
+        text.range(of: term, options: options) != nil
+    }
+
+    /// Every place any of the query's words appears in `text`, in order, overlaps merged.
+    public static func ranges(of query: String, in text: String) -> [Range<String.Index>] {
+        var found: [Range<String.Index>] = []
+        for term in terms(in: query) {
+            var start = text.startIndex
+            while start < text.endIndex, let range = text.range(of: term, options: options, range: start..<text.endIndex) {
+                found.append(range)
+                start = range.upperBound
+            }
+        }
+        var merged: [Range<String.Index>] = []
+        for range in found.sorted(by: { $0.lowerBound < $1.lowerBound }) {
+            if let last = merged.last, range.lowerBound <= last.upperBound {
+                merged[merged.count - 1] = last.lowerBound..<max(last.upperBound, range.upperBound)
+            } else {
+                merged.append(range)
+            }
+        }
+        return merged
     }
 }

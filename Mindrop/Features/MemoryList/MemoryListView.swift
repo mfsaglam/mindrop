@@ -14,6 +14,7 @@ struct MemoryListView: View {
     let session: MindropSession
 
     @State private var query = ""
+    @State private var isSearching = false
     @State private var categoryFilter: MemoryCategory?
     @State private var sheet: Sheet?
     @State private var deletionError: String?
@@ -70,7 +71,7 @@ struct MemoryListView: View {
                 Section {
                     ForEach(expiredResults) { memory in
                         NavigationLink(value: memory.id) {
-                            MemoryRow(memory: memory, showsCategory: !showsSections)
+                            MemoryRow(memory: memory, showsCategory: !showsSections, query: query)
                         }
                         .swipeActions(edge: .trailing) {
                             deleteAction(for: memory)
@@ -103,7 +104,7 @@ struct MemoryListView: View {
         }
         .animation(.default, value: showsSections)
         .navigationTitle("Mindrop")
-        .searchable(text: $query, placement: .toolbar, prompt: "Search memories")
+        .searchable(text: $query, isPresented: $isSearching, placement: .toolbar, prompt: "Search memories")
         .searchToolbarBehavior(.minimize)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -140,6 +141,14 @@ struct MemoryListView: View {
             guard isPending else { return }
             newMemoryRequest.isPending = false
             sheet = .newMemory
+        }
+        // "Search in Mindrop" in Spotlight: the same search here, across every category.
+        .onChange(of: session.pendingSearch, initial: true) { _, pending in
+            guard let pending else { return }
+            session.pendingSearch = nil
+            categoryFilter = nil
+            query = pending
+            isSearching = true
         }
         .alert(
             deletionTitle,
@@ -199,7 +208,7 @@ struct MemoryListView: View {
     private func rows(_ memories: [Memory], showsCategory: Bool) -> some View {
         ForEach(memories) { memory in
             NavigationLink(value: memory.id) {
-                MemoryRow(memory: memory, showsCategory: showsCategory)
+                MemoryRow(memory: memory, showsCategory: showsCategory, query: query)
             }
             .swipeActions(edge: .trailing) {
                 deleteAction(for: memory)
@@ -245,6 +254,8 @@ struct MemoryListView: View {
 struct MemoryRow: View {
     let memory: Memory
     let showsCategory: Bool
+    /// The search in progress, whose words are marked in the keyword and value.
+    var query: String = ""
 
     @Environment(\.sensitiveAccess) private var sensitiveAccess
 
@@ -268,7 +279,7 @@ struct MemoryRow: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 4) {
-                    Text(memory.keyword)
+                    HighlightedText(memory.keyword, query: query)
                     if memory.isSensitive {
                         SensitiveBadge()
                     }
@@ -276,7 +287,7 @@ struct MemoryRow: View {
                 .font(.headline)
                 Group {
                     if sensitiveAccess.canShow(memory) {
-                        Text(memory.value)
+                        HighlightedText(memory.value, query: query)
                     } else {
                         HiddenValue()
                     }

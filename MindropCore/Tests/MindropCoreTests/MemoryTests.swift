@@ -71,4 +71,23 @@ struct MemoryTests {
         #expect(memory.matches(query: ""))
         #expect(!memory.matches(query: "gym"))
     }
+
+    @Test("Every word of a search must be found, in any order, as Spotlight finds them")
+    func filtersByWords() {
+        let memory = makeMemory(keyword: "ev wifi şifresi", value: "kedi1234")
+        #expect(memory.matches(query: "wifi ev"))
+        #expect(memory.matches(query: "sifre kedi"))
+        #expect(!memory.matches(query: "wifi ofis"))
+    }
+
+    @Test("Highlights cover every place each word appears, merged where they touch")
+    func highlightRanges() {
+        let text = "Café wifi, CAFE door"
+        let ranges = SearchHighlight.ranges(of: "cafe wi", in: text).map { String(text[$0]) }
+        #expect(ranges == ["Café", "wi", "CAFE"])
+
+        let overlapping = "wifiwifi"
+        #expect(SearchHighlight.ranges(of: "wif fiw", in: overlapping).map { String(overlapping[$0]) } == ["wifiwif"])
+        #expect(SearchHighlight.ranges(of: "  ", in: text).isEmpty)
+    }
 }

@@ -14,7 +14,7 @@ struct RootView: View {
                 NavigationStack(path: Binding(get: { session.path }, set: { session.path = $0 })) {
                     MemoryListView(repository: repository, session: session)
                         .navigationDestination(for: UUID.self) { id in
-                            MemoryDetailView(repository: repository, memoryID: id)
+                            MemoryDetailView(repository: repository, memoryID: id, highlight: session.highlight(for: id))
                         }
                 }
             case .failed(let message):
@@ -28,6 +28,9 @@ struct RootView: View {
         .environment(\.sensitiveAccess, session.sensitiveAccess)
         .task { await session.start() }
         .onContinueUserActivity(SpotlightRouter.activityType) { activity in
+            session.open(activity: activity)
+        }
+        .onContinueUserActivity(SpotlightRouter.searchActivityType) { activity in
             session.open(activity: activity)
         }
         .onChange(of: scenePhase) { _, phase in

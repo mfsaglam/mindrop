@@ -5,6 +5,9 @@ import UIKit
 struct MemoryDetailView: View {
     let repository: MemoryRepository
     let memoryID: UUID
+    /// What was typed in Spotlight to find this memory, marked on screen. Nil when it was
+    /// opened from the list, or Spotlight did not say.
+    var highlight: String?
 
     @State private var isEditing = false
     @State private var didCopy = false
@@ -33,7 +36,7 @@ struct MemoryDetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 4) {
-                    Text(memory.keyword)
+                    HighlightedText(memory.keyword, query: highlight)
                     if memory.isSensitive {
                         SensitiveBadge()
                     }
@@ -50,7 +53,7 @@ struct MemoryDetailView: View {
                     Button {
                         copy(memory.value)
                     } label: {
-                        MemoryValueView(value: memory.value)
+                        MemoryValueView(value: memory.value, highlight: highlight)
                             .foregroundStyle(.primary)
                             .multilineTextAlignment(.leading)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -121,7 +124,9 @@ struct MemoryDetailView: View {
             MemoryEditorView(mode: .edit(memory), repository: repository)
         }
         // Opening a sensitive memory, from the list or from Spotlight, is asking to see it.
+        // Opening any memory is using it, which Spotlight's ranking hears about.
         .task(id: memoryID) {
+            repository.recordUse(of: memory)
             if memory.isSensitive { await sensitiveAccess.unlock() }
         }
         .sensoryFeedback(.success, trigger: copyCount)

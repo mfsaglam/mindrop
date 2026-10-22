@@ -12,8 +12,22 @@ final class SpotlightIndexerSpy: SpotlightIndexing, @unchecked Sendable {
     private let lock = NSLock()
     private var _operations: [Operation] = []
     private var _failures = 0
+    private var _held: [String: SpotlightAttributes] = [:]
+    private var _readBackFails = false
 
     var operations: [Operation] { lock.withLock { _operations } }
+
+    /// What Spotlight would hold now, by identifier.
+    var held: [String: SpotlightAttributes] { lock.withLock { _held } }
+
+    /// What Spotlight was last handed for a memory.
+    func attributes(of id: UUID) -> SpotlightAttributes? { held[id.uuidString] }
+
+    /// Spotlight loses everything without Mindrop doing anything, as after a restore.
+    func loseIndex() { lock.withLock { _held = [:] } }
+
+    /// Makes reading the index back fail, as when Spotlight cannot be reached.
+    func failReadingBack() { lock.withLock { _readBackFails = true } }
 
     /// Indexed ids that have not been removed again.
     var indexedIDs: Set<UUID> {
@@ -45,9 +59,27 @@ final class SpotlightIndexerSpy: SpotlightIndexing, @unchecked Sendable {
 
     struct IndexingFailure: Error {}
 
-    func index(_ memories: [Memory]) async throws { try record(.index(memories.map(\.id))) }
-    func remove(ids: [UUID]) async throws { try record(.remove(ids)) }
-    func removeAll() async throws { try record(.removeAll) }
+    func index(_ items: [SpotlightAttributes]) async throws {
+        try record(.index(items.compactMap(\.memoryID)))
+        lock.withLock { for item in items { _held[item.identifier] = item } }
+    }
+
+    func remove(ids: [UUID]) async throws {
+        try record(.remove(ids))
+        lock.withLock { for id in ids { _held[id.uuidString] = nil } }
+    }
+
+    func removeAll() async throws {
+        try record(.removeAll)
+        lock.withLock { _held = [:] }
+    }
+
+    func indexedItems() async throws -> [String: String] {
+        try lock.withLock {
+            if _readBackFails { throw IndexingFailure() }
+            return _held.mapValues(\.displayName)
+        }
+    }
 }
 
 @MainActor
@@ -62,7 +94,7 @@ func makeRepository(
     let store = store ?? InMemoryMemoryStore(memories)
     let repository = MemoryRepository(
         store: store,
-        synchronizer: SpotlightSynchronizer(indexer: indexer, stateStore: syncState),
+        synchronizer: SpotlightSynchronizer(indexer: indexer, stateStore: syncState, options: { .shipping }, now: now),
         categorizer: categorizer,
         now: now
     )

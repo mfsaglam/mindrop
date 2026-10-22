@@ -34,16 +34,21 @@ struct SettingsView: View {
                 }
 
                 #if DEBUG
-                if let categorizationLog {
-                    Section {
+                Section {
+                    if let categorizationLog {
                         NavigationLink {
                             CategorizationLogView(log: categorizationLog, repository: repository)
                         } label: {
                             Label { Text(verbatim: "Apple Intelligence Log") } icon: { Image(systemName: "ladybug") }
                         }
-                    } header: {
-                        Text(verbatim: "Debug")
                     }
+                    NavigationLink {
+                        SpotlightExperimentsView(repository: repository, session: session)
+                    } label: {
+                        Label { Text(verbatim: "Spotlight Experiments") } icon: { Image(systemName: "magnifyingglass") }
+                    }
+                } header: {
+                    Text(verbatim: "Debug")
                 }
                 #endif
             }

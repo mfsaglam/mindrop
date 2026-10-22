@@ -17,6 +17,20 @@ struct MemoryCategoryTests {
         #expect(try store.load().first?.category == expected)
     }
 
+    @Test("A category, automatic or picked, reaches Spotlight as the result's icon")
+    func categoryReachesSpotlight() async throws {
+        let categorizer = CategorizerStub(["wifi": .network])
+        let (repository, _, indexer) = try makeRepository(categorizer: categorizer)
+        let memory = try repository.create(keyword: "wifi", value: "SuperFast2026!")
+        await repository.categorizationTask?.value
+        await repository.indexingTask?.value
+        #expect(indexer.attributes(of: memory.id)?.iconCategory == .network)
+
+        try repository.setCategory(.home, for: memory)
+        await repository.indexingTask?.value
+        #expect(indexer.attributes(of: memory.id)?.iconCategory == .home)
+    }
+
     @Test("Categorising does not move a memory up the list")
     func categorisingKeepsOrder() async throws {
         let older = makeMemory(keyword: "iban", value: "TR12", at: 10)

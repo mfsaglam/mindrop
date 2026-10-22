@@ -19,10 +19,12 @@ Mindrop/
 │       ├── MemoryStore.swift         JSON persistence in the App Group
 │       ├── CoordinatedFile.swift     cross-process safe file access
 │       ├── SpotlightAttributes.swift the indexing strategy, as plain data
-│       ├── SpotlightIndexer.swift    Core Spotlight boundary
-│       ├── SpotlightSynchronizer.swift  recoverable index synchronisation
-│       ├── SpotlightSyncState.swift  what is known about the index between launches
-│       ├── SpotlightRouter.swift     Spotlight result → memory id
+│       ├── SpotlightOptions.swift    what ships, and the Debug experiments
+│       ├── SpotlightIndexer.swift    Core Spotlight boundary, and reading the index back
+│       ├── SpotlightSynchronizer.swift  recoverable index synchronisation, the launch check
+│       ├── SpotlightSyncState.swift  what is known about the index between launches, usage
+│       ├── SpotlightRouter.swift     Spotlight result or search → memory id, search text
+│       ├── ValueDetector.swift       phone numbers and addresses for Spotlight's buttons
 │       └── SharedTextParser.swift    share sheet input → a value
 │   └── Sources/MindropIntents/       NewMemoryIntent, shared by the app and MindropControls
 │   └── Sources/MindropSaveUI/        the save form, shared by both extensions
@@ -31,7 +33,8 @@ Mindrop/
 │       └── SaveToMindropViewController.swift
 ├── Mindrop/                     app target (iOS 26+)
 │   ├── App/                          MindropApp, RootView, session and routing
-│   ├── Features/                     MemoryList, MemoryDetail, MemoryEditor, Categories, Settings
+│   ├── Features/                     MemoryList, MemoryDetail, MemoryEditor, Categories, Settings,
+│   │                                 Spotlight (icons, highlighting, experiments)
 │   └── Resources/Assets.xcassets     app icon, accent colour
 ├── MindropShare/                share extension — the share sheet's app row
 ├── MindropAction/               action extension — the share sheet's action row
@@ -86,13 +89,18 @@ Per memory:
 | Field | Value | Reason |
 |---|---|---|
 | `uniqueIdentifier` | the memory's UUID | how a tapped result routes back to the memory |
-| `displayName` | the **value**, and the keyword when placement is `.displayedName` | what Spotlight draws, and matches against |
+| `displayName` | the **value**, and the keyword when placement is `.displayedName` | what Spotlight draws, and the only field it matches against |
 | `title` | the same string | fallback for surfaces that read the title |
 | `textContent` | the keyword, when placement is `.bodyText` | drawn as a smaller second line |
-| `keywords` | the keyword, plus each of its words | not displayed, and not matched on iOS 26 |
-| `alternateNames` | the same words | not displayed |
-| `domainIdentifier` | `memory` | lets one call clear everything Mindrop indexed |
+| `keywords` | the keyword, plus each of its words | not displayed, and not matched on iOS 26 or 27 |
+| `thumbnailData` | the category's icon | drawn in place of Mindrop's icon, with Mindrop's as a badge |
+| `phoneNumbers`, `supportsPhoneCall` | a phone number in a Contacts or Family & People memory | Spotlight's **Call** button |
+| `userCreated`, `lastUsedDate`, `rankingHint` | always true; last opened; how much it is opened | ranking signals |
+| `domainIdentifier` | `memory` | lets one call clear everything Mindrop indexed, and lets the launch check find it all |
 | `expirationDate` | the memory's expiry, else `.distantFuture` | **without this, indexed items expire about a month after indexing**; a temporary memory leaves Spotlight at its expiry even if the app is never opened |
+
+Not `alternateNames`: iOS 27 draws its first entry as a grey second line, which only repeated
+the keyword. Without it, a long value wraps onto two lines and keeps the keyword in view.
 
 ### What the device actually does
 
@@ -107,102 +115,134 @@ Three rounds on a physical iPhone (iOS 26), each a reinstall and a reindex:
 
 That isolates it: **`displayName` is the only field a Spotlight query matches against.**
 `keywords`, `alternateNames`, `contentDescription`, `textContent` and even `title` are all
-ignored by the matcher, whatever the documentation implies.
+ignored by the matcher, whatever the documentation implies. Retested on iOS 27, on the
+simulator and on a physical iPhone, with `.bodyText`: a keyword found with `.displayedName`
+is not found at all, and nothing from Mindrop appears. Still true, so the placement is fixed
+in code (`SpotlightAttributesFactory.keywordPlacement`), not a Debug experiment.
 
 The practical consequence is that *the keyword must be visible in the result row for keyword
 search to work at all*. There is no configuration that both hides the keyword and finds it.
-The brief's "the keyword does not need to appear in the result" is not achievable on this
-iOS version alongside keyword search; the value still leads the line, so it remains the
-prominent text.
+The value leads the line, so it remains the prominent text.
 
 `KeywordPlacement` is the single switch, and the cases are the trade:
 
 - `.displayedName` → `"SuperFast2026! · wifi"` on one line. **Shipped**, and the only case in
   which keyword search works.
 - `.bodyText` → big line `"SuperFast2026!"`, small `"wifi"` under it. Nicer, and the keyword
-  cannot be found. Kept for retesting on a later iOS.
+  cannot be found.
 - `.hidden` → value only, no keyword search.
-
-`keywords` and `alternateNames` stay populated in every case: no visual cost, and a later iOS
-may consult them.
 
 Changing any of this means bumping `SpotlightSynchronizer.currentIndexFormatVersion`, which
 triggers one full reindex on the next launch.
+
+### What else Spotlight does with an item
+
+Measured on the simulator (iOS 27), where third-party results now appear:
+
+- **Category icons work.** Each result shows its category's icon (`SpotlightIcons`, the
+  category's symbol in white on its colour), with Mindrop's icon as a small badge, and the
+  long-press card shows it too. An uncategorised memory keeps Mindrop's icon. Changing a
+  category reindexes the memory, since the icon is part of the item.
+- **The Call button works**, on the right of the row, and in the Top Hit card. Only for a
+  memory filed under Contacts or Family & People: the system's phone-number detector also
+  reads a social security number such as `987-65-4321` as a phone number. Never for a
+  sensitive memory.
+- **The Directions button works too**, given coordinates. Finding them means sending the
+  address to Apple Maps (`MKGeocodingRequest`), so it is a Debug experiment, not shipped.
+- **iOS only drew the Call and Directions buttons, and the "Search in App" link, after the
+  simulator was restarted** following the install. Category icons appeared straight away.
+- Spotlight matches what was typed literally on some letters: `Kadikoy` does not find
+  `Kadıköy` (ı and i are different letters), and the keyboard's curly apostrophe in `mom’s`
+  does not find a keyword saved as `mom's`.
+
+### Search in Mindrop, and highlighting what was searched
+
+- **Tapping a result passes what was typed** (`CSSearchQueryString`, documented only for
+  continued searches, but there for taps too on iOS 27). The detail screen marks it, in the
+  keyword and in the value, the way Notes marks a search (`HighlightedText`).
+- **"Search in App"** sits on the Mindrop section's header in Spotlight, because Info.plist sets
+  `CoreSpotlightContinuation`. It opens the list with the same search, matches marked.
+- In-app search matches **every word, in any order**, against the keyword and the value, so a
+  search carried on from Spotlight finds what Spotlight found. A sensitive memory still
+  matches on its keyword only.
 
 ### Index synchronisation
 
 `SpotlightSynchronizer` records every mutation as pending *before* attempting it and clears
 it only once Core Spotlight confirms. On launch:
 
-- metadata format changed (`currentIndexFormatVersion`) → one full reindex, then never again;
-- otherwise → retry only what was left pending; nothing else is touched.
+- metadata format (`currentIndexFormatVersion`) or options changed → one full reindex;
+- otherwise → retry what was left pending, then **check the index** (`verify`).
+
+**The launch check** asks Spotlight what it holds for Mindrop (`CSSearchQuery` on the domain,
+fetching each item's drawn line) and puts right the difference: a memory missing or out of
+date there is indexed again, an item with no memory behind it is removed. This matters
+because Spotlight's index is not in a backup but Mindrop's record that everything was indexed
+is: after restoring an iPhone, or moving to a new one, that record says all is well over an
+empty index. Verified on the simulator by emptying the index (0 of 19 there, 19 put back), by
+adding a memory to the file behind the app's back (1 put back), and by removing one (1
+removed). If Spotlight cannot be asked, nothing is touched.
+
+**Usage** (`SpotlightUsage`, in the Spotlight state file, per device, not synced): opening a
+memory records when and how often, and reindexes it with `lastUsedDate` and a `rankingHint`
+(1 use is 20, 3 are 40, 7 are 60, 31 or more are 100). Spotlight documents both as ranking
+inputs; how much they move a result is Spotlight's business.
 
 A memory deleted before its indexing succeeded is removed from the index rather than
 resurrected. A failed full reindex deliberately does not bump the version, so it runs again
 next launch.
 
+### Spotlight Experiments (Debug builds)
+
+Settings → Debug → **Spotlight Experiments**: how many memories Spotlight holds, Check Now,
+Reindex Everything, and *Empty Spotlight, as After a Restore* to watch the check put it back;
+category icons, Call and Directions; and the keys of the last activity
+Spotlight handed the app. Each change reindexes everything. The choices live in the App
+Group, so the share extension indexes the same way. Release builds always use
+`SpotlightOptions.shipping`.
+
 ### What was verified, and what was not
 
-Verified on the iPhone 18 Pro Max simulator (iOS 27.0): the app persists, lists, searches,
-opens, copies, edits and deletes memories; deletions and edits reach storage; `UIPasteboard`
-receives the complete value; indexing is attempted exactly once per change and not repeated
-on later launches.
+Verified on the iPhone 18 Pro Max simulator (iOS 27.0): everything in the app, and since
+this round Spotlight too: results, category icons, Call, Directions, the long-press card,
+opening a result with what was typed marked, Search in App, and the launch check.
 
 Verified on a physical iPhone (iOS 26): indexing works, the value is found, and the keyword
-is found as long as it is part of the drawn name — see the table above for the three rounds
-that established this. Each reinstall reindexes once, because the format version changed.
+is found as long as it is part of the drawn name — see the table above.
 
-Round 4 settled the last open question: `textContent` is not matched either, so the keyword
-has to share the value's line. The one-line row is as clean as this gets on iOS 26.
-
-On the **simulator** (iOS 27.0) nothing is searchable at all, for a different and system-side
-reason. Core Spotlight accepts every donation and reports success, while `searchd` drops it:
-
-```
-Submitting donation: {CSInlineDonation[async]: "mfsaglam.Mindrop" add-update-items:6 ...}
-  Set existence required and no set exists, skipping donation
-Completed donation: ... result: success
-```
-
-This happens for a full reindex, for single additions, and for deletions, after a `simctl`
-launch and after a real Home Screen launch. The same simulator surfaces Contacts and
-Calendar results normally, so Spotlight itself works there; only third-party donations are
-refused. Note the trap this creates: **the API reports success, so an app cannot detect that
-its items were dropped** — the pending-retry machinery has nothing to retry.
-
-There is no app-side fix for this; Spotlight work has to be checked on a physical iPhone.
+The simulator used to drop every third-party item (`searchd` logged "Set existence required
+and no set exists, skipping donation" while the API reported success). On iOS 27.0 it no
+longer does. If it comes back, restart the simulator.
 
 ### Device verification checklist
 
-Run these on a real iPhone, which is the only authoritative environment:
+Run these on a real iPhone, which is the authoritative environment:
 
 1. Save `wifi` / `SuperFast2026!`, go Home, swipe down, type `wifi` → the value appears as the
    prominent line. (iOS 17+ often needs **more than three characters** before Core Spotlight
    matches appear, so test `wifi`, not `wif`.)
 2. Type `door` for a memory saved as `office door` → still found, via the word tokens.
-3. Tap the result → Mindrop opens the right memory's detail screen, with no flash of the list.
-4. Save a long value (an IBAN, a recovery phrase) → note where Spotlight truncates the line.
-   Truncation is Spotlight's, not ours; the full value is still copied in the app.
+3. Tap the result → Mindrop opens the right memory's detail screen, with no flash of the list,
+   and the typed word marked.
+4. Save a long value (an IBAN, a recovery phrase) → it wraps, and the keyword stays in view.
 5. Edit the value, search again → the new value shows. Delete it, search again → gone.
-6. Repeat in light and dark appearance.
+6. Repeat in light and dark appearance; the category icons should read in both.
 7. Share text from Safari → Mindrop → save with a keyword → search it in Spotlight **without
    opening the app**. Then repeat from the action row, and once more by sharing a page so the
    link arrives as the value.
 8. Turn on Sensitive for a memory, search its keyword → the result reads `keyword · 🔒`, with
-   no value. Tap it → Mindrop opens it and asks for Face ID.
+   no value and no Call button. Tap it → Mindrop opens it and asks for Face ID.
 9. With iCloud Sync on and both iPhones signed in to the same account: add a memory on one,
    bring the other to the foreground → it appears there, and in that iPhone's Spotlight. Edit
    it on the second, delete it on the first → Recently Deleted on both.
-
-Still open: whether the keyword previously failed because Spotlight never matched the
-metadata, or because it matched and the result ranked below the system's own hits for a
-common word like `wifi`. Searching an unusual keyword that has no system results would tell
-them apart. Either way the title now carries the keyword, which addresses both. Do not expect
-more than that: result ordering, fonts, truncation and layout belong to Spotlight.
+10. A phone number under Contacts → a Call button on the result (restart the iPhone once if it
+    does not appear). Tap **Search in App** on the Mindrop section → the list, searching.
+11. Spotlight Experiments → Empty Spotlight → search: nothing. Relaunch Mindrop → found again.
 
 ### Limits Apple imposes
 
-- Spotlight renders the row. No control over ordering, font, colour or truncation.
+- Spotlight renders the row. No control over ordering, font, colour or truncation, and no
+  way to highlight text inside it: Core Spotlight takes plain strings only.
 - Items become searchable only after the app has been launched at least once.
 - Indexing is asynchronous; a new memory may take a few seconds to become findable.
 - Matching usually needs more than three typed characters (iOS 17+).
@@ -459,7 +499,8 @@ it always did.
   category; bumping it redoes every automatic category on the next launch. Manual ones stay.
 - **Automatic vs manual.** An automatic category is dropped when the keyword or value is
   edited, and the memory is categorised again. A category the user picked is never
-  overwritten. Changing a category does not move the memory up the list or touch Spotlight.
+  overwritten. Changing a category does not move the memory up the list; it does reindex
+  the memory, since Spotlight shows the category's icon.
 - **The app does it, not the extensions.** The share and action extensions are torn down
   too quickly to wait for the model; the app categorises whatever they saved the next time
   it comes to the foreground.
@@ -488,15 +529,17 @@ metadata stays private.
 
 ## Tests
 
-97 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
+118 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
 and value validation, value preservation, file persistence across processes, Spotlight
 metadata, index recovery after failures, routing by UUID, missing memories, and share
 extension input, categorisation (automatic and manual, stale results, edits), and temporary
 memories (lifetimes, expiry, recovery, deletion after 7 days), sensitive memories (what
 Spotlight receives, search, the switch, older files), Recently Deleted (deleting, recovering,
 30 days, change times), iCloud sync (merging two versions, the CloudKit record, what is
-pending, the state file), and how a value is laid out
-(card numbers, IBANs, recovery phrases, Wi-Fi labels). The repository exposes `indexingTask` so tests await indexing instead of
+pending, the state file), how a value is laid out
+(card numbers, IBANs, recovery phrases, Wi-Fi labels), and Spotlight's extras (the launch
+check, usage and ranking, category icons, the Call rule, search words and highlights, a
+continued search). The repository exposes `indexingTask` so tests await indexing instead of
 guessing at timing.
 
 What the unit tests cannot cover, and what therefore needs the checklist above: whether iOS

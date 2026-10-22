@@ -35,6 +35,7 @@ struct SensitiveMemoryTests {
         let ssn = try repository.create(keyword: "atlas ssn", value: "123-45-6789")
         try repository.setCategory(.document, for: ssn)
         await repository.indexingTask?.value
+        let indexedBefore = indexer.operations.filter { $0 == .index([ssn.id]) }.count
 
         clock.now = clock.now.addingTimeInterval(60)
         try repository.setSensitive(true, for: ssn)
@@ -45,7 +46,8 @@ struct SensitiveMemoryTests {
         #expect(hidden.category?.category == .document)
         #expect(try store.load().first?.isSensitive == true)
         await repository.indexingTask?.value
-        #expect(indexer.operations.filter { $0 == .index([ssn.id]) }.count == 2)
+        #expect(indexer.operations.filter { $0 == .index([ssn.id]) }.count == indexedBefore + 1)
+        #expect(indexer.attributes(of: ssn.id)?.displayName == "atlas ssn · 🔒")
 
         try repository.setSensitive(false, for: hidden)
         #expect(repository.memory(id: ssn.id)?.isSensitive == false)

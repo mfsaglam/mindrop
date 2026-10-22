@@ -47,11 +47,14 @@ public final class MemoryRepository {
     /// The real configuration, shared by the app and the share extension. The extension
     /// passes no categorizer: it is torn down too quickly, and the app catches up on
     /// whatever it saved the next time it comes to the foreground.
-    public static func live(categorizer: (any MemoryCategorizing)? = nil) throws -> MemoryRepository {
+    public static func live(
+        categorizer: (any MemoryCategorizing)? = nil,
+        spotlightExtras: SpotlightExtras = .none
+    ) throws -> MemoryRepository {
         MemoryRepository(
             store: try FileMemoryStore.shared(),
             synchronizer: SpotlightSynchronizer(
-                indexer: CoreSpotlightIndexer(),
+                indexer: CoreSpotlightIndexer(extras: spotlightExtras),
                 stateStore: try FileSpotlightSyncStateStore.shared()
             ),
             categorizer: categorizer
@@ -69,6 +72,30 @@ public final class MemoryRepository {
     public func resumeSpotlightSync() async {
         await synchronizer.resume(allMemories: memories.filter { !$0.isDeleted })
     }
+
+    /// Records that the user opened or copied a memory: Spotlight ranks by it.
+    public func recordUse(of memory: Memory) {
+        let synchronizer = synchronizer
+        indexingTask = Task { await synchronizer.recordUse(of: memory) }
+    }
+
+    /// Checks that Spotlight holds every memory it should, and puts right what it lost.
+    /// Nil if Spotlight could not be asked.
+    public func checkSpotlight() async -> SpotlightCheck? {
+        await synchronizer.verify(allMemories: memories.filter { !$0.isDeleted })
+    }
+
+    /// Indexes everything again from scratch, after the Spotlight options changed.
+    public func reindexSpotlight() async {
+        await synchronizer.reindexAll(memories.filter { !$0.isDeleted })
+    }
+
+    #if DEBUG
+    /// Empties Spotlight without updating any record of it, as a restore would.
+    public func simulateLostSpotlightIndex() async {
+        await synchronizer.simulateLostIndex()
+    }
+    #endif
 
     public func memory(id: UUID) -> Memory? {
         memories.first { $0.id == id }
@@ -180,14 +207,15 @@ public final class MemoryRepository {
     }
 
     /// Files a memory under a category the user picked, or with `nil` hands it back to
-    /// the categorizer. Not an edit: the memory keeps its place in the list, and Spotlight
-    /// is not touched because categories are not indexed.
+    /// the categorizer. Not an edit: the memory keeps its place in the list. Reindexed,
+    /// since Spotlight shows the category's icon.
     public func setCategory(_ category: MemoryCategory?, for memory: Memory) throws {
         var stored = try store.load()
         guard let position = stored.firstIndex(where: { $0.id == memory.id }) else { return }
         stored[position].category = category.map { CategoryAssignment(category: $0, source: .manual) }
         stored[position].modifiedAt = now()
         try commit(stored)
+        if synchronizer.indexesCategory { indexInBackground([stored[position]]) }
         if category == nil {
             declinedCategorizations.remove(CategorizationKey(stored[position]))
             categorizePending()
@@ -253,6 +281,7 @@ public final class MemoryRepository {
         stored[position].category = CategoryAssignment(category: category, source: .automatic, version: version)
         stored[position].modifiedAt = now()
         try commit(stored)
+        if synchronizer.indexesCategory { indexInBackground([stored[position]]) }
     }
 
     /// Moves a memory's expiry, or with `nil` keeps it forever. Recovering an expired

@@ -7,16 +7,18 @@ import SwiftUI
 /// is copied is always the value exactly as saved.
 struct MemoryValueView: View {
     let value: String
+    /// Words to mark, from the search that found this memory in Spotlight.
+    var highlight: String?
 
     var body: some View {
         switch ValueLayout(value: value) {
         case .text:
-            // User content: a `String`, so it is shown verbatim, never looked up.
-            Text(value)
+            // User content, shown verbatim, never looked up.
+            HighlightedText(value, query: highlight)
                 .font(.largeTitle)
                 .fontWeight(.semibold)
         case .groups(let groups):
-            Text(groups.joined(separator: " "))
+            HighlightedText(groups.joined(separator: " "), query: highlight)
                 .font(.largeTitle.monospaced())
                 .fontWeight(.semibold)
         case .words(let words):
@@ -27,7 +29,7 @@ struct MemoryValueView: View {
                             .font(.caption.monospacedDigit())
                             .foregroundStyle(.secondary)
                             .frame(minWidth: 18, alignment: .trailing)
-                        Text(word)
+                        HighlightedText(word, query: highlight)
                             .font(.body.monospaced().weight(.medium))
                     }
                 }
