@@ -3036,97 +3036,97 @@
         }
       }
     },
-    "Example: searching “wifi” in Spotlight shows the saved password." : {
-      "comment" : "VoiceOver label of the guide's picture of a Spotlight search.",
+    "Example: searching “%@” in Spotlight shows “%@”." : {
+      "comment" : "VoiceOver description of the current example in the onboarding Spotlight preview. The first placeholder is the search keyword; the second is the saved information. These examples of everyday information are sample user content intentionally shown in English in every language. Translate only the surrounding explanation.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "مثال: ابحث عن «wifi» في Spotlight لتظهر كلمة السر المحفوظة."
+            "value" : "مثال: البحث عن «%@» في Spotlight يعرض «%@»."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beispiel: Die Suche nach „wifi“ in Spotlight zeigt das gesicherte Passwort."
+            "value" : "Beispiel: Die Suche nach „%@“ in Spotlight zeigt „%@“."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Example: searching “wifi” in Spotlight shows the saved password."
+            "value" : "Example: searching “%@” in Spotlight shows “%@”."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ejemplo: buscar «wifi» en Spotlight muestra la contraseña guardada."
+            "value" : "Ejemplo: buscar «%@» en Spotlight muestra «%@»."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Exemple : rechercher « wifi » dans Spotlight affiche le mot de passe enregistré."
+            "value" : "Exemple : rechercher « %@ » dans Spotlight affiche « %@ »."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "उदाहरण: Spotlight में “wifi” खोजने पर सहेजा गया पासवर्ड दिखता है।"
+            "value" : "उदाहरण: Spotlight में “%@” खोजने पर “%@” दिखता है।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esempio: cercando “wifi” in Spotlight compare la password salvata."
+            "value" : "Esempio: cercando “%@” in Spotlight compare “%@”."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "例：Spotlightで「wifi」を検索すると、保存したパスワードが表示されます。"
+            "value" : "例：Spotlightで「%@」を検索すると、「%@」と表示されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "예: Spotlight에서 ‘wifi’를 검색하면 저장한 암호가 표시됩니다."
+            "value" : "예: Spotlight에서 ‘%@’ 검색 시 ‘%@’ 내용이 표시돼요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voorbeeld: zoeken op ‘wifi’ in Spotlight toont het bewaarde wachtwoord."
+            "value" : "Voorbeeld: zoeken op ‘%@’ in Spotlight toont ‘%@’."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Exemplo: buscar “wifi” no Spotlight mostra a senha salva."
+            "value" : "Exemplo: buscar “%@” no Spotlight mostra “%@”."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пример: поиск «wifi» в Spotlight показывает сохранённый пароль."
+            "value" : "Пример: поиск «%@» в Spotlight показывает «%@»."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Örnek: Spotlight’ta “wifi” araması kaydedilen şifreyi gösterir."
+            "value" : "Örnek: Spotlight’ta “%@” araması “%@” bilgisini gösterir."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "示例：在“聚焦”中搜索“wifi”，就能看到保存的密码。"
+            "value" : "示例：在“聚焦”中搜索“%@”，就能看到“%@”。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "範例：在 Spotlight 中搜尋「wifi」會顯示儲存的密碼。"
+            "value" : "範例：在 Spotlight 中搜尋「%@」，就能看到「%@」。"
           }
         }
       }
@@ -4939,96 +4939,96 @@
       }
     },
     "Mindrop puts what you save into Spotlight." : {
-      "comment" : "Under the guide's title: what Mindrop does.",
+      "comment" : "Onboarding subtitle: save information, then find it in Spotlight when needed. Keep the two actions clear and concise. Pair with the headline about information being close at hand.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "احفظ المعلومات التي تحتاجها في متناول يدك، واعثر عليها في Spotlight وقت الحاجة."
+            "value" : "احفظ ما تحتاجه، واعثر عليه في Spotlight وقت الحاجة."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Speichere, was du dir sonst merken müsstest. In Spotlight findest du es wieder."
+            "value" : "Speichere es und finde es bei Bedarf in Spotlight wieder."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save the little things you need to look up. Find them again in Spotlight."
+            "value" : "Save it. Find it in Spotlight when you need it."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guarda esos datos que necesitas tener a mano. Encuéntralos en Spotlight."
+            "value" : "Guárdalo y encuéntralo en Spotlight cuando lo necesites."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enregistrez les petites infos à garder sous la main. Retrouvez-les dans Spotlight."
+            "value" : "Enregistrez vos infos et retrouvez-les dans Spotlight au besoin."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "जो बातें याद रखनी पड़ती हैं, उन्हें सेव कर लें। ज़रूरत हो तो Spotlight में ढूँढ लें।"
+            "value" : "सेव करें और ज़रूरत पड़ने पर Spotlight में ढूँढ लें।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salva le piccole informazioni da tenere a portata di mano. Ritrovale in Spotlight."
+            "value" : "Salva e ritrova le tue informazioni in Spotlight quando ti servono."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "覚えておきたい情報を保存。必要なときにSpotlightで見つかります。"
+            "value" : "保存しておけば、必要なときにSpotlightで見つかります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "기억해 둬야 할 정보를 저장해 보세요. 필요할 때 Spotlight에서 찾을 수 있어요."
+            "value" : "저장하고, 필요할 때 Spotlight에서 찾아보세요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bewaar de kleine dingen die je bij de hand wilt hebben. Vind ze terug in Spotlight."
+            "value" : "Bewaar het en vind het terug in Spotlight wanneer je het nodig hebt."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salve aquelas informações que você precisa ter à mão. Encontre tudo no Spotlight."
+            "value" : "Salve e encontre no Spotlight quando precisar."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сохраняйте то, что нужно держать под рукой. Находите в Spotlight, когда понадобится."
+            "value" : "Сохраните и найдите в Spotlight, когда понадобится."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aklında tutmak zorunda kalma. Kaydet, ihtiyacın olduğunda Spotlight’ta bul."
+            "value" : "Kaydet, gerektiğinde Spotlight’ta bul."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "把需要随时查找的信息存下来，需要时在“聚焦”中就能找到。"
+            "value" : "保存下来，需要时在“聚焦”中找到。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "把需要隨時查找的資訊存下來，需要時就能在 Spotlight 中找到。"
+            "value" : "儲存下來，需要時在 Spotlight 中找到。"
           }
         }
       }
@@ -5508,96 +5508,96 @@
       }
     },
     "One search away" : {
-      "comment" : "Title of the guide shown while nothing is saved yet.",
+      "comment" : "Onboarding headline: information the user wants to remember is close at hand. Warm and personal; this refers to saved practical details, not sentimental memories. Pair with the short save-and-find subtitle.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ما تحتاجه تجده بسهولة"
+            "value" : "كل ما تريد تذكّره في متناول يدك"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Schnell finden, was du brauchst"
+            "value" : "Was du dir merken möchtest, immer griffbereit"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Find it when you need it"
+            "value" : "What you want to remember, within reach"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Encuéntralo cuando lo necesites"
+            "value" : "Lo que quieres recordar, siempre a mano"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Retrouvez l’info au bon moment"
+            "value" : "Ce que vous voulez retenir, à portée de main"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ज़रूरत पड़ते ही मिल जाए"
+            "value" : "जो याद रखना चाहें, हमेशा पास"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trova ciò che ti serve, quando serve"
+            "value" : "Quello che vuoi ricordare, a portata di mano"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "必要なときに、すぐ見つかる"
+            "value" : "覚えておきたいことを、いつでも手元に"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "필요할 때 바로 찾으세요"
+            "value" : "기억하고 싶은 정보, 언제나 가까이에"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vind het wanneer je het nodig hebt"
+            "value" : "Wat je wilt onthouden, binnen handbereik"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Encontre quando precisar"
+            "value" : "O que você quer lembrar, sempre à mão"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нужное всегда под рукой"
+            "value" : "Всё, что вы хотите запомнить, под рукой"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lazım olduğunda hemen bul"
+            "value" : "Hatırlamak istediklerin elinin altında"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "需要时，随手就能找到"
+            "value" : "想记住的信息，随时在手边"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "需要時，隨手就能找到"
+            "value" : "想記住的資訊，隨時在手邊"
           }
         }
       }
