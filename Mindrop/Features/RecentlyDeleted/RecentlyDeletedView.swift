@@ -18,16 +18,18 @@ struct RecentlyDeletedView: View {
                     ForEach(repository.deletedMemories) { memory in
                         row(for: memory)
                             .swipeActions(edge: .leading) {
-                                Button("Recover", systemImage: "arrow.uturn.backward") { recover(memory) }
+                                Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
                                     .tint(.green)
                             }
                             .swipeActions(edge: .trailing) {
-                                Button("Delete Now", systemImage: "trash") { pendingDeletion = memory }
+                                Button { pendingDeletion = memory } label: { Label("Delete Now", image: "ix.trash.linear") }
                                     .tint(.red)
                             }
                             .contextMenu {
-                                Button("Recover", systemImage: "arrow.uturn.backward") { recover(memory) }
-                                Button("Delete Now", systemImage: "trash", role: .destructive) { pendingDeletion = memory }
+                                Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
+                                Button(role: .destructive) { pendingDeletion = memory } label: {
+                                    Label("Delete Now", image: "ix.trash.linear")
+                                }
                             }
                     }
                 } footer: {
@@ -40,7 +42,7 @@ struct RecentlyDeletedView: View {
         .overlay {
             if repository.deletedMemories.isEmpty {
                 ContentUnavailableView {
-                    Label("No Deleted Memories", systemImage: "trash")
+                    Label("No Deleted Memories", image: "ix.trash.linear")
                 } description: {
                     Text("Memories you delete stay here for 30 days.")
                 }
@@ -84,7 +86,7 @@ struct RecentlyDeletedView: View {
             .lineLimit(1)
             if let date = memory.deletedForGoodDate {
                 HStack(spacing: 4) {
-                    Image(systemName: "trash")
+                    Image("ix.trash.linear")
                     // In days, so a month reads "in 30 days" rather than "next month".
                     Text("Deleted for good \(date, format: Self.daysAway)")
                 }

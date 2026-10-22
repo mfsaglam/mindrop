@@ -21,22 +21,33 @@ extension MemoryCategory {
         }
     }
 
+    /// The category's Iconsax symbol, in its Bulk style: drawn with
+    /// `.symbolRenderingMode(.hierarchical)`, its soft parts take a lighter shade of the tint.
     var symbolName: String {
         switch self {
-        case .network: "wifi"
-        case .account: "person.badge.key"
-        case .code: "lock.circle"
-        case .finance: "banknote"
-        case .contact: "phone"
-        case .people: "person.2"
-        case .address: "mappin.and.ellipse"
-        case .home: "house"
-        case .vehicle: "car"
-        case .document: "doc.text"
-        case .health: "cross.case"
-        case .link: "link"
-        case .other: "square.grid.2x2"
+        case .network: "ix.wifi.bulk"
+        case .account: "ix.key.bulk"
+        case .code: "ix.lock-circle.bulk"
+        case .finance: "ix.money.bulk"
+        case .contact: "ix.call.bulk"
+        case .people: "ix.profile-2user.bulk"
+        case .address: "ix.location.bulk"
+        case .home: "ix.home-2.bulk"
+        case .vehicle: "ix.car.bulk"
+        case .document: "ix.document-text.bulk"
+        case .health: "ix.hospital.bulk"
+        case .link: "ix.link.bulk"
+        case .other: "ix.category.bulk"
         }
+    }
+
+    /// For a memory without a category.
+    static let uncategorisedSymbolName = "ix.tag.bulk"
+
+    /// The Linear version, for menus and pickers. iOS draws those in one colour, and Bulk's
+    /// soft layer would then cover the detail drawn over it.
+    var menuSymbolName: String {
+        symbolName.replacingOccurrences(of: ".bulk", with: ".linear")
     }
 
     /// One system colour per category, all thirteen distinct, so a category can be told
@@ -65,10 +76,19 @@ extension MemoryCategory {
         self == .document
     }
 
+    /// The name with its Linear icon, as a row of a menu or picker.
+    var menuLabel: some View {
+        Label { Text(title) } icon: { Image(menuSymbolName) }
+    }
+
     /// The icon carries the colour; the name stays in the text colour, so it reads well
     /// whatever the tint.
     var label: some View {
-        Label { Text(title) } icon: { Image(systemName: symbolName).foregroundStyle(tint) }
+        Label { Text(title) } icon: {
+            Image(symbolName)
+                .symbolRenderingMode(.hierarchical)
+                .foregroundStyle(tint)
+        }
     }
 }
 
@@ -89,7 +109,8 @@ struct CategoryTile: View {
     var size: CGFloat = 30
 
     var body: some View {
-        Image(systemName: category?.symbolName ?? "tag")
+        Image(category?.symbolName ?? MemoryCategory.uncategorisedSymbolName)
+            .symbolRenderingMode(.hierarchical)
             .font(.system(size: size * 0.48, weight: .semibold))
             .foregroundStyle(.white)
             .frame(width: size, height: size)

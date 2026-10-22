@@ -65,7 +65,7 @@ struct MemoryListView: View {
                                 if let category = section.category {
                                     category.label
                                 } else {
-                                    Label("No Category", systemImage: "tag")
+                                    Label("No Category", image: "ix.tag.linear")
                                 }
                             }
                             .sectionHeaderStyle()
@@ -83,12 +83,12 @@ struct MemoryListView: View {
                             }
                             .buttonStyle(.plain)
                             .contextMenu {
-                                Button("Recover", systemImage: "arrow.uturn.backward") { recover(memory) }
+                                Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
                                 deleteAction(for: memory)
                             }
                         }
                     } header: {
-                        Label("Expired", systemImage: "clock.badge.xmark")
+                        Label("Expired", image: "ix.calendar-remove.linear")
                             .sectionHeaderStyle()
                     } footer: {
                         Text("Expired memories are deleted for good 7 days after they expire.")
@@ -113,13 +113,13 @@ struct MemoryListView: View {
         .searchToolbarBehavior(.minimize)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button("New Memory", systemImage: "plus") { sheet = .newMemory }
+                Button { sheet = .newMemory } label: { Label("New Memory", image: "ix.add.linear") }
             }
             // Search at the bottom right, where the thumb is, rather than centred.
             ToolbarSpacer(.flexible, placement: .bottomBar)
             DefaultToolbarItem(kind: .search, placement: .bottomBar)
             ToolbarItem(placement: .topBarLeading) {
-                Button("Settings", systemImage: "gearshape") { sheet = .settings }
+                Button { sheet = .settings } label: { Label("Settings", image: "ix.setting-2.linear") }
             }
             // Only once something is categorised: without Apple Intelligence the app
             // looks exactly as it did.
@@ -178,18 +178,13 @@ struct MemoryListView: View {
     private var categoryMenu: some View {
         Menu {
             Picker("Category", selection: $categoryFilter) {
-                Label("All", systemImage: "tray.full").tag(MemoryCategory?.none)
+                Label("All", image: "ix.layer.linear").tag(MemoryCategory?.none)
                 ForEach(repository.categoriesInUse, id: \.self) { category in
-                    category.label.tag(Optional(category))
+                    category.menuLabel.tag(Optional(category))
                 }
             }
         } label: {
-            Label(
-                "Category",
-                systemImage: activeCategory == nil
-                    ? "line.3.horizontal.decrease.circle"
-                    : "line.3.horizontal.decrease.circle.fill"
-            )
+            Label("Category", image: activeCategory == nil ? "ix.filter.linear" : "ix.filter.bold")
         }
     }
 
@@ -203,7 +198,7 @@ struct MemoryListView: View {
             }
         } else if query.isEmpty {
             ContentUnavailableView {
-                Label("No Memories", systemImage: "magnifyingglass")
+                Label("No Memories", image: "ix.search-normal.linear")
             } description: {
                 Text("Save a value under a keyword, then search that keyword in Spotlight to see it.")
             }
@@ -222,8 +217,10 @@ struct MemoryListView: View {
             .buttonStyle(.plain)
             .contextMenu {
                 if sensitiveAccess.canShow(memory) {
-                    Button("Copy", systemImage: "doc.on.doc") {
+                    Button {
                         UIPasteboard.general.string = memory.value
+                    } label: {
+                        Label("Copy", image: "ix.copy.linear")
                     }
                 }
                 deleteAction(for: memory)
@@ -237,11 +234,11 @@ struct MemoryListView: View {
             RecentlyDeletedView(repository: repository)
         } label: {
             HStack {
-                Label("Recently Deleted", systemImage: "trash")
+                Label("Recently Deleted", image: "ix.trash.linear")
                 Spacer()
                 Text(repository.deletedMemories.count, format: .number)
                     .foregroundStyle(.secondary)
-                Image(systemName: "chevron.forward")
+                Image("ix.arrow-right-02.linear")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(.tertiary)
             }
@@ -258,7 +255,7 @@ struct MemoryListView: View {
         Button(role: .destructive) {
             pendingDeletion = memory
         } label: {
-            Label("Delete", systemImage: "trash")
+            Label("Delete", image: "ix.trash.linear")
         }
     }
 
@@ -300,7 +297,8 @@ struct MemoryCard: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 5) {
                 if showsCategory, let category = memory.category?.category {
-                    Image(systemName: category.symbolName)
+                    Image(category.symbolName)
+                        .symbolRenderingMode(.hierarchical)
                         .foregroundStyle(category.tint)
                         .accessibilityLabel(Text(category.title))
                 }
@@ -364,10 +362,10 @@ struct ExpiryText: View {
     var body: some View {
         HStack(spacing: 4) {
             if isExpired, let deletion = memory.deletionDate {
-                Image(systemName: "trash")
+                Image("ix.trash.linear")
                 Text("Deleted for good \(deletion, format: .relative(presentation: .named))")
             } else if let expiry = memory.expiresAt {
-                Image(systemName: "timer")
+                Image("ix.timer.linear")
                 Text("Expires \(expiry, format: .relative(presentation: .named))")
             }
         }

@@ -21,7 +21,8 @@ public final class SpotlightSynchronizer {
     /// category's icon; phone numbers for the Call button.
     /// 11: the keyword back on the drawn line on every device, where a Debug experiment
     /// had moved it to the second line (not found by Spotlight, on iOS 27 too).
-    public static let currentIndexFormatVersion = 11
+    /// 12: category icons redrawn with Iconsax symbols.
+    public static let currentIndexFormatVersion = 12
 
     private let indexer: SpotlightIndexing
     private let stateStore: SpotlightSyncStateStore

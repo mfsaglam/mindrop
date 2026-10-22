@@ -61,7 +61,7 @@ struct HiddenValue: View {
 /// Marks a sensitive memory next to its keyword, hidden or not.
 struct SensitiveBadge: View {
     var body: some View {
-        Image(systemName: "lock.fill")
+        Image("ix.lock.bold")
             .imageScale(.small)
             .foregroundStyle(.secondary)
             .accessibilityLabel(Text("Sensitive"))

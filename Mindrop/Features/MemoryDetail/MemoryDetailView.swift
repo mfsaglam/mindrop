@@ -25,7 +25,7 @@ struct MemoryDetailView: View {
         } else {
             // Reachable from a Spotlight result whose memory has since been deleted.
             ContentUnavailableView {
-                Label("Memory Not Found", systemImage: "questionmark.circle")
+                Label("Memory Not Found", image: "ix.info-circle.linear")
             } description: {
                 Text("This memory is no longer saved in Mindrop.")
             }
@@ -64,12 +64,14 @@ struct MemoryDetailView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 // The editor shows the value, so a hidden one is unlocked first.
-                Button("Edit", systemImage: "pencil") {
+                Button {
                     if memory.isSensitive {
                         Task { isEditing = await sensitiveAccess.unlock() }
                     } else {
                         isEditing = true
                     }
+                } label: {
+                    Label("Edit", image: "ix.edit-2.linear")
                 }
             }
         }
@@ -141,7 +143,7 @@ struct MemoryDetailView: View {
                         HiddenValue()
                             .font(.largeTitle)
                             .foregroundStyle(.secondary)
-                        Label("Show Value", systemImage: "lock.open")
+                        Label("Show Value", image: "ix.unlock.linear")
                             .font(.body.weight(.medium))
                             .foregroundStyle(.tint)
                     }
@@ -166,9 +168,9 @@ struct MemoryDetailView: View {
                 } label: {
                     Group {
                         if didCopy {
-                            Label("Copied", systemImage: "checkmark")
+                            Label("Copied", image: "ix.tick-circle.linear")
                         } else {
-                            Label("Copy", systemImage: "doc.on.doc")
+                            Label("Copy", image: "ix.copy.linear")
                         }
                     }
                     .font(.headline)
@@ -180,7 +182,7 @@ struct MemoryDetailView: View {
                 .tint(memory.category?.category.tint)
 
                 ShareLink(item: memory.value) {
-                    Label("Share", systemImage: "square.and.arrow.up")
+                    Label("Share", image: "ix.export-arrow-01.linear")
                         .labelStyle(.iconOnly)
                         .font(.headline)
                         .padding(6)
@@ -189,7 +191,7 @@ struct MemoryDetailView: View {
 
                 if let action = MemoryAction(memory: memory) {
                     Link(destination: action.url) {
-                        Label { Text(action.title) } icon: { Image(systemName: action.symbolName) }
+                        Label { Text(action.title) } icon: { Image(action.symbolName) }
                             .labelStyle(.iconOnly)
                             .font(.headline)
                             .padding(6)
@@ -212,20 +214,25 @@ struct MemoryDetailView: View {
                     text
                         .foregroundStyle(.orange)
                     Spacer()
-                    Button("Recover", systemImage: "arrow.uturn.backward") { setExpiry(nil, for: memory) }
+                    Button { setExpiry(nil, for: memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
                         .buttonStyle(.borderedProminent)
                         .tint(.green)
                 }
                 .font(.footnote.weight(.medium))
             } else if let expiresAt = memory.expiresAt {
                 Menu {
-                    Button("1 More Day", systemImage: "plus") {
+                    Button {
                         setExpiry(expiresAt.addingTimeInterval(24 * 60 * 60), for: memory)
+                    } label: {
+                        Label("1 More Day", image: "ix.add.linear")
                     }
-                    Button("1 More Week", systemImage: "plus") {
+                    Button {
                         setExpiry(expiresAt.addingTimeInterval(7 * 24 * 60 * 60), for: memory)
+                    } label: {
+                        Label("1 More Week", image: "ix.add.linear")
                     }
-                    Button("Keep Forever", systemImage: "infinity") { setExpiry(nil, for: memory) }
+                    // Iconsax has no infinity: a stopped timer says the same.
+                    Button { setExpiry(nil, for: memory) } label: { Label("Keep Forever", image: "ix.timer-pause.linear") }
                 } label: {
                     text
                         .font(.footnote.weight(.medium))
@@ -252,9 +259,9 @@ struct MemoryDetailView: View {
     private func categoryMenu(for memory: Memory) -> some View {
         Menu {
             Picker("Category", selection: categoryBinding(for: memory)) {
-                Label("Automatic", systemImage: "sparkles").tag(MemoryCategory?.none)
+                Label("Automatic", image: "ix.magic-star.linear").tag(MemoryCategory?.none)
                 ForEach(MemoryCategory.allCases, id: \.self) { category in
-                    category.label.tag(Optional(category))
+                    category.menuLabel.tag(Optional(category))
                 }
             }
         } label: {

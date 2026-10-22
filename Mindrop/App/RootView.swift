@@ -19,7 +19,7 @@ struct RootView: View {
                 }
             case .failed(let message):
                 ContentUnavailableView {
-                    Label("Mindrop can’t open your memories", systemImage: "exclamationmark.triangle")
+                    Label("Mindrop can’t open your memories", image: "ix.danger.linear")
                 } description: {
                     Text(message)
                 }

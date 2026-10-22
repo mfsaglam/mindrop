@@ -49,9 +49,9 @@ struct MemoryAction {
 
     var symbolName: String {
         switch kind {
-        case .open: "safari"
-        case .directions: "arrow.triangle.turn.up.right.diamond.fill"
-        case .call: "phone.fill"
+        case .open: "ix.global.linear"
+        case .directions: "ix.routing-2.linear"
+        case .call: "ix.call.linear"
         }
     }
 
