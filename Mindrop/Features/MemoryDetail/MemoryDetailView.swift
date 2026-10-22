@@ -32,78 +32,31 @@ struct MemoryDetailView: View {
         }
     }
 
+    /// The keyword above one glass card holding the value, touched with the category's
+    /// colour, and Copy, Share and the value's own action below it.
     private func content(for memory: Memory) -> some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 12) {
-                HStack(spacing: 4) {
-                    HighlightedText(memory.keyword, query: highlight)
-                    if memory.isSensitive {
-                        SensitiveBadge()
-                    }
-                }
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-
-                categoryMenu(for: memory)
+            VStack(alignment: .leading, spacing: 18) {
+                header(for: memory)
 
                 expiry(for: memory)
 
+                valueCard(for: memory)
+
                 if sensitiveAccess.canShow(memory) {
-                    // Shown laid out, copied exactly as saved.
-                    Button {
-                        copy(memory.value)
-                    } label: {
-                        MemoryValueView(value: memory.value, highlight: highlight)
-                            .foregroundStyle(.primary)
-                            .multilineTextAlignment(.leading)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .contentShape(.rect)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Value")
-                    .accessibilityValue(memory.value)
-                    .accessibilityHint("Double tap to copy to the clipboard")
-                } else {
-                    // Unlocking only reveals: copying is a second, deliberate tap.
-                    Button {
-                        Task { await sensitiveAccess.unlock() }
-                    } label: {
-                        VStack(alignment: .leading, spacing: 12) {
-                            HiddenValue()
-                                .font(.largeTitle)
-                                .foregroundStyle(.secondary)
-                            Label("Show Value", systemImage: "lock.open")
-                                .font(.body.weight(.medium))
-                                .foregroundStyle(.tint)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .contentShape(.rect)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Show Value")
+                    actions(for: memory)
                 }
 
-                // The blank placeholder keeps the layout from jumping, and must not
-                // be looked up for translation.
-                Group {
-                    if didCopy {
-                        Text("Copied")
-                    } else {
-                        Text(verbatim: " ")
-                    }
-                }
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .accessibilityHidden(!didCopy)
-
-                if memory.category?.category == .network, sensitiveAccess.canShow(memory),
-                   let credentials = WiFiCredentials(value: memory.value) {
-                    WiFiQRCodeView(credentials: credentials)
-                        .padding(.top, 8)
+                // Not while expired: it has already left Spotlight.
+                if !memory.isExpired(at: .now) {
+                    let line = SpotlightAttributesFactory.make(for: memory).displayName
+                    Text("Shows in Spotlight as “\(line)”")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 6)
                 }
             }
-            .padding(.horizontal)
-            .padding(.top, 8)
+            .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         // No navigation title: the keyword is already on screen, above the value.
@@ -135,6 +88,118 @@ struct MemoryDetailView: View {
         } message: {
             Text(categoryError ?? "")
         }
+    }
+
+    private func header(for memory: Memory) -> some View {
+        HStack(spacing: 10) {
+            CategoryTile(category: memory.category?.category)
+            HStack(spacing: 4) {
+                HighlightedText(memory.keyword, query: highlight)
+                    .lineLimit(2)
+                if memory.isSensitive {
+                    SensitiveBadge()
+                }
+            }
+            .font(.headline)
+            Spacer(minLength: 8)
+            categoryMenu(for: memory)
+        }
+    }
+
+    /// Tapping the value copies it too, as it always has; the button below says so.
+    @ViewBuilder
+    private func valueCard(for memory: Memory) -> some View {
+        let category = memory.category?.category
+        Group {
+            if sensitiveAccess.canShow(memory) {
+                VStack(alignment: .leading, spacing: 18) {
+                    // Shown laid out, copied exactly as saved.
+                    Button {
+                        copy(memory.value)
+                    } label: {
+                        MemoryValueView(value: memory.value, category: category, highlight: highlight)
+                            .foregroundStyle(.primary)
+                            .multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .contentShape(.rect)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Value")
+                    .accessibilityValue(memory.value)
+                    .accessibilityHint("Double tap to copy to the clipboard")
+
+                    if category == .network, let credentials = WiFiCredentials(value: memory.value) {
+                        WiFiQRCodeView(credentials: credentials)
+                    }
+                }
+            } else {
+                // Unlocking only reveals: copying is a second, deliberate tap.
+                Button {
+                    Task { await sensitiveAccess.unlock() }
+                } label: {
+                    VStack(alignment: .leading, spacing: 12) {
+                        HiddenValue()
+                            .font(.largeTitle)
+                            .foregroundStyle(.secondary)
+                        Label("Show Value", systemImage: "lock.open")
+                            .font(.body.weight(.medium))
+                            .foregroundStyle(.tint)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(.rect)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Show Value")
+            }
+        }
+        .padding(24)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .glassEffect(.category(category), in: .rect(cornerRadius: 32, style: .continuous))
+    }
+
+    /// Copy, in the category's colour, says "Copied" for a moment after copying.
+    private func actions(for memory: Memory) -> some View {
+        GlassEffectContainer(spacing: 10) {
+            HStack(spacing: 10) {
+                Button {
+                    copy(memory.value)
+                } label: {
+                    Group {
+                        if didCopy {
+                            Label("Copied", systemImage: "checkmark")
+                        } else {
+                            Label("Copy", systemImage: "doc.on.doc")
+                        }
+                    }
+                    .font(.headline)
+                    .foregroundStyle(memory.category?.category.prefersDarkText == true ? .black : .white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 6)
+                }
+                .buttonStyle(.glassProminent)
+                .tint(memory.category?.category.tint)
+
+                ShareLink(item: memory.value) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                        .labelStyle(.iconOnly)
+                        .font(.headline)
+                        .padding(6)
+                }
+                .buttonStyle(.glass)
+
+                if let action = MemoryAction(memory: memory) {
+                    Link(destination: action.url) {
+                        Label { Text(action.title) } icon: { Image(systemName: action.symbolName) }
+                            .labelStyle(.iconOnly)
+                            .font(.headline)
+                            .padding(6)
+                    }
+                    .buttonStyle(.glass)
+                }
+            }
+        }
+        .buttonBorderShape(.capsule)
+        .controlSize(.large)
     }
 
     /// A temporary memory says when it expires and can be kept longer; an expired one
@@ -193,17 +258,19 @@ struct MemoryDetailView: View {
                 }
             }
         } label: {
+            // The tile beside the keyword already shows the category's symbol.
             Group {
                 if let category = memory.category?.category {
-                    category.label
+                    Text(category.title)
                 } else {
-                    Label("No Category", systemImage: "tag")
+                    Text("No Category")
                 }
             }
             .font(.footnote.weight(.medium))
+            .foregroundStyle(.primary)
             .padding(.horizontal, 10)
             .padding(.vertical, 5)
-            .background((memory.category?.category.tint ?? .gray).opacity(0.15), in: .capsule)
+            .glassEffect(.category(memory.category?.category), in: .capsule)
         }
         .accessibilityLabel("Category")
     }

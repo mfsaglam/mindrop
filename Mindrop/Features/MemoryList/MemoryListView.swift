@@ -1,6 +1,7 @@
 import MindropCore
 import MindropIntents
 import SwiftUI
+import UIKit
 
 struct MemoryListView: View {
     private enum Sheet: Identifiable {
@@ -21,6 +22,7 @@ struct MemoryListView: View {
     /// The memory the user swiped to delete, waiting for them to confirm.
     @State private var pendingDeletion: Memory?
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
+    @Environment(\.sensitiveAccess) private var sensitiveAccess
     private let newMemoryRequest = NewMemoryRequest.shared
 
     /// The filter, unless its last memory has since left that category.
@@ -49,59 +51,62 @@ struct MemoryListView: View {
         groupsByCategory && !repository.categoriesInUse.isEmpty
     }
 
-    var body: some View {
-        List {
-            if showsSections {
-                ForEach(results.groupedByCategory()) { section in
-                    Section {
-                        rows(section.memories, showsCategory: false)
-                    } header: {
-                        if let category = section.category {
-                            category.label
-                        } else {
-                            Label("No Category", systemImage: "tag")
-                        }
-                    }
-                }
-            } else {
-                rows(results, showsCategory: true)
-            }
+    private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
 
-            if !expiredResults.isEmpty {
-                Section {
-                    ForEach(expiredResults) { memory in
-                        NavigationLink(value: memory.id) {
-                            MemoryRow(memory: memory, showsCategory: !showsSections, query: query)
-                        }
-                        .swipeActions(edge: .trailing) {
-                            deleteAction(for: memory)
-                        }
-                        .swipeActions(edge: .leading) {
-                            Button("Recover", systemImage: "arrow.uturn.backward") { recover(memory) }
-                                .tint(.green)
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
+                if showsSections {
+                    ForEach(results.groupedByCategory()) { section in
+                        Section {
+                            cards(section.memories, showsCategory: false)
+                        } header: {
+                            Group {
+                                if let category = section.category {
+                                    category.label
+                                } else {
+                                    Label("No Category", systemImage: "tag")
+                                }
+                            }
+                            .sectionHeaderStyle()
                         }
                     }
-                } header: {
-                    Label("Expired", systemImage: "clock.badge.xmark")
-                } footer: {
-                    Text("Expired memories are deleted for good 7 days after they expire.")
+                } else {
+                    cards(results, showsCategory: true)
+                }
+
+                if !expiredResults.isEmpty {
+                    Section {
+                        ForEach(expiredResults) { memory in
+                            NavigationLink(value: memory.id) {
+                                MemoryCard(memory: memory, showsCategory: !showsSections, query: query)
+                            }
+                            .buttonStyle(.plain)
+                            .contextMenu {
+                                Button("Recover", systemImage: "arrow.uturn.backward") { recover(memory) }
+                                deleteAction(for: memory)
+                            }
+                        }
+                    } header: {
+                        Label("Expired", systemImage: "clock.badge.xmark")
+                            .sectionHeaderStyle()
+                    } footer: {
+                        Text("Expired memories are deleted for good 7 days after they expire.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 4)
+                    }
                 }
             }
+            .padding(.top, showsSections ? 0 : 12)
 
             if showsRecentlyDeleted {
-                Section {
-                    NavigationLink {
-                        RecentlyDeletedView(repository: repository)
-                    } label: {
-                        LabeledContent {
-                            Text(repository.deletedMemories.count, format: .number)
-                        } label: {
-                            Label("Recently Deleted", systemImage: "trash")
-                        }
-                    }
-                }
+                recentlyDeleted
+                    .padding(.top, 24)
             }
         }
+        .contentMargins(.horizontal, 16, for: .scrollContent)
+        .contentMargins(.bottom, 24, for: .scrollContent)
         .animation(.default, value: showsSections)
         .navigationTitle("Mindrop")
         .searchable(text: $query, isPresented: $isSearching, placement: .toolbar, prompt: "Search memories")
@@ -110,6 +115,9 @@ struct MemoryListView: View {
             ToolbarItem(placement: .primaryAction) {
                 Button("New Memory", systemImage: "plus") { sheet = .newMemory }
             }
+            // Search at the bottom right, where the thumb is, rather than centred.
+            ToolbarSpacer(.flexible, placement: .bottomBar)
+            DefaultToolbarItem(kind: .search, placement: .bottomBar)
             ToolbarItem(placement: .topBarLeading) {
                 Button("Settings", systemImage: "gearshape") { sheet = .settings }
             }
@@ -204,28 +212,54 @@ struct MemoryListView: View {
         }
     }
 
-    /// In sections the header already names the category, so the row's icon is dropped.
-    private func rows(_ memories: [Memory], showsCategory: Bool) -> some View {
+    /// In sections the header already names the category, so the card's icon is dropped.
+    /// A long press offers Copy and Delete: a grid has no swipe actions.
+    private func cards(_ memories: [Memory], showsCategory: Bool) -> some View {
         ForEach(memories) { memory in
             NavigationLink(value: memory.id) {
-                MemoryRow(memory: memory, showsCategory: showsCategory, query: query)
+                MemoryCard(memory: memory, showsCategory: showsCategory, query: query)
             }
-            .swipeActions(edge: .trailing) {
+            .buttonStyle(.plain)
+            .contextMenu {
+                if sensitiveAccess.canShow(memory) {
+                    Button("Copy", systemImage: "doc.on.doc") {
+                        UIPasteboard.general.string = memory.value
+                    }
+                }
                 deleteAction(for: memory)
             }
         }
     }
 
-    /// Deleting reaches every device, so a swipe only asks; the alert does the deleting. Not
-    /// `onDelete`, which removes the row at once, and not a `.destructive` role, which
-    /// animates the row away before the user has answered.
+    /// The way into Recently Deleted, a glass row under the cards.
+    private var recentlyDeleted: some View {
+        NavigationLink {
+            RecentlyDeletedView(repository: repository)
+        } label: {
+            HStack {
+                Label("Recently Deleted", systemImage: "trash")
+                Spacer()
+                Text(repository.deletedMemories.count, format: .number)
+                    .foregroundStyle(.secondary)
+                Image(systemName: "chevron.forward")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(.horizontal, 18)
+            .padding(.vertical, 14)
+            .contentShape(.rect)
+            .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 22, style: .continuous))
+        }
+        .buttonStyle(.plain)
+    }
+
+    /// Deleting reaches every device, so the menu only asks; the alert does the deleting.
     private func deleteAction(for memory: Memory) -> some View {
-        Button {
+        Button(role: .destructive) {
             pendingDeletion = memory
         } label: {
             Label("Delete", systemImage: "trash")
         }
-        .tint(.red)
     }
 
     private var deletionTitle: Text {
@@ -251,8 +285,11 @@ struct MemoryListView: View {
     }
 }
 
-struct MemoryRow: View {
+/// A memory in the grid: the keyword small at the top, the value below as the card's
+/// headline, on glass touched with the category's colour.
+struct MemoryCard: View {
     let memory: Memory
+    /// The category's symbol beside the keyword, when no section heading names it.
     let showsCategory: Bool
     /// The search in progress, whose words are marked in the keyword and value.
     var query: String = ""
@@ -260,49 +297,55 @@ struct MemoryRow: View {
     @Environment(\.sensitiveAccess) private var sensitiveAccess
 
     var body: some View {
-        HStack(spacing: 12) {
-            // Always present in the flat list, so rows line up whether or not they are
-            // categorised yet.
-            if showsCategory {
-                Group {
-                    if let category = memory.category?.category {
-                        Image(systemName: category.symbolName)
-                            .foregroundStyle(category.tint)
-                            .accessibilityLabel(Text(category.title))
-                    } else {
-                        Color.clear
-                    }
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 5) {
+                if showsCategory, let category = memory.category?.category {
+                    Image(systemName: category.symbolName)
+                        .foregroundStyle(category.tint)
+                        .accessibilityLabel(Text(category.title))
                 }
-                .font(.body)
-                .frame(width: 28)
+                HighlightedText(memory.keyword, query: query)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                if memory.isSensitive {
+                    SensitiveBadge()
+                }
             }
+            .font(.footnote.weight(.medium))
 
-            VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 4) {
-                    HighlightedText(memory.keyword, query: query)
-                    if memory.isSensitive {
-                        SensitiveBadge()
-                    }
+            Spacer(minLength: 0)
+
+            Group {
+                if sensitiveAccess.canShow(memory) {
+                    HighlightedText(memory.value, query: query)
+                } else {
+                    HiddenValue()
                 }
-                .font(.headline)
-                Group {
-                    if sensitiveAccess.canShow(memory) {
-                        HighlightedText(memory.value, query: query)
-                    } else {
-                        HiddenValue()
-                    }
-                }
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
-                if let expiry = ExpiryText(memory: memory) {
-                    expiry
-                        .font(.caption)
-                        .foregroundStyle(.orange)
-                }
+            }
+            .font(.headline)
+            .lineLimit(3)
+            .multilineTextAlignment(.leading)
+
+            if let expiry = ExpiryText(memory: memory) {
+                expiry
+                    .font(.caption)
+                    .foregroundStyle(.orange)
             }
         }
+        .padding(14)
+        .frame(maxWidth: .infinity, minHeight: 104, alignment: .topLeading)
+        .contentShape(.rect(cornerRadius: 22, style: .continuous))
+        .glassEffect(.category(memory.category?.category).interactive(), in: .rect(cornerRadius: 22, style: .continuous))
         .accessibilityElement(children: .combine)
+    }
+}
+
+private extension View {
+    /// A section's heading over the cards: the category's tinted symbol and its name.
+    func sectionHeaderStyle() -> some View {
+        font(.headline)
+            .padding(.top, 16)
+            .padding(.leading, 4)
     }
 }
 
@@ -318,7 +361,6 @@ struct ExpiryText: View {
         isExpired = memory.isExpired(at: now)
     }
 
-    /// An `HStack`, not a `Label`: in a list row a label's icon moves the row's separator.
     var body: some View {
         HStack(spacing: 4) {
             if isExpired, let deletion = memory.deletionDate {

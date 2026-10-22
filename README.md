@@ -292,6 +292,31 @@ laid out to be read (`MemoryValueView`, using `ValueLayout`):
 Display only: tapping the value still copies it **exactly as saved**, never the grouped
 form. The category chip, the expiry chip and Edit work as before.
 
+## The look: glass cards
+
+The list and the detail screen are built from native components and Liquid Glass, on the
+plain system background.
+
+- **The list is a grid of glass cards**, two columns: the keyword small at the top, the
+  value as the card's headline. Each card's glass has a touch (8%) of its category's colour
+  (`Glass.category`). Grouped by category, the section heading carries the category's
+  symbol and the cards leave it out; as one list, each card shows its own symbol. A long
+  press offers Copy and Delete (Recover and Delete for an expired one): a grid has no swipe
+  actions. Recently Deleted is a glass row under the cards.
+- **Search sits at the bottom right**, a toolbar item after a flexible spacer, not centred.
+- **The detail screen is the value on one glass card**, tinted the same way, under the
+  category's tile (the same icon as in Spotlight) and the keyword. Below it: Copy in the
+  category's colour, which reads "Copied" for a moment; Share; and the value's own action
+  when it has one (`MemoryAction`): Open for a web address, Directions to an address in
+  Apple Maps, or Call for a number in Contacts, Family & People or Health. Then the line
+  the memory shows in Spotlight.
+- **The value's typeface follows its category** (`ValueStyle`). Monospaced, which tells 0
+  from O and l from 1, for Codes & PINs, Banking, Accounts, Wi-Fi, IDs & Documents and
+  Vehicles, and always for card numbers and IBANs; the system font for people and places;
+  even-width digits for contacts; smaller for links. Health, Home & Devices, Other and
+  uncategorised memories decide by the value: one word with a digit in it is a code. Long
+  values step down in size.
+
 Tried first, and dropped: the same view as Spotlight's long-press preview, through a Quick
 Look preview extension with `QLSupportsSearchableItems`. On a device (iOS 27) Spotlight never
 started the extension — not with the default content type, nor with an app-declared one
@@ -312,7 +337,7 @@ Forever (the default), 1 Day, 1 Week, 1 Month, or Until a Date — shared as
   bottom of the list, saying when it will be deleted for good, and stays there for 7 days
   (`MemoryLifetime.expiredRetention`). Deletion for good happens at launch and on returning
   to the foreground (`MemoryRepository.deleteExpired`).
-- **Recover** (a swipe in the list, or a button on the detail screen) brings an expired
+- **Recover** (a long press in the list, or a button on the detail screen) brings an expired
   memory back for good, not on a new timer, and reindexes it.
 - **Before it expires** the row says "Expires tomorrow", and the detail screen's expiry
   chip offers 1 More Day, 1 More Week or Keep Forever.
@@ -472,7 +497,7 @@ Until anything is categorised the list stays flat, so without Apple Intelligence
 it always did.
 
 - **A colour per category**, from the thirteen system colours (Wi-Fi blue, Banking green,
-  Health red, …), on the icon in rows, section headers and the detail screen's chip. The
+  Health red, …), on section headers, the cards' glass and the detail screen's tile. The
   names stay in the text colour, so they read well whatever the tint.
 - **Fixed, not free-form.** A model naming categories freely produces "Wi-Fi", "WiFi
   Password" and "Network" for the same thing, which defeats a filter and cannot be
@@ -529,7 +554,7 @@ metadata stays private.
 
 ## Tests
 
-118 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
+119 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
 and value validation, value preservation, file persistence across processes, Spotlight
 metadata, index recovery after failures, routing by UUID, missing memories, and share
 extension input, categorisation (automatic and manual, stale results, edits), and temporary

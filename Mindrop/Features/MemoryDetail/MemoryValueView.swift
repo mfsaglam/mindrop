@@ -3,10 +3,11 @@ import MindropCore
 import SwiftUI
 
 /// The value on the detail screen, laid out to be read: card numbers and IBANs in blocks of
-/// four, recovery phrases as numbered words, anything else as typed. Display only — what
-/// is copied is always the value exactly as saved.
+/// four, recovery phrases as numbered words, anything else as typed, in the typeface its
+/// category calls for. Display only — what is copied is always the value exactly as saved.
 struct MemoryValueView: View {
     let value: String
+    let category: MemoryCategory?
     /// Words to mark, from the search that found this memory in Spotlight.
     var highlight: String?
 
@@ -15,12 +16,11 @@ struct MemoryValueView: View {
         case .text:
             // User content, shown verbatim, never looked up.
             HighlightedText(value, query: highlight)
-                .font(.largeTitle)
-                .fontWeight(.semibold)
+                .font(ValueStyle(value: value, category: category).font(for: value))
         case .groups(let groups):
-            HighlightedText(groups.joined(separator: " "), query: highlight)
-                .font(.largeTitle.monospaced())
-                .fontWeight(.semibold)
+            let grouped = groups.joined(separator: " ")
+            HighlightedText(grouped, query: highlight)
+                .font(ValueStyle.exact.font(for: grouped))
         case .words(let words):
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .leading), count: 3), spacing: 10) {
                 ForEach(Array(words.enumerated()), id: \.offset) { index, word in
@@ -34,6 +34,54 @@ struct MemoryValueView: View {
                     }
                 }
             }
+        }
+    }
+}
+
+/// The typeface a value is set in, by what kind of thing it is.
+enum ValueStyle: Equatable {
+    /// Read out or typed one character at a time, where 0 and O, or l, I and 1, must not
+    /// be mistaken: monospaced, whose letterforms tell them apart.
+    case exact
+    /// Words, names, dates and addresses, read as language: the system font.
+    case prose
+    /// Phone numbers: the system font with digits of equal width, so they read in blocks.
+    case phone
+    /// Web addresses, long and rarely read in full: smaller, so they wrap less.
+    case link
+
+    init(value: String, category: MemoryCategory?) {
+        switch category {
+        case .code, .finance, .account, .network, .document, .vehicle:
+            self = .exact
+        case .contact:
+            self = .phone
+        case .link:
+            self = .link
+        case .people, .address:
+            self = .prose
+        case .health, .home, .other, nil:
+            // Categories that hold both: a blood type is prose, an insurance number or an
+            // alarm code is not. One word with a digit in it is taken for a code.
+            let isCode = !value.contains(where: \.isWhitespace) && value.contains(where: \.isNumber)
+            self = isCode ? .exact : .prose
+        }
+    }
+
+    /// Large while the value is short, smaller as it grows, so most values fit on a line
+    /// or two. Monospaced characters are wider, so they step down sooner.
+    func font(for value: String) -> Font {
+        let length = value.count
+        switch self {
+        case .exact:
+            let style: Font.TextStyle = length <= 16 ? .largeTitle : length <= 40 ? .title : .title2
+            return .system(style, design: .monospaced, weight: .semibold)
+        case .prose:
+            return (length <= 40 ? Font.largeTitle : .title).weight(.bold)
+        case .phone:
+            return Font.largeTitle.weight(.bold).monospacedDigit()
+        case .link:
+            return Font.title2.weight(.semibold)
         }
     }
 }

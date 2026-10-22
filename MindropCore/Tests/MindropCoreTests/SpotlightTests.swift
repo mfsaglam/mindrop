@@ -130,6 +130,14 @@ struct SpotlightMetadataTests {
         #expect(SpotlightAttributesFactory.make(for: memory).phoneNumber == nil)
     }
 
+    @Test("A caller can trust numbers in more categories than Spotlight's Call button does")
+    func phoneNumberInChosenCategories() {
+        let dentist = "+90 212 555 01 23"
+        #expect(ValueDetector.phoneNumber(in: dentist, category: .health) == nil)
+        #expect(ValueDetector.phoneNumber(in: dentist, category: .health, categories: [.health]) == dentist)
+        #expect(ValueDetector.phoneNumber(in: dentist, category: nil, categories: [.health]) == nil)
+    }
+
     @Test("Directions are offered for a place only when turned on, and carry its coordinates")
     func directions() {
         var home = makeMemory(keyword: "mom's address", value: "Bağdat Cd. 123, Kadıköy, İstanbul")

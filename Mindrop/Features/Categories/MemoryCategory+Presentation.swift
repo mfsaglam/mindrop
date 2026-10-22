@@ -59,9 +59,41 @@ extension MemoryCategory {
         }
     }
 
+    /// White text on yellow is barely readable, so a button filled with it is labelled in
+    /// black.
+    var prefersDarkText: Bool {
+        self == .document
+    }
+
     /// The icon carries the colour; the name stays in the text colour, so it reads well
     /// whatever the tint.
     var label: some View {
         Label { Text(title) } icon: { Image(systemName: symbolName).foregroundStyle(tint) }
+    }
+}
+
+extension Glass {
+    /// Regular glass with a touch of the category's colour: enough to tell cards apart, not
+    /// so much that they read as coloured cards. Plain glass without a category.
+    static func category(_ category: MemoryCategory?) -> Glass {
+        guard let category else { return .regular }
+        return .regular.tint(category.tint.opacity(0.08))
+    }
+}
+
+/// The category's symbol, white on a rounded square of its colour: the icon each result
+/// carries in Spotlight (`SpotlightIcons`), so the app and Spotlight look like one thing.
+/// A grey tag without a category.
+struct CategoryTile: View {
+    let category: MemoryCategory?
+    var size: CGFloat = 30
+
+    var body: some View {
+        Image(systemName: category?.symbolName ?? "tag")
+            .font(.system(size: size * 0.48, weight: .semibold))
+            .foregroundStyle(.white)
+            .frame(width: size, height: size)
+            .background(category?.tint ?? .gray, in: .rect(cornerRadius: size * 0.225, style: .continuous))
+            .accessibilityHidden(true)
     }
 }
