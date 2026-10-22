@@ -19,6 +19,23 @@ struct MemoryTests {
         }
     }
 
+    @Test("Keywords shorter than four characters are rejected after normalisation", arguments: [
+        "a", "ab", "123", " abc \n", " a    b ", "👨‍👩‍👧‍👦", "e\u{301}e\u{301}e\u{301}",
+    ])
+    func rejectsShortKeyword(keyword: String) {
+        #expect(throws: MemoryValidationError.keywordTooShort) {
+            try Memory.make(keyword: keyword, value: "something", now: .now)
+        }
+    }
+
+    @Test("Four-character keywords are accepted across languages", arguments: [
+        "wifi", "1234", "café", "e\u{301}e\u{301}e\u{301}e\u{301}", "家里的网", "🔑🔑🔑🔑",
+    ])
+    func acceptsFourCharacterKeyword(keyword: String) throws {
+        let memory = try Memory.make(keyword: "  \(keyword)  ", value: "something", now: .now)
+        #expect(memory.keyword == keyword)
+    }
+
     @Test("An empty or whitespace-only value is rejected", arguments: ["", "   ", "\n"])
     func rejectsEmptyValue(value: String) {
         #expect(throws: MemoryValidationError.emptyValue) {

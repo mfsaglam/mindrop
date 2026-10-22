@@ -63,6 +63,7 @@ public struct Memory: Identifiable, Codable, Sendable, Hashable {
 
 public enum MemoryValidationError: Error, Equatable, Sendable {
     case emptyKeyword
+    case keywordTooShort
     case emptyValue
 }
 
@@ -72,6 +73,8 @@ public enum MemoryValidationError: Error, Equatable, Sendable {
 /// user content: only the outer edges are trimmed, everything inside is preserved
 /// exactly as typed (line breaks, spacing in an IBAN, punctuation in a password).
 public enum MemoryNormalizer {
+    public static let minimumKeywordLength = 4
+
     public static func normalizeKeyword(_ raw: String) -> String {
         raw.split(whereSeparator: \.isWhitespace).joined(separator: " ")
     }
@@ -80,10 +83,11 @@ public enum MemoryNormalizer {
         raw.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    /// Validates and normalises a keyword/value pair, or throws if either side is empty.
+    /// Validates the saved text, including the minimum keyword length needed for Spotlight.
     public static func validate(keyword: String, value: String) throws -> (keyword: String, value: String) {
         let keyword = normalizeKeyword(keyword)
         guard !keyword.isEmpty else { throw MemoryValidationError.emptyKeyword }
+        guard keyword.count >= minimumKeywordLength else { throw MemoryValidationError.keywordTooShort }
         let value = normalizeValue(value)
         guard !value.isEmpty else { throw MemoryValidationError.emptyValue }
         return (keyword, value)

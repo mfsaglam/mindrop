@@ -7,6 +7,11 @@ import SwiftUI
 /// Shown by both extensions — the share sheet's app row and its action row — which
 /// differ only in how iOS lists them, not in what the user does here.
 public struct SaveToMindropView: View {
+    private enum Field: Hashable {
+        case keyword
+        case details
+    }
+
     let loadSharedValue: () async -> String?
     let onFinish: () -> Void
     let onCancel: () -> Void
@@ -18,6 +23,8 @@ public struct SaveToMindropView: View {
     @State private var isSensitive = false
     @State private var isSaving = false
     @State private var errorMessage: String?
+    @State private var hasVisitedDetails = false
+    @FocusState private var focusedField: Field?
 
     public init(
         loadSharedValue: @escaping () async -> String?,
@@ -33,16 +40,31 @@ public struct SaveToMindropView: View {
         !isSaving && (try? MemoryNormalizer.validate(keyword: keyword, value: value)) != nil
     }
 
+    private var showsKeywordHint: Bool {
+        let keyword = MemoryNormalizer.normalizeKeyword(keyword)
+        return hasVisitedDetails && !keyword.isEmpty && keyword.count < MemoryNormalizer.minimumKeywordLength
+    }
+
     public var body: some View {
         NavigationStack {
             Form {
                 Section {
-                    TextField(text: $keyword) { localized("Keyword") }
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
+                    VStack(alignment: .leading, spacing: 6) {
+                        TextField(text: $keyword) { localized("Keyword") }
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .focused($focusedField, equals: .keyword)
+                        if showsKeywordHint {
+                            localized("Use a keyword with at least 4 characters so Spotlight can find it.")
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
                     TextField(text: $value, axis: .vertical) { localized("Value") }
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
+                        .focused($focusedField, equals: .details)
                 }
                 SensitiveSection(isSensitive: $isSensitive)
                 MemoryLifetimeSection(option: $lifetime, date: $untilDate)
@@ -64,6 +86,11 @@ public struct SaveToMindropView: View {
                 localized("Please try again.")
             }
         }
+        .onChange(of: focusedField) { _, field in
+            if field == .details, !MemoryNormalizer.normalizeKeyword(keyword).isEmpty {
+                hasVisitedDetails = true
+            }
+        }
         .task {
             if let shared = await loadSharedValue(), value.isEmpty {
                 value = shared
@@ -78,6 +105,7 @@ public struct SaveToMindropView: View {
     }
 
     private func save() async {
+        guard canSave else { return }
         isSaving = true
         do {
             let repository = try MemoryRepository.live()

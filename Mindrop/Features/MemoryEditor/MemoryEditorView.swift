@@ -3,6 +3,11 @@ import MindropSaveUI
 import SwiftUI
 
 struct MemoryEditorView: View {
+    private enum Field: Hashable {
+        case keyword
+        case details
+    }
+
     enum Mode {
         case create
         case edit(Memory)
@@ -22,7 +27,8 @@ struct MemoryEditorView: View {
     @State private var untilDate: Date
     @State private var isSensitive: Bool
     @State private var saveError: String?
-    @FocusState private var isKeywordFocused: Bool
+    @State private var hasVisitedDetails = false
+    @FocusState private var focusedField: Field?
 
     init(mode: Mode, repository: MemoryRepository) {
         self.mode = mode
@@ -47,17 +53,31 @@ struct MemoryEditorView: View {
         (try? MemoryNormalizer.validate(keyword: keyword, value: value)) != nil
     }
 
+    private var showsKeywordHint: Bool {
+        let keyword = MemoryNormalizer.normalizeKeyword(keyword)
+        return hasVisitedDetails && !keyword.isEmpty && keyword.count < MemoryNormalizer.minimumKeywordLength
+    }
+
     var body: some View {
         NavigationStack {
             Form {
                 Section {
-                    TextField("Keyword", text: $keyword)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .focused($isKeywordFocused)
+                    VStack(alignment: .leading, spacing: 6) {
+                        TextField("Keyword", text: $keyword)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .focused($focusedField, equals: .keyword)
+                        if showsKeywordHint {
+                            Text("Use a keyword with at least 4 characters so Spotlight can find it.")
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
                     TextField("Value", text: $value, axis: .vertical)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
+                        .focused($focusedField, equals: .details)
                 }
                 SensitiveSection(isSensitive: $isSensitive)
                 MemoryLifetimeSection(
@@ -71,7 +91,12 @@ struct MemoryEditorView: View {
             // A new memory starts with the keyboard up, so the control and the Action
             // button land the user straight in typing.
             .onAppear {
-                if case .create = mode { isKeywordFocused = true }
+                if case .create = mode { focusedField = .keyword }
+            }
+            .onChange(of: focusedField) { _, field in
+                if field == .details, !MemoryNormalizer.normalizeKeyword(keyword).isEmpty {
+                    hasVisitedDetails = true
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -99,6 +124,7 @@ struct MemoryEditorView: View {
     }
 
     private func save() {
+        guard canSave else { return }
         do {
             let expiresAt = MemoryLifetime(lifetime, until: untilDate).expiry(from: .now)
             switch mode {

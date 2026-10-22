@@ -7975,6 +7975,101 @@
         }
       }
     },
+    "Use a keyword with at least 4 characters so Spotlight can find it." : {
+      "comment" : "Validation hint beneath the keyword field. Shown after the user enters a nonempty keyword shorter than four characters and moves to the details field; hidden when corrected or cleared. Saving requires at least four characters after whitespace normalisation. Characters include letters and digits.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اختر كلمة مفتاحية من 4 أحرف على الأقل ليتمكّن Spotlight من العثور عليها."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle ein Stichwort mit mindestens 4 Zeichen, damit Spotlight es finden kann."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use a keyword with at least 4 characters so Spotlight can find it."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige una palabra clave de al menos 4 caracteres para que Spotlight pueda encontrarla."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez un mot-clé d’au moins 4 caractères pour que Spotlight puisse le trouver."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कम से कम 4 अक्षरों वाला कीवर्ड चुनें, ताकि Spotlight उसे ढूँढ सके।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli una parola chiave di almeno 4 caratteri, così Spotlight potrà trovarla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlightで見つけられるように、キーワードは4文字以上にしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight에서 찾을 수 있도록 키워드는 4자 이상으로 입력해 주세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies een trefwoord van minstens 4 tekens, zodat Spotlight het kan vinden."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha uma palavra-chave com pelo menos 4 caracteres para que o Spotlight possa encontrá-la."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите ключевое слово длиной не меньше 4 символов, чтобы Spotlight мог его найти."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight’ın bulabilmesi için en az 4 karakterlik bir anahtar kelime seç."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关键词请至少输入 4 个字符，这样才能在“聚焦”中找到。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關鍵字請至少輸入 4 個字元，這樣才能在 Spotlight 中找到。"
+          }
+        }
+      }
+    },
     "Value" : {
       "comment" : "Field label and VoiceOver label for the saved content: a password, number, address or other detail. Use an everyday word for content or details, not a mathematical value.",
       "localizations" : {

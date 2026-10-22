@@ -16,6 +16,49 @@ struct MemoryRepositoryTests {
         #expect(indexer.indexedIDs == [memory.id])
     }
 
+    @Test("A short keyword cannot be saved by the app or share extension")
+    func shortKeywordDoesNotPersist() async throws {
+        let (repository, store, indexer) = try makeRepository()
+
+        #expect(throws: MemoryValidationError.keywordTooShort) {
+            try repository.create(keyword: "123", value: "something")
+        }
+        await #expect(throws: MemoryValidationError.keywordTooShort) {
+            try await repository.createAwaitingIndex(keyword: "123", value: "something")
+        }
+
+        #expect(repository.memories.isEmpty)
+        #expect(try store.load().isEmpty)
+        #expect(indexer.operations.isEmpty)
+    }
+
+    @Test("An edit with a short keyword leaves the saved memory unchanged")
+    func shortKeywordDoesNotOverwrite() async throws {
+        let (repository, store, indexer) = try makeRepository()
+        let memory = try repository.create(keyword: "wifi", value: "original")
+        await repository.indexingTask?.value
+        let operations = indexer.operations
+
+        #expect(throws: MemoryValidationError.keywordTooShort) {
+            try repository.update(memory, keyword: "123", value: "changed")
+        }
+
+        #expect(repository.memories == [memory])
+        #expect(try store.load() == [memory])
+        #expect(indexer.operations == operations)
+    }
+
+    @Test("Previously saved short keywords still load and can be renamed")
+    func loadsLegacyShortKeyword() throws {
+        let legacy = makeMemory(keyword: "pin", value: "1234")
+        let (repository, store, _) = try makeRepository(memories: [legacy])
+        #expect(repository.memory(id: legacy.id) == legacy)
+
+        let edited = try repository.update(legacy, keyword: "door", value: legacy.value)
+        #expect(edited.id == legacy.id)
+        #expect(try store.load() == [edited])
+    }
+
     @Test("A reloaded repository sees what was saved")
     func reloadsFromStore() throws {
         let store = InMemoryMemoryStore()
@@ -88,9 +131,9 @@ struct MemoryRepositoryTests {
     func sortsByRecency() throws {
         let clock = TestClock(Date(timeIntervalSince1970: 1))
         let (repository, _, _) = try makeRepository(now: clock.reading)
-        let first = try repository.create(keyword: "a", value: "1")
+        let first = try repository.create(keyword: "alpha", value: "1")
         clock.now = Date(timeIntervalSince1970: 2)
-        let second = try repository.create(keyword: "b", value: "2")
+        let second = try repository.create(keyword: "bravo", value: "2")
 
         #expect(repository.memories == [second, first])
     }
