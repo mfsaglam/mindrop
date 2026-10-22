@@ -179,6 +179,184 @@
         }
       }
     },
+    "30 days to recover" : {
+      "comment" : "Empty Recently Deleted, the second stage: the memory can be recovered for 30 days.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 يومًا للاستعادة"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 Tage zum Wiederherstellen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 días para recuperar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 jours pour récupérer"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पुनर्प्राप्ति के लिए 30 दिन"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 giorni per recuperare"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30日間は復元可能"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30일 동안 복구 가능"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 dagen om te herstellen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 dias para recuperar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 дней на восстановление"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurtarmak için 30 gün"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 天内可恢复"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 天內可復原"
+          }
+        }
+      }
+    },
+    "A deleted memory waits here, so a mistake can be undone." : {
+      "comment" : "Under the title of the empty Recently Deleted.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ينتظر الإدخال المحذوف هنا، حتى يمكن التراجع عن الخطأ."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein gelöschter Eintrag wartet hier, damit sich ein Versehen rückgängig machen lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una entrada eliminada espera aquí, para que puedas deshacer un error."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une entrée supprimée attend ici, pour qu’une erreur puisse être annulée."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हटाई गई प्रविष्टि यहाँ रहती है, ताकि गलती सुधारी जा सके।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una voce eliminata resta qui, così puoi rimediare a un errore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "削除した項目はここに残るので、間違いを取り消せます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "삭제한 항목은 여기에 남아 있어 실수를 되돌릴 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een verwijderd item wacht hier, zodat je een vergissing kunt herstellen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma entrada apagada fica aqui, para que um erro possa ser desfeito."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалённая запись ждёт здесь, чтобы ошибку можно было исправить."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silinen bir kayıt burada bekler, böylece bir hata geri alınabilir."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已删除的条目会保留在这里，以便撤销误操作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已刪除的項目會保留在這裡，以便還原誤刪。"
+          }
+        }
+      }
+    },
     "Accounts" : {
       "comment" : "Category of saved entries: logins and passwords for apps and websites.",
       "localizations" : {
@@ -1422,6 +1600,184 @@
         }
       }
     },
+    "Delete All" : {
+      "comment" : "Recently Deleted: deletes every memory in it for good, and the alert's confirming button.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف الكل"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle löschen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar todo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout supprimer"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सभी हटाएँ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina tutto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべて削除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모두 삭제"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder alles"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar Tudo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить все"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tümünü Sil"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部删除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部刪除"
+          }
+        }
+      }
+    },
+    "Delete All for Good?" : {
+      "comment" : "Title of the alert confirming Delete All in Recently Deleted.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف الكل نهائيًا؟"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle endgültig löschen?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar todo definitivamente?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout supprimer définitivement ?"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सभी को हमेशा के लिए हटाएँ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminare tutto definitivamente?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてを完全に削除しますか？"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모두 영구 삭제하시겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles definitief verwijderen?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar tudo de vez?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить все навсегда?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tümü kalıcı olarak silinsin mi?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要永久删除全部内容吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要永久刪除全部內容嗎？"
+          }
+        }
+      }
+    },
     "Delete Now" : {
       "comment" : "Swipe action in Recently Deleted that deletes a memory for good.",
       "localizations" : {
@@ -1685,6 +2041,95 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "刪除「%@」？"
+          }
+        }
+      }
+    },
+    "Deleted" : {
+      "comment" : "Empty Recently Deleted, the first stage of a deleted memory: just deleted.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "محذوف"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelöscht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimé"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हटाई गई"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "削除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "삭제됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijderd"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалено"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silindi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已删除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已刪除"
           }
         }
       }
@@ -2044,6 +2489,95 @@
         }
       }
     },
+    "Double tap to recover or delete now" : {
+      "comment" : "VoiceOver hint on a card in Recently Deleted; double tapping opens Recover and Delete Now.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اضغط مرتين للاستعادة أو للحذف الآن"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zum Wiederherstellen oder sofortigen Löschen doppeltippen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca dos veces para recuperar o eliminar ahora"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touchez deux fois pour récupérer ou supprimer maintenant"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पुनर्प्राप्त करने या अभी हटाने के लिए दो बार टैप करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca due volte per recuperare o eliminare ora"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダブルタップで復元、または今すぐ削除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "복구하거나 지금 삭제하려면 이중 탭하세요"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik twee keer om te herstellen of nu te verwijderen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque duas vezes para recuperar ou apagar agora"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дважды коснитесь, чтобы восстановить или удалить сейчас"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurtarmak veya şimdi silmek için iki kez dokun"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连按两次以恢复或立即删除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點兩下以復原或立即刪除"
+          }
+        }
+      }
+    },
     "Edit" : {
       "comment" : "Pencil button in the detail screen's toolbar.",
       "localizations" : {
@@ -2217,6 +2751,184 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "編輯項目"
+          }
+        }
+      }
+    },
+    "Every memory in Recently Deleted will be deleted on all your devices. This can’t be undone." : {
+      "comment" : "Message of the alert confirming Delete All in Recently Deleted.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سيتم حذف كل إدخال في المحذوفة مؤخرًا على جميع أجهزتك. لا يمكن التراجع عن ذلك."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Einträge in „Zuletzt gelöscht“ werden auf all deinen Geräten gelöscht. Dies kann nicht widerrufen werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas las entradas de Eliminado recientemente se eliminarán en todos tus dispositivos. Esta acción no se puede deshacer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toutes les entrées des suppressions récentes seront supprimées sur tous vos appareils. Cette action est irréversible."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हाल ही में डिलीट किए गए की हर प्रविष्टि आपके सभी डिवाइस से हटा दी जाएगी। इसे पहले जैसा नहीं किया जा सकता।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutte le voci in Eliminati di recente verranno eliminate su tutti i tuoi dispositivi. L’operazione non può essere annullata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「最近削除した項目」のすべての項目が、すべてのデバイスから削除されます。この操作は取り消せません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최근 삭제된 항목의 모든 항목이 모든 기기에서 삭제됩니다. 이 작업은 되돌릴 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle items in Recent verwijderd worden op al je apparaten verwijderd. Dit kan niet ongedaan worden gemaakt."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas as entradas em Apagados Recentemente serão apagadas em todos os seus dispositivos. Esta ação não pode ser desfeita."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все записи в «Недавно удаленных» будут удалены на всех ваших устройствах. Это действие нельзя отменить."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son Silinenler’deki tüm kayıtlar tüm aygıtlarında silinecek. Bu işlem geri alınamaz."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“最近删除”中的所有条目都将在你的所有设备上删除。此操作无法撤销。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「最近刪除」中的所有項目都會在你的所有裝置上刪除。此動作無法還原。"
+          }
+        }
+      }
+    },
+    "Example: searching “wifi” in Spotlight shows the saved password." : {
+      "comment" : "VoiceOver label of the guide's picture of a Spotlight search.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مثال: البحث عن ”wifi“ في Spotlight يعرض كلمة السر المحفوظة."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beispiel: Die Suche nach „wifi“ in Spotlight zeigt das gesicherte Passwort."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ejemplo: buscar «wifi» en Spotlight muestra la contraseña guardada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exemple : rechercher « wifi » dans Spotlight affiche le mot de passe enregistré."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "उदाहरण: Spotlight में “wifi” खोजने पर सहेजा गया पासवर्ड दिखता है।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esempio: cercando “wifi” in Spotlight compare la password salvata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "例：Spotlightで「wifi」を検索すると、保存したパスワードが表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "예: Spotlight에서 ‘wifi’를 검색하면 저장한 암호가 표시됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voorbeeld: zoeken op ‘wifi’ in Spotlight toont het bewaarde wachtwoord."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exemplo: buscar “wifi” no Spotlight mostra a senha salva."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пример: поиск «wifi» в Spotlight показывает сохранённый пароль."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Örnek: Spotlight’ta “wifi” araması kaydedilen şifreyi gösterir."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "示例：在“聚焦”中搜索“wifi”会显示保存的密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "範例：在 Spotlight 中搜尋「wifi」會顯示儲存的密碼。"
           }
         }
       }
@@ -2662,6 +3374,95 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "家人與朋友"
+          }
+        }
+      }
+    },
+    "Gone for good" : {
+      "comment" : "Empty Recently Deleted, the last stage: deleted permanently.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "محذوف نهائيًا"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Endgültig weg"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminado para siempre"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimé définitivement"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हमेशा के लिए हटाई गई"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminato per sempre"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完全に削除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "영구 삭제됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Definitief weg"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagado de vez"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалено навсегда"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalıcı olarak silindi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "永久删除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "永久刪除"
           }
         }
       }
@@ -3645,95 +4446,6 @@
         }
       }
     },
-    "Memories you delete stay here for 30 days." : {
-      "comment" : "Empty state description of Recently Deleted.",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تبقى الذكريات التي تحذفها هنا لمدة 30 يومًا."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gelöschte Einträge bleiben 30 Tage lang hier."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Las memorias que eliminas se quedan aquí 30 días."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les mémos supprimés restent ici pendant 30 jours."
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "आपकी डिलीट की गई यादें 30 दिनों तक यहाँ रहती हैं।"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I ricordi eliminati restano qui per 30 giorni."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "削除したメモはここに30日間残ります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "삭제한 메모는 30일 동안 여기에 남아 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwijderde herinneringen blijven hier 30 dagen."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "As memórias apagadas ficam aqui por 30 dias."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удаленные записи хранятся здесь 30 дней."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sildiğin anılar 30 gün boyunca burada kalır."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除的记忆会在这里保留 30 天。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "刪除的記憶會在這裡保留 30 天。"
-          }
-        }
-      }
-    },
     "Memory Not Found" : {
       "localizations" : {
         "ar" : {
@@ -3910,6 +4622,95 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mindrop 無法打開你的項目"
+          }
+        }
+      }
+    },
+    "Mindrop puts what you save into Spotlight." : {
+      "comment" : "Under the guide's title: what Mindrop does.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يضع Mindrop ما تحفظه في Spotlight."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop bringt alles, was du sicherst, in Spotlight."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop pone lo que guardas en Spotlight."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop place ce que vous enregistrez dans Spotlight."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop आपकी सहेजी चीज़ें Spotlight में रखता है।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop mette ciò che salvi in Spotlight."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindropは保存した内容をSpotlightに表示します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop은 저장한 내용을 Spotlight에 넣어 줍니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop zet wat je bewaart in Spotlight."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Mindrop coloca o que você salva no Spotlight."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop помещает сохранённое в Spotlight."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop kaydettiklerini Spotlight’a koyar."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop 会把你保存的内容放进“聚焦”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop 會把你儲存的內容放進 Spotlight。"
           }
         }
       }
@@ -4092,179 +4893,91 @@
         }
       }
     },
-    "No Deleted Memories" : {
-      "comment" : "Empty state of Recently Deleted.",
+    "Nothing Deleted" : {
+      "comment" : "Title of Recently Deleted when it is empty.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "لا توجد ذكريات محذوفة"
+            "value" : "لا شيء محذوف"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keine gelöschten Einträge"
+            "value" : "Nichts gelöscht"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No hay memorias eliminadas"
+            "value" : "Nada eliminado"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aucun mémo supprimé"
+            "value" : "Rien de supprimé"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "कोई डिलीट की गई याद नहीं"
+            "value" : "कुछ भी हटाया नहीं गया"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nessun ricordo eliminato"
+            "value" : "Nessun elemento eliminato"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "削除したメモはありません"
+            "value" : "削除済みの項目なし"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "삭제된 메모 없음"
+            "value" : "삭제된 항목 없음"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen verwijderde herinneringen"
+            "value" : "Niets verwijderd"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nenhuma memória apagada"
+            "value" : "Nada apagado"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нет удаленных записей"
+            "value" : "Ничего не удалено"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Silinmiş Anı Yok"
+            "value" : "Silinen bir şey yok"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "没有已删除的记忆"
+            "value" : "没有已删除的内容"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "沒有已刪除的記憶"
-          }
-        }
-      }
-    },
-    "No Memories" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لا توجد إدخالات"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine Einträge"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sin entradas"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aucune entrée"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "कोई प्रविष्टि नहीं"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nessuna voce"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "項目がありません"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "항목 없음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geen items"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nenhuma entrada"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Нет записей"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kayıt Yok"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "暂无条目"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "沒有項目"
+            "value" : "沒有已刪除的內容"
           }
         }
       }
@@ -4388,6 +5101,95 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "好"
+          }
+        }
+      }
+    },
+    "One search away" : {
+      "comment" : "Title of the guide shown while nothing is saved yet.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "على بُعد بحث واحد"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur eine Suche entfernt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A una búsqueda"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À une recherche près"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बस एक खोज दूर"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A portata di ricerca"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検索ひとつで"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "검색 한 번이면 충분"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eén zoekopdracht verwijderd"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A uma busca de distância"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Всего один поиск"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir arama uzağında"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一搜即得"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一搜即得"
           }
         }
       }
@@ -5015,90 +5817,180 @@
         }
       }
     },
-    "Save a value under a keyword, then search that keyword in Spotlight to see it." : {
+    "Save Your First Memory" : {
+      "comment" : "Button at the bottom of the guide; opens the new memory form.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "احفظ قيمة تحت كلمة مفتاحية، ثم ابحث عن تلك الكلمة في Spotlight لرؤيتها."
+            "value" : "احفظ أول إدخال لك"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Einen Wert unter einem Stichwort sichern und das Stichwort anschließend in Spotlight suchen, um den Wert zu sehen."
+            "value" : "Ersten Eintrag sichern"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guarda un valor con una palabra clave y luego busca esa palabra en Spotlight para verlo."
+            "value" : "Guardar tu primera entrada"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enregistrez une valeur sous un mot-clé, puis recherchez ce mot-clé dans Spotlight pour l’afficher."
+            "value" : "Enregistrer votre première entrée"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "किसी मान को कीवर्ड के साथ सेव करें, फिर उसे देखने के लिए Spotlight में वह कीवर्ड खोजें।"
+            "value" : "अपनी पहली प्रविष्टि सहेजें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salva un valore con una parola chiave, poi cerca quella parola in Spotlight per vederlo."
+            "value" : "Salva la tua prima voce"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "値をキーワードで保存し、Spotlightでそのキーワードを検索すると値が表示されます。"
+            "value" : "最初の項目を保存"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "값을 키워드로 저장한 다음, Spotlight에서 해당 키워드를 검색하면 값이 표시됩니다."
+            "value" : "첫 번째 항목 저장"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bewaar een waarde onder een trefwoord en zoek dat trefwoord daarna in Spotlight om de waarde te zien."
+            "value" : "Je eerste item bewaren"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salve um valor com uma palavra-chave e depois busque essa palavra no Spotlight para vê-lo."
+            "value" : "Salvar sua primeira entrada"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сохраните значение под ключевым словом, затем найдите это слово в Spotlight, чтобы увидеть значение."
+            "value" : "Сохранить первую запись"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir değeri anahtar kelimeyle kaydedin, sonra Spotlight’ta o kelimeyi arayıp değeri görün."
+            "value" : "İlk kaydını oluştur"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用关键词存储一个值，然后在 Spotlight 中搜索该关键词即可看到它。"
+            "value" : "保存你的第一个条目"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用關鍵字儲存一個值，然後在 Spotlight 中搜尋該關鍵字即可看到它。"
+            "value" : "儲存你的第一個項目"
+          }
+        }
+      }
+    },
+    "Save a value under a keyword" : {
+      "comment" : "Guide, step 1.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "احفظ قيمة تحت كلمة مفتاحية"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sichere einen Wert unter einem Stichwort"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda un valor con una palabra clave"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrez une valeur sous un mot-clé"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "किसी कीवर्ड के तहत कोई मान सहेजें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva un valore con una parola chiave"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キーワードを付けて値を保存"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "키워드로 값을 저장하세요"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewaar een waarde onder een trefwoord"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salve um valor com uma palavra-chave"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохраните значение под ключевым словом"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir değeri bir anahtar kelimeyle kaydet"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以关键词保存一个值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以關鍵字儲存一個值"
           }
         }
       }
@@ -5992,6 +6884,95 @@
         }
       }
     },
+    "Swipe down on the Home Screen" : {
+      "comment" : "Guide, step 2: how to open Spotlight.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسحب لأسفل على الشاشة الرئيسية"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streiche auf dem Home-Bildschirm nach unten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desliza hacia abajo en la pantalla de inicio"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Balayez vers le bas sur l’écran d’accueil"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "होम स्क्रीन पर नीचे स्वाइप करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scorri verso il basso nella schermata Home"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホーム画面で下にスワイプ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "홈 화면에서 아래로 쓸어내리세요"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veeg omlaag op het beginscherm"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deslize para baixo na Tela de Início"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Смахните вниз на экране «Домой»"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana Ekran’da aşağı kaydır"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在主屏幕上向下轻扫"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在主畫面上向下滑動"
+          }
+        }
+      }
+    },
     "This memory is no longer saved in Mindrop." : {
       "localizations" : {
         "ar" : {
@@ -6165,6 +7146,95 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這則記憶將從你的所有裝置上刪除。此動作無法還原。"
+          }
+        }
+      }
+    },
+    "Type the keyword, and the value is right there" : {
+      "comment" : "Guide, step 3.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اكتب الكلمة المفتاحية، وستجد القيمة أمامك"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe das Stichwort ein, und schon ist der Wert da"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe la palabra clave y ahí está el valor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tapez le mot-clé, et la valeur est là"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कीवर्ड टाइप करें, और मान वहीं मिल जाएगा"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digita la parola chiave e il valore è lì"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キーワードを入力すれば、値がすぐに表示されます"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "키워드를 입력하면 값이 바로 나타납니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typ het trefwoord en de waarde staat er meteen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite a palavra-chave e o valor aparece na hora"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите ключевое слово — и значение перед вами"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anahtar kelimeyi yaz, değer hemen orada"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入关键词，值就在眼前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入關鍵字，值就在眼前"
           }
         }
       }

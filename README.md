@@ -304,6 +304,19 @@ plain system background.
   press offers Copy and Delete (Recover and Delete for an expired one): a grid has no swipe
   actions. Recently Deleted is a glass row under the cards.
 - **Search sits at the bottom right**, a toolbar item after a flexible spacer, not centred.
+- **With nothing saved, the list is the onboarding** (`SpotlightGuide`): a Spotlight search
+  for "wifi" drawn in glass, showing the result the way Spotlight draws a memory, then
+  three steps (save under a keyword, swipe down on the Home Screen, type the keyword) and
+  Save Your First Memory. There is no separate onboarding screen. It also shows when every
+  memory was deleted, above the Recently Deleted row. A search or a filter that finds
+  nothing still gets the system's empty view.
+- **Recently Deleted is the same grid in clear glass**: no category tint, so deleted
+  memories read as set aside, with the category's icon still coloured. Each card counts
+  down to its deletion for good ("in 29 days"), red in the last three days. Tapping a card
+  offers Recover and Delete Now; Delete Now still asks first. **Delete All** (top right,
+  only while something is there) deletes every one for good, after one alert. Empty (when its last memory
+  is recovered or deleted for good), it shows a deleted memory's three stages: Deleted, 30
+  days to recover, gone for good.
 - **The detail screen is the value on one glass card**, tinted the same way, under the
   category's tile (the same icon as in Spotlight) and the keyword. Below it: Copy in the
   category's colour, which reads "Copied" for a moment; Share; and the value's own action

@@ -46,6 +46,8 @@ SYMBOLS = [
     ("info-circle", "linear"), ("danger", "linear"), ("unlock", "linear"), ("lock", "bold"),
     ("tick-circle", "linear"), ("global", "linear"), ("routing-2", "linear"), ("call", "linear"),
     ("arrow-right-02", "linear"),
+    # The empty Recently Deleted: its large icon, and the stages of a deleted memory.
+    ("trash", "bulk"), ("clock", "linear"), ("close-circle", "linear"),
 ]
 
 # Every icon is placed by the same fixed margin around Iconsax's 24-point grid, rather than

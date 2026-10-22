@@ -51,10 +51,20 @@ struct MemoryListView: View {
         groupsByCategory && !repository.categoriesInUse.isEmpty
     }
 
+    /// Nothing saved at all, not even expired: the list shows the Spotlight guide, which is
+    /// also how a new user learns what Mindrop does. Recently Deleted may still be there.
+    private var hasNoMemories: Bool {
+        repository.results(for: "").isEmpty && repository.expiredResults(for: "").isEmpty
+    }
+
     private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
 
     var body: some View {
         ScrollView {
+            if hasNoMemories {
+                SpotlightGuide { sheet = .newMemory }
+            }
+
             LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
                 if showsSections {
                     ForEach(results.groupedByCategory()) { section in
@@ -129,8 +139,10 @@ struct MemoryListView: View {
                 }
             }
         }
+        // Only for a search or a filter that finds nothing: with nothing saved, the guide
+        // is in the list.
         .overlay {
-            if results.isEmpty && expiredResults.isEmpty && !showsRecentlyDeleted {
+            if !hasNoMemories && results.isEmpty && expiredResults.isEmpty && !showsRecentlyDeleted {
                 emptyState
             }
         }
@@ -195,12 +207,6 @@ struct MemoryListView: View {
                 activeCategory.label
             } description: {
                 Text("Nothing in this category.")
-            }
-        } else if query.isEmpty {
-            ContentUnavailableView {
-                Label("No Memories", image: "ix.search-normal.linear")
-            } description: {
-                Text("Save a value under a keyword, then search that keyword in Spotlight to see it.")
             }
         } else {
             ContentUnavailableView.search(text: query)
