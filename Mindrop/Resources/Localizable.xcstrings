@@ -16,6 +16,12 @@
             "value" : "1 Tag länger"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 More Day"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -73,19 +79,19 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "1 Gün Daha"
+            "value" : "1 gün daha"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "再延长1天"
+            "value" : "再保留 1 天"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "再延長1天"
+            "value" : "再保留 1 天"
           }
         }
       }
@@ -103,6 +109,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "1 Woche länger"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 More Week"
           }
         },
         "es" : {
@@ -162,19 +174,19 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "1 Hafta Daha"
+            "value" : "1 hafta daha"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "再延长1周"
+            "value" : "再保留 1 周"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "再延長1週"
+            "value" : "再保留 1 週"
           }
         }
       }
@@ -194,6 +206,12 @@
             "value" : "30 Tage zum Wiederherstellen"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 days to restore"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -209,7 +227,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "पुनर्प्राप्ति के लिए 30 दिन"
+            "value" : "वापस लाने के लिए 30 दिन"
           }
         },
         "it" : {
@@ -251,7 +269,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kurtarmak için 30 gün"
+            "value" : "Geri yüklemek için 30 gün"
           }
         },
         "zh-Hans" : {
@@ -274,85 +292,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ينتظر الإدخال المحذوف هنا، حتى يمكن التراجع عن الخطأ."
+            "value" : "حذفت شيئًا بالخطأ؟ يمكنك استعادته من هنا."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ein gelöschter Eintrag wartet hier, damit sich ein Versehen rückgängig machen lässt."
+            "value" : "Versehentlich gelöscht? Hier kannst du deine Einträge wiederherstellen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deleted something by mistake? You can restore it here."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una entrada eliminada espera aquí, para que puedas deshacer un error."
+            "value" : "¿Has borrado algo por error? Puedes recuperarlo aquí."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une entrée supprimée attend ici, pour qu’une erreur puisse être annulée."
+            "value" : "Une suppression par erreur ? Vous pouvez récupérer vos entrées ici."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "हटाई गई प्रविष्टि यहाँ रहती है, ताकि गलती सुधारी जा सके।"
+            "value" : "गलती से कुछ हटा दिया? उसे यहाँ से वापस ला सकते हैं।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una voce eliminata resta qui, così puoi rimediare a un errore."
+            "value" : "Hai eliminato qualcosa per sbaglio? Puoi recuperarlo qui."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "削除した項目はここに残るので、間違いを取り消せます。"
+            "value" : "間違えて削除しても、ここから復元できます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "삭제한 항목은 여기에 남아 있어 실수를 되돌릴 수 있습니다."
+            "value" : "실수로 삭제했나요? 여기서 복구할 수 있어요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een verwijderd item wacht hier, zodat je een vergissing kunt herstellen."
+            "value" : "Per ongeluk iets verwijderd? Je kunt het hier herstellen."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uma entrada apagada fica aqui, para que um erro possa ser desfeito."
+            "value" : "Apagou algo sem querer? Você pode recuperar aqui."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Удалённая запись ждёт здесь, чтобы ошибку можно было исправить."
+            "value" : "Удалили что-то случайно? Здесь можно восстановить запись."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Silinen bir kayıt burada bekler, böylece bir hata geri alınabilir."
+            "value" : "Yanlışlıkla sildiğin kayıtları buradan geri yükleyebilirsin."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已删除的条目会保留在这里，以便撤销误操作。"
+            "value" : "不小心删错了？可以在这里恢复。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已刪除的項目會保留在這裡，以便還原誤刪。"
+            "value" : "不小心刪錯了？可以在這裡復原。"
           }
         }
       }
@@ -367,6 +391,12 @@
           }
         },
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accounts"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Accounts"
@@ -461,6 +491,12 @@
             "value" : "Alle"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -550,6 +586,12 @@
             "value" : "Automatisch"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatic"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -630,13 +672,19 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "المصارف"
+            "value" : "الحسابات البنكية"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bank & Finanzen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Banking"
           }
         },
         "es" : {
@@ -728,6 +776,12 @@
             "value" : "Anrufen"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Call"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -814,6 +868,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Abbrechen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
           }
         },
         "es" : {
@@ -905,6 +965,12 @@
             "value" : "Kategorie"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -994,6 +1060,12 @@
             "value" : "Codes & PINs"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codes & PINs"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1051,7 +1123,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kodlar ve PIN'ler"
+            "value" : "Kodlar ve PIN’ler"
           }
         },
         "zh-Hans" : {
@@ -1081,6 +1153,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kontakte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contacts"
           }
         },
         "es" : {
@@ -1172,6 +1250,12 @@
             "value" : "Kopiert"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copied"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1261,6 +1345,12 @@
             "value" : "Kopieren"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1346,7 +1436,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Löschen fehlgeschlagen"
+            "value" : "Löschen nicht möglich"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t delete"
           }
         },
         "es" : {
@@ -1382,7 +1478,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "삭제할 수 없음"
+            "value" : "삭제하지 못했어요"
           }
         },
         "nl" : {
@@ -1434,7 +1530,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sichern fehlgeschlagen"
+            "value" : "Sichern nicht möglich"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t save"
           }
         },
         "es" : {
@@ -1470,7 +1572,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "저장할 수 없음"
+            "value" : "저장하지 못했어요"
           }
         },
         "nl" : {
@@ -1524,6 +1626,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Löschen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
           }
         },
         "es" : {
@@ -1615,6 +1723,12 @@
             "value" : "Alle löschen"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete All"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1660,7 +1774,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apagar Tudo"
+            "value" : "Apagar tudo"
           }
         },
         "ru" : {
@@ -1672,7 +1786,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tümünü Sil"
+            "value" : "Tümünü sil"
           }
         },
         "zh-Hans" : {
@@ -1704,6 +1818,12 @@
             "value" : "Alle endgültig löschen?"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permanently Delete All?"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1731,13 +1851,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "すべてを完全に削除しますか？"
+            "value" : "すべて完全に削除しますか？"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "모두 영구 삭제하시겠습니까?"
+            "value" : "모두 영구 삭제할까요?"
           }
         },
         "nl" : {
@@ -1749,120 +1869,126 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apagar tudo de vez?"
+            "value" : "Apagar tudo definitivamente?"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Удалить все навсегда?"
+            "value" : "Удалить всё навсегда?"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tümü kalıcı olarak silinsin mi?"
+            "value" : "Tüm kayıtlar kalıcı olarak silinsin mi?"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "要永久删除全部内容吗？"
+            "value" : "永久删除所有条目？"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "要永久刪除全部內容嗎？"
+            "value" : "永久刪除所有項目？"
           }
         }
       }
     },
     "Delete Now" : {
-      "comment" : "Swipe action in Recently Deleted that deletes a memory for good.",
+      "comment" : "Destructive action in Recently Deleted. Deletes permanently, without another recovery period. Make permanence explicit.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "حذف الآن"
+            "value" : "حذف نهائي"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jetzt löschen"
+            "value" : "Endgültig löschen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Permanently"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eliminar ahora"
+            "value" : "Eliminar definitivamente"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Supprimer maintenant"
+            "value" : "Supprimer définitivement"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "अभी डिलीट करें"
+            "value" : "हमेशा के लिए हटाएँ"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elimina ora"
+            "value" : "Elimina definitivamente"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "今すぐ削除"
+            "value" : "完全に削除"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "지금 삭제"
+            "value" : "영구 삭제"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nu verwijderen"
+            "value" : "Verwijder definitief"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apagar Agora"
+            "value" : "Apagar definitivamente"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Удалить сейчас"
+            "value" : "Удалить навсегда"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şimdi Sil"
+            "value" : "Kalıcı olarak sil"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "立即删除"
+            "value" : "永久删除"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "立即刪除"
+            "value" : "永久刪除"
           }
         }
       }
@@ -1882,6 +2008,12 @@
             "value" : "„%@“ endgültig löschen?"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permanently Delete “%@”?"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1891,13 +2023,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Supprimer « %@ » définitivement ?"
+            "value" : "Supprimer définitivement « %@ » ?"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“%@” को हमेशा के लिए डिलीट करें?"
+            "value" : "“%@” को हमेशा के लिए हटाएँ?"
           }
         },
         "it" : {
@@ -1909,13 +2041,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“%@”を完全に削除しますか？"
+            "value" : "「%@」を完全に削除しますか？"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "‘%@’을(를) 영구적으로 삭제하겠습니까?"
+            "value" : "‘%@’ 항목을 영구 삭제할까요?"
           }
         },
         "nl" : {
@@ -1945,13 +2077,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "要永久删除“%@”吗？"
+            "value" : "永久删除“%@”？"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "要永久刪除「%@」嗎？"
+            "value" : "永久刪除「%@」？"
           }
         }
       }
@@ -1969,6 +2101,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "„%@“ löschen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete “%@”?"
           }
         },
         "es" : {
@@ -1998,13 +2136,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“%@”を削除しますか？"
+            "value" : "「%@」を削除しますか？"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "‘%@’을(를) 삭제하시겠습니까?"
+            "value" : "‘%@’ 항목을 삭제할까요?"
           }
         },
         "nl" : {
@@ -2060,6 +2198,12 @@
             "value" : "Gelöscht"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deleted"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2075,7 +2219,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "हटाई गई"
+            "value" : "हट गई"
           }
         },
         "it" : {
@@ -2140,7 +2284,7 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يُحذف نهائيًا %@"
+            "value" : "الحذف النهائي %@"
           }
         },
         "de" : {
@@ -2149,40 +2293,46 @@
             "value" : "Wird %@ endgültig gelöscht"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permanently deleted %@"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Se eliminará %@"
+            "value" : "Se eliminará definitivamente %@"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Supprimée définitivement %@"
+            "value" : "Suppression définitive %@"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ स्थायी रूप से हटेगा"
+            "value" : "%@ हमेशा के लिए हट जाएगी"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eliminata definitivamente %@"
+            "value" : "Eliminazione definitiva %@"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@に完全に削除"
+            "value" : "完全に削除：%@"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ 영구 삭제"
+            "value" : "영구 삭제: %@"
           }
         },
         "nl" : {
@@ -2194,13 +2344,13 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Será apagada %@"
+            "value" : "Exclusão definitiva %@"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Будет удалена %@"
+            "value" : "Удаление навсегда %@"
           }
         },
         "tr" : {
@@ -2212,13 +2362,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@永久删除"
+            "value" : "永久删除：%@"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@永久刪除"
+            "value" : "永久刪除：%@"
           }
         }
       }
@@ -2236,6 +2386,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Route"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Directions"
           }
         },
         "es" : {
@@ -2283,7 +2439,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Itinerário"
+            "value" : "Como chegar"
           }
         },
         "ru" : {
@@ -2325,6 +2481,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fertig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
           }
         },
         "es" : {
@@ -2406,85 +2568,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "انقر مرتين للنسخ إلى الحافظة"
+            "value" : "اضغط مرتين للنسخ"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zum Kopieren in die Zwischenablage doppeltippen"
+            "value" : "Zum Kopieren doppeltippen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Double-tap to copy"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pulsa dos veces para copiar en el portapapeles"
+            "value" : "Toca dos veces para copiar"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toucher deux fois pour copier dans le presse-papiers"
+            "value" : "Touchez deux fois pour copier"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "क्लिपबोर्ड पर कॉपी करने के लिए दो बार टैप करें"
+            "value" : "कॉपी करने के लिए दो बार टैप करें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tocca due volte per copiare negli appunti"
+            "value" : "Tocca due volte per copiare"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ダブルタップでクリップボードにコピー"
+            "value" : "ダブルタップでコピー"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "두 번 탭하여 클립보드에 복사"
+            "value" : "두 번 탭하여 복사"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tik twee keer om naar het klembord te kopiëren"
+            "value" : "Tik twee keer om te kopiëren"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toque duas vezes para copiar para a área de transferência"
+            "value" : "Toque duas vezes para copiar"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Дважды коснитесь, чтобы скопировать в буфер обмена"
+            "value" : "Коснитесь дважды, чтобы скопировать"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Panoya kopyalamak için çift dokunun"
+            "value" : "Kopyalamak için iki kez dokun"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "轻点两下拷贝到剪贴板"
+            "value" : "轻点两下以拷贝"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "點兩下拷貝到剪貼板"
+            "value" : "點兩下以拷貝"
           }
         }
       }
@@ -2495,85 +2663,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "اضغط مرتين للاستعادة أو للحذف الآن"
+            "value" : "اضغط مرتين للاستعادة أو الحذف النهائي"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zum Wiederherstellen oder sofortigen Löschen doppeltippen"
+            "value" : "Zum Wiederherstellen oder endgültigen Löschen doppeltippen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Double-tap to restore or permanently delete"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toca dos veces para recuperar o eliminar ahora"
+            "value" : "Toca dos veces para recuperar o eliminar definitivamente"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Touchez deux fois pour récupérer ou supprimer maintenant"
+            "value" : "Touchez deux fois pour récupérer ou supprimer définitivement"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "पुनर्प्राप्त करने या अभी हटाने के लिए दो बार टैप करें"
+            "value" : "वापस लाने या हमेशा के लिए हटाने के विकल्प देखने के लिए दो बार टैप करें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tocca due volte per recuperare o eliminare ora"
+            "value" : "Tocca due volte per recuperare o eliminare definitivamente"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ダブルタップで復元、または今すぐ削除"
+            "value" : "ダブルタップで復元または完全に削除するメニューを表示"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "복구하거나 지금 삭제하려면 이중 탭하세요"
+            "value" : "두 번 탭하여 복구 또는 영구 삭제 메뉴 열기"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tik twee keer om te herstellen of nu te verwijderen"
+            "value" : "Tik twee keer om te herstellen of definitief te verwijderen"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toque duas vezes para recuperar ou apagar agora"
+            "value" : "Toque duas vezes para recuperar ou apagar definitivamente"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Дважды коснитесь, чтобы восстановить или удалить сейчас"
+            "value" : "Коснитесь дважды, чтобы восстановить или удалить навсегда"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kurtarmak veya şimdi silmek için iki kez dokun"
+            "value" : "Geri yüklemek veya kalıcı olarak silmek için iki kez dokun"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "连按两次以恢复或立即删除"
+            "value" : "轻点两下以打开恢复或永久删除菜单"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "點兩下以復原或立即刪除"
+            "value" : "點兩下以開啟復原或永久刪除選單"
           }
         }
       }
@@ -2584,13 +2758,19 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تحرير"
+            "value" : "تعديل"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bearbeiten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
           }
         },
         "es" : {
@@ -2608,7 +2788,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "संपादित करें"
+            "value" : "बदलाव करें"
           }
         },
         "it" : {
@@ -2672,13 +2852,19 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تحرير الإدخال"
+            "value" : "تعديل العنصر"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eintrag bearbeiten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Memory"
           }
         },
         "es" : {
@@ -2696,7 +2882,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "प्रविष्टि संपादित करें"
+            "value" : "एंट्री में बदलाव करें"
           }
         },
         "it" : {
@@ -2738,7 +2924,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kaydı Düzenle"
+            "value" : "Kaydı düzenle"
           }
         },
         "zh-Hans" : {
@@ -2761,85 +2947,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "سيتم حذف كل إدخال في المحذوفة مؤخرًا على جميع أجهزتك. لا يمكن التراجع عن ذلك."
+            "value" : "ستُحذف جميع العناصر في «المحذوفة مؤخرًا» نهائيًا من كل أجهزتك. لا يمكن التراجع عن ذلك."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alle Einträge in „Zuletzt gelöscht“ werden auf all deinen Geräten gelöscht. Dies kann nicht widerrufen werden."
+            "value" : "Alle Einträge unter „Zuletzt gelöscht“ werden auf all deinen Geräten endgültig gelöscht. Das kannst du nicht rückgängig machen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything in Recently Deleted will be permanently deleted from all your devices. You can’t undo this."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todas las entradas de Eliminado recientemente se eliminarán en todos tus dispositivos. Esta acción no se puede deshacer."
+            "value" : "Todas las entradas de «Eliminado recientemente» se eliminarán definitivamente de todos tus dispositivos. No podrás deshacerlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toutes les entrées des suppressions récentes seront supprimées sur tous vos appareils. Cette action est irréversible."
+            "value" : "Toutes les entrées de « Suppressions récentes » seront définitivement supprimées de tous vos appareils. Cette action est irréversible."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "हाल ही में डिलीट किए गए की हर प्रविष्टि आपके सभी डिवाइस से हटा दी जाएगी। इसे पहले जैसा नहीं किया जा सकता।"
+            "value" : "“हाल ही में हटाई गई” की सभी एंट्री आपके सभी डिवाइस से हमेशा के लिए हट जाएँगी। इसके बाद उन्हें वापस नहीं लाया जा सकेगा।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tutte le voci in Eliminati di recente verranno eliminate su tutti i tuoi dispositivi. L’operazione non può essere annullata."
+            "value" : "Tutte le voci in “Eliminati di recente” verranno eliminate definitivamente da tutti i tuoi dispositivi. Non potrai annullare l’operazione."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「最近削除した項目」のすべての項目が、すべてのデバイスから削除されます。この操作は取り消せません。"
+            "value" : "「最近削除した項目」の内容を、すべてのデバイスから完全に削除します。この操作は取り消せません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "최근 삭제된 항목의 모든 항목이 모든 기기에서 삭제됩니다. 이 작업은 되돌릴 수 없습니다."
+            "value" : "‘최근 삭제된 항목’에 있는 내용을 모든 기기에서 영구 삭제해요. 이 작업은 되돌릴 수 없어요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alle items in Recent verwijderd worden op al je apparaten verwijderd. Dit kan niet ongedaan worden gemaakt."
+            "value" : "Alle items in ‘Recent verwijderd’ worden definitief van al je apparaten verwijderd. Dit kun je niet ongedaan maken."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todas as entradas em Apagados Recentemente serão apagadas em todos os seus dispositivos. Esta ação não pode ser desfeita."
+            "value" : "Todas as entradas em “Apagados Recentemente” serão apagadas definitivamente de todos os seus dispositivos. Não será possível desfazer."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Все записи в «Недавно удаленных» будут удалены на всех ваших устройствах. Это действие нельзя отменить."
+            "value" : "Все записи из раздела «Недавно удалённые» будут навсегда удалены со всех ваших устройств. Отменить это действие нельзя."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Son Silinenler’deki tüm kayıtlar tüm aygıtlarında silinecek. Bu işlem geri alınamaz."
+            "value" : "Son Silinenler’deki tüm kayıtlar bütün cihazlarından kalıcı olarak silinecek. Bu işlem geri alınamaz."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“最近删除”中的所有条目都将在你的所有设备上删除。此操作无法撤销。"
+            "value" : "“最近删除”中的所有条目都将从你的所有设备上永久删除。此操作无法撤销。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「最近刪除」中的所有項目都會在你的所有裝置上刪除。此動作無法還原。"
+            "value" : "「最近刪除」中的所有項目都會從你的所有裝置上永久刪除。此操作無法復原。"
           }
         }
       }
@@ -2850,13 +3042,19 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "مثال: البحث عن ”wifi“ في Spotlight يعرض كلمة السر المحفوظة."
+            "value" : "مثال: ابحث عن «wifi» في Spotlight لتظهر كلمة السر المحفوظة."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beispiel: Die Suche nach „wifi“ in Spotlight zeigt das gesicherte Passwort."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Example: searching “wifi” in Spotlight shows the saved password."
           }
         },
         "es" : {
@@ -2922,7 +3120,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "示例：在“聚焦”中搜索“wifi”会显示保存的密码。"
+            "value" : "示例：在“聚焦”中搜索“wifi”，就能看到保存的密码。"
           }
         },
         "zh-Hant" : {
@@ -2939,13 +3137,19 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "منتهية الصلاحية"
+            "value" : "انتهت المدة"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Abgelaufen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expired"
           }
         },
         "es" : {
@@ -2963,7 +3167,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "समाप्त"
+            "value" : "समय पूरा हुआ"
           }
         },
         "it" : {
@@ -2993,13 +3197,13 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Expiradas"
+            "value" : "Vencidas"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Истёкшие"
+            "value" : "Срок истёк"
           }
         },
         "tr" : {
@@ -3028,85 +3232,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تُحذف الإدخالات المنتهية نهائيًا بعد 7 أيام من انتهاء صلاحيتها."
+            "value" : "يمكنك استعادة العناصر خلال 7 أيام من انتهاء مدتها. بعدها تُحذف نهائيًا."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abgelaufene Einträge werden 7 Tage nach Ablauf endgültig gelöscht."
+            "value" : "Nach Ablauf hast du 7 Tage Zeit, deine Einträge wiederherzustellen. Danach werden sie endgültig gelöscht."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can restore these memories for 7 days after they expire. After that, they’re permanently deleted."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las entradas caducadas se eliminan definitivamente 7 días después de caducar."
+            "value" : "Tienes 7 días desde que caducan para recuperar tus entradas. Después se eliminan definitivamente."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les entrées expirées sont supprimées définitivement 7 jours après leur expiration."
+            "value" : "Vous avez 7 jours après l’expiration pour récupérer vos entrées. Passé ce délai, elles sont définitivement supprimées."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "समाप्त प्रविष्टियाँ समाप्ति के 7 दिन बाद स्थायी रूप से हट जाती हैं।"
+            "value" : "समय पूरा होने के बाद एंट्री वापस लाने के लिए आपके पास 7 दिन हैं। उसके बाद वे हमेशा के लिए हट जाती हैं।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le voci scadute vengono eliminate definitivamente 7 giorni dopo la scadenza."
+            "value" : "Hai 7 giorni dalla scadenza per recuperare le voci. Poi verranno eliminate definitivamente."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "期限切れの項目は、期限から7日後に完全に削除されます。"
+            "value" : "期限が切れてから7日間は復元できます。その後は完全に削除されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "만료된 항목은 만료 7일 후 영구 삭제됩니다."
+            "value" : "만료 후 7일 동안 복구할 수 있어요. 그 후에는 영구 삭제돼요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verlopen items worden 7 dagen na het verlopen definitief verwijderd."
+            "value" : "Je kunt items tot 7 dagen na het verlopen herstellen. Daarna worden ze definitief verwijderd."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Entradas expiradas são apagadas definitivamente 7 dias após expirarem."
+            "value" : "Você tem 7 dias após o vencimento para recuperar suas entradas. Depois, elas são apagadas definitivamente."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Истёкшие записи удаляются навсегда через 7 дней."
+            "value" : "Записи можно восстановить в течение 7 дней после окончания срока хранения. Затем они удаляются навсегда."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Süresi dolan kayıtlar, sürelerinin dolmasından 7 gün sonra kalıcı olarak silinir."
+            "value" : "Süresi dolan kayıtları 7 gün içinde geri yükleyebilirsin. Ardından kalıcı olarak silinirler."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已过期的条目会在过期 7 天后永久删除。"
+            "value" : "条目到期后，你还有 7 天可以恢复。之后会永久删除。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已過期的項目會在過期 7 天後永久刪除。"
+            "value" : "項目到期後，你還有 7 天可以復原。之後就會永久刪除。"
           }
         }
       }
@@ -3117,13 +3327,19 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تنتهي صلاحيته %@"
+            "value" : "تنتهي المدة %@"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Läuft %@ ab"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expires %@"
           }
         },
         "es" : {
@@ -3141,7 +3357,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ समाप्त होगा"
+            "value" : "%@ समय पूरा होगा"
           }
         },
         "it" : {
@@ -3153,7 +3369,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@に期限切れ"
+            "value" : "期限：%@"
           }
         },
         "ko" : {
@@ -3171,19 +3387,19 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Expira %@"
+            "value" : "Vence %@"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Истекает %@"
+            "value" : "Срок хранения истекает %@"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ sona eriyor"
+            "value" : "Süresi %@ dolacak"
           }
         },
         "zh-Hans" : {
@@ -3206,13 +3422,19 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "انتهاء الصلاحية"
+            "value" : "نهاية المدة"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ablauf"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expiry"
           }
         },
         "es" : {
@@ -3230,7 +3452,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "समाप्ति"
+            "value" : "समय सीमा"
           }
         },
         "it" : {
@@ -3248,7 +3470,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "만료"
+            "value" : "만료일"
           }
         },
         "nl" : {
@@ -3260,19 +3482,19 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Expiração"
+            "value" : "Vencimento"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Срок"
+            "value" : "Срок хранения"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Süre"
+            "value" : "Bitiş tarihi"
           }
         },
         "zh-Hans" : {
@@ -3295,19 +3517,25 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "العائلة والأشخاص"
+            "value" : "العائلة والأصدقاء"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Familie & Personen"
+            "value" : "Familie & Freunde"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Family & Friends"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Familia y personas"
+            "value" : "Familia y amigos"
           }
         },
         "fr" : {
@@ -3319,49 +3547,49 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "परिवार और लोग"
+            "value" : "परिवार और दोस्त"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Famiglia e persone"
+            "value" : "Famiglia e amici"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "家族・人"
+            "value" : "家族・友人"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "가족 및 사람"
+            "value" : "가족과 친구"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Familie en personen"
+            "value" : "Familie en vrienden"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Família e pessoas"
+            "value" : "Família e amigos"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Семья и люди"
+            "value" : "Семья и друзья"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aile ve Kişiler"
+            "value" : "Aile ve arkadaşlar"
           }
         },
         "zh-Hans" : {
@@ -3384,37 +3612,43 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "محذوف نهائيًا"
+            "value" : "حُذف نهائيًا"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Endgültig weg"
+            "value" : "Endgültig gelöscht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permanently deleted"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eliminado para siempre"
+            "value" : "Eliminado definitivamente"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Supprimé définitivement"
+            "value" : "Suppression définitive"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "हमेशा के लिए हटाई गई"
+            "value" : "हमेशा के लिए हट गई"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eliminato per sempre"
+            "value" : "Eliminato definitivamente"
           }
         },
         "ja" : {
@@ -3432,13 +3666,13 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Definitief weg"
+            "value" : "Definitief verwijderd"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apagado de vez"
+            "value" : "Apagado definitivamente"
           }
         },
         "ru" : {
@@ -3456,13 +3690,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "永久删除"
+            "value" : "已永久删除"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "永久刪除"
+            "value" : "已永久刪除"
           }
         }
       }
@@ -3482,6 +3716,12 @@
             "value" : "Nach Kategorie gruppieren"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group by Category"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3497,7 +3737,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "श्रेणी के अनुसार समूहित करें"
+            "value" : "श्रेणी के हिसाब से दिखाएँ"
           }
         },
         "it" : {
@@ -3539,7 +3779,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kategoriye Göre Grupla"
+            "value" : "Kategoriye göre grupla"
           }
         },
         "zh-Hans" : {
@@ -3569,6 +3809,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gesundheit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Health"
           }
         },
         "es" : {
@@ -3660,6 +3906,12 @@
             "value" : "Ausgeblendet"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hidden"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3749,6 +4001,12 @@
             "value" : "Zuhause & Geräte"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home & Devices"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3806,7 +4064,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ev ve Cihazlar"
+            "value" : "Ev ve cihazlar"
           }
         },
         "zh-Hans" : {
@@ -3836,6 +4094,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ausweise & Dokumente"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IDs & Documents"
           }
         },
         "es" : {
@@ -3895,7 +4159,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kimlik ve Belgeler"
+            "value" : "Kimlik ve belgeler"
           }
         },
         "zh-Hans" : {
@@ -3918,85 +4182,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ستتم إزالته من Spotlight والاحتفاظ به في «المحذوفة مؤخرًا» لمدة 30 يومًا."
+            "value" : "لن يظهر هذا العنصر في Spotlight. يمكنك استعادته من «المحذوفة مؤخرًا» خلال 30 يومًا."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Er wird aus Spotlight entfernt und 30 Tage lang in „Zuletzt gelöscht“ aufbewahrt."
+            "value" : "Dieser Eintrag verschwindet aus Spotlight. Unter „Zuletzt gelöscht“ kannst du ihn noch 30 Tage lang wiederherstellen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This memory will leave Spotlight. You’ll have 30 days to restore it from Recently Deleted."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Se quitará de Spotlight y se guardará en Eliminado recientemente durante 30 días."
+            "value" : "Esta entrada dejará de aparecer en Spotlight. Tendrás 30 días para recuperarla en «Eliminado recientemente»."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il sera retiré de Spotlight et conservé 30 jours dans Suppressions récentes."
+            "value" : "Cette entrée disparaîtra de Spotlight. Vous pourrez la récupérer dans « Suppressions récentes » pendant 30 jours."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "इसे Spotlight से हटा दिया जाएगा और 30 दिनों तक “हाल ही में डिलीट किए गए” में रखा जाएगा।"
+            "value" : "यह एंट्री Spotlight में नहीं दिखेगी। आप इसे 30 दिनों तक “हाल ही में हटाई गई” से वापस ला सकते हैं।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verrà rimosso da Spotlight e conservato in Eliminati di recente per 30 giorni."
+            "value" : "Questa voce non comparirà più in Spotlight. Potrai recuperarla da “Eliminati di recente” per 30 giorni."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlightから削除され、「最近削除した項目」に30日間保管されます。"
+            "value" : "この項目はSpotlightに表示されなくなります。「最近削除した項目」から30日間は復元できます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight에서 제거되고 30일 동안 최근 삭제된 항목에 보관됩니다."
+            "value" : "이 항목은 Spotlight에서 사라져요. ‘최근 삭제된 항목’에서 30일 동안 복구할 수 있어요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het wordt uit Spotlight verwijderd en 30 dagen bewaard in Recent verwijderd."
+            "value" : "Dit item verdwijnt uit Spotlight. Je kunt het nog 30 dagen herstellen via ‘Recent verwijderd’."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Será removido do Spotlight e mantido em Apagados Recentemente por 30 dias."
+            "value" : "Esta entrada deixará de aparecer no Spotlight. Você terá 30 dias para recuperá-la em “Apagados Recentemente”."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Запись будет удалена из Spotlight и сохранится в «Недавно удаленных» на 30 дней."
+            "value" : "Запись исчезнет из Spotlight. У вас будет 30 дней, чтобы восстановить её в разделе «Недавно удалённые»."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight’tan kaldırılır ve 30 gün boyunca Son Silinenler’de tutulur."
+            "value" : "Bu kayıt Spotlight’tan kaldırılacak. Son Silinenler’den geri yüklemek için 30 günün olacak."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它会从 Spotlight 中移除，并在“最近删除”中保留 30 天。"
+            "value" : "这条内容将不再出现在“聚焦”中。你可以在 30 天内从“最近删除”中恢复。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它會從 Spotlight 中移除，並在「最近刪除」中保留 30 天。"
+            "value" : "這筆內容將不再出現在 Spotlight 中。你可以在 30 天內從「最近刪除」中復原。"
           }
         }
       }
@@ -4016,6 +4286,12 @@
             "value" : "Für immer behalten"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep Forever"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4025,7 +4301,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Conserver toujours"
+            "value" : "Conserver sans limite"
           }
         },
         "hi" : {
@@ -4037,7 +4313,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Conserva per sempre"
+            "value" : "Rimuovi scadenza"
           }
         },
         "ja" : {
@@ -4061,7 +4337,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manter para sempre"
+            "value" : "Manter sem prazo"
           }
         },
         "ru" : {
@@ -4073,7 +4349,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Süresiz Sakla"
+            "value" : "Süresiz sakla"
           }
         },
         "zh-Hans" : {
@@ -4096,85 +4372,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يُبقي ذكرياتك متطابقة على كل جهاز مسجّل الدخول إلى حساب iCloud الخاص بك. الكلمات المفتاحية والقيم مشفّرة تشفيرًا تامًا بين الطرفين."
+            "value" : "حافظ على تحديث عناصرك على الأجهزة التي تستخدم حسابك في iCloud. الكلمات المفتاحية والمحتوى محمية بالتشفير التام بين الطرفين."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hält deine Einträge auf allen Geräten gleich, die bei deinem iCloud-Account angemeldet sind. Stichwörter und Werte sind durchgehend verschlüsselt."
+            "value" : "Halte deine Einträge auf allen Geräten mit deinem iCloud-Account aktuell. Deine Stichwörter und Inhalte sind Ende-zu-Ende-verschlüsselt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep your memories up to date across devices using your iCloud account. Your keywords and details are end-to-end encrypted."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mantiene tus memorias iguales en todos los dispositivos con tu cuenta de iCloud. Las palabras clave y los valores tienen cifrado de extremo a extremo."
+            "value" : "Mantén tus entradas al día en los dispositivos que usan tu cuenta de iCloud. Tus palabras clave y su contenido están cifrados de extremo a extremo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Garde vos mémos identiques sur tous les appareils connectés à votre compte iCloud. Les mots-clés et les valeurs sont chiffrés de bout en bout."
+            "value" : "Gardez vos entrées à jour sur les appareils qui utilisent votre compte iCloud. Vos mots-clés et vos contenus sont chiffrés de bout en bout."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "आपकी यादों को आपके iCloud खाते में साइन इन किए गए हर डिवाइस पर एक जैसा रखता है। कीवर्ड और मान एंड-टू-एंड एन्क्रिप्टेड हैं।"
+            "value" : "अपने iCloud खाते वाले डिवाइस पर एंट्री अपडेट रखें। आपके कीवर्ड और सेव की गई जानकारी एंड-टू-एंड एन्क्रिप्टेड हैं।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mantiene i tuoi ricordi uguali su tutti i dispositivi collegati al tuo account iCloud. Parole chiave e valori sono crittografati end-to-end."
+            "value" : "Tieni aggiornate le tue voci sui dispositivi che usano il tuo account iCloud. Le parole chiave e i contenuti sono protetti dalla crittografia end-to-end."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloudアカウントにサインインしているすべてのデバイスでメモを同じ状態に保ちます。キーワードと値はエンドツーエンドで暗号化されます。"
+            "value" : "同じiCloudアカウントを使うデバイス間で、項目を最新の状態に保ちます。キーワードと内容はエンドツーエンドで暗号化されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud 계정에 로그인된 모든 기기에서 메모를 똑같이 유지합니다. 키워드와 값은 종단 간 암호화됩니다."
+            "value" : "같은 iCloud 계정을 사용하는 기기에서 항목을 최신 상태로 유지해요. 키워드와 저장한 내용은 종단 간 암호화로 보호돼요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Houdt je herinneringen gelijk op elk apparaat dat met je iCloud-account is ingelogd. Trefwoorden en waarden zijn end-to-end versleuteld."
+            "value" : "Houd je items bij op alle apparaten die je iCloud-account gebruiken. Je trefwoorden en inhoud zijn end-to-end versleuteld."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mantém suas memórias iguais em todos os dispositivos conectados à sua conta do iCloud. Palavras-chave e valores têm criptografia de ponta a ponta."
+            "value" : "Mantenha suas entradas atualizadas nos dispositivos que usam sua conta do iCloud. Suas palavras-chave e os conteúdos são protegidos com criptografia de ponta a ponta."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поддерживает одинаковые записи на всех устройствах с вашей учетной записью iCloud. Ключевые слова и значения защищены сквозным шифрованием."
+            "value" : "Синхронизируйте записи на устройствах с вашим аккаунтом iCloud. Ключевые слова и содержимое защищены сквозным шифрованием."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anılarını iCloud hesabınla giriş yapılmış tüm aygıtlarda aynı tutar. Anahtar kelimeler ve değerler uçtan uca şifrelenir."
+            "value" : "Kayıtların, iCloud hesabını kullandığın tüm cihazlarda güncel kalsın. Anahtar kelimelerin ve kaydettiğin bilgiler uçtan uca şifrelenir."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "让你的记忆在登录同一 iCloud 账户的所有设备上保持一致。关键词和值经过端到端加密。"
+            "value" : "在使用同一 iCloud 账户的设备上同步你的条目。关键词和保存的内容均受端到端加密保护。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "讓你的記憶在登入同一個 iCloud 帳號的所有裝置上保持一致。關鍵字和值經過端對端加密。"
+            "value" : "在使用同一個 iCloud 帳號的裝置上同步你的項目。關鍵字和儲存的內容皆受端對端加密保護。"
           }
         }
       }
@@ -4192,6 +4474,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Stichwort"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyword"
           }
         },
         "es" : {
@@ -4251,7 +4539,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anahtar Kelime"
+            "value" : "Anahtar kelime"
           }
         },
         "zh-Hans" : {
@@ -4278,6 +4566,12 @@
           }
         },
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Links"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Links"
@@ -4363,85 +4657,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تُحذف الذكريات نهائيًا بعد 30 يومًا من حذفها، على جميع أجهزتك."
+            "value" : "لديك 30 يومًا لاستعادة العناصر المحذوفة. بعدها تُحذف نهائيًا من كل أجهزتك."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Einträge werden 30 Tage nach dem Löschen endgültig gelöscht, auf allen deinen Geräten."
+            "value" : "Gelöschte Einträge kannst du 30 Tage lang wiederherstellen. Danach werden sie auf all deinen Geräten endgültig gelöscht."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have 30 days to restore deleted memories. After that, they’re permanently deleted from all your devices."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las memorias se eliminan definitivamente 30 días después de borrarlas, en todos tus dispositivos."
+            "value" : "Tienes 30 días para recuperar las entradas eliminadas. Después se eliminan definitivamente de todos tus dispositivos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les mémos sont supprimés définitivement 30 jours après leur suppression, sur tous vos appareils."
+            "value" : "Vous avez 30 jours pour récupérer vos entrées supprimées. Elles seront ensuite définitivement supprimées de tous vos appareils."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "डिलीट करने के 30 दिन बाद यादें आपके सभी डिवाइस से हमेशा के लिए डिलीट हो जाती हैं।"
+            "value" : "हटाई गई एंट्री वापस लाने के लिए आपके पास 30 दिन हैं। उसके बाद वे आपके सभी डिवाइस से हमेशा के लिए हट जाती हैं।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I ricordi vengono eliminati definitivamente 30 giorni dopo, su tutti i tuoi dispositivi."
+            "value" : "Puoi recuperare le voci eliminate entro 30 giorni. Poi verranno eliminate definitivamente da tutti i tuoi dispositivi."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "削除したメモは、30日後にすべてのデバイスから完全に削除されます。"
+            "value" : "削除してから30日間は復元できます。その後、すべてのデバイスから完全に削除されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "삭제한 메모는 30일 후 모든 기기에서 영구적으로 삭제됩니다."
+            "value" : "삭제한 항목은 30일 동안 복구할 수 있어요. 그 후에는 모든 기기에서 영구 삭제돼요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Herinneringen worden 30 dagen na verwijderen definitief verwijderd, op al je apparaten."
+            "value" : "Je hebt 30 dagen om verwijderde items te herstellen. Daarna worden ze definitief van al je apparaten verwijderd."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As memórias são apagadas definitivamente 30 dias depois, em todos os seus dispositivos."
+            "value" : "Você tem 30 dias para recuperar as entradas apagadas. Depois, elas são apagadas definitivamente de todos os seus dispositivos."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Записи удаляются навсегда через 30 дней после удаления на всех ваших устройствах."
+            "value" : "У вас есть 30 дней, чтобы восстановить удалённые записи. Затем они навсегда удаляются со всех ваших устройств."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anılar, sildikten 30 gün sonra tüm aygıtlarından kalıcı olarak silinir."
+            "value" : "Sildiğin kayıtları 30 gün içinde geri yükleyebilirsin. Ardından tüm cihazlarından kalıcı olarak silinirler."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "记忆会在删除 30 天后从你的所有设备上永久删除。"
+            "value" : "删除后，你有 30 天可以恢复。之后，这些条目会从你的所有设备上永久删除。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記憶會在刪除 30 天後從你的所有裝置上永久刪除。"
+            "value" : "刪除後，你有 30 天可以復原。之後，這些項目會從你的所有裝置上永久刪除。"
           }
         }
       }
@@ -4451,13 +4751,19 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "الإدخال غير موجود"
+            "value" : "العنصر غير موجود"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eintrag nicht gefunden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memory Not Found"
           }
         },
         "es" : {
@@ -4475,7 +4781,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "प्रविष्टि नहीं मिली"
+            "value" : "एंट्री नहीं मिली"
           }
         },
         "it" : {
@@ -4493,7 +4799,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "항목을 찾을 수 없음"
+            "value" : "항목을 찾을 수 없어요"
           }
         },
         "nl" : {
@@ -4517,7 +4823,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kayıt Bulunamadı"
+            "value" : "Kayıt bulunamadı"
           }
         },
         "zh-Hans" : {
@@ -4543,85 +4849,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يتعذّر على Mindrop فتح إدخالاتك"
+            "value" : "تعذّر فتح العناصر المحفوظة"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop kann die Einträge nicht öffnen"
+            "value" : "Deine Einträge konnten nicht geöffnet werden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your memories couldn’t be opened"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop no puede abrir tus entradas"
+            "value" : "No se pudieron abrir tus entradas"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop ne peut pas ouvrir vos entrées"
+            "value" : "Impossible d’ouvrir vos entrées"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop आपकी प्रविष्टियाँ नहीं खोल सका"
+            "value" : "आपकी एंट्री नहीं खुल सकीं"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop non riesce ad aprire le tue voci"
+            "value" : "Impossibile aprire le tue voci"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindropは項目を開けません"
+            "value" : "保存した項目を開けませんでした"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop이 항목을 열 수 없습니다"
+            "value" : "저장한 항목을 열지 못했어요"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop kan je items niet openen"
+            "value" : "Je items konden niet worden geopend"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Mindrop não conseguiu abrir suas entradas"
+            "value" : "Não foi possível abrir suas entradas"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop не может открыть ваши записи"
+            "value" : "Не удалось открыть ваши записи"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop kayıtlarınızı açamıyor"
+            "value" : "Kayıtların açılamadı"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop 无法打开你的条目"
+            "value" : "无法打开已保存的条目"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop 無法打開你的項目"
+            "value" : "無法開啟已儲存的項目"
           }
         }
       }
@@ -4632,102 +4944,114 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يضع Mindrop ما تحفظه في Spotlight."
+            "value" : "احفظ المعلومات التي تحتاجها في متناول يدك، واعثر عليها في Spotlight وقت الحاجة."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop bringt alles, was du sicherst, in Spotlight."
+            "value" : "Speichere, was du dir sonst merken müsstest. In Spotlight findest du es wieder."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save the little things you need to look up. Find them again in Spotlight."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop pone lo que guardas en Spotlight."
+            "value" : "Guarda esos datos que necesitas tener a mano. Encuéntralos en Spotlight."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop place ce que vous enregistrez dans Spotlight."
+            "value" : "Enregistrez les petites infos à garder sous la main. Retrouvez-les dans Spotlight."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop आपकी सहेजी चीज़ें Spotlight में रखता है।"
+            "value" : "जो बातें याद रखनी पड़ती हैं, उन्हें सेव कर लें। ज़रूरत हो तो Spotlight में ढूँढ लें।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop mette ciò che salvi in Spotlight."
+            "value" : "Salva le piccole informazioni da tenere a portata di mano. Ritrovale in Spotlight."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindropは保存した内容をSpotlightに表示します。"
+            "value" : "覚えておきたい情報を保存。必要なときにSpotlightで見つかります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop은 저장한 내용을 Spotlight에 넣어 줍니다."
+            "value" : "기억해 둬야 할 정보를 저장해 보세요. 필요할 때 Spotlight에서 찾을 수 있어요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop zet wat je bewaart in Spotlight."
+            "value" : "Bewaar de kleine dingen die je bij de hand wilt hebben. Vind ze terug in Spotlight."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Mindrop coloca o que você salva no Spotlight."
+            "value" : "Salve aquelas informações que você precisa ter à mão. Encontre tudo no Spotlight."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop помещает сохранённое в Spotlight."
+            "value" : "Сохраняйте то, что нужно держать под рукой. Находите в Spotlight, когда понадобится."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop kaydettiklerini Spotlight’a koyar."
+            "value" : "Aklında tutmak zorunda kalma. Kaydet, ihtiyacın olduğunda Spotlight’ta bul."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop 会把你保存的内容放进“聚焦”。"
+            "value" : "把需要随时查找的信息存下来，需要时在“聚焦”中就能找到。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop 會把你儲存的內容放進 Spotlight。"
+            "value" : "把需要隨時查找的資訊存下來，需要時就能在 Spotlight 中找到。"
           }
         }
       }
     },
     "New Memory" : {
-      "comment" : "A memory is one saved keyword/value pair, not a recollection.",
+      "comment" : "A memory is a saved piece of information with a keyword, not a recollection. Use the local word for entry or item consistently in all screens.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "إدخال جديد"
+            "value" : "عنصر جديد"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Neuer Eintrag"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Memory"
           }
         },
         "es" : {
@@ -4745,7 +5069,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "नई प्रविष्टि"
+            "value" : "नई एंट्री"
           }
         },
         "it" : {
@@ -4787,7 +5111,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yeni Kayıt"
+            "value" : "Yeni kayıt"
           }
         },
         "zh-Hans" : {
@@ -4817,6 +5141,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Keine Kategorie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Category"
           }
         },
         "es" : {
@@ -4876,7 +5206,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kategori Yok"
+            "value" : "Kategorisiz"
           }
         },
         "zh-Hans" : {
@@ -4908,6 +5238,12 @@
             "value" : "Nichts gelöscht"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Deleted Memories"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4923,7 +5259,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "कुछ भी हटाया नहीं गया"
+            "value" : "कोई हटाई गई एंट्री नहीं है"
           }
         },
         "it" : {
@@ -4965,7 +5301,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Silinen bir şey yok"
+            "value" : "Silinen kayıt yok"
           }
         },
         "zh-Hans" : {
@@ -4988,85 +5324,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "لا شيء في هذه الفئة."
+            "value" : "لا توجد عناصر في هذه الفئة بعد."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nichts in dieser Kategorie."
+            "value" : "Noch keine Einträge in dieser Kategorie."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No memories in this category yet."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No hay nada en esta categoría."
+            "value" : "Aún no hay entradas en esta categoría."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rien dans cette catégorie."
+            "value" : "Aucune entrée dans cette catégorie pour le moment."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "इस श्रेणी में कुछ नहीं है।"
+            "value" : "इस श्रेणी में अभी कोई एंट्री नहीं है।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nessun elemento in questa categoria."
+            "value" : "Non ci sono ancora voci in questa categoria."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このカテゴリには何もありません。"
+            "value" : "このカテゴリにはまだ項目がありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 카테고리에 항목이 없습니다."
+            "value" : "이 카테고리에는 아직 항목이 없어요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niets in deze categorie."
+            "value" : "Nog geen items in deze categorie."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nada nesta categoria."
+            "value" : "Ainda não há entradas nesta categoria."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В этой категории ничего нет."
+            "value" : "В этой категории пока нет записей."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu kategoride kayıt yok."
+            "value" : "Bu kategoride henüz kayıt yok."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此类别中没有内容。"
+            "value" : "这个类别还没有条目。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此類別中沒有內容。"
+            "value" : "這個類別還沒有項目。"
           }
         }
       }
@@ -5079,16 +5421,76 @@
             "value" : "موافق"
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "ठीक है"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "확인"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamam"
           }
         },
         "zh-Hans" : {
@@ -5111,85 +5513,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "على بُعد بحث واحد"
+            "value" : "ما تحتاجه تجده بسهولة"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nur eine Suche entfernt"
+            "value" : "Schnell finden, was du brauchst"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find it when you need it"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A una búsqueda"
+            "value" : "Encuéntralo cuando lo necesites"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "À une recherche près"
+            "value" : "Retrouvez l’info au bon moment"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "बस एक खोज दूर"
+            "value" : "ज़रूरत पड़ते ही मिल जाए"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A portata di ricerca"
+            "value" : "Trova ciò che ti serve, quando serve"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "検索ひとつで"
+            "value" : "必要なときに、すぐ見つかる"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "검색 한 번이면 충분"
+            "value" : "필요할 때 바로 찾으세요"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eén zoekopdracht verwijderd"
+            "value" : "Vind het wanneer je het nodig hebt"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A uma busca de distância"
+            "value" : "Encontre quando precisar"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Всего один поиск"
+            "value" : "Нужное всегда под рукой"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir arama uzağında"
+            "value" : "Lazım olduğunda hemen bul"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一搜即得"
+            "value" : "需要时，随手就能找到"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一搜即得"
+            "value" : "需要時，隨手就能找到"
           }
         }
       }
@@ -5207,6 +5615,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Öffnen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open"
           }
         },
         "es" : {
@@ -5290,67 +5704,73 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يفتح Mindrop جاهزًا لحفظ إدخال جديد."
+            "value" : "يفتح Mindrop لإضافة عنصر جديد."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Öffnet Mindrop, um einen neuen Eintrag zu sichern."
+            "value" : "Öffnet Mindrop, damit du einen neuen Eintrag hinzufügen kannst."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Mindrop to add a new memory."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abre Mindrop para guardar una nueva entrada."
+            "value" : "Abre Mindrop para añadir una entrada."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ouvre Mindrop pour enregistrer une nouvelle entrée."
+            "value" : "Ouvre Mindrop pour ajouter une entrée."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "नई प्रविष्टि सहेजने के लिए Mindrop खोलता है।"
+            "value" : "नई एंट्री जोड़ने के लिए Mindrop खोलता है।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apre Mindrop per salvare una nuova voce."
+            "value" : "Apre Mindrop per aggiungere una voce."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindropを開いて新しい項目を保存します。"
+            "value" : "Mindropを開いて、新しい項目を追加できます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop을 열어 새 항목을 저장합니다."
+            "value" : "Mindrop을 열어 새 항목을 추가해요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opent Mindrop om een nieuw item te bewaren."
+            "value" : "Opent Mindrop om een item toe te voegen."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abre o Mindrop para salvar uma nova entrada."
+            "value" : "Abre o Mindrop para adicionar uma entrada."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открывает Mindrop для сохранения новой записи."
+            "value" : "Открывает Mindrop для добавления записи."
           }
         },
         "tr" : {
@@ -5362,13 +5782,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打开 Mindrop 以存储新条目。"
+            "value" : "打开 Mindrop，添加新条目。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打開 Mindrop 以儲存新項目。"
+            "value" : "開啟 Mindrop，加入新項目。"
           }
         }
       }
@@ -5386,6 +5806,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sonstiges"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Other"
           }
         },
         "es" : {
@@ -5477,6 +5903,12 @@
             "value" : "Orte"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Places"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5551,6 +5983,101 @@
         }
       }
     },
+    "Please try again." : {
+      "comment" : "User-facing recovery guidance. Internal error details remain in state for debugging; do not display raw error descriptions.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حاول مرة أخرى."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versuche es bitte noch einmal."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please try again."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veuillez réessayer."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कृपया फिर से कोशिश करें।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "もう一度お試しください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다시 시도해 주세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probeer het opnieuw."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tente novamente."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Попробуйте ещё раз."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lütfen tekrar dene."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请再试一次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請再試一次。"
+          }
+        }
+      }
+    },
     "Recently Deleted" : {
       "comment" : "Row at the bottom of the list, and the title of the screen holding deleted memories for 30 days.",
       "localizations" : {
@@ -5564,6 +6091,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zuletzt gelöscht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recently Deleted"
           }
         },
         "es" : {
@@ -5581,7 +6114,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "हाल ही में डिलीट किए गए"
+            "value" : "हाल ही में हटाई गई"
           }
         },
         "it" : {
@@ -5617,7 +6150,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Недавно удаленные"
+            "value" : "Недавно удалённые"
           }
         },
         "tr" : {
@@ -5653,6 +6186,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wiederherstellen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore"
           }
         },
         "es" : {
@@ -5743,6 +6282,12 @@
             "value" : "Sichern"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5806,7 +6351,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "存储"
+            "value" : "保存"
           }
         },
         "zh-Hant" : {
@@ -5823,7 +6368,7 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "احفظ أول إدخال لك"
+            "value" : "احفظ أول عنصر"
           }
         },
         "de" : {
@@ -5832,22 +6377,28 @@
             "value" : "Ersten Eintrag sichern"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Your First Memory"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guardar tu primera entrada"
+            "value" : "Guardar mi primera entrada"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enregistrer votre première entrée"
+            "value" : "Enregistrer une première entrée"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "अपनी पहली प्रविष्टि सहेजें"
+            "value" : "अपनी पहली एंट्री सेव करें"
           }
         },
         "it" : {
@@ -5859,25 +6410,25 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "最初の項目を保存"
+            "value" : "はじめての項目を保存"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "첫 번째 항목 저장"
+            "value" : "첫 항목 저장하기"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je eerste item bewaren"
+            "value" : "Bewaar je eerste item"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salvar sua primeira entrada"
+            "value" : "Salvar minha primeira entrada"
           }
         },
         "ru" : {
@@ -5889,19 +6440,19 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "İlk kaydını oluştur"
+            "value" : "İlk kaydını ekle"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保存你的第一个条目"
+            "value" : "保存第一条内容"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "儲存你的第一個項目"
+            "value" : "儲存第一筆內容"
           }
         }
       }
@@ -5912,85 +6463,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "احفظ قيمة تحت كلمة مفتاحية"
+            "value" : "احفظ المعلومة مع كلمة مفتاحية يسهل تذكّرها"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sichere einen Wert unter einem Stichwort"
+            "value" : "Sichere eine Information mit einem einprägsamen Stichwort"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save something with a keyword you’ll remember"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guarda un valor con una palabra clave"
+            "value" : "Guarda un dato con una palabra clave fácil de recordar"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enregistrez une valeur sous un mot-clé"
+            "value" : "Enregistrez une info avec un mot-clé facile à retenir"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "किसी कीवर्ड के तहत कोई मान सहेजें"
+            "value" : "जानकारी सेव करें और ऐसा कीवर्ड दें जो आसानी से याद रहे"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salva un valore con una parola chiave"
+            "value" : "Salva un’informazione con una parola chiave facile da ricordare"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "キーワードを付けて値を保存"
+            "value" : "覚えやすいキーワードを付けて情報を保存"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "키워드로 값을 저장하세요"
+            "value" : "기억하기 쉬운 키워드와 함께 정보를 저장하세요"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bewaar een waarde onder een trefwoord"
+            "value" : "Bewaar iets met een trefwoord dat je makkelijk onthoudt"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salve um valor com uma palavra-chave"
+            "value" : "Salve uma informação com uma palavra-chave fácil de lembrar"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сохраните значение под ключевым словом"
+            "value" : "Сохраните нужную информацию с ключевым словом, которое легко запомнить"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir değeri bir anahtar kelimeyle kaydet"
+            "value" : "Bilgiyi, aklında kalacak bir anahtar kelimeyle kaydet"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "以关键词保存一个值"
+            "value" : "保存信息，再配上一个好记的关键词"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "以關鍵字儲存一個值"
+            "value" : "儲存資訊，再加上一個好記的關鍵字"
           }
         }
       }
@@ -6008,6 +6565,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Scannen, um das Passwort zu kopieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan to copy the password"
           }
         },
         "es" : {
@@ -6067,7 +6630,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şifreyi kopyalamak için tarayın"
+            "value" : "Şifreyi kopyalamak için tara"
           }
         },
         "zh-Hans" : {
@@ -6099,6 +6662,12 @@
             "value" : "Scannen, um „%@“ beizutreten"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan to join “%@”"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6126,7 +6695,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "スキャンして“%@”に接続"
+            "value" : "スキャンして「%@」に接続"
           }
         },
         "ko" : {
@@ -6156,7 +6725,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“%@” ağına katılmak için tarayın"
+            "value" : "“%@” ağına bağlanmak için tara"
           }
         },
         "zh-Hans" : {
@@ -6178,13 +6747,19 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "البحث في الإدخالات"
+            "value" : "البحث في العناصر"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Einträge durchsuchen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search memories"
           }
         },
         "es" : {
@@ -6202,7 +6777,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "प्रविष्टियाँ खोजें"
+            "value" : "एंट्री खोजें"
           }
         },
         "it" : {
@@ -6276,6 +6851,12 @@
             "value" : "Vertraulich"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sensitive"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6303,7 +6884,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "機密"
+            "value" : "非公開"
           }
         },
         "ko" : {
@@ -6363,6 +6944,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Einstellungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
           }
         },
         "es" : {
@@ -6454,6 +7041,12 @@
             "value" : "Teilen"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6529,90 +7122,96 @@
       }
     },
     "Show Value" : {
-      "comment" : "Button on a sensitive memory's detail screen that asks for Face ID and reveals the value.",
+      "comment" : "Unlock button on a sensitive entry. Match the visible translation of the Value field (content/details).",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "إظهار القيمة"
+            "value" : "إظهار المحتوى"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wert zeigen"
+            "value" : "Inhalt anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Details"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar valor"
+            "value" : "Mostrar contenido"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher la valeur"
+            "value" : "Afficher le contenu"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "मान दिखाएँ"
+            "value" : "जानकारी दिखाएँ"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostra valore"
+            "value" : "Mostra contenuto"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "値を表示"
+            "value" : "内容を表示"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "값 보기"
+            "value" : "내용 보기"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Waarde tonen"
+            "value" : "Toon inhoud"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar valor"
+            "value" : "Mostrar conteúdo"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показать значение"
+            "value" : "Показать содержимое"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Değeri Göster"
+            "value" : "Bilgiyi göster"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示值"
+            "value" : "显示内容"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "顯示值"
+            "value" : "顯示內容"
           }
         }
       }
@@ -6623,85 +7222,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "اعرض السجلات في أقسام حسب الفئة. أوقف هذا الخيار لعرض قائمة واحدة، الأحدث أولًا."
+            "value" : "رتّب عناصرك حسب الفئة. أوقف هذا الخيار لعرضها في قائمة واحدة، من الأحدث إلى الأقدم."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Einträge nach Kategorie in Abschnitten anzeigen. Ausschalten für eine einzige Liste, neueste zuerst."
+            "value" : "Ordne deine Einträge nach Kategorien. Schaltest du das aus, siehst du eine Liste mit den neuesten Einträgen zuerst."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep memories organized by category. Turn this off to see one list, with the newest first."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Muestra las entradas en secciones por categoría. Desactívalo para ver una sola lista, con lo más reciente primero."
+            "value" : "Organiza tus entradas por categoría. Desactiva esta opción para ver una sola lista, con las más recientes primero."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Affiche les entrées en sections par catégorie. Désactivez pour une liste unique, les plus récentes en premier."
+            "value" : "Organisez vos entrées par catégorie. Désactivez cette option pour afficher une seule liste, de la plus récente à la plus ancienne."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "प्रविष्टियों को श्रेणी के अनुसार अनुभागों में दिखाएँ। एक ही सूची के लिए इसे बंद करें, सबसे नई पहले।"
+            "value" : "एंट्री को श्रेणी के हिसाब से रखें। इसे बंद करने पर सभी एंट्री एक सूची में दिखेंगी, सबसे नई सबसे ऊपर।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostra le voci in sezioni per categoria. Disattiva per un unico elenco, dal più recente."
+            "value" : "Organizza le voci per categoria. Disattiva questa opzione per vedere un unico elenco, con le più recenti in cima."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "項目をカテゴリ別のセクションで表示します。オフにすると、新しい順の1つのリストになります。"
+            "value" : "項目をカテゴリごとにまとめます。オフにすると、新しい順にひとつのリストで表示します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "항목을 카테고리별 섹션으로 표시합니다. 끄면 최신 항목부터 하나의 목록으로 표시됩니다."
+            "value" : "항목을 카테고리별로 모아 보여 줘요. 끄면 최신 항목부터 하나의 목록으로 볼 수 있어요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toon items in secties per categorie. Zet dit uit voor één lijst, nieuwste eerst."
+            "value" : "Orden je items op categorie. Zet dit uit voor één lijst met de nieuwste items bovenaan."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostra os registros em seções por categoria. Desative para uma única lista, do mais recente."
+            "value" : "Organize suas entradas por categoria. Desative para ver uma única lista, com as mais recentes primeiro."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показывать записи по разделам категорий. Выключите, чтобы видеть один список, сначала новые."
+            "value" : "Распределяйте записи по категориям. Отключите, чтобы видеть их одним списком, начиная с самых новых."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kayıtları kategoriye göre bölümlerde göster. Tek bir liste için kapatın; en yeniler önce gelir."
+            "value" : "Kayıtlarını kategorilere ayır. Kapatırsan tüm kayıtları en yeniden eskiye tek bir listede görürsün."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "按类别分区显示条目。关闭后显示为单个列表，最新的在前。"
+            "value" : "按类别整理条目。关闭后，所有条目将按从新到旧的顺序显示在同一个列表中。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "依類別分區顯示項目。關閉後顯示為單一列表，最新的在前。"
+            "value" : "依類別整理項目。關閉後，所有項目會由新到舊顯示在同一份列表中。"
           }
         }
       }
@@ -6712,85 +7317,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "إظهار ذكرياتك الحساسة"
+            "value" : "فتح قفل عناصرك الحساسة"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deine vertraulichen Einträge zeigen"
+            "value" : "Deine vertraulichen Einträge entsperren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock your sensitive memories"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar tus memorias confidenciales"
+            "value" : "Desbloquear tus entradas confidenciales"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher vos mémos confidentiels"
+            "value" : "Déverrouiller vos entrées confidentielles"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "अपनी संवेदनशील यादें दिखाएँ"
+            "value" : "अपनी संवेदनशील एंट्री अनलॉक करें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostra i tuoi ricordi riservati"
+            "value" : "Sblocca le tue voci riservate"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "機密メモを表示"
+            "value" : "非公開の項目のロックを解除"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "민감한 메모 보기"
+            "value" : "민감한 정보의 잠금 해제"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gevoelige herinneringen tonen"
+            "value" : "Ontgrendel je gevoelige items"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar suas memórias confidenciais"
+            "value" : "Desbloquear suas entradas confidenciais"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показать конфиденциальные записи"
+            "value" : "Открыть доступ к конфиденциальным записям"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hassas anılarını göster"
+            "value" : "Hassas kayıtlarının kilidini aç"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示你的敏感记忆"
+            "value" : "解锁你的敏感信息"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "顯示你的敏感記憶"
+            "value" : "解鎖你的敏感資訊"
           }
         }
       }
@@ -6808,6 +7419,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erscheint in Spotlight als „%@“"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows in Spotlight as “%@”"
           }
         },
         "es" : {
@@ -6873,7 +7490,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在 Spotlight 中显示为“%@”"
+            "value" : "在“聚焦”中显示为“%@”"
           }
         },
         "zh-Hant" : {
@@ -6897,6 +7514,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Streiche auf dem Home-Bildschirm nach unten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe down on the Home Screen"
           }
         },
         "es" : {
@@ -6978,67 +7601,73 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "لم يعد هذا الإدخال محفوظًا في Mindrop."
+            "value" : "لم يعد هذا العنصر موجودًا في Mindrop."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dieser Eintrag ist nicht mehr in Mindrop gesichert."
+            "value" : "Dieser Eintrag ist nicht mehr in Mindrop."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This memory is no longer in Mindrop."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esta entrada ya no está guardada en Mindrop."
+            "value" : "Esta entrada ya no está en Mindrop."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cette entrée n’est plus enregistrée dans Mindrop."
+            "value" : "Cette entrée n’est plus dans Mindrop."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "यह प्रविष्टि अब Mindrop में सेव नहीं है।"
+            "value" : "यह एंट्री अब Mindrop में नहीं है।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Questa voce non è più salvata in Mindrop."
+            "value" : "Questa voce non è più in Mindrop."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "この項目はMindropに保存されていません。"
+            "value" : "この項目はMindropにありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 항목은 더 이상 Mindrop에 저장되어 있지 않습니다."
+            "value" : "이 항목은 더 이상 Mindrop에 없어요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dit item is niet meer bewaard in Mindrop."
+            "value" : "Dit item staat niet meer in Mindrop."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esta entrada não está mais salva no Mindrop."
+            "value" : "Esta entrada não está mais no Mindrop."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Эта запись больше не хранится в Mindrop."
+            "value" : "Этой записи больше нет в Mindrop."
           }
         },
         "tr" : {
@@ -7050,13 +7679,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此条目已不在 Mindrop 中。"
+            "value" : "这条内容已不在 Mindrop 中。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此項目已不在 Mindrop 中。"
+            "value" : "這筆內容已不在 Mindrop 中。"
           }
         }
       }
@@ -7067,85 +7696,186 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "سيُحذف هذا السجل من جميع أجهزتك. لا يمكن التراجع عن ذلك."
+            "value" : "سيُحذف هذا العنصر نهائيًا من كل أجهزتك. لا يمكن التراجع عن ذلك."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dieser Eintrag wird auf allen deinen Geräten gelöscht. Dies kann nicht widerrufen werden."
+            "value" : "Dieser Eintrag wird auf all deinen Geräten endgültig gelöscht. Das kannst du nicht rückgängig machen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This memory will be permanently deleted from all your devices. You can’t undo this."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esta memoria se eliminará en todos tus dispositivos. Esta acción no se puede deshacer."
+            "value" : "Esta entrada se eliminará definitivamente de todos tus dispositivos. No podrás deshacerlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce mémo sera supprimé sur tous vos appareils. Cette action est irréversible."
+            "value" : "Cette entrée sera définitivement supprimée de tous vos appareils. Cette action est irréversible."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "यह याद आपके सभी डिवाइस से डिलीट हो जाएगी। इसे पहले जैसा नहीं किया जा सकता।"
+            "value" : "यह एंट्री आपके सभी डिवाइस से हमेशा के लिए हट जाएगी। इसके बाद इसे वापस नहीं लाया जा सकेगा।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Questo ricordo verrà eliminato su tutti i tuoi dispositivi. L’operazione non può essere annullata."
+            "value" : "Questa voce verrà eliminata definitivamente da tutti i tuoi dispositivi. Non potrai annullare l’operazione."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このメモはすべてのデバイスから削除されます。この操作は取り消せません。"
+            "value" : "この項目をすべてのデバイスから完全に削除します。この操作は取り消せません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 메모가 모든 기기에서 삭제됩니다. 이 작업은 실행 취소할 수 없습니다."
+            "value" : "이 항목을 모든 기기에서 영구 삭제해요. 이 작업은 되돌릴 수 없어요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze herinnering wordt op al je apparaten verwijderd. Dit kan niet ongedaan worden gemaakt."
+            "value" : "Dit item wordt definitief van al je apparaten verwijderd. Dit kun je niet ongedaan maken."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esta memória será apagada em todos os seus dispositivos. Não é possível desfazer."
+            "value" : "Esta entrada será apagada definitivamente de todos os seus dispositivos. Não será possível desfazer."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Эта запись будет удалена на всех ваших устройствах. Это действие нельзя отменить."
+            "value" : "Эта запись будет навсегда удалена со всех ваших устройств. Отменить это действие нельзя."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu anı tüm aygıtlarından silinecek. Bu işlem geri alınamaz."
+            "value" : "Bu kayıt tüm cihazlarından kalıcı olarak silinecek. Bu işlem geri alınamaz."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这条记忆将从你的所有设备上删除。此操作无法撤销。"
+            "value" : "这条内容将从你的所有设备上永久删除。此操作无法撤销。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這則記憶將從你的所有裝置上刪除。此動作無法還原。"
+            "value" : "這筆內容會從你的所有裝置上永久刪除。此操作無法復原。"
+          }
+        }
+      }
+    },
+    "Try closing Mindrop and opening it again." : {
+      "comment" : "User-facing recovery guidance. Internal error details remain in state for debugging; do not display raw error descriptions.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جرّب إغلاق Mindrop وفتحه من جديد."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schließe Mindrop und öffne die App erneut."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try closing Mindrop and opening it again."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prueba a cerrar Mindrop y volver a abrirlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Essayez de fermer Mindrop, puis de le rouvrir."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop बंद करके फिर से खोलें।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prova a chiudere Mindrop e a riaprirlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindropを終了して、もう一度開いてみてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop을 닫았다가 다시 열어 보세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sluit Mindrop en open de app opnieuw."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tente fechar o Mindrop e abrir de novo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Попробуйте закрыть Mindrop и открыть снова."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop’u kapatıp yeniden açmayı dene."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "试试关闭 Mindrop，然后重新打开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "試著關閉 Mindrop，再重新開啟。"
           }
         }
       }
@@ -7156,174 +7886,186 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "اكتب الكلمة المفتاحية، وستجد القيمة أمامك"
+            "value" : "ابحث بالكلمة المفتاحية لتجد ما حفظته"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tippe das Stichwort ein, und schon ist der Wert da"
+            "value" : "Suche nach dem Stichwort, um deinen Eintrag zu finden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for your keyword to see what you saved"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escribe la palabra clave y ahí está el valor"
+            "value" : "Busca la palabra clave para ver lo que guardaste"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tapez le mot-clé, et la valeur est là"
+            "value" : "Recherchez le mot-clé pour retrouver votre info"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "कीवर्ड टाइप करें, और मान वहीं मिल जाएगा"
+            "value" : "कीवर्ड खोजें और अपनी सेव की गई जानकारी देखें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Digita la parola chiave e il valore è lì"
+            "value" : "Cerca la parola chiave per ritrovare ciò che hai salvato"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "キーワードを入力すれば、値がすぐに表示されます"
+            "value" : "キーワードを検索して、保存した情報を確認"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "키워드를 입력하면 값이 바로 나타납니다"
+            "value" : "키워드를 검색해 저장한 내용을 확인하세요"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Typ het trefwoord en de waarde staat er meteen"
+            "value" : "Zoek op het trefwoord om terug te vinden wat je hebt bewaard"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Digite a palavra-chave e o valor aparece na hora"
+            "value" : "Busque a palavra-chave para ver o que você salvou"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Введите ключевое слово — и значение перед вами"
+            "value" : "Найдите ключевое слово, чтобы увидеть сохранённую информацию"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anahtar kelimeyi yaz, değer hemen orada"
+            "value" : "Anahtar kelimeyi ara, kaydettiğin bilgi karşına gelsin"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "输入关键词，值就在眼前"
+            "value" : "搜索关键词，查看保存的内容"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "輸入關鍵字，值就在眼前"
+            "value" : "搜尋關鍵字，查看儲存的內容"
           }
         }
       }
     },
     "Value" : {
-      "comment" : "Field label, and the VoiceOver label for the copyable value on the detail screen.",
+      "comment" : "Field label and VoiceOver label for the saved content: a password, number, address or other detail. Use an everyday word for content or details, not a mathematical value.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "القيمة"
+            "value" : "المحتوى"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wert"
+            "value" : "Inhalt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Details"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Valor"
+            "value" : "Contenido"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Valeur"
+            "value" : "Contenu"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "मान"
+            "value" : "जानकारी"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Valore"
+            "value" : "Contenuto"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "値"
+            "value" : "内容"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "값"
+            "value" : "내용"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Waarde"
+            "value" : "Inhoud"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Valor"
+            "value" : "Conteúdo"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Значение"
+            "value" : "Содержимое"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Değer"
+            "value" : "Bilgi"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "值"
+            "value" : "内容"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "值"
+            "value" : "內容"
           }
         }
       }
@@ -7341,6 +8083,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fahrzeuge"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vehicles"
           }
         },
         "es" : {
@@ -7432,6 +8180,12 @@
             "value" : "WLAN & Netzwerk"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wi-Fi & Network"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7489,7 +8243,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wi-Fi ve Ağ"
+            "value" : "Wi-Fi ve ağ"
           }
         },
         "zh-Hans" : {
@@ -7519,6 +8273,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "iCloud-Synchronisierung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Sync"
           }
         },
         "es" : {
@@ -7578,7 +8338,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Eşzamanlama"
+            "value" : "iCloud ile eşzamanla"
           }
         },
         "zh-Hans" : {

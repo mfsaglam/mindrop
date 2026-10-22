@@ -28,96 +28,95 @@
     },
     "NSFaceIDUsageDescription" : {
       "comment" : "Privacy - Face ID Usage Description",
-      "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يستخدم Mindrop بصمة الوجه لإظهار القيم التي حددتها كحساسة."
+            "value" : "استخدم بصمة الوجه لفتح قفل المعلومات الحساسة التي حفظتها في Mindrop."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop verwendet Face ID, um die Werte zu zeigen, die du als vertraulich markiert hast."
+            "value" : "Mit Face ID entsperrst du die vertraulichen Inhalte, die du in Mindrop gesichert hast."
           }
         },
         "en" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Mindrop uses Face ID to show the values you marked as sensitive."
+            "state" : "translated",
+            "value" : "Use Face ID to unlock the sensitive details you’ve saved in Mindrop."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop usa Face ID para mostrar los valores que marcaste como confidenciales."
+            "value" : "Usa Face ID para desbloquear los datos confidenciales que has guardado en Mindrop."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop utilise Face ID pour afficher les valeurs que vous avez marquées comme confidentielles."
+            "value" : "Face ID permet de déverrouiller les informations confidentielles que vous avez enregistrées dans Mindrop."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop आपके द्वारा संवेदनशील चिह्नित मान दिखाने के लिए Face ID का उपयोग करता है।"
+            "value" : "Mindrop में सेव की गई संवेदनशील जानकारी अनलॉक करने के लिए Face ID का इस्तेमाल होता है।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop usa Face ID per mostrare i valori che hai contrassegnato come riservati."
+            "value" : "Usa Face ID per sbloccare le informazioni riservate che hai salvato in Mindrop."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindropは、機密に設定した値を表示するためにFace IDを使用します。"
+            "value" : "Mindropで非公開にした情報のロックをFace IDで解除します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop은 민감한 정보로 표시한 값을 보여 주기 위해 Face ID를 사용합니다."
+            "value" : "Mindrop에 저장한 민감한 정보의 잠금을 Face ID로 해제해요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop gebruikt Face ID om de waarden te tonen die je als gevoelig hebt gemarkeerd."
+            "value" : "Gebruik Face ID om de gevoelige informatie die je in Mindrop bewaart te ontgrendelen."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Mindrop usa o Face ID para mostrar os valores que você marcou como confidenciais."
+            "value" : "Use o Face ID para desbloquear as informações confidenciais que você salvou no Mindrop."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop использует Face ID, чтобы показывать значения, отмеченные как конфиденциальные."
+            "value" : "Face ID открывает доступ к конфиденциальной информации, сохранённой в Mindrop."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop, hassas olarak işaretlediğin değerleri göstermek için Face ID kullanır."
+            "value" : "Mindrop’ta hassas olarak işaretlediğin bilgileri görmek için Face ID kullanılır."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop 使用面容 ID 来显示你标记为敏感的值。"
+            "value" : "使用面容 ID 解锁你在 Mindrop 中保存的敏感信息。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop 使用 Face ID 來顯示你標記為敏感的值。"
+            "value" : "使用 Face ID 解鎖你在 Mindrop 中儲存的敏感資訊。"
           }
         }
       }

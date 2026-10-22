@@ -1,115 +1,30 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Add a memory to ${applicationName}" : {
-      "comment" : "What the user says to Siri. ${applicationName} is replaced by Mindrop.",
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أضف إدخالًا إلى ${applicationName}"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eintrag zu ${applicationName} hinzufügen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Añadir una entrada a ${applicationName}"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajouter une entrée à ${applicationName}"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "${applicationName} में प्रविष्टि जोड़ें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aggiungi una voce a ${applicationName}"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "${applicationName}に項目を追加"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "${applicationName}에 항목 추가"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Item toevoegen aan ${applicationName}"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adicionar uma entrada ao ${applicationName}"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавить запись в ${applicationName}"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "${applicationName} uygulamasına kayıt ekle"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "向${applicationName}添加条目"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "向${applicationName}加入項目"
-          }
-        }
-      }
-    },
     "New memory in ${applicationName}" : {
       "comment" : "What the user says to Siri. ${applicationName} is replaced by Mindrop.",
-      "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "إدخال جديد في ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "أضف عنصرًا في ${applicationName}",
+              "احفظ معلومة في ${applicationName}"
+            ]
           }
         },
         "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Neuer Eintrag in ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Neuer Eintrag in ${applicationName}",
+              "Speichere etwas in ${applicationName}"
+            ]
           }
         },
         "en" : {
           "stringSet" : {
-            "state" : "new",
+            "state" : "translated",
             "values" : [
               "New memory in ${applicationName}",
               "Add a memory to ${applicationName}"
@@ -117,75 +32,111 @@
           }
         },
         "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Nueva entrada en ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Nueva entrada en ${applicationName}",
+              "Guarda algo en ${applicationName}"
+            ]
           }
         },
         "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Nouvelle entrée dans ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Nouvelle entrée dans ${applicationName}",
+              "Enregistre une info dans ${applicationName}"
+            ]
           }
         },
         "hi" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName} में नई प्रविष्टि"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName} में नई एंट्री जोड़ें",
+              "${applicationName} में जानकारी सेव करें"
+            ]
           }
         },
         "it" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Nuova voce in ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Nuova voce in ${applicationName}",
+              "Salva qualcosa in ${applicationName}"
+            ]
           }
         },
         "ja" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName}で新規項目"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}に新しい項目を追加",
+              "${applicationName}に情報を保存"
+            ]
           }
         },
         "ko" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName}에서 새 항목"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}에 새 항목 추가해 줘",
+              "${applicationName}에 정보 저장해 줘"
+            ]
           }
         },
         "nl" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Nieuw item in ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Nieuw item in ${applicationName}",
+              "Bewaar iets in ${applicationName}"
+            ]
           }
         },
         "pt-BR" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Nova entrada no ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Nova entrada no ${applicationName}",
+              "Salve uma informação no ${applicationName}"
+            ]
           }
         },
         "ru" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Новая запись в ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Новая запись в ${applicationName}",
+              "Сохрани информацию в ${applicationName}"
+            ]
           }
         },
         "tr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName} uygulamasında yeni kayıt"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName} ile yeni kayıt oluştur",
+              "${applicationName} ile bilgi kaydet"
+            ]
           }
         },
         "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "在${applicationName}中新建条目"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "在${applicationName}中新建条目",
+              "用${applicationName}保存信息"
+            ]
           }
         },
         "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "在${applicationName}中新增項目"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "在${applicationName}新增項目",
+              "用${applicationName}儲存資訊"
+            ]
           }
         }
       }

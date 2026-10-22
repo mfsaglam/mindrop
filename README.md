@@ -505,8 +505,9 @@ simulator was restarted. The Action button needs a device.
 English plus 14 languages: Turkish, German, French, Spanish, Italian, Portuguese (Brazil),
 Dutch, Russian, Arabic, Hindi, Japanese, Korean, Simplified and Traditional Chinese.
 
-Three String Catalogs, because the extensions cannot reach the app's (plus
-`Mindrop/Resources/AppShortcuts.xcstrings` for Siri's phrases):
+Three UI String Catalogs, because the extensions cannot reach the app's (plus
+`Mindrop/Resources/AppShortcuts.xcstrings` for Siri's phrases and
+`Mindrop/Resources/InfoPlist.xcstrings` for the Face ID explanation):
 
 - `Mindrop/Resources/Localizable.xcstrings` — the app.
 - `MindropCore/Sources/MindropSaveUI/Localizable.xcstrings` — the save form both
@@ -524,15 +525,30 @@ Two traps worth remembering:
 - A memory's keyword and value are user content and must never be looked up. They reach
   `Text` as `String` variables, which is the verbatim initializer, so they are safe.
 
-"Memory" is rendered as *entry* or *record* in every language — the literal translation
+"Memory" is rendered as *entry*, *item* or *record* in the translations — the literal translation
 means a recollection and reads wrong for a saved keyword/value pair.
+
+The copy uses short, direct sentences and a consistent form of address in each language.
+Describe what the user saves as *details* or *content*, rather than a mathematical
+*value*. Keep standard platform actions familiar. Explain recovery periods explicitly
+(30 days after deletion, 7 days after expiry), and label permanent deletion clearly.
+Privacy copy must say what is visible in Spotlight and what stays hidden until unlock.
+
+English has explicit catalog values too. The lookup keys stay stable even when the
+visible wording changes; edit the `en` localization instead of renaming keys in Swift.
+Keep shared wording identical across the app, save form and Control Center catalogs.
+Siri's two alternative phrases belong in a `stringSet` for each language, with
+`${applicationName}` preserved in every phrase.
+
+Failure screens use localized recovery guidance instead of raw Swift error descriptions.
+The original errors remain in view/session state for debugging.
 
 Arabic flips the layout right to left; the native components handle it, and it was checked
 on the simulator. Add a language by adding its code to each catalog and to `knownRegions`
 in the project.
 
-These translations have not been reviewed by native speakers. The strings are short and
-conventional, but Arabic, Hindi and Korean deserve a pass before release.
+The editorial pass covers English and all 14 translations. Native-speaker review is
+still separate from this copy and terminology review.
 
 ## Categories
 

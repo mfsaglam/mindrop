@@ -84,7 +84,7 @@ struct MemoryEditorView: View {
             .alert("Couldn’t save", isPresented: .constant(saveError != nil)) {
                 Button("OK") { saveError = nil }
             } message: {
-                Text(saveError ?? "")
+                Text("Please try again.")
             }
         }
     }

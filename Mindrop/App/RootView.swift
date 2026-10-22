@@ -17,11 +17,11 @@ struct RootView: View {
                             MemoryDetailView(repository: repository, memoryID: id, highlight: session.highlight(for: id))
                         }
                 }
-            case .failed(let message):
+            case .failed:
                 ContentUnavailableView {
                     Label("Mindrop can’t open your memories", image: "ix.danger.linear")
                 } description: {
-                    Text(message)
+                    Text("Try closing Mindrop and opening it again.")
                 }
             }
         }

@@ -61,7 +61,7 @@ public struct SaveToMindropView: View {
             .alert(localized("Couldn’t save"), isPresented: .constant(errorMessage != nil)) {
                 Button { errorMessage = nil } label: { localized("OK") }
             } message: {
-                Text(errorMessage ?? "")
+                localized("Please try again.")
             }
         }
         .task {

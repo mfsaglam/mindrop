@@ -183,7 +183,7 @@ struct MemoryListView: View {
         .alert("Couldn’t delete", isPresented: .constant(deletionError != nil)) {
             Button("OK") { deletionError = nil }
         } message: {
-            Text(deletionError ?? "")
+            Text("Please try again.")
         }
     }
 

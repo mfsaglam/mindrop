@@ -88,7 +88,7 @@ struct MemoryDetailView: View {
         .alert("Couldn’t save", isPresented: .constant(categoryError != nil)) {
             Button("OK") { categoryError = nil }
         } message: {
-            Text(categoryError ?? "")
+            Text("Please try again.")
         }
     }
 

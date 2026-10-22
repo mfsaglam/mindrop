@@ -16,6 +16,12 @@
             "value": "1 Tag"
           }
         },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Day"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
@@ -73,19 +79,19 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "1 Gün"
+            "value": "1 gün"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "1天"
+            "value": "1 天"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "1天"
+            "value": "1 天"
           }
         }
       }
@@ -103,6 +109,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "1 Monat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Month"
           }
         },
         "es": {
@@ -162,19 +174,19 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "1 Ay"
+            "value": "1 ay"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "1个月"
+            "value": "1 个月"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "1個月"
+            "value": "1 個月"
           }
         }
       }
@@ -192,6 +204,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "1 Woche"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Week"
           }
         },
         "es": {
@@ -251,19 +269,19 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "1 Hafta"
+            "value": "1 hafta"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "1周"
+            "value": "1 周"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "1週"
+            "value": "1 週"
           }
         }
       }
@@ -280,6 +298,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Abbrechen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
           }
         },
         "es": {
@@ -367,7 +391,13 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sichern fehlgeschlagen"
+            "value": "Sichern nicht möglich"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t save"
           }
         },
         "es": {
@@ -403,7 +433,7 @@
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "저장할 수 없음"
+            "value": "저장하지 못했어요"
           }
         },
         "nl": {
@@ -459,6 +489,12 @@
             "value": "Für immer"
           }
         },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forever"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
@@ -468,7 +504,7 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Toujours"
+            "value": "Sans limite"
           }
         },
         "hi": {
@@ -480,7 +516,7 @@
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Per sempre"
+            "value": "Senza scadenza"
           }
         },
         "ja": {
@@ -492,7 +528,7 @@
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "영구"
+            "value": "기한 없이"
           }
         },
         "nl": {
@@ -504,7 +540,7 @@
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Para sempre"
+            "value": "Sem prazo"
           }
         },
         "ru": {
@@ -548,6 +584,12 @@
             "value": "Behalten"
           }
         },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep"
+          }
+        },
         "es": {
           "stringUnit": {
             "state": "translated",
@@ -563,7 +605,7 @@
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "रखें"
+            "value": "कितने समय तक रखें"
           }
         },
         "it": {
@@ -575,13 +617,13 @@
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "保持期間"
+            "value": "保存期間"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "보관"
+            "value": "보관 기간"
           }
         },
         "nl": {
@@ -611,13 +653,13 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "保留"
+            "value": "保留时间"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "保留"
+            "value": "保留時間"
           }
         }
       }
@@ -635,6 +677,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stichwort"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keyword"
           }
         },
         "es": {
@@ -694,7 +742,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Anahtar Kelime"
+            "value": "Anahtar kelime"
           }
         },
         "zh-Hans": {
@@ -717,85 +765,91 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يختفي من Spotlight عند انتهاء صلاحيته. ويمكنك استعادته في Mindrop خلال 7 أيام."
+            "value": "عند انتهاء المدة، يختفي العنصر من Spotlight. يمكنك استعادته في Mindrop خلال 7 أيام قبل حذفه نهائيًا."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Verschwindet nach Ablauf aus Spotlight. In Mindrop lässt es sich noch 7 Tage lang wiederherstellen."
+            "value": "Nach Ablauf verschwindet der Eintrag aus Spotlight. Du kannst ihn noch 7 Tage lang in Mindrop wiederherstellen, bevor er endgültig gelöscht wird."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When this expires, it leaves Spotlight. You’ll have 7 days to restore it in Mindrop before it’s permanently deleted."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Desaparece de Spotlight al caducar. Puedes recuperarla en Mindrop durante 7 días."
+            "value": "Cuando caduca, la entrada deja de aparecer en Spotlight. Tienes 7 días para recuperarla en Mindrop antes de que se elimine definitivamente."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Disparaît de Spotlight à expiration. Vous pouvez encore la récupérer dans Mindrop pendant 7 jours."
+            "value": "À l’expiration, l’entrée disparaît de Spotlight. Vous avez encore 7 jours pour la récupérer dans Mindrop avant sa suppression définitive."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "समय समाप्त होने पर Spotlight से हट जाता है। आप इसे 7 दिनों तक Mindrop में वापस ला सकते हैं।"
+            "value": "समय पूरा होने पर एंट्री Spotlight से हट जाती है। हमेशा के लिए हटने से पहले आप इसे 7 दिनों तक Mindrop में वापस ला सकते हैं।"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Scompare da Spotlight alla scadenza. Puoi ancora recuperarla in Mindrop per 7 giorni."
+            "value": "Alla scadenza, la voce scompare da Spotlight. Hai ancora 7 giorni per recuperarla in Mindrop prima che venga eliminata definitivamente."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "期限が来るとSpotlightに表示されなくなります。7日間はMindropで復元できます。"
+            "value": "期限が切れるとSpotlightに表示されなくなります。その後7日間はMindropで復元できますが、それを過ぎると完全に削除されます。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "만료되면 Spotlight에서 사라집니다. 7일 동안은 Mindrop에서 복구할 수 있습니다."
+            "value": "만료되면 Spotlight에서 사라져요. 영구 삭제되기 전까지 7일 동안 Mindrop에서 복구할 수 있어요."
           }
         },
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Verdwijnt uit Spotlight als het verloopt. Je kunt het nog 7 dagen in Mindrop herstellen."
+            "value": "Zodra het item verloopt, verdwijnt het uit Spotlight. Je kunt het nog 7 dagen in Mindrop herstellen voordat het definitief wordt verwijderd."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sai do Spotlight quando expira. Você ainda pode recuperá-la no Mindrop por 7 dias."
+            "value": "Quando vence, a entrada sai do Spotlight. Você tem 7 dias para recuperá-la no Mindrop antes que seja apagada definitivamente."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Исчезает из Spotlight по истечении срока. Ещё 7 дней её можно восстановить в Mindrop."
+            "value": "По окончании срока запись исчезнет из Spotlight. Ещё 7 дней её можно восстановить в Mindrop, затем она удаляется навсегда."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Süresi dolunca Spotlight’tan kalkar. 7 gün boyunca Mindrop’ta geri yükleyebilirsiniz."
+            "value": "Süresi dolunca Spotlight’tan kaldırılır. Kalıcı olarak silinmeden önce Mindrop’ta geri yüklemek için 7 günün olur."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "到期后会从“聚焦”中移除。7 天内仍可在 Mindrop 中恢复。"
+            "value": "到期后，条目将不再出现在“聚焦”中。你还有 7 天可以在 Mindrop 中恢复，之后会永久删除。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "到期後會從 Spotlight 移除。7 天內仍可在 Mindrop 中復原。"
+            "value": "到期後，項目將不再出現在 Spotlight 中。你還有 7 天可以在 Mindrop 中復原，之後就會永久刪除。"
           }
         }
       }
@@ -808,16 +862,76 @@
             "value": "موافق"
           }
         },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
         "hi": {
           "stringUnit": {
             "state": "translated",
             "value": "ठीक है"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "확인"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamam"
           }
         },
         "zh-Hans": {
@@ -830,6 +944,101 @@
           "stringUnit": {
             "state": "translated",
             "value": "好"
+          }
+        }
+      }
+    },
+    "Please try again.": {
+      "comment": "User-facing recovery guidance. Internal error details remain in state for debugging; do not display raw error descriptions.",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حاول مرة أخرى."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versuche es bitte noch einmal."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Please try again."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vuelve a intentarlo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Veuillez réessayer."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कृपया फिर से कोशिश करें।"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riprova."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "もう一度お試しください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다시 시도해 주세요."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Probeer het opnieuw."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tente novamente."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Попробуйте ещё раз."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lütfen tekrar dene."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请再试一次。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請再試一次。"
           }
         }
       }
@@ -846,6 +1055,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sichern"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
           }
         },
         "es": {
@@ -911,7 +1126,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "存储"
+            "value": "保存"
           }
         },
         "zh-Hant": {
@@ -934,6 +1149,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "In Mindrop sichern"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save to Mindrop"
           }
         },
         "es": {
@@ -993,13 +1214,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mindrop’a Kaydet"
+            "value": "Mindrop’a kaydet"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "存储到 Mindrop"
+            "value": "保存到 Mindrop"
           }
         },
         "zh-Hant": {
@@ -1015,85 +1236,91 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "قد تظهر القيم المحفوظة مباشرةً في نتائج بحث Spotlight، حيث يمكن لأي شخص يستخدم هذا الـ iPhone رؤيتها."
+            "value": "قد تظهر المعلومات التي تحفظها في نتائج بحث Spotlight. ويمكن لأي شخص يستخدم هذا الـ iPhone رؤيتها."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gesicherte Werte können direkt in den Spotlight-Suchergebnissen erscheinen, wo sie für alle sichtbar sind, die dieses iPhone benutzen."
+            "value": "Was du sicherst, kann in den Spotlight-Suchergebnissen erscheinen. Alle, die dieses iPhone benutzen, könnten es sehen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What you save may appear in Spotlight search results. Anyone using this iPhone could see it."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Los valores guardados pueden aparecer directamente en los resultados de Spotlight, donde cualquiera que use este iPhone podría verlos."
+            "value": "Lo que guardas puede aparecer en los resultados de Spotlight. Cualquier persona que use este iPhone podría verlo."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les valeurs enregistrées peuvent apparaître directement dans les résultats de Spotlight, où toute personne utilisant cet iPhone peut les voir."
+            "value": "Ce que vous enregistrez peut apparaître dans les résultats de Spotlight. Toute personne utilisant cet iPhone pourrait le voir."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "सेव किए गए मान सीधे Spotlight खोज परिणामों में दिख सकते हैं, जहाँ इस iPhone का उपयोग करने वाला कोई भी उन्हें देख सकता है।"
+            "value": "सेव की गई जानकारी Spotlight के खोज नतीजों में दिख सकती है। इस iPhone का इस्तेमाल करने वाला कोई भी व्यक्ति उसे देख सकता है।"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "I valori salvati possono comparire direttamente nei risultati di Spotlight, dove chiunque usi questo iPhone può vederli."
+            "value": "Ciò che salvi può comparire nei risultati di Spotlight. Chiunque usi questo iPhone potrebbe vederlo."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "保存した値はSpotlightの検索結果に直接表示されることがあり、このiPhoneを使う人なら誰でも見られます。"
+            "value": "保存した内容がSpotlightの検索結果に表示されることがあります。このiPhoneを使う人なら誰でも見られる可能性があります。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "저장한 값은 Spotlight 검색 결과에 그대로 표시될 수 있으며, 이 iPhone을 사용하는 사람은 누구나 볼 수 있습니다."
+            "value": "저장한 내용이 Spotlight 검색 결과에 나타날 수 있어요. 이 iPhone을 사용하는 사람은 누구나 볼 수 있어요."
           }
         },
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bewaarde waarden kunnen rechtstreeks in Spotlight-zoekresultaten verschijnen, waar iedereen die deze iPhone gebruikt ze kan zien."
+            "value": "Wat je bewaart, kan in de zoekresultaten van Spotlight verschijnen. Iedereen die deze iPhone gebruikt, zou het kunnen zien."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Os valores salvos podem aparecer diretamente nos resultados do Spotlight, onde qualquer pessoa que use este iPhone pode vê-los."
+            "value": "O que você salva pode aparecer nos resultados do Spotlight. Qualquer pessoa que use este iPhone pode ver essas informações."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сохранённые значения могут отображаться прямо в результатах Spotlight, где их увидит любой, кто пользуется этим iPhone."
+            "value": "Сохранённая информация может появиться в результатах поиска Spotlight. Её может увидеть любой, кто пользуется этим iPhone."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kaydedilen değerler doğrudan Spotlight arama sonuçlarında görünebilir; bu iPhone’u kullanan herkes onları görebilir."
+            "value": "Kaydettiğin bilgiler Spotlight arama sonuçlarında görünebilir. Bu iPhone’u kullanan herkes bu bilgileri görebilir."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "存储的值可能直接出现在 Spotlight 搜索结果中，使用这台 iPhone 的任何人都可能看到。"
+            "value": "保存的内容可能出现在“聚焦”搜索结果中。任何使用这台 iPhone 的人都可能看到。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "儲存的值可能直接出現在 Spotlight 搜尋結果中，使用這台 iPhone 的任何人都可能看到。"
+            "value": "儲存的內容可能出現在 Spotlight 搜尋結果中。任何使用這部 iPhone 的人都可能看到。"
           }
         }
       }
@@ -1111,6 +1338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vertraulich"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sensitive"
           }
         },
         "es": {
@@ -1140,7 +1373,7 @@
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "機密"
+            "value": "非公開"
           }
         },
         "ko": {
@@ -1193,85 +1426,91 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يعرض Spotlight الكلمة المفتاحية فقط، ويخفي Mindrop القيمة حتى تفتح قفلها."
+            "value": "تظهر الكلمة المفتاحية فقط في Spotlight. يبقى المحتوى مخفيًا في Mindrop حتى تفتح قفله."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight zeigt nur das Stichwort, und Mindrop blendet den Wert aus, bis du ihn entsperrst."
+            "value": "In Spotlight erscheint nur das Stichwort. Der gespeicherte Inhalt bleibt in Mindrop verborgen, bis du ihn entsperrst."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only the keyword appears in Spotlight. Your saved details stay hidden in Mindrop until you unlock them."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight solo muestra la palabra clave, y Mindrop oculta el valor hasta que lo desbloquees."
+            "value": "En Spotlight solo aparece la palabra clave. El contenido queda oculto en Mindrop hasta que lo desbloquees."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight n’affiche que le mot-clé, et Mindrop masque la valeur jusqu’à ce que vous la déverrouilliez."
+            "value": "Seul le mot-clé apparaît dans Spotlight. Le contenu reste masqué dans Mindrop jusqu’à ce que vous le déverrouilliez."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight केवल कीवर्ड दिखाता है, और जब तक आप अनलॉक नहीं करते, Mindrop मान छिपाए रखता है।"
+            "value": "Spotlight में सिर्फ़ कीवर्ड दिखता है। सेव की गई जानकारी Mindrop में तब तक छिपी रहती है, जब तक आप उसे अनलॉक नहीं करते।"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight mostra solo la parola chiave, e Mindrop nasconde il valore finché non lo sblocchi."
+            "value": "In Spotlight compare solo la parola chiave. Il contenuto resta nascosto in Mindrop finché non lo sblocchi."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlightにはキーワードだけが表示され、ロックを解除するまでMindropは値を隠します。"
+            "value": "Spotlightに表示されるのはキーワードだけです。内容はロックを解除するまでMindropで非表示になります。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight에는 키워드만 표시되고, 잠금을 해제할 때까지 Mindrop이 값을 숨깁니다."
+            "value": "Spotlight에는 키워드만 보여요. 저장한 내용은 잠금을 해제할 때까지 Mindrop에서 숨겨져요."
           }
         },
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight toont alleen het trefwoord, en Mindrop verbergt de waarde tot je die ontgrendelt."
+            "value": "Alleen het trefwoord verschijnt in Spotlight. De inhoud blijft verborgen in Mindrop totdat je die ontgrendelt."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "O Spotlight mostra apenas a palavra-chave, e o Mindrop oculta o valor até você desbloqueá-lo."
+            "value": "Só a palavra-chave aparece no Spotlight. O conteúdo fica oculto no Mindrop até você desbloqueá-lo."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight показывает только ключевое слово, а Mindrop скрывает значение, пока вы его не разблокируете."
+            "value": "В Spotlight видно только ключевое слово. Содержимое скрыто в Mindrop, пока вы не разблокируете доступ."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight yalnızca anahtar kelimeyi gösterir; Mindrop ise kilidini açana kadar değeri gizler."
+            "value": "Spotlight’ta yalnızca anahtar kelime görünür. Kaydettiğin bilgi, kilidi açana kadar Mindrop’ta gizli kalır."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight 只显示关键词，在你解锁之前，Mindrop 会隐藏值。"
+            "value": "“聚焦”中只显示关键词。保存的内容会在 Mindrop 中保持隐藏，直到你解锁。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight 只會顯示關鍵字，在你解鎖之前，Mindrop 會隱藏值。"
+            "value": "Spotlight 中只顯示關鍵字。儲存的內容會在 Mindrop 中保持隱藏，直到你解鎖。"
           }
         }
       }
@@ -1282,13 +1521,19 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "حتى"
+            "value": "حتى تاريخ"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Bis"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Until"
           }
         },
         "es": {
@@ -1306,7 +1551,7 @@
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "तक"
+            "value": "अंतिम तारीख"
           }
         },
         "it": {
@@ -1318,13 +1563,13 @@
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "終了日"
+            "value": "期限日"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "종료일"
+            "value": "만료일"
           }
         },
         "nl": {
@@ -1348,19 +1593,19 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bitiş"
+            "value": "Bitiş tarihi"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "截止"
+            "value": "截止日期"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "截止"
+            "value": "截止日期"
           }
         }
       }
@@ -1371,37 +1616,43 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "حتى تاريخ"
+            "value": "اختيار تاريخ"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bis zu einem Datum"
+            "value": "Datum wählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a Date"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hasta una fecha"
+            "value": "Elegir una fecha"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Jusqu’à une date"
+            "value": "Choisir une date"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "किसी तारीख तक"
+            "value": "तारीख चुनें"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Fino a una data"
+            "value": "Scegli una data"
           }
         },
         "ja": {
@@ -1419,126 +1670,132 @@
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tot een datum"
+            "value": "Kies een datum"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Até uma data"
+            "value": "Escolher uma data"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "До даты"
+            "value": "Выбрать дату"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bir Tarihe Kadar"
+            "value": "Tarih seç"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "直到某日期"
+            "value": "选择日期"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "直到某日期"
+            "value": "選擇日期"
           }
         }
       }
     },
     "Value": {
-      "comment": "Field label, and the VoiceOver label for the copyable value on the detail screen.",
+      "comment": "Field label and VoiceOver label for the saved content: a password, number, address or other detail. Use an everyday word for content or details, not a mathematical value.",
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "القيمة"
+            "value": "المحتوى"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wert"
+            "value": "Inhalt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Details"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Valor"
+            "value": "Contenido"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Valeur"
+            "value": "Contenu"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "मान"
+            "value": "जानकारी"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Valore"
+            "value": "Contenuto"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "値"
+            "value": "内容"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "값"
+            "value": "내용"
           }
         },
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Waarde"
+            "value": "Inhoud"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Valor"
+            "value": "Conteúdo"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Значение"
+            "value": "Содержимое"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Değer"
+            "value": "Bilgi"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "值"
+            "value": "内容"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "值"
+            "value": "內容"
           }
         }
       }

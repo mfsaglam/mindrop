@@ -78,7 +78,7 @@ struct RecentlyDeletedView: View {
         .alert("Couldn’t save", isPresented: .constant(errorMessage != nil)) {
             Button("OK") { errorMessage = nil }
         } message: {
-            Text(errorMessage ?? "")
+            Text("Please try again.")
         }
     }
 

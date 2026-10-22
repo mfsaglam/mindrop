@@ -2,18 +2,24 @@
   "sourceLanguage" : "en",
   "strings" : {
     "New Memory" : {
-      "comment" : "A memory is one saved keyword/value pair, not a recollection.",
+      "comment" : "A memory is a saved piece of information with a keyword, not a recollection. Use the local word for entry or item consistently in all screens.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "إدخال جديد"
+            "value" : "عنصر جديد"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Neuer Eintrag"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Memory"
           }
         },
         "es" : {
@@ -31,7 +37,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "नई प्रविष्टि"
+            "value" : "नई एंट्री"
           }
         },
         "it" : {
@@ -73,7 +79,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yeni Kayıt"
+            "value" : "Yeni kayıt"
           }
         },
         "zh-Hans" : {
@@ -96,67 +102,73 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يفتح Mindrop جاهزًا لحفظ إدخال جديد."
+            "value" : "يفتح Mindrop لإضافة عنصر جديد."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Öffnet Mindrop, um einen neuen Eintrag zu sichern."
+            "value" : "Öffnet Mindrop, damit du einen neuen Eintrag hinzufügen kannst."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Mindrop to add a new memory."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abre Mindrop para guardar una nueva entrada."
+            "value" : "Abre Mindrop para añadir una entrada."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ouvre Mindrop pour enregistrer une nouvelle entrée."
+            "value" : "Ouvre Mindrop pour ajouter une entrée."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "नई प्रविष्टि सहेजने के लिए Mindrop खोलता है।"
+            "value" : "नई एंट्री जोड़ने के लिए Mindrop खोलता है।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apre Mindrop per salvare una nuova voce."
+            "value" : "Apre Mindrop per aggiungere una voce."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindropを開いて新しい項目を保存します。"
+            "value" : "Mindropを開いて、新しい項目を追加できます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop을 열어 새 항목을 저장합니다."
+            "value" : "Mindrop을 열어 새 항목을 추가해요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opent Mindrop om een nieuw item te bewaren."
+            "value" : "Opent Mindrop om een item toe te voegen."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abre o Mindrop para salvar uma nova entrada."
+            "value" : "Abre o Mindrop para adicionar uma entrada."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открывает Mindrop для сохранения новой записи."
+            "value" : "Открывает Mindrop для добавления записи."
           }
         },
         "tr" : {
@@ -168,13 +180,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打开 Mindrop 以存储新条目。"
+            "value" : "打开 Mindrop，添加新条目。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打開 Mindrop 以儲存新項目。"
+            "value" : "開啟 Mindrop，加入新項目。"
           }
         }
       }
