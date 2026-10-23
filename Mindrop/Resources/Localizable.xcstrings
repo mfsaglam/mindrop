@@ -476,6 +476,101 @@
         }
       }
     },
+    "Action Button" : {
+      "comment" : "How Mindrop Works: title of the Action button way to save. Use the system's own name for the Action button.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زر الإجراء"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktionstaste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Action Button"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botón de acción"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bouton Action"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ऐक्शन बटन"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tasto Azione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アクションボタン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "동작 버튼"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actieknop"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botão de Ação"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кнопка действия"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eylem Düğmesi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "操作按钮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "動作按鈕"
+          }
+        }
+      }
+    },
     "All" : {
       "comment" : "Category filter option that shows every entry.",
       "localizations" : {
@@ -1231,6 +1326,101 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "聯絡資訊"
+          }
+        }
+      }
+    },
+    "Control Center" : {
+      "comment" : "How Mindrop Works: title of the Control Center way to save. Use the system's own name for Control Center.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مركز التحكم"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontrollzentrum"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control Center"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centro de control"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centre de contrôle"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कंट्रोल सेंटर"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centro di Controllo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コントロールセンター"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제어 센터"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bedieningspaneel"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Central de Controle"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пункт управления"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denetim Merkezi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "控制中心"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "控制中心"
           }
         }
       }
@@ -3606,6 +3796,101 @@
         }
       }
     },
+    "From Other Apps" : {
+      "comment" : "How Mindrop Works: title of the share sheet way to save.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "من التطبيقات الأخرى"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus anderen Apps"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From Other Apps"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desde otras apps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depuis d’autres apps"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "दूसरी ऐप्स से"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da altre app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ほかのアプリから"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 앱에서"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vanuit andere apps"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De outros apps"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Из других приложений"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diğer uygulamalardan"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从其他 App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從其他 App"
+          }
+        }
+      }
+    },
     "Gone for good" : {
       "comment" : "Empty Recently Deleted, the last stage: deleted permanently.",
       "localizations" : {
@@ -4081,6 +4366,101 @@
         }
       }
     },
+    "How Mindrop Works" : {
+      "comment" : "Settings row, and the title of the page it opens: the onboarding guide again, then other ways to save. A short, friendly heading, not 'Tutorial'.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "كيف يعمل Mindrop"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "So funktioniert Mindrop"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How Mindrop Works"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cómo funciona Mindrop"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment fonctionne Mindrop"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop कैसे काम करता है"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Come funziona Mindrop"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindropの使いかた"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop 사용 방법"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zo werkt Mindrop"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como o Mindrop funciona"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как работает Mindrop"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop nasıl çalışır?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop 使用方法"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop 使用方式"
+          }
+        }
+      }
+    },
     "IDs & Documents" : {
       "comment" : "Category of saved entries: passport, ID, insurance and membership numbers.",
       "localizations" : {
@@ -4172,6 +4552,101 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "證件與文件"
+          }
+        }
+      }
+    },
+    "If your iPhone has one, go to Settings › Action Button, choose Shortcut, then Mindrop." : {
+      "comment" : "How Mindrop Works: setting the Action button. Only some iPhones have one. Use the system's own names for Settings, Action Button and Shortcut.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إن كان iPhone لديك يحتوي عليه، فانتقل إلى الإعدادات › زر الإجراء، واختر «اختصار»، ثم Mindrop."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falls dein iPhone eine hat: Gehe zu Einstellungen › Aktionstaste, wähle „Kurzbefehl“ und dann Mindrop."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If your iPhone has one, go to Settings › Action Button, choose Shortcut, then Mindrop."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si tu iPhone tiene uno, ve a Ajustes › Botón de acción, elige Atajo y luego Mindrop."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si votre iPhone en a un, accédez à Réglages › Bouton Action, choisissez Raccourci, puis Mindrop."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अगर आपके iPhone में यह है, तो सेटिंग्स › ऐक्शन बटन पर जाएँ, शॉर्टकट चुनें, फिर Mindrop।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se il tuo iPhone lo ha, vai in Impostazioni › Tasto Azione, scegli Comando rapido e poi Mindrop."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhoneにアクションボタンがあれば、「設定」›「アクションボタン」で「ショートカット」を選び、Mindropを選びます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone에 동작 버튼이 있다면 설정 › 동작 버튼에서 단축어를 고른 다음 Mindrop을 선택하세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heeft je iPhone er een, ga dan naar Instellingen › Actieknop, kies ‘Opdracht’ en dan Mindrop."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se o seu iPhone tiver um, acesse Ajustes › Botão de Ação, escolha Atalho e depois o Mindrop."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если на вашем iPhone она есть, откройте «Настройки» › «Кнопка действия», выберите «Быстрая команда», затем Mindrop."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone’unda varsa Ayarlar › Eylem Düğmesi’ne git, Kestirme’yi ve ardından Mindrop’u seç."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你的 iPhone 有操作按钮，请前往“设置”›“操作按钮”，选择“快捷指令”，然后选择 Mindrop。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你的 iPhone 有動作按鈕，請前往「設定」›「動作按鈕」，選擇「捷徑」，然後選擇 Mindrop。"
           }
         }
       }
@@ -5033,6 +5508,101 @@
         }
       }
     },
+    "More Ways to Save" : {
+      "comment" : "Heading on How Mindrop Works, above the ways to save without opening the app first: share sheet, Control Center, Action button, Siri, Apple Watch.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "طرق أخرى للحفظ"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weitere Wege zum Sichern"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More Ways to Save"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más formas de guardar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autres façons d’enregistrer"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सेव करने के और तरीके"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altri modi per salvare"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ほかの保存方法"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 저장 방법"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meer manieren om te bewaren"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outras formas de salvar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Другие способы сохранить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydetmenin diğer yolları"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多保存方式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多儲存方式"
+          }
+        }
+      }
+    },
     "New Memory" : {
       "comment" : "A memory is a saved piece of information with a keyword, not a recollection. Use the local word for entry or item consistently in all screens.",
       "localizations" : {
@@ -5693,6 +6263,196 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打開"
+          }
+        }
+      }
+    },
+    "Open Control Center, tap +, then Add a Control, and choose Mindrop. It can go on the Lock Screen too." : {
+      "comment" : "How Mindrop Works: adding the New Memory control. Use the system's own names for Control Center, Add a Control and the Lock Screen.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افتح مركز التحكم، واضغط على +، ثم «إضافة عنصر تحكم»، واختر Mindrop. ويمكن وضعه على شاشة القفل أيضًا."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne das Kontrollzentrum, tippe auf +, dann auf „Steuerelement hinzufügen“ und wähle Mindrop. Es passt auch auf den Sperrbildschirm."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Control Center, tap +, then Add a Control, and choose Mindrop. It can go on the Lock Screen too."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre el centro de control, toca +, luego Añadir un control, y elige Mindrop. También puede ir en la pantalla bloqueada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez le centre de contrôle, touchez +, puis Ajouter une commande, et choisissez Mindrop. Elle peut aussi figurer sur l’écran verrouillé."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कंट्रोल सेंटर खोलें, + पर टैप करें, फिर कंट्रोल जोड़ें पर, और Mindrop चुनें। इसे लॉक स्क्रीन पर भी रखा जा सकता है।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Centro di Controllo, tocca +, poi Aggiungi un controllo e scegli Mindrop. Puoi metterlo anche nella schermata di blocco."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コントロールセンターを開いて＋をタップし、「コントロールを追加」からMindropを選びます。ロック画面にも置けます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제어 센터를 열고 +를 탭한 다음, 제어 항목 추가에서 Mindrop을 선택하세요. 잠금 화면에도 둘 수 있어요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open het bedieningspaneel, tik op +, dan op ‘Voeg een regelaar toe’ en kies Mindrop. Hij kan ook op het toegangsscherm."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abra a Central de Controle, toque em +, depois em Adicionar um Controle, e escolha o Mindrop. Ele também pode ficar na Tela Bloqueada."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откройте Пункт управления, нажмите «+», затем «Добавить элемент управления» и выберите Mindrop. Его можно добавить и на экран блокировки."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denetim Merkezi’ni aç, + simgesine, ardından Denetim Ekle’ye dokun ve Mindrop’u seç. Kilitli Ekran’a da eklenebilir."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开控制中心，轻点“+”，再轻点“添加控制”，然后选择 Mindrop。也可以放在锁定屏幕上。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開控制中心，點一下「+」，再點一下「加入控制項目」，然後選擇 Mindrop。也可以放在鎖定畫面上。"
+          }
+        }
+      }
+    },
+    "Open Mindrop on your Apple Watch to save a memory from your wrist." : {
+      "comment" : "How Mindrop Works: the Apple Watch app, shown only when a watch is paired.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افتح Mindrop على Apple Watch لحفظ عنصر من معصمك."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne Mindrop auf deiner Apple Watch, um direkt am Handgelenk einen Eintrag zu sichern."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Mindrop on your Apple Watch to save a memory from your wrist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre Mindrop en tu Apple Watch para guardar una entrada desde la muñeca."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez Mindrop sur votre Apple Watch pour enregistrer une entrée depuis votre poignet."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कलाई से ही एंट्री सेव करने के लिए Apple Watch पर Mindrop खोलें।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Mindrop su Apple Watch per salvare una voce dal polso."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple WatchでMindropを開けば、手首から項目を保存できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Watch에서 Mindrop을 열면 손목에서 바로 항목을 저장할 수 있어요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Mindrop op je Apple Watch om een item vanaf je pols te bewaren."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abra o Mindrop no Apple Watch para salvar uma entrada direto do pulso."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откройте Mindrop на Apple Watch, чтобы сохранить запись прямо с запястья."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bileğinden kayıt eklemek için Apple Watch’ta Mindrop’u aç."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 Apple Watch 上打开 Mindrop，抬腕即可保存条目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 Apple Watch 上打開 Mindrop，從手腕就能儲存項目。"
           }
         }
       }
@@ -6548,6 +7308,101 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "儲存資訊，再加上一個好記的關鍵字"
+          }
+        }
+      }
+    },
+    "Say “New memory in Mindrop”." : {
+      "comment" : "How Mindrop Works: what to say to Siri. The quoted phrase must be exactly the first Siri phrase in AppShortcuts.xcstrings for this language, with Mindrop as the app name.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قل: «أضف عنصرًا في Mindrop»."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sag „Neuer Eintrag in Mindrop“."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Say “New memory in Mindrop”."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di «Nueva entrada en Mindrop»."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dites « Nouvelle entrée dans Mindrop »."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कहें: “Mindrop में नई एंट्री जोड़ें”।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di’ “Nuova voce in Mindrop”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「Mindropに新しい項目を追加」と話しかけます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Mindrop에 새 항목 추가해 줘”라고 말하세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeg ‘Nieuw item in Mindrop’."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diga “Nova entrada no Mindrop”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скажите: «Новая запись в Mindrop»."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Mindrop ile yeni kayıt oluştur” de."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "说“在Mindrop中新建条目”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "說「在Mindrop新增項目」。"
           }
         }
       }
@@ -7596,6 +8451,101 @@
         }
       }
     },
+    "Tap Share and choose Mindrop to save text or a link. If it isn’t there, tap More." : {
+      "comment" : "How Mindrop Works: the share sheet. Use the system's own names for the Share and More buttons.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اضغط على «مشاركة» واختر Mindrop لحفظ نص أو رابط. إن لم تجده، فاضغط على «المزيد»."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe auf „Teilen“ und wähle Mindrop, um Text oder einen Link zu sichern. Fehlt es, tippe auf „Mehr“."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap Share and choose Mindrop to save text or a link. If it isn’t there, tap More."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca Compartir y elige Mindrop para guardar un texto o un enlace. Si no aparece, toca Más."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touchez Partager, puis choisissez Mindrop pour enregistrer un texte ou un lien. S’il n’apparaît pas, touchez Plus."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टेक्स्ट या लिंक सेव करने के लिए शेयर पर टैप करें और Mindrop चुनें। न दिखे, तो अधिक पर टैप करें।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca Condividi e scegli Mindrop per salvare un testo o un link. Se non c’è, tocca Altro."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「共有」をタップしてMindropを選ぶと、テキストやリンクを保存できます。見つからないときは「その他」をタップします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "공유를 탭하고 Mindrop을 선택하면 텍스트나 링크를 저장할 수 있어요. 보이지 않으면 더 보기를 탭하세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik op ‘Deel’ en kies Mindrop om tekst of een link te bewaren. Staat het er niet tussen, tik dan op ‘Meer’."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque em Compartilhar e escolha o Mindrop para salvar um texto ou link. Se ele não aparecer, toque em Mais."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите «Поделиться» и выберите Mindrop, чтобы сохранить текст или ссылку. Если его нет, нажмите «Еще»."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metin ya da bağlantı kaydetmek için Paylaş’a dokun ve Mindrop’u seç. Göremiyorsan Diğer’e dokun."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点“共享”并选择 Mindrop，即可保存文本或链接。如果没有看到，请轻点“更多”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點一下「分享」並選擇 Mindrop，即可儲存文字或連結。如果沒有看到，請點一下「更多」。"
+          }
+        }
+      }
+    },
     "This memory is no longer saved in Mindrop." : {
       "localizations" : {
         "ar" : {
@@ -8351,6 +9301,101 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wi-Fi 與網路"
+          }
+        }
+      }
+    },
+    "Your own memories, as Spotlight shows them." : {
+      "comment" : "Caption under the Spotlight preview on How Mindrop Works, when the preview plays the user's own saved memories instead of samples.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عناصرك أنت، كما يعرضها Spotlight."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine eigenen Einträge, so wie Spotlight sie zeigt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your own memories, as Spotlight shows them."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus propias entradas, tal como las muestra Spotlight."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos propres entrées, telles que Spotlight les affiche."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आपकी अपनी एंट्री, जैसे Spotlight उन्हें दिखाता है।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le tue voci, così come le mostra Spotlight."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "あなたの項目は、Spotlightでこう表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "내 항목이 Spotlight에 이렇게 표시돼요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je eigen items, zoals Spotlight ze toont."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suas próprias entradas, como o Spotlight as mostra."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваши записи — так, как их показывает Spotlight."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kendi kayıtların, Spotlight’ta göründüğü gibi."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你自己的条目，在“聚焦”中就是这样显示的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你自己的項目，在 Spotlight 中就是這樣顯示的。"
           }
         }
       }

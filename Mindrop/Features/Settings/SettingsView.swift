@@ -33,6 +33,12 @@ struct SettingsView: View {
                     Text("Keeps your memories the same on every device signed in to your iCloud account. Keywords and values are end-to-end encrypted.")
                 }
 
+                Section {
+                    NavigationLink("How Mindrop Works") {
+                        HowMindropWorksView(repository: repository)
+                    }
+                }
+
                 #if DEBUG
                 Section {
                     if let categorizationLog {

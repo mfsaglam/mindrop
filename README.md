@@ -307,12 +307,21 @@ plain system background.
   press offers Copy and Delete (Recover and Delete for an expired one): a grid has no swipe
   actions. Recently Deleted is a glass row under the cards.
 - **Search sits at the bottom right**, a toolbar item after a flexible spacer, not centred.
-- **With nothing saved, the list is the onboarding** (`SpotlightGuide`): a Spotlight search
-  for "wifi" drawn in glass, showing the result the way Spotlight draws a memory, then
-  three steps (save under a keyword, swipe down on the Home Screen, type the keyword) and
-  Save Your First Memory. There is no separate onboarding screen. It also shows when every
-  memory was deleted, above the Recently Deleted row. A search or a filter that finds
+- **With nothing saved, the list is the onboarding** (`SpotlightGuide`): sample Spotlight
+  searches typed out in glass, each showing its result the way Spotlight draws a memory,
+  then three steps (save under a keyword, swipe down on the Home Screen, type the keyword)
+  and Save Your First Memory. There is no separate onboarding screen. It also shows when
+  every memory was deleted, above the Recently Deleted row. A search or a filter that finds
   nothing still gets the system's empty view.
+- **Settings → How Mindrop Works shows the guide again** (`HowMindropWorksView`), for anyone
+  who has saved since or never saw it (a first memory from the share sheet, Siri or the
+  watch means the list was never empty). No button, and the preview types the user's own
+  keywords: up to five memories that Spotlight shows in full (not sensitive, short enough
+  for a card), the samples if none qualifies. They are taken once when the page opens, so a
+  memory arriving by sync can't change the list under the animation. Below the guide,
+  More Ways to Save: the share sheet, Control Center, the Action button, Siri (the quoted
+  phrase must match the first one in `AppShortcuts.xcstrings`) and, only with a paired
+  watch, Apple Watch. Nothing in the app leads to these otherwise. It never opens by itself.
 - **Recently Deleted is the same grid in clear glass**: no category tint, so deleted
   memories read as set aside, with the category's icon still coloured. Each card counts
   down to its deletion for good ("in 29 days"), red in the last three days. Tapping a card
@@ -367,8 +376,9 @@ swiftdraw`); the list of icons is at its top. Two things it takes care of:
   symbol out ("No image named …"); those icons keep one weight.
 
 Still SF Symbols: what the system draws (back button, the search button and field, the share
-sheet), the Siri/Shortcuts tile (`systemImageName` only), the share extension for now, and
-the Debug screens. Iconsax has no infinity, so Keep Forever is
+sheet), the Siri/Shortcuts tile (`systemImageName` only), the share extension for now, the
+ways to save on How Mindrop Works (they point at Apple's own features, so they carry Apple's
+glyphs: share, Control Center, the Action button, Siri, Apple Watch), and the Debug screens. Iconsax has no infinity, so Keep Forever is
 a paused timer.
 
 Licence: free for apps, commercial ones included, without attribution; loose icon files may
