@@ -4,10 +4,15 @@
 // cursor waiting for a keyword. A grey panel behind, as in the guide.
 //
 // Usage: swift Tools/RenderAppIcon.swift <output.png> [--template]
+//        swift Tools/RenderAppIcon.swift <output.symbolset> --symbol
 //
 // `--template` renders just the search icon and the cursor, on a transparent background and
 // larger in the frame, for the action extension: iOS draws an action extension's icon as a
 // mask of its alpha channel, so the app's icon would come out there as a filled square.
+//
+// `--symbol` writes the search icon and the cursor as a custom SF Symbol, for the Control
+// Center control: Control Center draws only symbols. It needs SwiftDraw
+// (`brew install swiftdraw`), as the Iconsax symbols do.
 //
 // The app icon is written without an alpha channel at all: App Store validation rejects a
 // large app icon that has one, even when every pixel is opaque.
@@ -173,10 +178,95 @@ struct PathParser {
 
 let arguments = CommandLine.arguments
 guard (2...3).contains(arguments.count) else {
-    FileHandle.standardError.write(Data("usage: RenderAppIcon.swift <output.png> [--template]\n".utf8))
+    FileHandle.standardError.write(Data("usage: RenderAppIcon.swift <output.png> [--template | --symbol]\n".utf8))
     exit(2)
 }
 let isTemplate = arguments.count == 3 && arguments[2] == "--template"
+
+// MARK: - Symbol
+
+/// Runs SwiftDraw, failing loudly.
+func swiftDraw(_ arguments: [String]) {
+    let process = Process()
+    process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
+    process.arguments = ["swiftdraw"] + arguments
+    do { try process.run() } catch { fatalError("Could not run SwiftDraw: \(error)") }
+    process.waitUntilExit()
+    guard process.terminationStatus == 0 else { fatalError("SwiftDraw failed") }
+}
+
+/// Whether a symbol template's Ultralight, Regular and Black outlines have the same commands,
+/// path by path. iOS draws the weights in between by interpolating them; when they differ,
+/// Xcode leaves the symbol out without an error.
+func interpolatable(_ template: String) -> Bool {
+    func commands(_ variant: String) -> [String] {
+        guard let group = template.range(of: "(?s)<g id=\"\(variant)-S\"[^>]*>.*?</g>", options: .regularExpression) else { return [] }
+        let text = String(template[group])
+        let path = try! NSRegularExpression(pattern: "d=\"([^\"]+)\"")
+        return path.matches(in: text, range: NSRange(text.startIndex..., in: text)).map { match in
+            String(text[Range(match.range(at: 1), in: text)!].filter { "MLCZHVQA".contains($0) })
+        }
+    }
+    return commands("Ultralight") == commands("Regular") && commands("Regular") == commands("Black")
+}
+
+/// The search icon at 0.8 of its size with the cursor after it, together centred on Iconsax's
+/// 24-point grid. Top and bottom keep the margin Mindrop's Iconsax symbols have, so it is as
+/// tall as they are; the sides hold the wider shape. Drawn heavier than in the app, as the
+/// sketches for the control were: at that weight the handle's little loop closes up, so it is
+/// filled.
+func writeSymbol(to folder: URL) {
+    let stroke = 1.9
+    let source = """
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <g transform="translate(0.1 2.2) scale(0.8)" stroke="#000" stroke-width="\(stroke / 0.8)" stroke-linecap="round" stroke-linejoin="round">
+    <path d="\(searchIconPaths[0])"/>
+    <path d="\(searchIconPaths[1])" fill="#000"/>
+    </g>
+    <path d="M22.3 4.15V17.85" stroke="#000" stroke-width="\(stroke)" stroke-linecap="round"/>
+    </svg>
+    """
+    let name = folder.deletingPathExtension().lastPathComponent
+    let sourceURL = FileManager.default.temporaryDirectory.appending(path: "\(name).svg")
+    let output = folder.appending(path: "\(name).svg")
+    do {
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        try source.write(to: sourceURL, atomically: true, encoding: .utf8)
+    } catch { fatalError("Could not write the symbol's source: \(error)") }
+
+    let insets = "4.2,0.5,4.2,0.5"
+    let command = [sourceURL.path, "--format", "sfsymbol", "--output", output.path,
+                   "--insets", insets, "--ultralight-insets", insets, "--black-insets", insets]
+    swiftDraw(command + ["--ultralight-stroke-width", "0.6", "--black-stroke-width", "1.6"])
+    if let template = try? String(contentsOf: output, encoding: .utf8), !interpolatable(template) {
+        swiftDraw(command)
+        print("\(name): one weight only")
+    }
+
+    let contents = """
+    {
+      "info": {
+        "author": "xcode",
+        "version": 1
+      },
+      "symbols": [
+        {
+          "filename": "\(name).svg",
+          "idiom": "universal"
+        }
+      ]
+    }
+
+    """
+    do { try contents.write(to: folder.appending(path: "Contents.json"), atomically: true, encoding: .utf8) }
+    catch { fatalError("Could not write the symbol's Contents.json: \(error)") }
+    print("Wrote \(folder.path)")
+}
+
+if arguments.count == 3 && arguments[2] == "--symbol" {
+    writeSymbol(to: URL(fileURLWithPath: arguments[1]))
+    exit(0)
+}
 let sRGB = CGColorSpace(name: CGColorSpace.sRGB)!
 
 func color(_ red: Double, _ green: Double, _ blue: Double, _ alpha: Double = 1) -> CGColor {

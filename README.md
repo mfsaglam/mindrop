@@ -76,11 +76,12 @@ swift test --package-path Mindrop/MindropCore
 ```
 
 App Group `group.mfsaglam.Mindrop`; bundle ids `mfsaglam.Mindrop` and `mfsaglam.Mindrop.Share`.
-Regenerate the icons after changing the renderer:
+Regenerate the icons after changing the renderer (the symbol needs SwiftDraw):
 
 ```bash
 swift Tools/RenderAppIcon.swift Mindrop/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png
 swift Tools/RenderAppIcon.swift MindropAction/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png --template
+swift Tools/RenderAppIcon.swift MindropControls/Assets.xcassets/mindrop.mark.symbolset --symbol
 ```
 
 ## Spotlight: what is indexed, and why
@@ -366,8 +367,8 @@ swiftdraw`); the list of icons is at its top. Two things it takes care of:
   symbol out ("No image named …"); those icons keep one weight.
 
 Still SF Symbols: what the system draws (back button, the search button and field, the share
-sheet), the Siri/Shortcuts tile (`systemImageName` only), the Control Center control and the
-share extension for now, and the Debug screens. Iconsax has no infinity, so Keep Forever is
+sheet), the Siri/Shortcuts tile (`systemImageName` only), the share extension for now, and
+the Debug screens. Iconsax has no infinity, so Keep Forever is
 a paused timer.
 
 Licence: free for apps, commercial ones included, without attribution; loose icon files may
@@ -524,7 +525,9 @@ offered in three places:
 
 - **Control Center and the Lock Screen**: the *New Memory* control, from the
   `MindropControls` widget extension. Added through Control Center → + → Add a Control →
-  Mindrop.
+  Mindrop. Its icon is the app icon's mark, the search icon and cursor, as the custom
+  symbol `mindrop.mark`: controls draw only symbols. Control Center caches a control's
+  look, so after changing the symbol it shows the old one until Control Center is edited.
 - **The Action button**: an App Shortcut, so Settings → Action Button → Shortcut lists
   Mindrop → New Memory with nothing to build in the Shortcuts app.
 - **Siri**: "New memory in Mindrop", "Add a memory to Mindrop", translated in
@@ -689,6 +692,7 @@ readable as Spotlight's small badge on each result.
 Iconsax path data written into the file, and writes it with no alpha channel, which App
 Store validation requires. Iconsax's free licence allows its icons in an app icon, but not
 a stock icon as a registered trademark: redraw the magnifier before registering the icon.
+The same goes for the Control Center symbol, which `--symbol` makes from the same paths.
 
 Before it, the icon was Lucide's brain, white on black (`Design/lucide-brain.svg`, ISC
 licensed, notice in `Design/LUCIDE-LICENSE.txt`).
