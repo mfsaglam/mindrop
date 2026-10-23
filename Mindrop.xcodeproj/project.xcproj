@@ -88,13 +88,9 @@
           ],
         },
       ],
-    }, {
-      "kind": "folder",
-      "path": "MindropWatch",
-      "target-membership": [
-        "MindropWatch",
-      ],
-    }, {
+    },
+    { "kind": "folder", "path": "MindropWatch", "target-membership": [ "MindropWatch" ] },
+    {
       "kind": "group",
       "name": "Products",
       "children": [
@@ -126,8 +122,7 @@
           "kind": "copy",
           "name": "Embed Foundation Extensions",
           "bundle-base-path": "plugins-directory",
-        },
-        {
+        }, {
           "kind": "copy",
           "name": "Embed Watch Content",
           "bundle-base-path": "build-products-directory",
@@ -139,10 +134,10 @@
           "product-name": "MindropCore",
           "build-phase": { "build-phase": "frameworks" },
         }, {
-          "product-name": "MindropSaveUI",
+          "product-name": "MindropIntents",
           "build-phase": { "build-phase": "frameworks" },
         }, {
-          "product-name": "MindropIntents",
+          "product-name": "MindropSaveUI",
           "build-phase": { "build-phase": "frameworks" },
         },
       ],
