@@ -41,8 +41,11 @@ final class MindropSession {
     #endif
     let sensitiveAccess = SensitiveAccess()
     private(set) var cloudSync: CloudSync?
+    /// Memories saved on the Apple Watch come in here.
+    private let watchLink: WatchLink
 
     init() {
+        watchLink = WatchLink(syncsWithICloud: Self.syncsWithICloud)
         // Started here as well as by the first screen: a push from iCloud can launch the
         // app in the background, where no screen appears to start it.
         Task { await start() }
@@ -73,6 +76,7 @@ final class MindropSession {
             // Show the list first: reconciling the Spotlight index can take seconds.
             phase = .ready(repository)
             startCloudSync(for: repository)
+            watchLink.deliver { [weak self] memory in self?.takeFromWatch(memory) }
             repository.categorizePending()
             await repository.resumeSpotlightSync()
         } catch {
@@ -92,13 +96,29 @@ final class MindropSession {
     }
 
     /// On unless the user turned it off in Settings.
-    private var syncsWithICloud: Bool {
+    private static var syncsWithICloud: Bool {
         UserDefaults.standard.object(forKey: Preference.syncsWithICloud) as? Bool ?? true
     }
 
-    /// Follows the Settings switch.
+    /// Follows the Settings switch, here and on the Apple Watch.
     func syncPreferenceChanged() {
-        if syncsWithICloud { cloudSync?.start() } else { cloudSync?.stop() }
+        if Self.syncsWithICloud { cloudSync?.start() } else { cloudSync?.stop() }
+        watchLink.setSyncsWithICloud(Self.syncsWithICloud)
+    }
+
+    /// A memory saved on the Apple Watch, taken in like one synced from another device:
+    /// filed, indexed and categorised. It may have come through iCloud already, in which
+    /// case nothing changes. Sent on to iCloud, since it may have come only from the watch.
+    private func takeFromWatch(_ memory: Memory) {
+        guard let repository else { return }
+        do {
+            try repository.applyRemote([memory], deletedIDs: [])
+        } catch {
+            // The watch has already let go of it; it stays lost only if storage is broken,
+            // which the list would show anyway.
+            return
+        }
+        cloudSync?.sendLocalChanges()
     }
 
     private func startCloudSync(for repository: MemoryRepository) {
@@ -107,7 +127,7 @@ final class MindropSession {
         repository.onLocalChange = { [weak cloudSync] in cloudSync?.sendLocalChanges() }
         // Lets iCloud wake the app when another device changes something.
         UIApplication.shared.registerForRemoteNotifications()
-        if syncsWithICloud { cloudSync.start() }
+        if Self.syncsWithICloud { cloudSync.start() }
     }
 
     /// Opens the memory behind a tapped Spotlight result, without animating in from

@@ -6,6 +6,7 @@ import Foundation
 /// Changes are found by comparison rather than recorded as they happen, so a memory the
 /// share extension saved, or one changed while sync was off, is still sent: anything
 /// whose `modifiedAt` differs from what the server last agreed to is pending.
+@available(watchOS 10.0, *)
 public struct CloudSyncState: Codable, Sendable {
     /// The sync engine's own progress: what it has fetched, what it still has to send.
     public var engineState: CKSyncEngine.State.Serialization?
@@ -41,11 +42,13 @@ public struct CloudSyncState: Codable, Sendable {
     }
 }
 
+@available(watchOS 10.0, *)
 public protocol CloudSyncStateStore: Sendable {
     func load() throws -> CloudSyncState
     func save(_ state: CloudSyncState) throws
 }
 
+@available(watchOS 10.0, *)
 public struct FileCloudSyncStateStore: CloudSyncStateStore {
     private let file: CoordinatedFile
 

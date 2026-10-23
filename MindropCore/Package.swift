@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "MindropCore",
     defaultLocalization: "en",
-    platforms: [.iOS(.v26), .macOS(.v15)],
+    platforms: [.iOS(.v26), .macOS(.v15), .watchOS(.v9)],
     products: [
         .library(name: "MindropCore", targets: ["MindropCore"]),
         .library(name: "MindropSaveUI", targets: ["MindropSaveUI"]),

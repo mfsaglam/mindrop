@@ -11,10 +11,12 @@ import os
 /// versions of a memory become one (`Memory.merged`).
 ///
 /// Only the app runs it. The share extension saves locally, and its memory is sent the
-/// next time the app runs.
+/// next time the app runs. Not on the Apple Watch, which only adds memories
+/// (`CloudRecordUpload`) and runs as far back as watchOS 9.
+@available(watchOS 10.0, *)
 @MainActor
 public final class CloudSync {
-    public static let containerIdentifier = "iCloud.mfsaglam.Mindrop"
+    nonisolated public static let containerIdentifier = CloudRecord.containerIdentifier
 
     private let repository: MemoryRepository
     private let stateStore: CloudSyncStateStore
@@ -227,6 +229,7 @@ public final class CloudSync {
     }
 }
 
+@available(watchOS 10.0, *)
 extension CloudSync: CKSyncEngineDelegate {
     public func handleEvent(_ event: CKSyncEngine.Event, syncEngine: CKSyncEngine) async {
         // An engine stopped by `stop` may still deliver what it was doing.

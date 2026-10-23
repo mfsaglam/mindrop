@@ -24,7 +24,9 @@ import sys
 import tempfile
 from pathlib import Path
 
-CATALOG = Path(__file__).resolve().parent.parent / "Mindrop/Resources/Assets.xcassets/Iconsax"
+ROOT = Path(__file__).resolve().parent.parent
+CATALOG = ROOT / "Mindrop/Resources/Assets.xcassets/Iconsax"
+WATCH_CATALOG = ROOT / "MindropWatch/Assets.xcassets/Iconsax"
 
 # (Iconsax name, style). Categories are Bulk; everything the user taps is Linear. Call and
 # Tag are already in both styles below.
@@ -54,6 +56,9 @@ SYMBOLS = [
 # fitted to its own outline, so icons keep their relative sizes (a plus stays smaller than a
 # document) and sit at about 1.4 times the text's cap height, as SF Symbols do.
 INSETS = "4.2,4.2,4.2,4.2"
+
+# The few the Apple Watch app shows: Save, and the tick once saved.
+WATCH_SYMBOLS = [("add", "linear"), ("tick-circle", "linear")]
 
 SHAPE = re.compile(r"<(path|rect|circle|ellipse|line|polyline|polygon)\b([^>]*)>")
 
@@ -103,10 +108,10 @@ def interpolatable(template: str) -> bool:
     return commands("Ultralight") == commands("Regular") == commands("Black")
 
 
-def make(package: Path, name: str, style: str) -> None:
+def make(package: Path, name: str, style: str, catalog: Path = CATALOG) -> None:
     svg = source_svg(package, name, style)
     asset = f"ix.{name}.{style}"
-    folder = CATALOG / f"{asset}.symbolset"
+    folder = catalog / f"{asset}.symbolset"
     folder.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as temporary:
         source = Path(temporary) / f"{asset}.svg"
@@ -136,11 +141,12 @@ def make(package: Path, name: str, style: str) -> None:
 
 def main() -> None:
     package = Path(sys.argv[1])
-    CATALOG.mkdir(parents=True, exist_ok=True)
-    (CATALOG / "Contents.json").write_text(json.dumps({"info": {"author": "xcode", "version": 1}}, indent=2) + "\n")
-    for name, style in SYMBOLS:
-        make(package, name, style)
-        print(f"ix.{name}.{style}")
+    for catalog, symbols in ((CATALOG, SYMBOLS), (WATCH_CATALOG, WATCH_SYMBOLS)):
+        catalog.mkdir(parents=True, exist_ok=True)
+        (catalog / "Contents.json").write_text(json.dumps({"info": {"author": "xcode", "version": 1}}, indent=2) + "\n")
+        for name, style in symbols:
+            make(package, name, style, catalog)
+            print(f"{catalog.parent.parent.name}: ix.{name}.{style}")
 
 
 if __name__ == "__main__":

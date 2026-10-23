@@ -3,7 +3,9 @@ import Observation
 
 /// The single owner of memories: persists them and keeps Spotlight in step.
 ///
-/// Used by the app and, for saving, by the share extension.
+/// Used by the app and, for saving, by the share extension. Not by the Apple Watch, which
+/// keeps no library and runs as far back as watchOS 9.
+@available(watchOS 10.0, *)
 @MainActor
 @Observable
 public final class MemoryRepository {
@@ -44,6 +46,7 @@ public final class MemoryRepository {
         self.now = now
     }
 
+    #if canImport(CoreSpotlight)
     /// The real configuration, shared by the app and the share extension. The extension
     /// passes no categorizer: it is torn down too quickly, and the app catches up on
     /// whatever it saved the next time it comes to the foreground.
@@ -60,6 +63,7 @@ public final class MemoryRepository {
             categorizer: categorizer
         )
     }
+    #endif
 
     /// Re-reads storage. Called at launch and when returning to the foreground, since
     /// the share extension may have added memories in the meantime.

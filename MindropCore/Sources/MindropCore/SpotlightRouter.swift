@@ -1,3 +1,4 @@
+#if canImport(CoreSpotlight)
 import CoreSpotlight
 import Foundation
 
@@ -45,3 +46,4 @@ public enum SpotlightRouter {
         return query
     }
 }
+#endif

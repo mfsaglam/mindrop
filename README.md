@@ -39,6 +39,7 @@ Mindrop/
 ├── MindropShare/                share extension — the share sheet's app row
 ├── MindropAction/               action extension — the share sheet's action row
 ├── MindropControls/             widget extension — the New Memory control for Control Center
+├── MindropWatch/                Apple Watch app (watchOS 9+), embedded in the iPhone app
 ├── Tools/                       RenderAppIcon.swift (the app icon), MakeIconsaxSymbols.py
 └── Design/                      the earlier Lucide brain icon and its ISC licence
 ```
@@ -475,6 +476,46 @@ sync engine starting and waiting for an account (the simulator was not signed in
 The device build is signed with the iCloud container and push entitlements. Not yet verified:
 sync between two real devices. Before an App Store release, the CloudKit schema has to be
 deployed from the development environment to production in the CloudKit Console.
+
+## Apple Watch
+
+The watch app saves memories without reaching for the iPhone: Keyword, Details, Sensitive,
+Save. It only adds. It keeps no library, so nothing sensitive lives on the wrist, and there
+is no Spotlight on watchOS to search in. The iPhone does the rest: files the memory, adds it
+to Spotlight, gets its category from Apple Intelligence, and sends it to iCloud.
+
+Each memory leaves the watch two ways, and arriving twice is harmless (one identifier):
+
+- **To the iPhone through WatchConnectivity**, always: a user-info transfer, which the
+  system queues and delivers whenever the iPhone is reachable, even with either app
+  closed. The iPhone's `WatchLink` takes it in with `applyRemote`, as if it had been synced
+  from another device, then asks iCloud sync to send it on.
+- **Straight to iCloud**, only while the iPhone says iCloud Sync is on (`WatchLink` keeps
+  the watch told, through the application context; until it hears, the watch assumes off).
+  `CloudRecordUpload` saves the same encrypted record the iPhone's sync engine writes, so it
+  reaches the iPhone even when the iPhone is far away. No account, or an iPhone that has
+  never synced, means WatchConnectivity alone.
+
+**watchOS 9 and later**, the oldest Xcode 27 builds for: Series 4 and later, the first SE,
+every Ultra. A Series 3 stops at watchOS 8 and cannot run it. Liquid Glass (the Save button)
+from watchOS 26, the standard filled button before; `ObservableObject` rather than
+`@Observable` (watchOS 10). The iPhone-only parts of `MindropCore` (`MemoryRepository`,
+`CloudSync`) are marked watchOS 10, since the watch uses neither.
+
+Until one of them has it, a memory waits on the watch in a small outbox file
+(`WatchSender`), and the screen says how many are waiting. The wire format both sides share
+is `WatchHandoff`. watchOS has no Core Spotlight, so `MindropCore` builds for watchOS with
+the Spotlight indexer and router left out.
+
+Testing: the Mindrop scheme embeds the watch app; the MindropWatch scheme runs it on a
+watch simulator paired with the iPhone simulator (`xcrun simctl pair`). In Debug builds,
+`-debugSave "keyword=value"` on the watch saves a memory at launch, and
+`-debugWatchArrival "keyword=value"` on the iPhone feeds one in as if it had come from the
+watch. Verified on the simulators: the watch app runs; the iPhone's iCloud setting reaches
+the watch; a memory "from the watch" arriving while the app starts is filed and categorised.
+Not verifiable there: on the watchOS 27.2 / iOS 27.2 simulators the transfer left the watch
+but the iPhone's WatchConnectivity daemon failed internally and never handed it to the app,
+and simulators have no iCloud account. Both need a real iPhone and Apple Watch.
 
 ## New Memory from anywhere
 

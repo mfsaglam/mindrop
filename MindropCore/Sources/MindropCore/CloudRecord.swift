@@ -8,6 +8,7 @@ import Foundation
 /// with keys in the user's iCloud Keychain, so not even Apple can read them. Dates and
 /// flags are plain, since they say nothing on their own.
 public enum CloudRecord {
+    public static let containerIdentifier = "iCloud.mfsaglam.Mindrop"
     static let recordType = "Memory"
     public static let zoneID = CKRecordZone.ID(zoneName: "Memories")
 

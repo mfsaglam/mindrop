@@ -1,4 +1,6 @@
+#if canImport(CoreSpotlight)
 import CoreSpotlight
+#endif
 import Foundation
 import UniformTypeIdentifiers
 
@@ -42,6 +44,9 @@ public struct SpotlightLocation: Sendable, Equatable {
         self.longitude = longitude
     }
 }
+
+#if canImport(CoreSpotlight)
+// watchOS has no Spotlight: the watch app saves memories, the iPhone indexes them.
 
 /// Core Spotlight implementation of the indexing boundary.
 ///
@@ -137,3 +142,4 @@ public struct CoreSpotlightIndexer: SpotlightIndexing, @unchecked Sendable {
         return item
     }
 }
+#endif
