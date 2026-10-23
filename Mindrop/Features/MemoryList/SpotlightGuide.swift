@@ -94,11 +94,14 @@ private struct SpotlightPreview: View {
             HStack(spacing: 10) {
                 Image("ix.search-normal.linear")
                     .foregroundStyle(.secondary)
-                Text(verbatim: visibleKeyword)
-                RoundedRectangle(cornerRadius: 1)
-                    .fill(.tint)
-                    .frame(width: 2, height: 20)
-                    .opacity(animatesSearch && typedCharacterCount < keyword.count ? 1 : 0)
+                // The cursor follows the last letter closely, as a real text field's does.
+                HStack(spacing: 1) {
+                    Text(verbatim: visibleKeyword)
+                    RoundedRectangle(cornerRadius: 1)
+                        .fill(.tint)
+                        .frame(width: 2, height: 20)
+                        .opacity(animatesSearch && typedCharacterCount < keyword.count ? 1 : 0)
+                }
                 Spacer()
             }
             .padding(.horizontal, 16)
