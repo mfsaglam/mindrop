@@ -49,34 +49,40 @@ public struct SaveToMindropView: View {
         NavigationStack {
             Form {
                 Section {
-                    VStack(alignment: .leading, spacing: 6) {
-                        TextField(text: $keyword) { localized("Keyword") }
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
-                            .focused($focusedField, equals: .keyword)
-                        if showsKeywordHint {
-                            localized("Use a keyword with at least 4 characters so Spotlight can find it.")
-                                .font(.footnote)
-                                .foregroundStyle(.secondary)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
+                    TextField(text: $keyword) { localized("Keyword") }
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .focused($focusedField, equals: .keyword)
+                } footer: {
+                    if showsKeywordHint {
+                        localized("Use a keyword with at least 4 characters so Spotlight can find it.")
+                    } else {
+                        localized("What you’ll type in Spotlight to find it.")
                     }
+                }
+                Section {
                     TextField(text: $value, axis: .vertical) { localized("Value") }
+                        .lineLimit(2...)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .focused($focusedField, equals: .details)
                 }
-                SensitiveSection(isSensitive: $isSensitive)
-                MemoryLifetimeSection(option: $lifetime, date: $untilDate)
+                MemoryOptionsSection(
+                    keyword: keyword,
+                    value: value,
+                    isSensitive: $isSensitive,
+                    option: $lifetime,
+                    date: $untilDate
+                )
             }
             .navigationTitle(localized("Save to Mindrop"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(action: onCancel) { localized("Cancel") }
+                    Button(role: .cancel, action: onCancel)
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button { Task { await save() } } label: { localized("Save") }
+                    Button(role: .confirm) { Task { await save() } }
                         .disabled(!canSave)
                 }
             }

@@ -66,26 +66,44 @@ struct MemoryEditorView: View {
         NavigationStack {
             Form {
                 Section {
-                    VStack(alignment: .leading, spacing: 6) {
-                        TextField("Keyword", text: $keyword)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
-                            .focused($focusedField, equals: .keyword)
-                        if showsKeywordHint {
-                            Text("Use a keyword with at least 4 characters so Spotlight can find it.")
-                                .font(.footnote)
-                                .foregroundStyle(.secondary)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                    }
-                    TextField("Value", text: $value, axis: .vertical)
+                    TextField("Keyword", text: $keyword)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
-                        .focused($focusedField, equals: .details)
-                    fillButtons
+                        .focused($focusedField, equals: .keyword)
+                } footer: {
+                    if showsKeywordHint {
+                        Text("Use a keyword with at least 4 characters so Spotlight can find it.")
+                    } else {
+                        Text("What you’ll type in Spotlight to find it.")
+                    }
                 }
-                SensitiveSection(isSensitive: $isSensitive)
-                MemoryLifetimeSection(
+                Section {
+                    HStack(alignment: .top, spacing: 12) {
+                        TextField("Value", text: $value, axis: .vertical)
+                            .lineLimit(2...)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .focused($focusedField, equals: .details)
+                        if ValueScanner.isSupported { detailsSources }
+                    }
+                } footer: {
+                    // The system's Paste button: it reads the clipboard without asking
+                    // "Allow Paste?", which a button in a menu could not.
+                    HStack {
+                        Spacer()
+                        PasteButton(payloadType: String.self) { @Sendable strings in
+                            guard let text = strings.first else { return }
+                            Task { @MainActor in fill(text) }
+                        }
+                        .labelStyle(.titleAndIcon)
+                        .buttonBorderShape(.capsule)
+                        .controlSize(.small)
+                    }
+                }
+                MemoryOptionsSection(
+                    keyword: keyword,
+                    value: value,
+                    isSensitive: $isSensitive,
                     option: $lifetime,
                     date: $untilDate,
                     earliestDate: mode.memory?.expiresAt.map { min($0, .now) } ?? .now
@@ -113,10 +131,10 @@ struct MemoryEditorView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button(role: .cancel) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save", action: save).disabled(!canSave)
+                    Button(role: .confirm, action: save).disabled(!canSave)
                 }
             }
             .alert("Couldn’t save", isPresented: .constant(saveError != nil)) {
@@ -127,27 +145,21 @@ struct MemoryEditorView: View {
         }
     }
 
-    /// Scan and Paste fill the value only. Paste is the system's button, which reads the
-    /// clipboard without asking "Allow Paste?".
-    private var fillButtons: some View {
-        HStack(spacing: 10) {
-            if ValueScanner.isSupported {
-                Button { isScanning = true } label: {
-                    Label("Scan", image: "ix.scan.linear")
-                        // The accent is black, white in dark mode: the label takes the opposite.
-                        .foregroundStyle(Color(.systemBackground))
-                }
+    /// One + beside the details, for filling them other than by typing: Scan, for now.
+    /// Shown only where the iPhone can scan.
+    private var detailsSources: some View {
+        Menu {
+            Button { isScanning = true } label: {
+                Label("Scan", image: "ix.scan.linear")
             }
-            PasteButton(payloadType: String.self) { @Sendable strings in
-                guard let text = strings.first else { return }
-                Task { @MainActor in fill(text) }
-            }
-            .labelStyle(.titleAndIcon)
+        } label: {
+            Image("ix.add.linear")
+                .font(.title3)
+                .foregroundStyle(.secondary)
+                .frame(minWidth: 28, minHeight: 28)
+                .contentShape(.rect)
         }
-        // Prominent, as the system draws Paste, so the two match.
-        .buttonStyle(.borderedProminent)
-        .buttonBorderShape(.capsule)
-        .controlSize(.small)
+        .accessibilityLabel(Text("Fill In Details"))
     }
 
     /// Takes a scanned or pasted value, then asks for the keyword if there is none yet:

@@ -28,7 +28,7 @@ Mindrop/
 │       └── SharedTextParser.swift    share sheet input → a value
 │   └── Sources/MindropIntents/       NewMemoryIntent, shared by the app and MindropControls
 │   └── Sources/MindropSaveUI/        the save form, shared by both extensions
-│       ├── MemoryLifetimeSection.swift  the Keep picker, also used by the app's editor
+│       ├── MemoryOptionsSection.swift   Sensitive and Keep, also used by the app's editor
 │       ├── SaveToMindropView.swift
 │       └── SaveToMindropViewController.swift
 ├── Mindrop/                     app target (iOS 26+)
@@ -440,7 +440,7 @@ Spotlight (index format 12), since its category icons are drawn from the same sy
 A hotel room, a parking spot, a guest Wi-Fi password: things worth keeping for a while,
 not forever. The editor and the share sheet's save form both have a **Keep** row —
 Forever (the default), 1 Day, 1 Week, 1 Month, or Until a Date — shared as
-`MemoryLifetimeSection` in `MindropSaveUI`.
+`MemoryOptionsSection` in `MindropSaveUI`.
 
 - **At expiry it leaves Spotlight by itself.** The memory's expiry is the indexed item's
   `expirationDate`, so Spotlight drops it on time even if Mindrop is not opened.
@@ -464,7 +464,7 @@ item at expiry needs a device, since the simulator's Spotlight drops all third-p
 
 Some values should not be readable by whoever picks up an unlocked iPhone and types a word
 into Spotlight: an ID number, a card, a PIN. The editor and the share sheet's save form both
-have a **Sensitive** switch (`SensitiveSection` in `MindropSaveUI`). It is off by default and
+have a **Sensitive** switch (`MemoryOptionsSection` in `MindropSaveUI`). It is off by default and
 only the user turns it on or off; nothing turns it on by itself, whatever the category.
 
 - **Spotlight never receives the value.** A sensitive memory is indexed as
@@ -605,10 +605,31 @@ under Mindrop, and tapping it opens the editor both from a cold launch and with 
 in the background. The simulator's control gallery only picked the control up after the
 simulator was restarted. The Action button needs a device.
 
+## The editor's layout
+
+The editor and the share sheet's save form have the same three sections:
+
+- **Keyword**, with the footer "What you'll type in Spotlight to find it." (the 4-character
+  hint replaces it when the keyword is too short).
+- **Details**, two lines tall to start. In the editor a grey **+** on its right opens a
+  menu with Scan (shown only where the iPhone can scan), and the system's **Paste** button
+  sits under the field on the right.
+- **Sensitive and Keep** together (`MemoryOptionsSection`): most memories use neither. The
+  footer says what Spotlight will show: the line itself ("Shows in Spotlight as “… · …”,
+  where anyone using this iPhone may see it.") once both fields hold something, the
+  general warning before that, the sensitive explanation while Sensitive is on, and the
+  expiry note when Keep is not Forever.
+
+Cancel and Save are the system's ✕ and ✓ (`Button(role: .cancel)` / `.confirm`).
+
+Paste is not in the + menu on purpose: a menu can only hold ordinary buttons, which read
+the clipboard themselves and make iOS ask "Allow Paste?" each time. Apple's Paste button
+does not ask, but it cannot be restyled or put in a menu. A bar above the keyboard was
+tried and dropped: the system button keeps its own filled look there too.
+
 ## Scan and Paste
 
-The editor has **Scan** and **Paste** under the details field. Both fill the details
-only. The keyword is always typed by the user: it is what they will search for later, so
+Both fill the details only. The keyword is always typed by the user: it is what they will search for later, so
 Mindrop never fills or suggests it. Once the details are filled and the keyword is still
 empty, the cursor moves to the keyword.
 
@@ -621,18 +642,20 @@ empty, the cursor moves to the keyword.
   (`NSCameraUsageDescription`). If access is off, the scanner screen says so and links to
   Settings. DataScanner needs a Neural Engine and a real camera, so the button is hidden
   where it is not supported, the simulator included.
-- **Paste** is SwiftUI's `PasteButton`. It reads the clipboard without the "Allow Paste?"
-  prompt, and the system disables it while the clipboard holds no text.
+- **Paste** is SwiftUI's `PasteButton`, under the details field. It reads the clipboard
+  without the "Allow Paste?" prompt, and the system disables it while the clipboard holds
+  no text. Long-pressing the field and choosing Paste works too, also without a prompt.
 - **Scan into Mindrop** (`ScanValueIntent`) opens the editor straight on the scanner. Like
   New Memory it is offered as a control (Control Center and the Lock Screen), an App
   Shortcut for the Action button, and to Siri ("Scan into Mindrop"). It raises the same
   `NewMemoryRequest`, with `scans` set.
 
 Verified on the iPhone 18 Pro Max simulator: Paste fills the details with no prompt and
-moves the cursor to an empty keyword; Scan is hidden there. Not yet seen on a device: the
+moves the cursor to an empty keyword; the + menu opens with Scan (forced on for the check,
+since it is hidden there). Not yet seen on a device: the
 scanner itself, the camera prompt, Wi-Fi QR codes, and the Scan control.
 
-The Scan button, the scanner's empty state, the control and How Mindrop Works use
+Scan in the + menu, the scanner's empty state, the control and How Mindrop Works use
 Iconsax's `ix.scan.linear` (the control's extension has its own copy, since it cannot reach
 the app's catalog). The Siri/Shortcuts tile takes only SF Symbols, so it shows
 `text.viewfinder`. How Mindrop Works lists Scan only where the editor offers it, and its
