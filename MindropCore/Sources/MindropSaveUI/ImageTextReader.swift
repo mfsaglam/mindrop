@@ -4,12 +4,12 @@ import MindropCore
 import Vision
 
 /// Reads the text and QR codes in a shared image, on the device.
-enum ImageTextReader {
+public enum ImageTextReader {
     /// Large enough for small print in a screenshot, small enough to stay well inside
     /// an extension's memory limit even for a 48-megapixel photo.
     private static let longestSide = 3000
 
-    static func lines(in data: Data) async -> [String] {
+    public static func lines(in data: Data) async -> [String] {
         guard let image = downsampled(data) else { return [] }
 
         var text = RecognizeTextRequest()

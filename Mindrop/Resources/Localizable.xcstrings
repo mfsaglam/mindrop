@@ -1235,6 +1235,101 @@
         }
       }
     },
+    "Choose Photo" : {
+      "comment" : "Menu item beside a new memory's details: pick a photo to read text from.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اختيار صورة"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose Photo"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegir foto"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir une photo"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ोटो चुनें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli foto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真を選択"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사진 선택"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies foto"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolher Foto"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать фото"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraf Seç"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选取照片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇照片"
+          }
+        }
+      }
+    },
     "Codes & PINs" : {
       "comment" : "Category of saved entries: PINs, door and locker codes.",
       "localizations" : {
@@ -4081,6 +4176,101 @@
         }
       }
     },
+    "From a Photo" : {
+      "comment" : "How Mindrop Works: title of the way to save by reading text from a photo.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "من صورة"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus einem Foto"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From a Photo"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desde una foto"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depuis une photo"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ोटो से"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da una foto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真から"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사진에서"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vanuit een foto"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De uma foto"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Из фото"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir fotoğraftan"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从照片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從照片"
+          }
+        }
+      }
+    },
     "Gone for good" : {
       "comment" : "Empty Recently Deleted, the last stage: deleted permanently.",
       "localizations" : {
@@ -4841,97 +5031,192 @@
         }
       }
     },
-    "In a new memory, tap Scan and point the camera at text or a QR code, then tap what to save." : {
-      "comment" : "How Mindrop Works: the Scan way to save. “Scan” is the button's title.",
+    "In a new memory, tap +, then Choose Photo, and tap the lines you want." : {
+      "comment" : "How Mindrop Works: saving text read from a photo. “+” is the add button beside the details; “Choose Photo” is the menu item.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "في عنصر جديد، اضغط على «مسح» ووجّه الكاميرا إلى نص أو رمز QR، ثم اضغط على ما تريد حفظه."
+            "value" : "في عنصر جديد، اضغط على + ثم «اختيار صورة»، واضغط على الأسطر التي تريدها."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tippe in einem neuen Eintrag auf „Scannen“ und richte die Kamera auf Text oder einen QR-Code. Tippe dann auf das, was du sichern willst."
+            "value" : "Tippe in einem neuen Eintrag auf + und dann auf „Foto auswählen“ und tippe auf die Zeilen, die du willst."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In a new memory, tap Scan and point the camera at text or a QR code, then tap what to save."
+            "value" : "In a new memory, tap +, then Choose Photo, and tap the lines you want."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En una entrada nueva, toca Escanear y apunta la cámara a un texto o un código QR. Luego toca lo que quieras guardar."
+            "value" : "En una entrada nueva, toca + y luego Elegir foto, y toca las líneas que quieras."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dans une nouvelle entrée, touchez Scanner et pointez l’appareil photo vers un texte ou un code QR, puis touchez ce qu’il faut enregistrer."
+            "value" : "Dans une nouvelle entrée, touchez +, puis Choisir une photo, et touchez les lignes voulues."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "नई एंट्री में स्कैन करें पर टैप करें और कैमरे को टेक्स्ट या QR कोड की ओर रखें, फिर जो सेव करना है उस पर टैप करें।"
+            "value" : "नई एंट्री में + पर, फिर फ़ोटो चुनें पर टैप करें, और अपनी पसंद की पंक्तियों पर टैप करें।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In una nuova voce, tocca Scansiona e inquadra un testo o un codice QR, poi tocca ciò che vuoi salvare."
+            "value" : "In una nuova voce, tocca + e poi Scegli foto, quindi tocca le righe che vuoi."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新規項目で「スキャン」をタップし、テキストやQRコードにカメラを向けて、保存するものをタップします。"
+            "value" : "新規項目で＋をタップし、「写真を選択」をタップして、必要な行をタップします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "새 항목에서 스캔을 탭하고 카메라를 텍스트나 QR 코드에 맞춘 다음, 저장할 내용을 탭하세요."
+            "value" : "새 항목에서 +를 탭한 다음 사진 선택을 탭하고, 원하는 줄을 탭하세요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tik in een nieuw item op ‘Scan’ en richt de camera op tekst of een QR-code. Tik daarna op wat je wilt bewaren."
+            "value" : "Tik in een nieuw item op + en daarna op ‘Kies foto’, en tik op de regels die je wilt."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Em uma nova entrada, toque em Escanear e aponte a câmera para um texto ou código QR. Depois, toque no que quer salvar."
+            "value" : "Em uma nova entrada, toque em + e depois em Escolher Foto, e toque nas linhas que quiser."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В новой записи нажмите «Сканировать» и наведите камеру на текст или QR-код, затем коснитесь того, что нужно сохранить."
+            "value" : "В новой записи нажмите +, затем «Выбрать фото» и коснитесь нужных строк."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yeni bir kayıtta Tara’ya dokun ve kamerayı bir metne ya da QR koduna tut, sonra kaydetmek istediğine dokun."
+            "value" : "Yeni bir kayıtta +’ya, ardından Fotoğraf Seç’e dokun ve istediğin satırlara dokun."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在新条目中轻点“扫描”，将相机对准文本或二维码，然后轻点要保存的内容。"
+            "value" : "在新条目中轻点 +，然后轻点“选取照片”，再轻点所需的行。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在新項目中點一下「掃描」，將相機對準文字或 QR 碼，然後點一下要儲存的內容。"
+            "value" : "在新項目中點一下 +，然後點一下「選擇照片」，再點一下所需的行。"
+          }
+        }
+      }
+    },
+    "In a new memory, tap +, then Scan. Point the camera at text or a QR code and tap what to save." : {
+      "comment" : "How Mindrop Works: the Scan way to save. “Scan” is the button's title. “+” is the add button beside the details.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "في عنصر جديد، اضغط على + ثم «مسح». وجّه الكاميرا إلى نص أو رمز QR واضغط على ما تريد حفظه."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe in einem neuen Eintrag auf + und dann auf „Scannen“. Richte die Kamera auf Text oder einen QR-Code und tippe auf das, was du sichern willst."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In a new memory, tap +, then Scan. Point the camera at text or a QR code and tap what to save."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En una entrada nueva, toca + y luego Escanear. Apunta la cámara a un texto o un código QR y toca lo que quieras guardar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans une nouvelle entrée, touchez +, puis Scanner. Pointez l’appareil photo vers un texte ou un code QR et touchez ce qu’il faut enregistrer."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नई एंट्री में + पर, फिर स्कैन करें पर टैप करें। कैमरे को टेक्स्ट या QR कोड की ओर रखें और जो सेव करना है उस पर टैप करें।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In una nuova voce, tocca + e poi Scansiona. Inquadra un testo o un codice QR e tocca ciò che vuoi salvare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新規項目で＋をタップし、「スキャン」をタップします。テキストやQRコードにカメラを向けて、保存するものをタップします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 항목에서 +를 탭한 다음 스캔을 탭하세요. 카메라를 텍스트나 QR 코드에 맞추고 저장할 내용을 탭하세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik in een nieuw item op + en daarna op ‘Scan’. Richt de camera op tekst of een QR-code en tik op wat je wilt bewaren."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em uma nova entrada, toque em + e depois em Escanear. Aponte a câmera para um texto ou código QR e toque no que quer salvar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В новой записи нажмите +, затем «Сканировать». Наведите камеру на текст или QR-код и коснитесь того, что нужно сохранить."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni bir kayıtta +’ya, ardından Tara’ya dokun. Kamerayı bir metne ya da QR koduna tut ve kaydetmek istediğine dokun."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在新条目中轻点 +，然后轻点“扫描”。将相机对准文本或二维码，然后轻点要保存的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在新項目中點一下 +，然後點一下「掃描」。將相機對準文字或 QR 碼，然後點一下要儲存的內容。"
           }
         }
       }
@@ -9119,97 +9404,97 @@
         }
       }
     },
-    "Tap Share and choose Mindrop to save text or a link. If it isn’t there, tap More." : {
+    "Tap Share and choose Mindrop to save text, a link or a screenshot. If it isn’t there, tap More." : {
       "comment" : "How Mindrop Works: the share sheet. Use the system's own names for the Share and More buttons.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "اضغط على «مشاركة» واختر Mindrop لحفظ نص أو رابط. إن لم تجده، فاضغط على «المزيد»."
+            "value" : "اضغط على «مشاركة» واختر Mindrop لحفظ نص أو رابط أو لقطة شاشة. إن لم تجده، فاضغط على «المزيد»."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tippe auf „Teilen“ und wähle Mindrop, um Text oder einen Link zu sichern. Fehlt es, tippe auf „Mehr“."
+            "value" : "Tippe auf „Teilen“ und wähle Mindrop, um Text, einen Link oder ein Bildschirmfoto zu sichern. Fehlt es, tippe auf „Mehr“."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap Share and choose Mindrop to save text or a link. If it isn’t there, tap More."
+            "value" : "Tap Share and choose Mindrop to save text, a link or a screenshot. If it isn’t there, tap More."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toca Compartir y elige Mindrop para guardar un texto o un enlace. Si no aparece, toca Más."
+            "value" : "Toca Compartir y elige Mindrop para guardar un texto, un enlace o una captura de pantalla. Si no aparece, toca Más."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Touchez Partager, puis choisissez Mindrop pour enregistrer un texte ou un lien. S’il n’apparaît pas, touchez Plus."
+            "value" : "Touchez Partager, puis choisissez Mindrop pour enregistrer un texte, un lien ou une capture d’écran. S’il n’apparaît pas, touchez Plus."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "टेक्स्ट या लिंक सेव करने के लिए शेयर पर टैप करें और Mindrop चुनें। न दिखे, तो अधिक पर टैप करें।"
+            "value" : "टेक्स्ट, लिंक या स्क्रीनशॉट सेव करने के लिए शेयर पर टैप करें और Mindrop चुनें। न दिखे, तो अधिक पर टैप करें।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tocca Condividi e scegli Mindrop per salvare un testo o un link. Se non c’è, tocca Altro."
+            "value" : "Tocca Condividi e scegli Mindrop per salvare un testo, un link o uno screenshot. Se non c’è, tocca Altro."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「共有」をタップしてMindropを選ぶと、テキストやリンクを保存できます。見つからないときは「その他」をタップします。"
+            "value" : "「共有」をタップしてMindropを選ぶと、テキスト、リンク、スクリーンショットを保存できます。見つからないときは「その他」をタップします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "공유를 탭하고 Mindrop을 선택하면 텍스트나 링크를 저장할 수 있어요. 보이지 않으면 더 보기를 탭하세요."
+            "value" : "공유를 탭하고 Mindrop을 선택하면 텍스트, 링크 또는 스크린샷을 저장할 수 있어요. 보이지 않으면 더 보기를 탭하세요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tik op ‘Deel’ en kies Mindrop om tekst of een link te bewaren. Staat het er niet tussen, tik dan op ‘Meer’."
+            "value" : "Tik op ‘Deel’ en kies Mindrop om tekst, een link of een schermafbeelding te bewaren. Staat het er niet tussen, tik dan op ‘Meer’."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toque em Compartilhar e escolha o Mindrop para salvar um texto ou link. Se ele não aparecer, toque em Mais."
+            "value" : "Toque em Compartilhar e escolha o Mindrop para salvar um texto, link ou captura de tela. Se ele não aparecer, toque em Mais."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нажмите «Поделиться» и выберите Mindrop, чтобы сохранить текст или ссылку. Если его нет, нажмите «Еще»."
+            "value" : "Нажмите «Поделиться» и выберите Mindrop, чтобы сохранить текст, ссылку или снимок экрана. Если его нет, нажмите «Еще»."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Metin ya da bağlantı kaydetmek için Paylaş’a dokun ve Mindrop’u seç. Göremiyorsan Diğer’e dokun."
+            "value" : "Metin, bağlantı ya da ekran görüntüsü kaydetmek için Paylaş’a dokun ve Mindrop’u seç. Göremiyorsan Diğer’e dokun."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "轻点“共享”并选择 Mindrop，即可保存文本或链接。如果没有看到，请轻点“更多”。"
+            "value" : "轻点“共享”并选择 Mindrop，即可保存文本、链接或截屏。如果没有看到，请轻点“更多”。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "點一下「分享」並選擇 Mindrop，即可儲存文字或連結。如果沒有看到，請點一下「更多」。"
+            "value" : "點一下「分享」並選擇 Mindrop，即可儲存文字、連結或截圖。如果沒有看到，請點一下「更多」。"
           }
         }
       }

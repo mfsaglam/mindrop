@@ -1,5 +1,6 @@
 import MindropCore
 import MindropSaveUI
+import PhotosUI
 import SwiftUI
 
 struct MemoryEditorView: View {
@@ -31,6 +32,9 @@ struct MemoryEditorView: View {
     @State private var saveError: String?
     @State private var hasVisitedDetails = false
     @State private var isScanning = false
+    @State private var isChoosingPhoto = false
+    @State private var photo: PhotosPickerItem?
+    @State private var imageLines = ImageLinesState.none
     @FocusState private var focusedField: Field?
 
     init(mode: Mode, repository: MemoryRepository, startsScanning: Bool = false) {
@@ -84,7 +88,7 @@ struct MemoryEditorView: View {
                             .textInputAutocapitalization(.never)
                             .autocorrectionDisabled()
                             .focused($focusedField, equals: .details)
-                        if ValueScanner.isSupported { detailsSources }
+                        detailsSources
                     }
                 } footer: {
                     // The system's Paste button: it reads the clipboard without asking
@@ -100,6 +104,7 @@ struct MemoryEditorView: View {
                         .controlSize(.small)
                     }
                 }
+                ImageLinesSection(state: imageLines, value: $value)
                 MemoryOptionsSection(
                     keyword: keyword,
                     value: value,
@@ -124,6 +129,16 @@ struct MemoryEditorView: View {
             .sheet(isPresented: $isScanning, onDismiss: { if keyword.isEmpty { focusedField = .keyword } }) {
                 ValueScanner { fill($0) }
             }
+            .photosPicker(isPresented: $isChoosingPhoto, selection: $photo, matching: .images)
+            .task(id: photo) {
+                guard let photo else { return }
+                imageLines = .reading
+                if let data = try? await photo.loadTransferable(type: Data.self) {
+                    imageLines = .read(await ImageTextReader.lines(in: data))
+                } else {
+                    imageLines = .read([])
+                }
+            }
             .onChange(of: focusedField) { _, field in
                 if field == .details, !MemoryNormalizer.normalizeKeyword(keyword).isEmpty {
                     hasVisitedDetails = true
@@ -145,12 +160,21 @@ struct MemoryEditorView: View {
         }
     }
 
-    /// One + beside the details, for filling them other than by typing: Scan, for now.
-    /// Shown only where the iPhone can scan.
+    /// One + beside the details, for filling them other than by typing: Scan, where the
+    /// iPhone can, and a photo, whose lines are then offered as pills.
     private var detailsSources: some View {
         Menu {
-            Button { isScanning = true } label: {
-                Label("Scan", image: "ix.scan.linear")
+            if ValueScanner.isSupported {
+                Button { isScanning = true } label: {
+                    Label("Scan", image: "ix.scan.linear")
+                }
+            }
+            Button {
+                // The keyboard stays down after the picker, so the lines can be seen and picked.
+                focusedField = nil
+                isChoosingPhoto = true
+            } label: {
+                Label("Choose Photo", image: "ix.gallery.linear")
             }
         } label: {
             Image("ix.add.linear")

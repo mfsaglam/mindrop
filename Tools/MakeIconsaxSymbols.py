@@ -47,7 +47,7 @@ SYMBOLS = [
     ("timer-pause", "linear"), ("calendar-remove", "linear"), ("layer", "linear"), ("tag", "linear"),
     ("info-circle", "linear"), ("danger", "linear"), ("unlock", "linear"), ("lock", "bold"),
     ("tick-circle", "linear"), ("global", "linear"), ("routing-2", "linear"), ("call", "linear"),
-    ("arrow-right-02", "linear"), ("scan", "linear"),
+    ("arrow-right-02", "linear"), ("scan", "linear"), ("gallery", "linear"),
     # The empty Recently Deleted: its large icon, and the stages of a deleted memory.
     ("trash", "bulk"), ("clock", "linear"), ("close-circle", "linear"),
 ]

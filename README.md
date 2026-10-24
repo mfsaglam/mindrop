@@ -29,7 +29,8 @@ Mindrop/
 │       └── ImageText.swift           lines read from a shared image, picking them into the details
 │   └── Sources/MindropIntents/       NewMemoryIntent, shared by the app and MindropControls
 │   └── Sources/MindropSaveUI/        the save form, shared by both extensions
-│       ├── ImageTextReader.swift        Vision: the text and QR codes in a shared image
+│       ├── ImageLinesSection.swift      an image's lines as pills, also used by the app's editor
+│       ├── ImageTextReader.swift        Vision: the text and QR codes in an image
 │       ├── MemoryOptionsSection.swift   Sensitive and Keep, also used by the app's editor
 │       ├── SaveToMindropView.swift
 │       └── SaveToMindropViewController.swift
@@ -279,13 +280,21 @@ which is rarely what someone wants stored.
 Both also accept **one image** — a screenshot, a photo of a sign, a Wi-Fi card. The
 extension reads it on the device with Vision (`ImageTextReader`): text lines in reading order,
 and QR codes, listed first; a Wi-Fi code becomes its network and password, as with Scan.
-Nothing leaves the phone. The lines appear under **From the Image**, below the details:
+Nothing leaves the phone. The lines appear as pills under **From the Image**, below the
+details (`ImageLinesSection`, which the editor's Choose Photo uses too):
 
-- Tapping a line adds it to the details on a line of its own; tapping it again takes it out.
-  Several lines can be picked (an address over three lines), and anything typed around them
-  stays (`ImageText.toggling`). A checkmark shows each line the details hold.
+- Tapping a pill adds its line to the details on a line of its own; tapping it again takes
+  it out. Several can be picked (an address over three lines), and anything typed around
+  them stays (`ImageText.toggling`).
+- A picked pill stays where it is, inverted (dark on light, light on dark, like the Paste
+  button) with a tick, so the same tap undoes it. Whether a pill is picked is read from the
+  details, so editing them by hand keeps the pills right.
+- Pills wrap like words; a long line wraps to two lines inside its pill.
+- Moving picked pills *into* the details field was considered and dropped: a text field holds
+  only text, so it would need a custom token editor, and the details would stop being the
+  plain text that is saved.
 - The keyword stays the user's to type, as everywhere else: nothing is picked or guessed.
-- The first eight lines show, then **Show All**; a screenshot can hold dozens.
+- The first twelve lines show, then **Show All**; a screenshot can hold dozens.
 - The image is decoded already scaled to 3000 px on its longest side and turned upright, so a
   48-megapixel photo stays well inside an extension's memory limit.
 - Text and QR codes are read by separate requests, so one failing doesn't lose the other.
@@ -624,13 +633,14 @@ simulator was restarted. The Action button needs a device.
 
 ## The editor's layout
 
-The editor and the share sheet's save form have the same three sections:
+The editor and the share sheet's save form have the same sections:
 
 - **Keyword**, with the footer "What you'll type in Spotlight to find it." (the 4-character
   hint replaces it when the keyword is too short).
 - **Details**, two lines tall to start. In the editor a grey **+** on its right opens a
-  menu with Scan (shown only where the iPhone can scan), and the system's **Paste** button
-  sits under the field on the right.
+  menu with Scan (shown only where the iPhone can scan) and Choose Photo, and the system's
+  **Paste** button sits under the field on the right.
+- **From the Image**, only once there is an image: shared, or chosen with Choose Photo.
 - **Sensitive and Keep** together (`MemoryOptionsSection`): most memories use neither. The
   footer says what Spotlight will show: the line itself ("Shows in Spotlight as “… · …”,
   where anyone using this iPhone may see it.") once both fields hold something, the
@@ -659,6 +669,9 @@ empty, the cursor moves to the keyword.
   (`NSCameraUsageDescription`). If access is off, the scanner screen says so and links to
   Settings. DataScanner needs a Neural Engine and a real camera, so the button is hidden
   where it is not supported, the simulator included.
+- **Choose Photo** opens the system photo picker, which needs no Photos permission: the app
+  only gets the photo picked. The keyboard goes down first, so the photo's lines can be seen,
+  and they appear as pills under the details, as in the share sheet.
 - **Paste** is SwiftUI's `PasteButton`, under the details field. It reads the clipboard
   without the "Allow Paste?" prompt, and the system disables it while the clipboard holds
   no text. Long-pressing the field and choosing Paste works too, also without a prompt.
