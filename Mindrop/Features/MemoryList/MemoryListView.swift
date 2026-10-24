@@ -57,15 +57,13 @@ struct MemoryListView: View {
         repository.results(for: "").isEmpty && repository.expiredResults(for: "").isEmpty
     }
 
-    private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
-
     var body: some View {
         ScrollView {
             if hasNoMemories {
                 SpotlightGuide { sheet = .newMemory }
             }
 
-            LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
+            CardGrid {
                 if showsSections {
                     ForEach(results.groupedByCategory()) { section in
                         Section {
@@ -105,6 +103,7 @@ struct MemoryListView: View {
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                             .padding(.horizontal, 4)
+                            .onLeadingPage()
                     }
                 }
             }
@@ -112,6 +111,7 @@ struct MemoryListView: View {
 
             if showsRecentlyDeleted {
                 recentlyDeleted
+                    .onLeadingPage()
                     .padding(.top, 24)
             }
         }
@@ -144,6 +144,7 @@ struct MemoryListView: View {
         .overlay {
             if !hasNoMemories && results.isEmpty && expiredResults.isEmpty && !showsRecentlyDeleted {
                 emptyState
+                    .onLeadingPage()
             }
         }
         // One sheet modifier for both: a second `.sheet` on the same view never presented.

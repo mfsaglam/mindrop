@@ -13,8 +13,6 @@ struct RecentlyDeletedView: View {
     @State private var isConfirmingDeleteAll = false
     @State private var errorMessage: String?
 
-    private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
-
     /// The same grid of glass cards as the list, in clear glass: set aside, not gone. Tapping
     /// a card offers Recover and Delete Now; a grid has no swipe actions.
     var body: some View {
@@ -26,8 +24,9 @@ struct RecentlyDeletedView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 4)
                     .padding(.vertical, 12)
+                    .onLeadingPage()
 
-                LazyVGrid(columns: columns, spacing: 12) {
+                CardGrid {
                     ForEach(repository.deletedMemories) { memory in
                         Menu {
                             Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
@@ -63,6 +62,7 @@ struct RecentlyDeletedView: View {
         .overlay(alignment: .top) {
             if repository.deletedMemories.isEmpty {
                 EmptyRecentlyDeleted()
+                    .onLeadingPage()
             }
         }
         .alert(

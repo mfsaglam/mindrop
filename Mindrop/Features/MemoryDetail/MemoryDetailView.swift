@@ -33,16 +33,17 @@ struct MemoryDetailView: View {
     }
 
     /// The keyword above one glass card holding the value, touched with the category's
-    /// colour, and Copy, Share and the value's own action below it.
+    /// colour, and Copy, Share and the value's own action below it. On iPhone Duo's inner
+    /// display, the value on the leading page and what to do with it on the trailing one.
     private func content(for memory: Memory) -> some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 18) {
+            FoldSpread(spacing: 18) {
                 header(for: memory)
 
                 expiry(for: memory)
 
                 valueCard(for: memory)
-
+            } secondary: {
                 if sensitiveAccess.canShow(memory) {
                     actions(for: memory)
                 }
@@ -57,7 +58,6 @@ struct MemoryDetailView: View {
                 }
             }
             .padding()
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
         // No navigation title: the keyword is already on screen, above the value.
         .navigationBarTitleDisplayMode(.inline)

@@ -27,8 +27,10 @@ struct SpotlightGuide: View {
         newMemory = nil
     }
 
+    /// On iPhone Duo's inner display, the search on the leading page and what it means on the
+    /// trailing one.
     var body: some View {
-        VStack(spacing: 28) {
+        FoldSpread(alignment: .center, spacing: 28, pageAlignment: .center) {
             VStack(spacing: 10) {
                 SpotlightPreview(examples: examples)
                 if showsOwnMemories {
@@ -38,7 +40,7 @@ struct SpotlightGuide: View {
                 }
             }
             .padding(.top, 12)
-
+        } secondary: {
             VStack(spacing: 8) {
                 Text("One search away")
                     .font(.title2.weight(.bold))

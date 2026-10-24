@@ -34,7 +34,7 @@ Mindrop/
 ├── Mindrop/                     app target (iOS 26+)
 │   ├── App/                          MindropApp, RootView, session and routing
 │   ├── Features/                     MemoryList, MemoryDetail, MemoryEditor, Categories, Settings,
-│   │                                 Spotlight (icons, highlighting, experiments)
+│   │                                 Spotlight (icons, highlighting, experiments), Fold (iPhone Duo)
 │   └── Resources/Assets.xcassets     app icon, accent colour
 ├── MindropShare/                share extension — the share sheet's app row
 ├── MindropAction/               action extension — the share sheet's action row
@@ -300,8 +300,9 @@ form. The category chip, the expiry chip and Edit work as before.
 The list and the detail screen are built from native components and Liquid Glass, on the
 plain system background.
 
-- **The list is a grid of glass cards**, two columns: the keyword small at the top, the
-  value as the card's headline. Each card's glass has a touch (8%) of its category's colour
+- **The list is a grid of glass cards**, two columns (more on iPhone Duo's inner display; see
+  [iPhone Duo](#iphone-duo)): the keyword small at the top, the value as the card's
+  headline. Each card's glass has a touch (8%) of its category's colour
   (`Glass.category`). Grouped by category, the section heading carries the category's
   symbol and the cards leave it out; as one list, each card shows its own symbol. A long
   press offers Copy and Delete (Recover and Delete for an expired one): a grid has no swipe
@@ -348,6 +349,54 @@ started the extension — not with the default content type, nor with an app-dec
 listed in `QLSupportedContentTypes` — and showed its own card, the row's text with "0 KB".
 The extension was registered and its method reachable, so this looks reserved for Apple's
 apps (News and Wallet ship such extensions).
+
+## iPhone Duo
+
+Built from Apple's guidance (developer.apple.com/iphone-duo/prepare and the iPhone Duo tech
+talks) but not yet seen on a Duo. Its simulator needs a release Xcode 27.1 with the iOS 27.1
+runtime: the iOS 27.2 beta runtime lists the Duo as unsupported. On a regular iPhone
+everything looks exactly as before; that was checked on the iPhone 18 Pro Max simulator.
+
+- **Already right, nothing changed**:
+  - SwiftUI scenes and a launch screen, and no `UIRequiresFullScreen`.
+  - No `UIScreen.main`, idiom or orientation checks. Xcode's App Resizability skill finds
+    nothing to fix.
+  - Standard toolbars, which the system stands up vertically beside the side status bar.
+  - Sheets, alerts and menus, which move off the fold by themselves.
+- **Portrait only, as before**: the outer display honours it. The inner display ignores it,
+  and every layout below follows the space it is given, never the orientation.
+- **`Fold` finds where the inner display folds down a view**, through
+  `reservedRegions(kind: .division, options: .includeInactive)` (iOS 27.1).
+  - It finds the fold even while the display lies flat, so a layout keeps its shape as the
+    device folds and only the gap at the fold grows.
+  - It is nil on every other iPhone, and on the inner display held upright. There the fold
+    runs across a scrolling screen, and Apple says scrolling content needn't avoid it.
+- **The grid (`CardGrid`)** shows as many columns as fit, never fewer than two. A card is at
+  least 160 points wide, more with larger text.
+  - Across the fold it follows Apple's advice for grids: an even number of columns, the same
+    on each page.
+  - The outer margins stay as they are, and the gap at the fold is wider. A card never lies
+    across the fold.
+- **The detail screen and the guide (`FoldSpread`)** become two pages, one each side of the
+  fold, like a book.
+  - Detail screen: the value on the leading page; Copy, Share and the Spotlight line on the
+    trailing one.
+  - Guide: the Spotlight search on the leading page, the steps and the button on the
+    trailing one.
+  - Everywhere else they are one column, as before. Either way the views stay the same, so
+    nothing starts over when the device opens, closes or turns.
+- **Full-width rows and empty states stay on the leading page** (`onLeadingPage()`): the
+  Recently Deleted row, the footnotes and the empty views. Nothing is read or tapped across
+  the fold.
+- **To ship it**: build with a release Xcode 27.1 or later, because App Store Connect takes
+  no beta builds. iPhone Duo screenshots in App Store Connect add a badge to the product page.
+
+To check on the Duo simulator:
+- the device closed;
+- open, held both ways;
+- partly folded, both ways;
+- folding while editing, with a sheet open, and with a search typed;
+- Split View on each side.
 
 ## Icons: Iconsax
 
