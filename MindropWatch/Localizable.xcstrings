@@ -559,91 +559,97 @@
         }
       }
     },
-    "Your iPhone files it and adds it to Spotlight." : {
+    "Your iPhone takes it from here and adds it to Spotlight." : {
       "comment" : "Apple Watch: under Save, what happens to a memory saved on the watch.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يصنّفه iPhone ويضيفه إلى Spotlight."
+            "value" : "سيتولى iPhone إكمال الباقي وإضافته إلى Spotlight."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dein iPhone ordnet ihn ein und fügt ihn zu Spotlight hinzu."
+            "value" : "Dein iPhone kümmert sich um den Rest und fügt den Eintrag zu Spotlight hinzu."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tu iPhone la clasifica y la añade a Spotlight."
+            "value" : "Tu iPhone se encarga del resto y la añade a Spotlight."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Votre iPhone la classe et l’ajoute à Spotlight."
+            "value" : "Votre iPhone s’occupe du reste et l’ajoute à Spotlight."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "आपका iPhone इसे व्यवस्थित करके Spotlight में जोड़ता है।"
+            "value" : "बाकी काम आपका iPhone करेगा और इसे Spotlight में जोड़ देगा।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’iPhone la classifica e la aggiunge a Spotlight."
+            "value" : "Al resto pensa il tuo iPhone, che lo aggiungerà a Spotlight."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iPhoneが分類してSpotlightに追加します。"
+            "value" : "あとはiPhoneが引き継いで、Spotlightに追加します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iPhone이 분류하여 Spotlight에 추가합니다."
+            "value" : "나머지는 iPhone이 처리해 Spotlight에 추가해요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je iPhone ordent het en zet het in Spotlight."
+            "value" : "Je iPhone doet de rest en zet het in Spotlight."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seu iPhone a organiza e adiciona ao Spotlight."
+            "value" : "O iPhone cuida do resto e adiciona à busca do Spotlight."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iPhone распределит запись и добавит её в Spotlight."
+            "value" : "Дальше всё сделает iPhone и добавит запись в Spotlight."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iPhone’un onu sınıflandırıp Spotlight’a ekler."
+            "value" : "Gerisini iPhone halleder ve Spotlight’a ekler."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iPhone 会将其归类并添加到“聚焦”。"
+            "value" : "接下来由 iPhone 处理，并添加到“聚焦”中。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iPhone 會將其分類並加入 Spotlight。"
+            "value" : "接下來交給 iPhone 處理，並加入 Spotlight。"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "value" : "Your iPhone takes it from here and adds it to Spotlight.",
+            "state" : "translated"
           }
         }
       }

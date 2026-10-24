@@ -24,7 +24,8 @@
             "value" : "Mindrop"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "NSCameraUsageDescription" : {
       "comment" : "Privacy - Camera Usage Description",
@@ -32,91 +33,91 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يستخدم Mindrop الكاميرا لمسح النصوص ورموز QR إلى عنصر."
+            "value" : "يستخدم Mindrop الكاميرا لمسح النصوص ورموز QR وحفظها في عنصر."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop verwendet die Kamera, um Text und QR-Codes in einen Eintrag zu scannen."
+            "value" : "Mit der Kamera kannst du Text und QR-Codes in Mindrop einlesen und als Eintrag sichern."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop uses the camera to scan text and QR codes into a memory."
+            "value" : "Use your camera to scan text or QR codes and save them in a memory in Mindrop."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop usa la cámara para escanear texto y códigos QR en una entrada."
+            "value" : "Mindrop usa la cámara para escanear texto o códigos QR y guardarlos en una entrada."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop utilise l’appareil photo pour scanner du texte et des codes QR dans une entrée."
+            "value" : "Mindrop utilise l’appareil photo pour scanner du texte ou des codes QR et les enregistrer dans une entrée."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop टेक्स्ट और QR कोड को एंट्री में स्कैन करने के लिए कैमरे का इस्तेमाल करता है।"
+            "value" : "Mindrop कैमरे से टेक्स्ट या QR कोड स्कैन करके उन्हें एंट्री में सेव करता है।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop usa la fotocamera per scansionare testo e codici QR in una voce."
+            "value" : "Mindrop usa la fotocamera per scansionare testo e codici QR e salvarli in una voce."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MindropはテキストやQRコードを項目にスキャンするためにカメラを使用します。"
+            "value" : "Mindropでは、カメラでテキストやQRコードを読み取り、項目として保存できます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop은 텍스트와 QR 코드를 항목으로 스캔하기 위해 카메라를 사용합니다."
+            "value" : "Mindrop은 카메라로 텍스트나 QR 코드를 스캔해 항목으로 저장할 수 있어요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop gebruikt de camera om tekst en QR-codes in een item te scannen."
+            "value" : "Met de camera kun je tekst en QR-codes scannen en als item in Mindrop bewaren."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Mindrop usa a câmera para escanear textos e códigos QR para uma entrada."
+            "value" : "O Mindrop usa a câmera para ler textos e códigos QR e salvá-los em uma entrada."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop использует камеру, чтобы сканировать текст и QR-коды в запись."
+            "value" : "С помощью камеры Mindrop можно отсканировать текст или QR-код и сохранить его в записи."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop, metin ve QR kodlarını bir kayda taramak için kamerayı kullanır."
+            "value" : "Mindrop, metinleri ve QR kodlarını kamerayla tarayıp kayıt olarak saklamanı sağlar."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop 使用相机将文本和二维码扫描到条目中。"
+            "value" : "Mindrop 使用相机扫描文本或二维码，并将内容保存为条目。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop 會使用相機將文字和 QR 碼掃描到項目中。"
+            "value" : "Mindrop 會使用相機掃描文字或 QR 碼，並將內容儲存為項目。"
           }
         }
       }

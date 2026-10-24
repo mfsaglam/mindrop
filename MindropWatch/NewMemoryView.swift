@@ -62,7 +62,7 @@ struct NewMemoryView: View {
         if sender.waitingCount > 0 {
             Text("Waiting to reach your iPhone: \(sender.waitingCount)")
         } else {
-            Text("Your iPhone files it and adds it to Spotlight.")
+            Text("Your iPhone takes it from here and adds it to Spotlight.")
         }
     }
 

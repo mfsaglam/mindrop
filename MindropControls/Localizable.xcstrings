@@ -96,49 +96,49 @@
         }
       }
     },
-    "Opens Mindrop ready to save a new memory." : {
+    "Open Mindrop to start a new memory." : {
       "comment" : "Description of the New Memory control in the Control Center gallery.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يفتح Mindrop لإضافة عنصر جديد."
+            "value" : "افتح Mindrop لإضافة عنصر جديد."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Öffnet Mindrop, damit du einen neuen Eintrag hinzufügen kannst."
+            "value" : "Öffne Mindrop und lege einen neuen Eintrag an."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Mindrop to add a new memory."
+            "value" : "Open Mindrop to start a new memory."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abre Mindrop para añadir una entrada."
+            "value" : "Abre Mindrop para crear una entrada nueva."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ouvre Mindrop pour ajouter une entrée."
+            "value" : "Ouvrez Mindrop pour créer une nouvelle entrée."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "नई एंट्री जोड़ने के लिए Mindrop खोलता है।"
+            "value" : "नई एंट्री बनाने के लिए Mindrop खोलें।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apre Mindrop per aggiungere una voce."
+            "value" : "Apri Mindrop per creare una nuova voce."
           }
         },
         "ja" : {
@@ -156,25 +156,25 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opent Mindrop om een item toe te voegen."
+            "value" : "Open Mindrop om een nieuw item toe te voegen."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abre o Mindrop para adicionar uma entrada."
+            "value" : "Abra o Mindrop para criar uma nova entrada."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открывает Mindrop для добавления записи."
+            "value" : "Откройте Mindrop, чтобы добавить новую запись."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yeni bir kayıt eklemek için Mindrop’u açar."
+            "value" : "Yeni bir kayıt eklemek için Mindrop’u aç."
           }
         },
         "zh-Hans" : {
@@ -186,155 +186,155 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "開啟 Mindrop，加入新項目。"
+            "value" : "開啟 Mindrop，新增項目。"
           }
         }
       }
     },
-    "Opens Mindrop’s camera to scan the details of a new memory." : {
+    "Open Mindrop’s camera to scan text or a QR code." : {
       "comment" : "Description of the Scan control in the Control Center gallery.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يفتح كاميرا Mindrop لمسح محتوى عنصر جديد."
+            "value" : "افتح كاميرا Mindrop لمسح نص أو رمز QR."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Öffnet die Kamera von Mindrop, um den Inhalt eines neuen Eintrags zu scannen."
+            "value" : "Öffne die Kamera von Mindrop, um Text oder einen QR-Code zu scannen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opens Mindrop’s camera to scan the details of a new memory."
+            "value" : "Open Mindrop’s camera to scan text or a QR code."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abre la cámara de Mindrop para escanear el contenido de una entrada nueva."
+            "value" : "Abre la cámara de Mindrop para escanear texto o un código QR."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ouvre l’appareil photo de Mindrop pour scanner le contenu d’une nouvelle entrée."
+            "value" : "Ouvrez l’appareil photo de Mindrop pour scanner du texte ou un code QR."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "नई एंट्री की जानकारी स्कैन करने के लिए Mindrop का कैमरा खोलता है।"
+            "value" : "टेक्स्ट या QR कोड स्कैन करने के लिए Mindrop का कैमरा खोलें।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apre la fotocamera di Mindrop per scansionare il contenuto di una nuova voce."
+            "value" : "Apri la fotocamera di Mindrop per scansionare un testo o un codice QR."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindropのカメラを開いて、新規項目の内容をスキャンします。"
+            "value" : "Mindropのカメラを開いて、テキストやQRコードをスキャンできます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop의 카메라를 열어 새 항목의 내용을 스캔합니다."
+            "value" : "Mindrop 카메라를 열어 텍스트나 QR 코드를 스캔해요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opent de camera van Mindrop om de inhoud van een nieuw item te scannen."
+            "value" : "Open de camera van Mindrop om tekst of een QR-code te scannen."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abre a câmera do Mindrop para escanear o conteúdo de uma nova entrada."
+            "value" : "Abra a câmera do Mindrop para escanear um texto ou código QR."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открывает камеру Mindrop, чтобы отсканировать содержимое новой записи."
+            "value" : "Откройте камеру Mindrop, чтобы отсканировать текст или QR-код."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yeni bir kaydın bilgisini taramak için Mindrop’un kamerasını açar."
+            "value" : "Metin veya QR kodu taramak için Mindrop’un kamerasını aç."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打开 Mindrop 的相机，扫描新条目的内容。"
+            "value" : "打开 Mindrop 相机，扫描文本或二维码。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打開 Mindrop 的相機，掃描新項目的內容。"
+            "value" : "開啟 Mindrop 相機，掃描文字或 QR 碼。"
           }
         }
       }
     },
-    "Scan into Mindrop" : {
+    "Scan with Mindrop" : {
       "comment" : "Name of the Scan control in the Control Center gallery and on the control.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "المسح إلى Mindrop"
+            "value" : "المسح باستخدام Mindrop"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In Mindrop scannen"
+            "value" : "Mit Mindrop scannen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scan into Mindrop"
+            "value" : "Scan with Mindrop"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escanear en Mindrop"
+            "value" : "Escanear con Mindrop"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scanner dans Mindrop"
+            "value" : "Scanner avec Mindrop"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop में स्कैन करें"
+            "value" : "Mindrop से स्कैन करें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scansiona in Mindrop"
+            "value" : "Scansiona con Mindrop"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindropにスキャン"
+            "value" : "Mindropでスキャン"
           }
         },
         "ko" : {
@@ -346,37 +346,37 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scan naar Mindrop"
+            "value" : "Scannen met Mindrop"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escanear para o Mindrop"
+            "value" : "Escanear com o Mindrop"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сканировать в Mindrop"
+            "value" : "Сканировать с помощью Mindrop"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop’a tara"
+            "value" : "Mindrop ile tara"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "扫描到 Mindrop"
+            "value" : "用 Mindrop 扫描"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "掃描到 Mindrop"
+            "value" : "使用 Mindrop 掃描"
           }
         }
       }

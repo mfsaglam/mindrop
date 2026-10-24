@@ -42,17 +42,17 @@ struct SpotlightGuide: View {
             .padding(.top, 12)
         } secondary: {
             VStack(spacing: 8) {
-                Text("One search away")
+                Text("What you want to remember, within reach")
                     .font(.title2.weight(.bold))
-                Text("Mindrop puts what you save into Spotlight.")
+                Text("Save it. Find it in Spotlight when you need it.")
                     .foregroundStyle(.secondary)
             }
             .multilineTextAlignment(.center)
 
             VStack(alignment: .leading, spacing: 16) {
-                step(1, Text("Save a value under a keyword"))
+                step(1, Text("Save something with a keyword you’ll remember"))
                 step(2, Text("Swipe down on the Home Screen"))
-                step(3, Text("Type the keyword, and the value is right there"))
+                step(3, Text("Search for your keyword to see what you saved"))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 8)

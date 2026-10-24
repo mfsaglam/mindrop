@@ -48,7 +48,7 @@ struct ValueScanner: View {
                     ContentUnavailableView {
                         Label("Camera Access Is Off", image: "ix.scan.linear")
                     } description: {
-                        Text("Mindrop uses the camera to scan text and QR codes. You can allow it in Settings.")
+                        Text("Mindrop uses the camera to scan text and QR codes. You can turn on camera access in Settings.")
                     } actions: {
                         Button("Open Settings") {
                             if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }

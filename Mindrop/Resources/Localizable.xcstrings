@@ -6743,192 +6743,97 @@
         }
       }
     },
-    "Mindrop puts what you save into Spotlight." : {
-      "comment" : "Onboarding subtitle: save information, then find it in Spotlight when needed. Keep the two actions clear and concise. Pair with the headline about information being close at hand.",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "احفظ ما تحتاجه، واعثر عليه في Spotlight وقت الحاجة."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Speichere es und finde es bei Bedarf in Spotlight wieder."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save it. Find it in Spotlight when you need it."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guárdalo y encuéntralo en Spotlight cuando lo necesites."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enregistrez vos infos et retrouvez-les dans Spotlight au besoin."
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "सेव करें और ज़रूरत पड़ने पर Spotlight में ढूँढ लें।"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salva e ritrova le tue informazioni in Spotlight quando ti servono."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存しておけば、必要なときにSpotlightで見つかります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "저장하고, 필요할 때 Spotlight에서 찾아보세요."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bewaar het en vind het terug in Spotlight wanneer je het nodig hebt."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salve e encontre no Spotlight quando precisar."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сохраните и найдите в Spotlight, когда понадобится."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kaydet, gerektiğinde Spotlight’ta bul."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存下来，需要时在“聚焦”中找到。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "儲存下來，需要時在 Spotlight 中找到。"
-          }
-        }
-      }
-    },
-    "Mindrop uses the camera to scan text and QR codes. You can allow it in Settings." : {
+    "Mindrop uses the camera to scan text and QR codes. You can turn on camera access in Settings." : {
       "comment" : "Explains why the camera is needed, when access is off.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يستخدم Mindrop الكاميرا لمسح النصوص ورموز QR. يمكنك السماح بذلك في الإعدادات."
+            "value" : "يستخدم Mindrop الكاميرا لمسح النصوص ورموز QR. يمكنك تفعيل الوصول إلى الكاميرا من الإعدادات."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop verwendet die Kamera, um Text und QR-Codes zu scannen. Du kannst den Zugriff in den Einstellungen erlauben."
+            "value" : "Mindrop nutzt die Kamera, um Text und QR-Codes zu scannen. Du kannst den Kamerazugriff in den Einstellungen erlauben."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop uses the camera to scan text and QR codes. You can allow it in Settings."
+            "value" : "Mindrop uses the camera to scan text and QR codes. You can turn on camera access in Settings."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop usa la cámara para escanear texto y códigos QR. Puedes permitirlo en Ajustes."
+            "value" : "Mindrop usa la cámara para escanear texto y códigos QR. Puedes activar el acceso a la cámara en Ajustes."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop utilise l’appareil photo pour scanner du texte et des codes QR. Vous pouvez l’autoriser dans Réglages."
+            "value" : "Mindrop utilise l’appareil photo pour scanner du texte et des codes QR. Vous pouvez autoriser l’accès dans Réglages."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop टेक्स्ट और QR कोड स्कैन करने के लिए कैमरे का इस्तेमाल करता है। आप सेटिंग्स में इसकी अनुमति दे सकते हैं।"
+            "value" : "Mindrop टेक्स्ट और QR कोड स्कैन करने के लिए कैमरे का इस्तेमाल करता है। आप Settings में कैमरा एक्सेस चालू कर सकते हैं।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop usa la fotocamera per scansionare testo e codici QR. Puoi consentirlo in Impostazioni."
+            "value" : "Mindrop usa la fotocamera per scansionare testo e codici QR. Puoi attivare l’accesso dalle Impostazioni."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MindropはテキストやQRコードをスキャンするためにカメラを使用します。「設定」で許可できます。"
+            "value" : "Mindropでは、カメラでテキストやQRコードを読み取れます。カメラへのアクセスは「設定」でオンにできます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop은 텍스트와 QR 코드를 스캔하기 위해 카메라를 사용합니다. 설정에서 허용할 수 있습니다."
+            "value" : "Mindrop은 카메라로 텍스트와 QR 코드를 스캔해요. 설정에서 카메라 접근을 허용할 수 있어요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop gebruikt de camera om tekst en QR-codes te scannen. Je kunt dit toestaan in Instellingen."
+            "value" : "Mindrop gebruikt de camera om tekst en QR-codes te scannen. Je kunt cameratoegang inschakelen in Instellingen."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Mindrop usa a câmera para escanear textos e códigos QR. Você pode permitir isso em Ajustes."
+            "value" : "O Mindrop usa a câmera para escanear textos e códigos QR. Você pode permitir o acesso à câmera em Ajustes."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop использует камеру, чтобы сканировать текст и QR-коды. Разрешить доступ можно в Настройках."
+            "value" : "Mindrop использует камеру для сканирования текста и QR-кодов. Разрешить доступ к камере можно в настройках."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop, metin ve QR kodlarını taramak için kamerayı kullanır. Ayarlar’dan izin verebilirsin."
+            "value" : "Mindrop, metinleri ve QR kodlarını taramak için kamerayı kullanır. Kamera erişimini Ayarlar’dan açabilirsin."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop 使用相机扫描文本和二维码。你可以在“设置”中允许访问。"
+            "value" : "Mindrop 使用相机扫描文本和二维码。你可以在“设置”中开启相机访问权限。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mindrop 會使用相機掃描文字和 QR 碼。你可以在「設定」中允許取用。"
+            "value" : "Mindrop 會使用相機掃描文字和 QR 碼。你可以在「設定」中開啟相機取用權限。"
           }
         }
       }
@@ -7502,101 +7407,6 @@
         }
       }
     },
-    "One search away" : {
-      "comment" : "Onboarding headline: information the user wants to remember is close at hand. Warm and personal; this refers to saved practical details, not sentimental memories. Pair with the short save-and-find subtitle.",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "كل ما تريد تذكّره في متناول يدك"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Was du dir merken möchtest, immer griffbereit"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "What you want to remember, within reach"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lo que quieres recordar, siempre a mano"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce que vous voulez retenir, à portée de main"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "जो याद रखना चाहें, हमेशा पास"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quello che vuoi ricordare, a portata di mano"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "覚えておきたいことを、いつでも手元に"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기억하고 싶은 정보, 언제나 가까이에"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wat je wilt onthouden, binnen handbereik"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O que você quer lembrar, sempre à mão"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Всё, что вы хотите запомнить, под рукой"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hatırlamak istediklerin elinin altında"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "想记住的信息，随时在手边"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "想記住的資訊，隨時在手邊"
-          }
-        }
-      }
-    },
     "Open" : {
       "comment" : "Opens the web address in a memory's value.",
       "localizations" : {
@@ -7882,6 +7692,198 @@
         }
       }
     },
+    "Open Mindrop to start a new memory." : {
+      "comment" : "Description of the New Memory action in Shortcuts, Control Center and the Action button settings.",
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افتح Mindrop لإضافة عنصر جديد."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne Mindrop und lege einen neuen Eintrag an."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Mindrop to start a new memory."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre Mindrop para crear una entrada nueva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez Mindrop pour créer une nouvelle entrée."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नई एंट्री बनाने के लिए Mindrop खोलें।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Mindrop per creare una nuova voce."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindropを開いて、新しい項目を追加できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop을 열어 새 항목을 추가해요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Mindrop om een nieuw item toe te voegen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abra o Mindrop para criar uma nova entrada."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откройте Mindrop, чтобы добавить новую запись."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni bir kayıt eklemek için Mindrop’u aç."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开 Mindrop，添加新条目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟 Mindrop，新增項目。"
+          }
+        }
+      }
+    },
+    "Open Mindrop’s camera to scan text or a QR code." : {
+      "comment" : "Description of the Scan action in Shortcuts, Control Center and the Action button settings.",
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افتح كاميرا Mindrop لمسح نص أو رمز QR."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne die Kamera von Mindrop, um Text oder einen QR-Code zu scannen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Mindrop’s camera to scan text or a QR code."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre la cámara de Mindrop para escanear texto o un código QR."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez l’appareil photo de Mindrop pour scanner du texte ou un code QR."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टेक्स्ट या QR कोड स्कैन करने के लिए Mindrop का कैमरा खोलें।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri la fotocamera di Mindrop per scansionare un testo o un codice QR."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindropのカメラを開いて、テキストやQRコードをスキャンできます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop 카메라를 열어 텍스트나 QR 코드를 스캔해요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open de camera van Mindrop om tekst of een QR-code te scannen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abra a câmera do Mindrop para escanear um texto ou código QR."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откройте камеру Mindrop, чтобы отсканировать текст или QR-код."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metin veya QR kodu taramak için Mindrop’un kamerasını aç."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开 Mindrop 相机，扫描文本或二维码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟 Mindrop 相機，掃描文字或 QR 碼。"
+          }
+        }
+      }
+    },
     "Open Settings" : {
       "comment" : "Opens the iPhone Settings app at Mindrop's page.",
       "localizations" : {
@@ -7973,198 +7975,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打開設定"
-          }
-        }
-      }
-    },
-    "Opens Mindrop ready to save a new memory." : {
-      "comment" : "Description of the New Memory action in Shortcuts, Control Center and the Action button settings.",
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "يفتح Mindrop لإضافة عنصر جديد."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Öffnet Mindrop, damit du einen neuen Eintrag hinzufügen kannst."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Mindrop to add a new memory."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abre Mindrop para añadir una entrada."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvre Mindrop pour ajouter une entrée."
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "नई एंट्री जोड़ने के लिए Mindrop खोलता है।"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apre Mindrop per aggiungere una voce."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindropを開いて、新しい項目を追加できます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop을 열어 새 항목을 추가해요."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opent Mindrop om een item toe te voegen."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abre o Mindrop para adicionar uma entrada."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Открывает Mindrop для добавления записи."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yeni bir kayıt eklemek için Mindrop’u açar."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "打开 Mindrop，添加新条目。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "開啟 Mindrop，加入新項目。"
-          }
-        }
-      }
-    },
-    "Opens Mindrop’s camera to scan the details of a new memory." : {
-      "comment" : "Description of the Scan action in Shortcuts, Control Center and the Action button settings.",
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "يفتح كاميرا Mindrop لمسح محتوى عنصر جديد."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Öffnet die Kamera von Mindrop, um den Inhalt eines neuen Eintrags zu scannen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opens Mindrop’s camera to scan the details of a new memory."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abre la cámara de Mindrop para escanear el contenido de una entrada nueva."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvre l’appareil photo de Mindrop pour scanner le contenu d’une nouvelle entrée."
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "नई एंट्री की जानकारी स्कैन करने के लिए Mindrop का कैमरा खोलता है।"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apre la fotocamera di Mindrop per scansionare il contenuto di una nuova voce."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindropのカメラを開いて、新規項目の内容をスキャンします。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop의 카메라를 열어 새 항목의 내용을 스캔합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opent de camera van Mindrop om de inhoud van een nieuw item te scannen."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abre a câmera do Mindrop para escanear o conteúdo de uma nova entrada."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Открывает камеру Mindrop, чтобы отсканировать содержимое новой записи."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yeni bir kaydın bilgisini taramak için Mindrop’un kamerasını açar."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "打开 Mindrop 的相机，扫描新条目的内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "打開 Mindrop 的相機，掃描新項目的內容。"
           }
         }
       }
@@ -8834,7 +8644,197 @@
         }
       }
     },
-    "Save a value under a keyword" : {
+    "Save a memory without opening Mindrop. Find it later in Spotlight by keyword." : {
+      "comment" : "Description of the Save to Mindrop action in Shortcuts.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "احفظ عنصرًا دون فتح Mindrop، ثم اعثر عليه لاحقًا في Spotlight باستخدام كلمته المفتاحية."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sichere einen Eintrag, ohne Mindrop zu öffnen. Über das Stichwort findest du ihn später in Spotlight wieder."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save a memory without opening Mindrop. Find it later in Spotlight by keyword."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda una entrada sin abrir Mindrop. Después podrás encontrarla en Spotlight con la palabra clave."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrez une entrée sans ouvrir Mindrop. Vous la retrouverez ensuite dans Spotlight grâce à son mot-clé."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop खोले बिना कोई एंट्री सेव करें। बाद में उसे Spotlight में उसके कीवर्ड से ढूँढें।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva una voce senza aprire Mindrop. Poi ritrovala in Spotlight usando la parola chiave."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindropを開かずに情報を保存できます。あとからSpotlightでキーワードを検索すれば見つかります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop을 열지 않고 항목을 저장할 수 있어요. 나중에 키워드로 Spotlight에서 찾아보세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewaar een item zonder Mindrop te openen. Zoek het later in Spotlight op trefwoord."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salve uma entrada sem abrir o Mindrop. Depois, encontre-a no Spotlight pela palavra-chave."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохраните запись, не открывая Mindrop. Позже её можно будет найти в Spotlight по ключевому слову."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop’u açmadan kayıt ekle. Daha sonra anahtar kelimesiyle Spotlight’ta bul."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无需打开 Mindrop 即可保存条目，之后可在“聚焦”中通过关键词找到。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無需開啟 Mindrop 即可儲存項目，之後可在 Spotlight 透過關鍵字找到。"
+          }
+        }
+      }
+    },
+    "Save it. Find it in Spotlight when you need it." : {
+      "comment" : "Onboarding subtitle: save information, then find it in Spotlight when needed. Keep the two actions clear and concise. Pair with the headline about information being close at hand.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "احفظ ما تحتاجه، واعثر عليه في Spotlight وقت الحاجة."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speichere es und finde es bei Bedarf in Spotlight wieder."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save it. Find it in Spotlight when you need it."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guárdalo y encuéntralo en Spotlight cuando lo necesites."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrez vos infos et retrouvez-les dans Spotlight au besoin."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सेव करें और ज़रूरत पड़ने पर Spotlight में ढूँढ लें।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva e ritrova le tue informazioni in Spotlight quando ti servono."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存しておけば、必要なときにSpotlightで見つかります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장하고, 필요할 때 Spotlight에서 찾아보세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewaar het en vind het terug in Spotlight wanneer je het nodig hebt."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salve e encontre no Spotlight quando precisar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохраните и найдите в Spotlight, когда понадобится."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydet, gerektiğinde Spotlight’ta bul."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存下来，需要时在“聚焦”中找到。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存下來，需要時在 Spotlight 中找到。"
+          }
+        }
+      }
+    },
+    "Save something with a keyword you’ll remember" : {
       "comment" : "Guide, step 1.",
       "localizations" : {
         "ar" : {
@@ -9119,192 +9119,97 @@
         }
       }
     },
-    "Saves a memory without opening Mindrop, ready to find in Spotlight by its keyword." : {
-      "comment" : "Description of the Save to Mindrop action in Shortcuts.",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "يحفظ عنصرًا دون فتح Mindrop، جاهزًا للعثور عليه في Spotlight بكلمته المفتاحية."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sichert einen Eintrag, ohne Mindrop zu öffnen – bereit, in Spotlight über sein Stichwort gefunden zu werden."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saves a memory without opening Mindrop, ready to find in Spotlight by its keyword."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guarda una entrada sin abrir Mindrop, lista para encontrarla en Spotlight por su palabra clave."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enregistre une entrée sans ouvrir Mindrop, prête à être retrouvée dans Spotlight par son mot-clé."
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop खोले बिना एंट्री सेव करता है, ताकि उसे उसके कीवर्ड से Spotlight में ढूँढा जा सके।"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salva una voce senza aprire Mindrop, pronta da trovare in Spotlight con la sua parola chiave."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindropを開かずに項目を保存し、キーワードでSpotlightから見つけられるようにします。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop을 열지 않고 항목을 저장하여 키워드로 Spotlight에서 찾을 수 있게 합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bewaart een item zonder Mindrop te openen, klaar om in Spotlight te vinden via het trefwoord."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salva uma entrada sem abrir o Mindrop, pronta para ser encontrada no Spotlight pela palavra-chave."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сохраняет запись, не открывая Mindrop, чтобы ее можно было найти в Spotlight по ключевому слову."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop’u açmadan bir kayıt kaydeder; anahtar kelimesiyle Spotlight’ta bulunmaya hazır olur."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无需打开 Mindrop 即可保存条目，之后可在“聚焦”中按关键词找到。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無需打開 Mindrop 即可儲存項目，之後可在「Spotlight」中依關鍵字找到。"
-          }
-        }
-      }
-    },
-    "Say “New memory in Mindrop”, or “Scan into Mindrop” to start with the camera." : {
+    "Say “New memory in Mindrop” to add a memory, or “Scan with Mindrop” to open the camera." : {
       "comment" : "How Mindrop Works: what to say to Siri. The quoted phrase must be exactly the first Siri phrase in AppShortcuts.xcstrings for this language, with Mindrop as the app name.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "قل: «أضف عنصرًا في Mindrop»، أو «امسح إلى Mindrop» للبدء بالكاميرا."
+            "value" : "قل «أضف عنصرًا في Mindrop» لبدء الحفظ، أو «امسح باستخدام Mindrop» لفتح الكاميرا."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sag „Neuer Eintrag in Mindrop“ oder „In Mindrop scannen“, um mit der Kamera zu beginnen."
+            "value" : "Sag „Neuer Eintrag in Mindrop“, um etwas zu speichern, oder „Mit Mindrop scannen“, um die Kamera zu öffnen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Say “New memory in Mindrop”, or “Scan into Mindrop” to start with the camera."
+            "value" : "Say “New memory in Mindrop” to add a memory, or “Scan with Mindrop” to open the camera."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Di «Nueva entrada en Mindrop», o «Escanear en Mindrop» para empezar con la cámara."
+            "value" : "Di «Nueva entrada en Mindrop» para guardar algo o «Escanear con Mindrop» para abrir la cámara."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dites « Nouvelle entrée dans Mindrop », ou « Scanner dans Mindrop » pour commencer avec l’appareil photo."
+            "value" : "Dites « Nouvelle entrée dans Mindrop » pour enregistrer une info, ou « Scanner avec Mindrop » pour ouvrir l’appareil photo."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "कहें: “Mindrop में नई एंट्री जोड़ें”, या कैमरे से शुरू करने के लिए “Mindrop में स्कैन करें”।"
+            "value" : "कुछ सेव करने के लिए “Mindrop में नई एंट्री जोड़ें” कहें, या कैमरा खोलने के लिए “Mindrop से स्कैन करें” कहें।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Di’ “Nuova voce in Mindrop”, oppure “Scansiona in Mindrop” per iniziare con la fotocamera."
+            "value" : "Di’ “Nuova voce in Mindrop” per aggiungere qualcosa, oppure “Scansiona con Mindrop” per aprire la fotocamera."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「Mindropに新しい項目を追加」と話しかけます。カメラから始めるなら「Mindropにスキャン」と話しかけます。"
+            "value" : "「Mindropに新しい項目を追加」と話しかけると保存画面が開き、「Mindropでスキャン」と話しかけるとカメラが開きます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“Mindrop에 새 항목 추가해 줘”라고 말하세요. 카메라로 시작하려면 “Mindrop으로 스캔해 줘”라고 말하세요."
+            "value" : "“Mindrop에 새 항목 추가해 줘”라고 말하면 저장 화면이 열리고, “Mindrop으로 스캔해 줘”라고 말하면 카메라가 열려요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeg ‘Nieuw item in Mindrop’, of ‘Scan naar Mindrop’ om met de camera te beginnen."
+            "value" : "Zeg ‘Nieuw item in Mindrop’ om iets op te slaan, of ‘Scan met Mindrop’ om de camera te openen."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Diga “Nova entrada no Mindrop” ou “Escanear para o Mindrop” para começar com a câmera."
+            "value" : "Diga “Nova entrada no Mindrop” para começar a salvar ou “Escanear com o Mindrop” para abrir a câmera."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Скажите: «Новая запись в Mindrop» или «Сканировать в Mindrop», чтобы начать с камеры."
+            "value" : "Скажите «Новая запись в Mindrop», чтобы начать сохранение, или «Сканировать с помощью Mindrop», чтобы открыть камеру."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“Mindrop ile yeni kayıt oluştur” de; kamerayla başlamak için “Mindrop ile tara” de."
+            "value" : "Bir kayıt eklemek için “Mindrop ile yeni kayıt oluştur”, kamerayı açmak için “Mindrop ile tara” de."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "说“在Mindrop中新建条目”，或说“扫描到Mindrop”以从相机开始。"
+            "value" : "说“在 Mindrop 中新建条目”即可开始保存，或说“用 Mindrop 扫描”打开相机。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "說「在Mindrop新增項目」，或說「掃描到Mindrop」以從相機開始。"
+            "value" : "說「在 Mindrop 新增項目」即可開始儲存，或說「使用 Mindrop 掃描」開啟相機。"
           }
         }
       }
@@ -9400,102 +9305,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "掃描"
-          }
-        }
-      }
-    },
-    "Scan into Mindrop" : {
-      "comment" : "The Scan action in Shortcuts, Control Center and the Action button settings.",
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "المسح إلى Mindrop"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In Mindrop scannen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scan into Mindrop"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escanear en Mindrop"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scanner dans Mindrop"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop में स्कैन करें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scansiona in Mindrop"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindropにスキャン"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop으로 스캔"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scan naar Mindrop"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escanear para o Mindrop"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сканировать в Mindrop"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop’a tara"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "扫描到 Mindrop"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "掃描到 Mindrop"
           }
         }
       }
@@ -9686,6 +9495,197 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "掃描以加入「%@」"
+          }
+        }
+      }
+    },
+    "Scan with Mindrop" : {
+      "comment" : "The Scan action in Shortcuts, Control Center and the Action button settings.",
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المسح باستخدام Mindrop"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Mindrop scannen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan with Mindrop"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanear con Mindrop"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanner avec Mindrop"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop से स्कैन करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scansiona con Mindrop"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindropでスキャン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop으로 스캔"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scannen met Mindrop"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanear com o Mindrop"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сканировать с помощью Mindrop"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop ile tara"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用 Mindrop 扫描"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 Mindrop 掃描"
+          }
+        }
+      }
+    },
+    "Search for your keyword to see what you saved" : {
+      "comment" : "Guide, step 3.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ابحث بالكلمة المفتاحية لتجد ما حفظته"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suche nach dem Stichwort, um deinen Eintrag zu finden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for your keyword to see what you saved"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Busca la palabra clave para ver lo que guardaste"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recherchez le mot-clé pour retrouver votre info"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कीवर्ड खोजें और अपनी सेव की गई जानकारी देखें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca la parola chiave per ritrovare ciò che hai salvato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キーワードを検索して、保存した情報を確認"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "키워드를 검색해 저장한 내용을 확인하세요"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek op het trefwoord om terug te vinden wat je hebt bewaard"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Busque a palavra-chave para ver o que você salvou"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Найдите ключевое слово, чтобы увидеть сохранённую информацию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anahtar kelimeyi ara, kaydettiğin bilgi karşına gelsin"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索关键词，查看保存的内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋關鍵字，查看儲存的內容"
           }
         }
       }
@@ -11113,101 +11113,6 @@
         }
       }
     },
-    "Type the keyword, and the value is right there" : {
-      "comment" : "Guide, step 3.",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ابحث بالكلمة المفتاحية لتجد ما حفظته"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suche nach dem Stichwort, um deinen Eintrag zu finden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search for your keyword to see what you saved"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Busca la palabra clave para ver lo que guardaste"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recherchez le mot-clé pour retrouver votre info"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "कीवर्ड खोजें और अपनी सेव की गई जानकारी देखें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cerca la parola chiave per ritrovare ciò che hai salvato"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "キーワードを検索して、保存した情報を確認"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "키워드를 검색해 저장한 내용을 확인하세요"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zoek op het trefwoord om terug te vinden wat je hebt bewaard"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Busque a palavra-chave para ver o que você salvou"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Найдите ключевое слово, чтобы увидеть сохранённую информацию"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anahtar kelimeyi ara, kaydettiğin bilgi karşına gelsin"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "搜索关键词，查看保存的内容"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "搜尋關鍵字，查看儲存的內容"
-          }
-        }
-      }
-    },
     "Use a keyword with at least 4 characters so Spotlight can find it." : {
       "comment" : "Validation hint beneath the keyword field. Shown after the user enters a nonempty keyword shorter than four characters and moves to the details field; hidden when corrected or cleared. Saving requires at least four characters after whitespace normalisation. Characters include letters and digits.",
       "localizations" : {
@@ -11679,6 +11584,101 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你會在「Spotlight」中輸入什麼來找到它？"
+          }
+        }
+      }
+    },
+    "What you want to remember, within reach" : {
+      "comment" : "Onboarding headline: information the user wants to remember is close at hand. Warm and personal; this refers to saved practical details, not sentimental memories. Pair with the short save-and-find subtitle.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "كل ما تريد تذكّره في متناول يدك"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was du dir merken möchtest, immer griffbereit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What you want to remember, within reach"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que quieres recordar, siempre a mano"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que vous voulez retenir, à portée de main"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जो याद रखना चाहें, हमेशा पास"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quello che vuoi ricordare, a portata di mano"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "覚えておきたいことを、いつでも手元に"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기억하고 싶은 정보, 언제나 가까이에"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat je wilt onthouden, binnen handbereik"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que você quer lembrar, sempre à mão"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Всё, что вы хотите запомнить, под рукой"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hatırlamak istediklerin elinin altında"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "想记住的信息，随时在手边"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "想記住的資訊，隨時在手邊"
           }
         }
       }

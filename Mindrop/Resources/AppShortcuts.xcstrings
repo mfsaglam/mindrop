@@ -141,15 +141,15 @@
         }
       }
     },
-    "Scan into ${applicationName}" : {
+    "Scan with ${applicationName}" : {
       "comment" : "What the user says to Siri to scan into Mindrop. ${applicationName} is replaced by Mindrop.",
       "localizations" : {
         "ar" : {
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "امسح إلى ${applicationName}",
-              "امسح معلومة إلى ${applicationName}"
+              "امسح باستخدام ${applicationName}",
+              "امسح شيئًا باستخدام ${applicationName}"
             ]
           }
         },
@@ -157,8 +157,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "In ${applicationName} scannen",
-              "Scanne etwas in ${applicationName}"
+              "Mit ${applicationName} scannen",
+              "Scanne etwas mit ${applicationName}"
             ]
           }
         },
@@ -166,8 +166,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "Scan into ${applicationName}",
-              "Scan a memory into ${applicationName}"
+              "Scan with ${applicationName}",
+              "Scan something with ${applicationName}"
             ]
           }
         },
@@ -175,8 +175,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "Escanear en ${applicationName}",
-              "Escanea algo en ${applicationName}"
+              "Escanea con ${applicationName}",
+              "Escanea algo con ${applicationName}"
             ]
           }
         },
@@ -184,8 +184,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "Scanner dans ${applicationName}",
-              "Scanne une info dans ${applicationName}"
+              "Scanne avec ${applicationName}",
+              "Scanne quelque chose avec ${applicationName}"
             ]
           }
         },
@@ -193,8 +193,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "${applicationName} में स्कैन करें",
-              "${applicationName} में जानकारी स्कैन करें"
+              "${applicationName} से स्कैन करें",
+              "${applicationName} से कुछ स्कैन करें"
             ]
           }
         },
@@ -202,8 +202,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "Scansiona in ${applicationName}",
-              "Scansiona qualcosa in ${applicationName}"
+              "Scansiona con ${applicationName}",
+              "Scansiona qualcosa con ${applicationName}"
             ]
           }
         },
@@ -211,8 +211,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "${applicationName}にスキャン",
-              "${applicationName}で情報をスキャン"
+              "${applicationName}でスキャン",
+              "${applicationName}で何かをスキャン"
             ]
           }
         },
@@ -221,7 +221,7 @@
             "state" : "translated",
             "values" : [
               "${applicationName}으로 스캔해 줘",
-              "${applicationName}으로 정보 스캔해 줘"
+              "${applicationName}으로 무언가 스캔해 줘"
             ]
           }
         },
@@ -229,8 +229,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "Scan naar ${applicationName}",
-              "Scan iets naar ${applicationName}"
+              "Scan met ${applicationName}",
+              "Scan iets met ${applicationName}"
             ]
           }
         },
@@ -238,8 +238,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "Escanear para o ${applicationName}",
-              "Escaneie uma informação para o ${applicationName}"
+              "Escanear com o ${applicationName}",
+              "Escaneie algo com o ${applicationName}"
             ]
           }
         },
@@ -247,8 +247,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "Сканировать в ${applicationName}",
-              "Отсканируй информацию в ${applicationName}"
+              "Сканировать с помощью ${applicationName}",
+              "Отсканируй что-нибудь с помощью ${applicationName}"
             ]
           }
         },
@@ -257,7 +257,7 @@
             "state" : "translated",
             "values" : [
               "${applicationName} ile tara",
-              "${applicationName} ile bilgi tara"
+              "${applicationName} ile bir şey tara"
             ]
           }
         },
@@ -265,8 +265,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "扫描到${applicationName}",
-              "用${applicationName}扫描信息"
+              "用${applicationName}扫描",
+              "用${applicationName}扫描内容"
             ]
           }
         },
@@ -274,8 +274,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "掃描到${applicationName}",
-              "用${applicationName}掃描資訊"
+              "使用${applicationName}掃描",
+              "使用${applicationName}掃描內容"
             ]
           }
         }

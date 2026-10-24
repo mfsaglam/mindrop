@@ -11,7 +11,7 @@ import MindropCore
 struct SaveMemoryIntent: AppIntent {
     static let title: LocalizedStringResource = "Save to Mindrop"
     static let description = IntentDescription(
-        "Saves a memory without opening Mindrop, ready to find in Spotlight by its keyword."
+        "Save a memory without opening Mindrop. Find it later in Spotlight by keyword."
     )
 
     /// Posted once a memory is saved, for the app to pick it up if it is running.

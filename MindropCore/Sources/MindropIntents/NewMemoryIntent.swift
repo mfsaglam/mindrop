@@ -8,7 +8,7 @@ import Observation
 /// too, and the share extensions, which link `MindropCore`, must not offer it.
 public struct NewMemoryIntent: AppIntent {
     public static let title: LocalizedStringResource = "New Memory"
-    public static let description = IntentDescription("Opens Mindrop ready to save a new memory.")
+    public static let description = IntentDescription("Open Mindrop to start a new memory.")
     /// Always runs in the app, even when started from the control's extension.
     public static let openAppWhenRun = true
 
@@ -23,10 +23,10 @@ public struct NewMemoryIntent: AppIntent {
 
 /// Opens Mindrop on the camera, to scan a value: a router sticker, a parking ticket, a
 /// Wi-Fi QR code. The editor follows, waiting for the keyword. Behind the Scan control, the
-/// Action button and Siri ("Scan into Mindrop").
+/// Action button and Siri ("Scan with Mindrop").
 public struct ScanValueIntent: AppIntent {
-    public static let title: LocalizedStringResource = "Scan into Mindrop"
-    public static let description = IntentDescription("Opens Mindrop’s camera to scan the details of a new memory.")
+    public static let title: LocalizedStringResource = "Scan with Mindrop"
+    public static let description = IntentDescription("Open Mindrop’s camera to scan text or a QR code.")
     /// Always runs in the app, even when started from the control's extension.
     public static let openAppWhenRun = true
 

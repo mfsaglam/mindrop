@@ -24,7 +24,7 @@ struct NewMemoryControl: ControlWidget {
             }
         }
         .displayName("New Memory")
-        .description("Opens Mindrop ready to save a new memory.")
+        .description("Open Mindrop to start a new memory.")
     }
 }
 
@@ -34,10 +34,10 @@ struct ScanValueControl: ControlWidget {
     var body: some ControlWidgetConfiguration {
         StaticControlConfiguration(kind: "mfsaglam.Mindrop.ScanValue") {
             ControlWidgetButton(action: ScanValueIntent()) {
-                Label("Scan into Mindrop", image: "ix.scan.linear")
+                Label("Scan with Mindrop", image: "ix.scan.linear")
             }
         }
-        .displayName("Scan into Mindrop")
-        .description("Opens Mindrop’s camera to scan the details of a new memory.")
+        .displayName("Scan with Mindrop")
+        .description("Open Mindrop’s camera to scan text or a QR code.")
     }
 }

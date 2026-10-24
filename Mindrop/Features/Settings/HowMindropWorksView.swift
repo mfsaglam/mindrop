@@ -59,7 +59,7 @@ private struct MoreWaysToSave: View {
             way("square.2.layers.3d", Text("Shortcuts"),
                 Text("Add Save to Mindrop to a shortcut to save without opening Mindrop, even from an automation."))
             way("siri", Text(verbatim: "Siri"),
-                Text("Say “New memory in Mindrop”, or “Scan into Mindrop” to start with the camera."))
+                Text("Say “New memory in Mindrop” to add a memory, or “Scan with Mindrop” to open the camera."))
             if hasPairedWatch {
                 way("applewatch", Text(verbatim: "Apple Watch"),
                     Text("Open Mindrop on your Apple Watch to save a memory from your wrist."))
