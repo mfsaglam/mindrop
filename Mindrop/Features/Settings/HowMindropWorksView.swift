@@ -56,6 +56,8 @@ private struct MoreWaysToSave: View {
                 Text("Open Control Center, tap +, then Add a Control, and choose Mindrop. It can go on the Lock Screen too."))
             way("button.programmable", Text("Action Button"),
                 Text("If your iPhone has one, go to Settings › Action Button, choose Shortcut, then Mindrop."))
+            way("square.2.layers.3d", Text("Shortcuts"),
+                Text("Add Save to Mindrop to a shortcut to save without opening Mindrop, even from an automation."))
             way("siri", Text(verbatim: "Siri"),
                 Text("Say “New memory in Mindrop”, or “Scan into Mindrop” to start with the camera."))
             if hasPairedWatch {

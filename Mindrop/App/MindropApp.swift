@@ -49,6 +49,13 @@ final class MindropSession {
         // Started here as well as by the first screen: a push from iCloud can launch the
         // app in the background, where no screen appears to start it.
         Task { await start() }
+        // Save to Mindrop writes through a repository of its own; the app may be on screen
+        // (Siri over it, or Shortcuts beside it in Split View), so catch up straight away.
+        Task { [weak self] in
+            for await _ in NotificationCenter.default.notifications(named: SaveMemoryIntent.didSave) {
+                self?.refresh()
+            }
+        }
     }
 
     /// What was asked of Apple Intelligence this launch. Debug builds only: it holds
@@ -158,9 +165,9 @@ final class MindropSession {
         spotlightHighlight?.memoryID == memoryID ? spotlightHighlight?.query : nil
     }
 
-    /// What only the app can give Spotlight. Locating addresses is a Debug-only
+    /// What only the app can give Spotlight, also used by Save to Mindrop. Locating addresses is a Debug-only
     /// experiment: it sends them to Apple Maps.
-    private static var spotlightExtras: SpotlightExtras {
+    static var spotlightExtras: SpotlightExtras {
         #if DEBUG
         SpotlightExtras(categoryIcons: SpotlightIcons.make(), locate: { await AddressLocator.shared.locate($0) })
         #else

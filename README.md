@@ -631,6 +631,38 @@ under Mindrop, and tapping it opens the editor both from a cold launch and with 
 in the background. The simulator's control gallery only picked the control up after the
 simulator was restarted. The Action button needs a device.
 
+## Save to Mindrop in Shortcuts
+
+`SaveMemoryIntent` is a Shortcuts action that saves a memory without opening Mindrop:
+"Save *Details* as *Keyword*", with **Keep** (Forever, 1 Day, 1 Week, 1 Month) and
+**Sensitive** under the arrow. It is for automations (arriving at a hotel, a scanned NFC
+tag) and for text handed on from other actions.
+
+- **The keyword is the shortcut's to give**, typed by whoever built it or asked for when it
+  runs ("What will you type in Spotlight to find it?"). Mindrop never makes one up. Run with
+  nothing filled in, the action asks for the keyword, then the details. The keyword prompt
+  turns off capitals and autocorrect, as the editor's field does.
+- The same rules as the editor: a keyword under 4 characters, or empty details, stops the
+  shortcut with the editor's wording ("Use a keyword with at least 4 characters so
+  Spotlight can find it.").
+- On success it says "Saved. Type “bike lock” in Spotlight to find it."
+- No date for Keep: a shortcut can't usefully fix one in advance.
+- It lives in the app target, not `MindropIntents`, because it needs the store. It runs in
+  the app's process in the background, with its own repository, like the share extension,
+  and waits for Spotlight before returning, since the app may be suspended straight after.
+  It then posts `SaveMemoryIntent.didSave`, and a running app reloads at once (Siri over
+  it, or Shortcuts beside it in Split View), which also categorises the memory and sends
+  it to iCloud. Otherwise the app catches up when it next comes to the foreground.
+- No App Shortcut or Siri phrase: Siri would have to ask for the keyword and details by
+  voice, and "Save to Mindrop" sits too close to New Memory's "Add a memory to Mindrop" in
+  several languages. The action is in the Shortcuts library under Mindrop all the same.
+
+How Mindrop Works lists it under **Shortcuts**.
+
+Verified on the iPhone 18 Pro Max simulator: the action is listed under Mindrop, asks for
+the keyword and details when they are empty, saves without opening the app (the memory is
+in the list afterwards), and a three-letter keyword stops it with the editor's message.
+
 ## The editor's layout
 
 The editor and the share sheet's save form have the same sections:
