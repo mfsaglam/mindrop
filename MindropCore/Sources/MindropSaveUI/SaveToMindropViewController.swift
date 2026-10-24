@@ -15,7 +15,7 @@ open class SaveToMindropViewController: UIViewController {
 
         let host = UIHostingController(
             rootView: SaveToMindropView(
-                loadSharedValue: { [weak self] in await self?.sharedValue() },
+                loadShared: { [weak self] in await self?.sharedContent() ?? SharedContent() },
                 onFinish: { [weak self] in self?.extensionContext?.completeRequest(returningItems: nil) },
                 onCancel: { [weak self] in
                     self?.extensionContext?.cancelRequest(
@@ -32,11 +32,13 @@ open class SaveToMindropViewController: UIViewController {
         host.didMove(toParent: self)
     }
 
-    /// The value to prefill, from whatever the host app put on the share sheet.
-    private func sharedValue() async -> String? {
+    /// What the host app put on the share sheet: text to prefill the details with,
+    /// and an image to read lines from.
+    private func sharedContent() async -> SharedContent {
         var selectedText: [String?] = []
         var links: [String?] = []
         var hostDescription: [String?] = []
+        var image: Data?
 
         for item in (extensionContext?.inputItems as? [NSExtensionItem]) ?? [] {
             hostDescription.append(item.attributedContentText?.string)
@@ -47,13 +49,27 @@ open class SaveToMindropViewController: UIViewController {
                     links.append(await Self.load(UTType.url, from: provider))
                 } else if provider.hasItemConformingToTypeIdentifier(UTType.text.identifier) {
                     selectedText.append(await Self.load(UTType.text, from: provider))
+                } else if image == nil, provider.hasItemConformingToTypeIdentifier(UTType.image.identifier) {
+                    image = await Self.loadImage(from: provider)
                 }
             }
         }
 
         // Selected text first, then a shared link. The host's own description comes
-        // last because for a page share that is the page title, not the link.
-        return SharedTextParser.value(from: selectedText + links + hostDescription)
+        // last because for a page share that is the page title, not the link. An image
+        // usually arrives with no text at all; its caption, if any, is not the point.
+        let text = image == nil ? selectedText + links + hostDescription : selectedText + links
+        return SharedContent(text: SharedTextParser.value(from: text), image: image)
+    }
+
+    /// The image's file data, whichever form the host offers it in (a file, a
+    /// screenshot held in memory, raw bytes).
+    private static func loadImage(from provider: NSItemProvider) async -> Data? {
+        await withCheckedContinuation { continuation in
+            _ = provider.loadDataRepresentation(for: .image) { data, _ in
+                continuation.resume(returning: data)
+            }
+        }
     }
 
     private static func load(_ type: UTType, from provider: NSItemProvider) async -> String? {

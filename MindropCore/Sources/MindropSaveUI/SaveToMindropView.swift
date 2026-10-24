@@ -2,7 +2,19 @@
 import MindropCore
 import SwiftUI
 
+/// What the share sheet handed over.
+public struct SharedContent: Sendable {
+    public var text: String?
+    public var image: Data?
+
+    public init(text: String? = nil, image: Data? = nil) {
+        self.text = text
+        self.image = image
+    }
+}
+
 /// Save-only form: the shared text arrives as the value, the user adds a keyword.
+/// A shared image is read on the device and its lines offered to pick from.
 ///
 /// Shown by both extensions — the share sheet's app row and its action row — which
 /// differ only in how iOS lists them, not in what the user does here.
@@ -12,7 +24,16 @@ public struct SaveToMindropView: View {
         case details
     }
 
-    let loadSharedValue: () async -> String?
+    private enum ImageReading {
+        case none
+        case reading
+        case read([String])
+    }
+
+    /// Lines shown before Show All; a screenshot can hold dozens.
+    private static let linesShownAtFirst = 8
+
+    let loadShared: () async -> SharedContent
     let onFinish: () -> Void
     let onCancel: () -> Void
 
@@ -24,14 +45,16 @@ public struct SaveToMindropView: View {
     @State private var isSaving = false
     @State private var errorMessage: String?
     @State private var hasVisitedDetails = false
+    @State private var imageReading = ImageReading.none
+    @State private var showsAllLines = false
     @FocusState private var focusedField: Field?
 
     public init(
-        loadSharedValue: @escaping () async -> String?,
+        loadShared: @escaping () async -> SharedContent,
         onFinish: @escaping () -> Void,
         onCancel: @escaping () -> Void
     ) {
-        self.loadSharedValue = loadSharedValue
+        self.loadShared = loadShared
         self.onFinish = onFinish
         self.onCancel = onCancel
     }
@@ -67,6 +90,7 @@ public struct SaveToMindropView: View {
                         .autocorrectionDisabled()
                         .focused($focusedField, equals: .details)
                 }
+                imageSection
                 MemoryOptionsSection(
                     keyword: keyword,
                     value: value,
@@ -98,10 +122,73 @@ public struct SaveToMindropView: View {
             }
         }
         .task {
-            if let shared = await loadSharedValue(), value.isEmpty {
-                value = shared
+            let shared = await loadShared()
+            if let text = shared.text, value.isEmpty {
+                value = text
+            }
+            if let image = shared.image {
+                imageReading = .reading
+                imageReading = .read(await ImageTextReader.lines(in: image))
             }
         }
+    }
+
+    @ViewBuilder
+    private var imageSection: some View {
+        switch imageReading {
+        case .none:
+            EmptyView()
+        case .reading:
+            Section {
+                HStack(spacing: 10) {
+                    ProgressView()
+                    localized("Reading the image…")
+                }
+                .foregroundStyle(.secondary)
+            } header: {
+                localized("From the Image")
+            }
+        case .read(let lines) where lines.isEmpty:
+            Section {
+                localized("No text found in the image.")
+                    .foregroundStyle(.secondary)
+            } header: {
+                localized("From the Image")
+            }
+        case .read(let lines):
+            Section {
+                let shown = showsAllLines ? lines : Array(lines.prefix(Self.linesShownAtFirst))
+                ForEach(shown, id: \.self) { line in
+                    imageLine(line)
+                }
+                if shown.count < lines.count {
+                    Button { showsAllLines = true } label: { localized("Show All") }
+                }
+            } header: {
+                localized("From the Image")
+            } footer: {
+                localized("Tap the lines to put in the details.")
+            }
+        }
+    }
+
+    private func imageLine(_ line: String) -> some View {
+        let isPicked = ImageText.details(value, contain: line)
+        return Button {
+            value = ImageText.toggling(line, in: value)
+        } label: {
+            HStack(spacing: 12) {
+                Text(line)
+                    .foregroundStyle(Color.primary)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Image(systemName: "checkmark")
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.tint)
+                    .opacity(isPicked ? 1 : 0)
+            }
+        }
+        .accessibilityAddTraits(isPicked ? .isSelected : [])
     }
 
     /// Strings in a package resolve against `Bundle.main`, which inside an extension

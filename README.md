@@ -25,9 +25,11 @@ Mindrop/
 │       ├── SpotlightSyncState.swift  what is known about the index between launches, usage
 │       ├── SpotlightRouter.swift     Spotlight result or search → memory id, search text
 │       ├── ValueDetector.swift       phone numbers and addresses for Spotlight's buttons
-│       └── SharedTextParser.swift    share sheet input → a value
+│       ├── SharedTextParser.swift    share sheet input → a value
+│       └── ImageText.swift           lines read from a shared image, picking them into the details
 │   └── Sources/MindropIntents/       NewMemoryIntent, shared by the app and MindropControls
 │   └── Sources/MindropSaveUI/        the save form, shared by both extensions
+│       ├── ImageTextReader.swift        Vision: the text and QR codes in a shared image
 │       ├── MemoryOptionsSection.swift   Sensitive and Keep, also used by the app's editor
 │       ├── SaveToMindropView.swift
 │       └── SaveToMindropViewController.swift
@@ -273,6 +275,21 @@ Both extensions accept **text and web URLs**. For a page share the value is the 
 text selection it is the text. When a host offers both, selected text wins, then the link,
 and the host's own description last — for a page share that description is the page title,
 which is rarely what someone wants stored.
+
+Both also accept **one image** — a screenshot, a photo of a sign, a Wi-Fi card. The
+extension reads it on the device with Vision (`ImageTextReader`): text lines in reading order,
+and QR codes, listed first; a Wi-Fi code becomes its network and password, as with Scan.
+Nothing leaves the phone. The lines appear under **From the Image**, below the details:
+
+- Tapping a line adds it to the details on a line of its own; tapping it again takes it out.
+  Several lines can be picked (an address over three lines), and anything typed around them
+  stays (`ImageText.toggling`). A checkmark shows each line the details hold.
+- The keyword stays the user's to type, as everywhere else: nothing is picked or guessed.
+- The first eight lines show, then **Show All**; a screenshot can hold dozens.
+- The image is decoded already scaled to 3000 px on its longest side and turned upright, so a
+  48-megapixel photo stays well inside an extension's memory limit.
+- Text and QR codes are read by separate requests, so one failing doesn't lose the other.
+  The barcode detector is unavailable on the simulator, where only the text comes through.
 
 The action extension ships its own icon: iOS draws action icons as a mask of the alpha
 channel, so the opaque app icon would come out as a filled square. `RenderAppIcon.swift
@@ -779,7 +796,7 @@ metadata stays private.
 
 ## Tests
 
-131 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
+135 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
 and value validation, value preservation, file persistence across processes, Spotlight
 metadata, index recovery after failures, routing by UUID, missing memories, and share
 extension input, categorisation (automatic and manual, stale results, edits), and temporary
