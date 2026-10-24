@@ -26,6 +26,101 @@
         }
       }
     },
+    "NSCameraUsageDescription" : {
+      "comment" : "Privacy - Camera Usage Description",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يستخدم Mindrop الكاميرا لمسح النصوص ورموز QR إلى عنصر."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop verwendet die Kamera, um Text und QR-Codes in einen Eintrag zu scannen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop uses the camera to scan text and QR codes into a memory."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop usa la cámara para escanear texto y códigos QR en una entrada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop utilise l’appareil photo pour scanner du texte et des codes QR dans une entrée."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop टेक्स्ट और QR कोड को एंट्री में स्कैन करने के लिए कैमरे का इस्तेमाल करता है।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop usa la fotocamera per scansionare testo e codici QR in una voce."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MindropはテキストやQRコードを項目にスキャンするためにカメラを使用します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop은 텍스트와 QR 코드를 항목으로 스캔하기 위해 카메라를 사용합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop gebruikt de camera om tekst en QR-codes in een item te scannen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Mindrop usa a câmera para escanear textos e códigos QR para uma entrada."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop использует камеру, чтобы сканировать текст и QR-коды в запись."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop, metin ve QR kodlarını bir kayda taramak için kamerayı kullanır."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop 使用相机将文本和二维码扫描到条目中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop 會使用相機將文字和 QR 碼掃描到項目中。"
+          }
+        }
+      }
+    },
     "NSFaceIDUsageDescription" : {
       "comment" : "Privacy - Face ID Usage Description",
       "localizations" : {

@@ -7,6 +7,7 @@ import WidgetKit
 struct MindropControls: WidgetBundle {
     var body: some Widget {
         NewMemoryControl()
+        ScanValueControl()
     }
 }
 
@@ -24,5 +25,19 @@ struct NewMemoryControl: ControlWidget {
         }
         .displayName("New Memory")
         .description("Opens Mindrop ready to save a new memory.")
+    }
+}
+
+/// A Control Center and Lock Screen button that opens Mindrop's camera, to scan a value for
+/// a new memory. The editor follows for the keyword.
+struct ScanValueControl: ControlWidget {
+    var body: some ControlWidgetConfiguration {
+        StaticControlConfiguration(kind: "mfsaglam.Mindrop.ScanValue") {
+            ControlWidgetButton(action: ScanValueIntent()) {
+                Label("Scan into Mindrop", image: "ix.scan.linear")
+            }
+        }
+        .displayName("Scan into Mindrop")
+        .description("Opens Mindrop’s camera to scan the details of a new memory.")
     }
 }

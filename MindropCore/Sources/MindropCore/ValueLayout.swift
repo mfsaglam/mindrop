@@ -128,6 +128,41 @@ public struct WiFiCredentials: Equatable, Sendable {
         }
     }
 
+    /// Reads a scanned Wi-Fi QR code (`WIFI:T:WPA;S:Home;P:secret;;`). Nil for anything
+    /// else, and for an open network, which has no password worth keeping.
+    public init?(qrPayload: String) {
+        guard qrPayload.uppercased().hasPrefix("WIFI:") else { return nil }
+        var fields: [String: String] = [:]
+        var field = ""
+        var escaping = false
+        for character in qrPayload.dropFirst(5) {
+            if escaping {
+                field.append(character)
+                escaping = false
+            } else if character == "\\" {
+                escaping = true
+            } else if character == ";" {
+                if let colon = field.firstIndex(of: ":") {
+                    fields[field[..<colon].uppercased()] = String(field[field.index(after: colon)...])
+                }
+                field = ""
+            } else {
+                field.append(character)
+            }
+        }
+        guard let password = fields["P"], !password.isEmpty else { return nil }
+        let name = fields["S"].flatMap { $0.isEmpty ? nil : $0 }
+        self.networkName = name
+        self.password = password
+    }
+
+    /// The value to save: labelled, so the detail screen reads it back as these credentials
+    /// and draws the QR code again.
+    public var memoryValue: String {
+        guard let networkName else { return password }
+        return "Network: \(networkName)\nPassword: \(password)"
+    }
+
     /// A label at the start or after a separator, then `:` or `=`. Longest labels first,
     /// so "ağ adı" wins over "ağ".
     private static let labelPattern: NSRegularExpression = {

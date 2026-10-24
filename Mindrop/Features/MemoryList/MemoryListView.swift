@@ -4,8 +4,8 @@ import SwiftUI
 import UIKit
 
 struct MemoryListView: View {
-    private enum Sheet: Identifiable {
-        case newMemory
+    private enum Sheet: Hashable, Identifiable {
+        case newMemory(scanning: Bool = false)
         case settings
 
         var id: Self { self }
@@ -60,7 +60,7 @@ struct MemoryListView: View {
     var body: some View {
         ScrollView {
             if hasNoMemories {
-                SpotlightGuide { sheet = .newMemory }
+                SpotlightGuide { sheet = .newMemory() }
             }
 
             CardGrid {
@@ -123,7 +123,7 @@ struct MemoryListView: View {
         .searchToolbarBehavior(.minimize)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button { sheet = .newMemory } label: { Label("New Memory", image: "ix.add.linear") }
+                Button { sheet = .newMemory() } label: { Label("New Memory", image: "ix.add.linear") }
             }
             // Search at the bottom right, where the thumb is, rather than centred.
             ToolbarSpacer(.flexible, placement: .bottomBar)
@@ -150,18 +150,18 @@ struct MemoryListView: View {
         // One sheet modifier for both: a second `.sheet` on the same view never presented.
         .sheet(item: $sheet) { sheet in
             switch sheet {
-            case .newMemory:
-                MemoryEditorView(mode: .create, repository: repository)
+            case .newMemory(let scanning):
+                MemoryEditorView(mode: .create, repository: repository, startsScanning: scanning)
             case .settings:
                 SettingsView(repository: repository, categorizationLog: session.categorizationLog, session: session)
             }
         }
-        // The Control Center control, the Action button or Siri asked for a new memory.
+        // A Control Center control, the Action button or Siri asked for a new memory.
         // Replaces Settings if it was open: the user came here to write something down.
         .onChange(of: newMemoryRequest.isPending, initial: true) { _, isPending in
             guard isPending else { return }
             newMemoryRequest.isPending = false
-            sheet = .newMemory
+            sheet = .newMemory(scanning: newMemoryRequest.scans)
         }
         // "Search in Mindrop" in Spotlight: the same search here, across every category.
         .onChange(of: session.pendingSearch, initial: true) { _, pending in

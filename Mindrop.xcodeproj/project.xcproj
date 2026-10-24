@@ -152,6 +152,7 @@
         "INFOPLIST_FILE": "Mindrop/Info.plist",
         "INFOPLIST_KEY_CFBundleDisplayName": "Mindrop",
         "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",
+        "INFOPLIST_KEY_NSCameraUsageDescription": "Mindrop uses the camera to scan text and QR codes into a memory.",
         "INFOPLIST_KEY_NSFaceIDUsageDescription": "Mindrop uses Face ID to show the values you marked as sensitive.",
         "INFOPLIST_KEY_UIApplicationSceneManifest_Generation": "YES",
         "INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents": "YES",

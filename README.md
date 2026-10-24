@@ -38,7 +38,7 @@ Mindrop/
 │   └── Resources/Assets.xcassets     app icon, accent colour
 ├── MindropShare/                share extension — the share sheet's app row
 ├── MindropAction/               action extension — the share sheet's action row
-├── MindropControls/             widget extension — the New Memory control for Control Center
+├── MindropControls/             widget extension — the New Memory and Scan controls for Control Center
 ├── MindropWatch/                Apple Watch app (watchOS 9+), embedded in the iPhone app
 ├── Tools/                       RenderAppIcon.swift (the app icon), MakeIconsaxSymbols.py
 └── Design/                      the earlier Lucide brain icon and its ISC licence
@@ -425,9 +425,10 @@ swiftdraw`); the list of icons is at its top. Two things it takes care of:
   symbol out ("No image named …"); those icons keep one weight.
 
 Still SF Symbols: what the system draws (back button, the search button and field, the share
-sheet), the Siri/Shortcuts tile (`systemImageName` only), the share extension for now, the
-ways to save on How Mindrop Works (they point at Apple's own features, so they carry Apple's
-glyphs: share, Control Center, the Action button, Siri, Apple Watch), and the Debug screens. Iconsax has no infinity, so Keep Forever is
+sheet), the Siri/Shortcuts tiles (`systemImageName` only), the share extension for now, the
+ways to save on How Mindrop Works that point at Apple's own features (they carry Apple's
+glyphs: share, Control Center, the Action button, Siri, Apple Watch; Scan is Mindrop's own
+and keeps its Iconsax icon), and the Debug screens. Iconsax has no infinity, so Keep Forever is
 a paused timer.
 
 Licence: free for apps, commercial ones included, without attribution; loose icon files may
@@ -604,6 +605,39 @@ under Mindrop, and tapping it opens the editor both from a cold launch and with 
 in the background. The simulator's control gallery only picked the control up after the
 simulator was restarted. The Action button needs a device.
 
+## Scan and Paste
+
+The editor has **Scan** and **Paste** under the details field. Both fill the details
+only. The keyword is always typed by the user: it is what they will search for later, so
+Mindrop never fills or suggests it. Once the details are filled and the keyword is still
+empty, the cursor moves to the keyword.
+
+- **Scan** (`ValueScanner`) opens VisionKit's `DataScannerViewController` with Live Text
+  highlighting. It outlines text and QR codes, and the one the user taps becomes the
+  details. A Wi-Fi QR code (`WIFI:T:WPA;S:…;P:…;;`) is read by
+  `WiFiCredentials(qrPayload:)` and saved as "Network: … / Password: …", so the detail
+  screen reads it as a network and draws the QR code again. An open network, or any other
+  QR code, is saved as its raw text. The first scan asks for camera access
+  (`NSCameraUsageDescription`). If access is off, the scanner screen says so and links to
+  Settings. DataScanner needs a Neural Engine and a real camera, so the button is hidden
+  where it is not supported, the simulator included.
+- **Paste** is SwiftUI's `PasteButton`. It reads the clipboard without the "Allow Paste?"
+  prompt, and the system disables it while the clipboard holds no text.
+- **Scan into Mindrop** (`ScanValueIntent`) opens the editor straight on the scanner. Like
+  New Memory it is offered as a control (Control Center and the Lock Screen), an App
+  Shortcut for the Action button, and to Siri ("Scan into Mindrop"). It raises the same
+  `NewMemoryRequest`, with `scans` set.
+
+Verified on the iPhone 18 Pro Max simulator: Paste fills the details with no prompt and
+moves the cursor to an empty keyword; Scan is hidden there. Not yet seen on a device: the
+scanner itself, the camera prompt, Wi-Fi QR codes, and the Scan control.
+
+The Scan button, the scanner's empty state, the control and How Mindrop Works use
+Iconsax's `ix.scan.linear` (the control's extension has its own copy, since it cannot reach
+the app's catalog). The Siri/Shortcuts tile takes only SF Symbols, so it shows
+`text.viewfinder`. How Mindrop Works lists Scan only where the editor offers it, and its
+Siri line names both phrases.
+
 ## Localization
 
 English plus 14 languages: Turkish, German, French, Spanish, Italian, Portuguese (Brazil),
@@ -611,7 +645,7 @@ Dutch, Russian, Arabic, Hindi, Japanese, Korean, Simplified and Traditional Chin
 
 Three UI String Catalogs, because the extensions cannot reach the app's (plus
 `Mindrop/Resources/AppShortcuts.xcstrings` for Siri's phrases and
-`Mindrop/Resources/InfoPlist.xcstrings` for the Face ID explanation):
+`Mindrop/Resources/InfoPlist.xcstrings` for the Face ID and camera explanations):
 
 - `Mindrop/Resources/Localizable.xcstrings` — the app.
 - `MindropCore/Sources/MindropSaveUI/Localizable.xcstrings` — the save form both
@@ -714,7 +748,7 @@ user's private iCloud database, keyword, value and category end-to-end encrypted
 sync and Recently Deleted*); nothing else leaves the device. A memory the user marks
 as sensitive is kept out of Spotlight and hidden in the app until Face ID or the passcode
 (see *Sensitive memories*); its value is stored like any other. Categorisation sends the keyword and the first 200 characters of the value to
-the on-device model only; Apple Intelligence's on-device model does not use the network. Storage lives in the App Group container with file
+the on-device model only; Apple Intelligence's on-device model does not use the network. The camera is used only while the scanner is open; frames are read on the device and nothing but the tapped text is kept. Storage lives in the App Group container with file
 protection `completeUnlessOpen`. Nothing logs keywords or values — the Spotlight logger
 records counts only. Both editors state plainly that saved values can appear in Spotlight,
 where anyone using the iPhone may see them, under the switch that prevents it. Device lock is not a guarantee that Spotlight
@@ -722,7 +756,7 @@ metadata stays private.
 
 ## Tests
 
-119 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
+131 Swift Testing cases in `MindropCore/Tests`, covering creation, editing, deletion, keyword
 and value validation, value preservation, file persistence across processes, Spotlight
 metadata, index recovery after failures, routing by UUID, missing memories, and share
 extension input, categorisation (automatic and manual, stale results, edits), and temporary
@@ -730,7 +764,7 @@ memories (lifetimes, expiry, recovery, deletion after 7 days), sensitive memorie
 Spotlight receives, search, the switch, older files), Recently Deleted (deleting, recovering,
 30 days, change times), iCloud sync (merging two versions, the CloudKit record, what is
 pending, the state file), how a value is laid out
-(card numbers, IBANs, recovery phrases, Wi-Fi labels), and Spotlight's extras (the launch
+(card numbers, IBANs, recovery phrases, Wi-Fi labels and scanned Wi-Fi QR codes), and Spotlight's extras (the launch
 check, usage and ranking, category icons, the Call rule, search words and highlights, a
 continued search). The repository exposes `indexingTask` so tests await indexing instead of
 guessing at timing.

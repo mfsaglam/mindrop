@@ -951,6 +951,101 @@
         }
       }
     },
+    "Camera Access Is Off" : {
+      "comment" : "Shown when the user has not allowed camera access.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الوصول إلى الكاميرا متوقف"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamerazugriff ist deaktiviert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera Access Is Off"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El acceso a la cámara está desactivado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’accès à l’appareil photo est désactivé"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कैमरा एक्सेस बंद है"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’accesso alla fotocamera è disattivato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カメラへのアクセスがオフです"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카메라 접근이 꺼져 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cameratoegang staat uit"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O acesso à câmera está desativado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступ к камере выключен"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera erişimi kapalı"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相机访问已关闭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相機取用權限已關閉"
+          }
+        }
+      }
+    },
     "Cancel" : {
       "localizations" : {
         "ar" : {
@@ -4651,6 +4746,101 @@
         }
       }
     },
+    "In a new memory, tap Scan and point the camera at text or a QR code, then tap what to save." : {
+      "comment" : "How Mindrop Works: the Scan way to save. “Scan” is the button's title.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "في عنصر جديد، اضغط على «مسح» ووجّه الكاميرا إلى نص أو رمز QR، ثم اضغط على ما تريد حفظه."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe in einem neuen Eintrag auf „Scannen“ und richte die Kamera auf Text oder einen QR-Code. Tippe dann auf das, was du sichern willst."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In a new memory, tap Scan and point the camera at text or a QR code, then tap what to save."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En una entrada nueva, toca Escanear y apunta la cámara a un texto o un código QR. Luego toca lo que quieras guardar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans une nouvelle entrée, touchez Scanner et pointez l’appareil photo vers un texte ou un code QR, puis touchez ce qu’il faut enregistrer."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नई एंट्री में स्कैन करें पर टैप करें और कैमरे को टेक्स्ट या QR कोड की ओर रखें, फिर जो सेव करना है उस पर टैप करें।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In una nuova voce, tocca Scansiona e inquadra un testo o un codice QR, poi tocca ciò che vuoi salvare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新規項目で「スキャン」をタップし、テキストやQRコードにカメラを向けて、保存するものをタップします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 항목에서 스캔을 탭하고 카메라를 텍스트나 QR 코드에 맞춘 다음, 저장할 내용을 탭하세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik in een nieuw item op ‘Scan’ en richt de camera op tekst of een QR-code. Tik daarna op wat je wilt bewaren."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em uma nova entrada, toque em Escanear e aponte a câmera para um texto ou código QR. Depois, toque no que quer salvar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В новой записи нажмите «Сканировать» и наведите камеру на текст или QR-код, затем коснитесь того, что нужно сохранить."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni bir kayıtta Tara’ya dokun ve kamerayı bir metne ya da QR koduna tut, sonra kaydetmek istediğine dokun."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在新条目中轻点“扫描”，将相机对准文本或二维码，然后轻点要保存的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在新項目中點一下「掃描」，將相機對準文字或 QR 碼，然後點一下要儲存的內容。"
+          }
+        }
+      }
+    },
     "It will be removed from Spotlight and kept in Recently Deleted for 30 days." : {
       "comment" : "Message of the alert confirming that a memory is deleted.",
       "localizations" : {
@@ -5504,6 +5694,101 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "儲存下來，需要時在 Spotlight 中找到。"
+          }
+        }
+      }
+    },
+    "Mindrop uses the camera to scan text and QR codes. You can allow it in Settings." : {
+      "comment" : "Explains why the camera is needed, when access is off.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يستخدم Mindrop الكاميرا لمسح النصوص ورموز QR. يمكنك السماح بذلك في الإعدادات."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop verwendet die Kamera, um Text und QR-Codes zu scannen. Du kannst den Zugriff in den Einstellungen erlauben."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop uses the camera to scan text and QR codes. You can allow it in Settings."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop usa la cámara para escanear texto y códigos QR. Puedes permitirlo en Ajustes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop utilise l’appareil photo pour scanner du texte et des codes QR. Vous pouvez l’autoriser dans Réglages."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop टेक्स्ट और QR कोड स्कैन करने के लिए कैमरे का इस्तेमाल करता है। आप सेटिंग्स में इसकी अनुमति दे सकते हैं।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop usa la fotocamera per scansionare testo e codici QR. Puoi consentirlo in Impostazioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MindropはテキストやQRコードをスキャンするためにカメラを使用します。「設定」で許可できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop은 텍스트와 QR 코드를 스캔하기 위해 카메라를 사용합니다. 설정에서 허용할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop gebruikt de camera om tekst en QR-codes te scannen. Je kunt dit toestaan in Instellingen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Mindrop usa a câmera para escanear textos e códigos QR. Você pode permitir isso em Ajustes."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop использует камеру, чтобы сканировать текст и QR-коды. Разрешить доступ можно в Настройках."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop, metin ve QR kodlarını taramak için kamerayı kullanır. Ayarlar’dan izin verebilirsin."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop 使用相机扫描文本和二维码。你可以在“设置”中允许访问。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop 會使用相機掃描文字和 QR 碼。你可以在「設定」中允許取用。"
           }
         }
       }
@@ -6457,6 +6742,101 @@
         }
       }
     },
+    "Open Settings" : {
+      "comment" : "Opens the iPhone Settings app at Mindrop's page.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فتح الإعدادات"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen öffnen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Ajustes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir Réglages"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सेटिंग्स खोलें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Impostazioni"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定を開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정 열기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Instellingen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Ajustes"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть Настройки"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarlar’ı Aç"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開設定"
+          }
+        }
+      }
+    },
     "Opens Mindrop ready to save a new memory." : {
       "comment" : "Description of the New Memory action in Shortcuts, Control Center and the Action button settings.",
       "extractionState" : "stale",
@@ -6549,6 +6929,102 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "開啟 Mindrop，加入新項目。"
+          }
+        }
+      }
+    },
+    "Opens Mindrop’s camera to scan the details of a new memory." : {
+      "comment" : "Description of the Scan action in Shortcuts, Control Center and the Action button settings.",
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يفتح كاميرا Mindrop لمسح محتوى عنصر جديد."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffnet die Kamera von Mindrop, um den Inhalt eines neuen Eintrags zu scannen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens Mindrop’s camera to scan the details of a new memory."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre la cámara de Mindrop para escanear el contenido de una entrada nueva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre l’appareil photo de Mindrop pour scanner le contenu d’une nouvelle entrée."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नई एंट्री की जानकारी स्कैन करने के लिए Mindrop का कैमरा खोलता है।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apre la fotocamera di Mindrop per scansionare il contenuto di una nuova voce."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindropのカメラを開いて、新規項目の内容をスキャンします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop의 카메라를 열어 새 항목의 내용을 스캔합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opent de camera van Mindrop om de inhoud van een nieuw item te scannen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre a câmera do Mindrop para escanear o conteúdo de uma nova entrada."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открывает камеру Mindrop, чтобы отсканировать содержимое новой записи."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni bir kaydın bilgisini taramak için Mindrop’un kamerasını açar."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开 Mindrop 的相机，扫描新条目的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開 Mindrop 的相機，掃描新項目的內容。"
           }
         }
       }
@@ -7312,97 +7788,288 @@
         }
       }
     },
-    "Say “New memory in Mindrop”." : {
+    "Say “New memory in Mindrop”, or “Scan into Mindrop” to start with the camera." : {
       "comment" : "How Mindrop Works: what to say to Siri. The quoted phrase must be exactly the first Siri phrase in AppShortcuts.xcstrings for this language, with Mindrop as the app name.",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "قل: «أضف عنصرًا في Mindrop»."
+            "value" : "قل: «أضف عنصرًا في Mindrop»، أو «امسح إلى Mindrop» للبدء بالكاميرا."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sag „Neuer Eintrag in Mindrop“."
+            "value" : "Sag „Neuer Eintrag in Mindrop“ oder „In Mindrop scannen“, um mit der Kamera zu beginnen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Say “New memory in Mindrop”."
+            "value" : "Say “New memory in Mindrop”, or “Scan into Mindrop” to start with the camera."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Di «Nueva entrada en Mindrop»."
+            "value" : "Di «Nueva entrada en Mindrop», o «Escanear en Mindrop» para empezar con la cámara."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dites « Nouvelle entrée dans Mindrop »."
+            "value" : "Dites « Nouvelle entrée dans Mindrop », ou « Scanner dans Mindrop » pour commencer avec l’appareil photo."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "कहें: “Mindrop में नई एंट्री जोड़ें”।"
+            "value" : "कहें: “Mindrop में नई एंट्री जोड़ें”, या कैमरे से शुरू करने के लिए “Mindrop में स्कैन करें”।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Di’ “Nuova voce in Mindrop”."
+            "value" : "Di’ “Nuova voce in Mindrop”, oppure “Scansiona in Mindrop” per iniziare con la fotocamera."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「Mindropに新しい項目を追加」と話しかけます。"
+            "value" : "「Mindropに新しい項目を追加」と話しかけます。カメラから始めるなら「Mindropにスキャン」と話しかけます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“Mindrop에 새 항목 추가해 줘”라고 말하세요."
+            "value" : "“Mindrop에 새 항목 추가해 줘”라고 말하세요. 카메라로 시작하려면 “Mindrop으로 스캔해 줘”라고 말하세요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeg ‘Nieuw item in Mindrop’."
+            "value" : "Zeg ‘Nieuw item in Mindrop’, of ‘Scan naar Mindrop’ om met de camera te beginnen."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Diga “Nova entrada no Mindrop”."
+            "value" : "Diga “Nova entrada no Mindrop” ou “Escanear para o Mindrop” para começar com a câmera."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Скажите: «Новая запись в Mindrop»."
+            "value" : "Скажите: «Новая запись в Mindrop» или «Сканировать в Mindrop», чтобы начать с камеры."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“Mindrop ile yeni kayıt oluştur” de."
+            "value" : "“Mindrop ile yeni kayıt oluştur” de; kamerayla başlamak için “Mindrop ile tara” de."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "说“在Mindrop中新建条目”。"
+            "value" : "说“在Mindrop中新建条目”，或说“扫描到Mindrop”以从相机开始。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "說「在Mindrop新增項目」。"
+            "value" : "說「在Mindrop新增項目」，或說「掃描到Mindrop」以從相機開始。"
+          }
+        }
+      }
+    },
+    "Scan" : {
+      "comment" : "Button and Shortcuts title: opens the camera to scan text or a QR code into the details field.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مسح"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scannen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanear"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanner"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्कैन करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scansiona"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スキャン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스캔"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanear"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сканировать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tara"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "扫描"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "掃描"
+          }
+        }
+      }
+    },
+    "Scan into Mindrop" : {
+      "comment" : "The Scan action in Shortcuts, Control Center and the Action button settings.",
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المسح إلى Mindrop"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Mindrop scannen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan into Mindrop"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanear en Mindrop"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanner dans Mindrop"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop में स्कैन करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scansiona in Mindrop"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindropにスキャン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop으로 스캔"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan naar Mindrop"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanear para o Mindrop"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сканировать в Mindrop"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop’a tara"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "扫描到 Mindrop"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "掃描到 Mindrop"
           }
         }
       }
@@ -8542,6 +9209,101 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "點一下「分享」並選擇 Mindrop，即可儲存文字或連結。如果沒有看到，請點一下「更多」。"
+          }
+        }
+      }
+    },
+    "Tap the text or QR code to save" : {
+      "comment" : "Hint over the camera view while scanning.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اضغط على النص أو رمز QR لحفظه"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe auf den Text oder QR-Code, den du sichern willst"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the text or QR code to save"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca el texto o el código QR que quieres guardar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touchez le texte ou le code QR à enregistrer"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सेव करने के लिए टेक्स्ट या QR कोड पर टैप करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca il testo o il codice QR da salvare"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存するテキストまたはQRコードをタップ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장할 텍스트나 QR 코드를 탭하세요"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik op de tekst of QR-code om te bewaren"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque no texto ou código QR para salvar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коснитесь текста или QR-кода, чтобы сохранить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydetmek istediğin metne veya QR koduna dokun"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点要保存的文本或二维码"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點一下要儲存的文字或 QR 碼"
           }
         }
       }

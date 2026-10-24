@@ -19,5 +19,14 @@ struct MindropShortcuts: AppShortcutsProvider {
             shortTitle: "New Memory",
             systemImageName: "plus"
         )
+        AppShortcut(
+            intent: ScanValueIntent(),
+            phrases: [
+                "Scan into \(.applicationName)",
+                "Scan a memory into \(.applicationName)",
+            ],
+            shortTitle: "Scan",
+            systemImageName: "text.viewfinder"
+        )
     }
 }

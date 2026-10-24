@@ -58,4 +58,20 @@ struct ValueLayoutTests {
     func wifiProse() {
         #expect(WiFiCredentials(value: "ask the front desk") == nil)
     }
+
+    @Test("A scanned Wi-Fi QR code becomes a value that reads back as the same network")
+    func wifiFromQRCode() throws {
+        let credentials = try #require(WiFiCredentials(qrPayload: #"WIFI:T:WPA;S:Home 5G;P:Super\;Fast;H:false;;"#))
+        #expect(credentials.networkName == "Home 5G")
+        #expect(credentials.password == "Super;Fast")
+        #expect(credentials.memoryValue == "Network: Home 5G\nPassword: Super;Fast")
+        #expect(WiFiCredentials(value: credentials.memoryValue) == credentials)
+        #expect(WiFiCredentials(qrPayload: credentials.qrPayload) == credentials)
+    }
+
+    @Test("Other QR codes and open networks are not read as Wi-Fi")
+    func wifiFromOtherQRCodes() {
+        #expect(WiFiCredentials(qrPayload: "https://example.com") == nil)
+        #expect(WiFiCredentials(qrPayload: "WIFI:T:nopass;S:Cafe;;") == nil)
+    }
 }

@@ -28,8 +28,9 @@ struct HowMindropWorksView: View {
     }
 }
 
-/// The other ways in, each with where to find it. They point at Apple's own features, so
-/// they carry Apple's symbols, the ones people know from those features.
+/// The other ways in, each with where to find it. Those that point at Apple's own features
+/// carry Apple's symbols, the ones people know from those features; Scan is Mindrop's own,
+/// so it carries the icon its button has.
 private struct MoreWaysToSave: View {
     /// Only for someone with a watch: to anyone else it is a feature they can't use.
     private var hasPairedWatch: Bool {
@@ -42,6 +43,11 @@ private struct MoreWaysToSave: View {
                 .font(.title2.weight(.bold))
                 .frame(maxWidth: .infinity)
 
+            // Only where the editor offers Scan.
+            if ValueScanner.isSupported {
+                way(Image("ix.scan.linear"), Text("Scan"),
+                    Text("In a new memory, tap Scan and point the camera at text or a QR code, then tap what to save."))
+            }
             way("square.and.arrow.up", Text("From Other Apps"),
                 Text("Tap Share and choose Mindrop to save text or a link. If it isn’t there, tap More."))
             way("switch.2", Text("Control Center"),
@@ -49,7 +55,7 @@ private struct MoreWaysToSave: View {
             way("button.programmable", Text("Action Button"),
                 Text("If your iPhone has one, go to Settings › Action Button, choose Shortcut, then Mindrop."))
             way("siri", Text(verbatim: "Siri"),
-                Text("Say “New memory in Mindrop”."))
+                Text("Say “New memory in Mindrop”, or “Scan into Mindrop” to start with the camera."))
             if hasPairedWatch {
                 way("applewatch", Text(verbatim: "Apple Watch"),
                     Text("Open Mindrop on your Apple Watch to save a memory from your wrist."))
@@ -59,8 +65,12 @@ private struct MoreWaysToSave: View {
     }
 
     private func way(_ symbol: String, _ title: Text, _ detail: Text) -> some View {
+        way(Image(systemName: symbol), title, detail)
+    }
+
+    private func way(_ icon: Image, _ title: Text, _ detail: Text) -> some View {
         HStack(alignment: .top, spacing: 14) {
-            Image(systemName: symbol)
+            icon
                 .font(.subheadline.weight(.semibold))
                 .frame(width: 36, height: 36)
                 .glassEffect(.regular, in: .circle)

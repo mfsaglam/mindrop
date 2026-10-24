@@ -19,6 +19,8 @@ struct MemoryEditorView: View {
 
     let mode: Mode
     let repository: MemoryRepository
+    /// Opens on the camera, for the Scan control: the value is scanned, the keyword typed.
+    var startsScanning = false
 
     @Environment(\.dismiss) private var dismiss
     @State private var keyword: String
@@ -28,11 +30,13 @@ struct MemoryEditorView: View {
     @State private var isSensitive: Bool
     @State private var saveError: String?
     @State private var hasVisitedDetails = false
+    @State private var isScanning = false
     @FocusState private var focusedField: Field?
 
-    init(mode: Mode, repository: MemoryRepository) {
+    init(mode: Mode, repository: MemoryRepository, startsScanning: Bool = false) {
         self.mode = mode
         self.repository = repository
+        self.startsScanning = startsScanning
         switch mode {
         case .create:
             _keyword = State(initialValue: "")
@@ -78,6 +82,7 @@ struct MemoryEditorView: View {
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .focused($focusedField, equals: .details)
+                    fillButtons
                 }
                 SensitiveSection(isSensitive: $isSensitive)
                 MemoryLifetimeSection(
@@ -91,7 +96,15 @@ struct MemoryEditorView: View {
             // A new memory starts with the keyboard up, so the control and the Action
             // button land the user straight in typing.
             .onAppear {
-                if case .create = mode { focusedField = .keyword }
+                if startsScanning, ValueScanner.isSupported {
+                    isScanning = true
+                } else if case .create = mode {
+                    focusedField = .keyword
+                }
+            }
+            // Scanned or not, the keyword comes next.
+            .sheet(isPresented: $isScanning, onDismiss: { if keyword.isEmpty { focusedField = .keyword } }) {
+                ValueScanner { fill($0) }
             }
             .onChange(of: focusedField) { _, field in
                 if field == .details, !MemoryNormalizer.normalizeKeyword(keyword).isEmpty {
@@ -112,6 +125,38 @@ struct MemoryEditorView: View {
                 Text("Please try again.")
             }
         }
+    }
+
+    /// Scan and Paste fill the value only. Paste is the system's button, which reads the
+    /// clipboard without asking "Allow Paste?".
+    private var fillButtons: some View {
+        HStack(spacing: 10) {
+            if ValueScanner.isSupported {
+                Button { isScanning = true } label: {
+                    Label("Scan", image: "ix.scan.linear")
+                        // The accent is black, white in dark mode: the label takes the opposite.
+                        .foregroundStyle(Color(.systemBackground))
+                }
+            }
+            PasteButton(payloadType: String.self) { @Sendable strings in
+                guard let text = strings.first else { return }
+                Task { @MainActor in fill(text) }
+            }
+            .labelStyle(.titleAndIcon)
+        }
+        // Prominent, as the system draws Paste, so the two match.
+        .buttonStyle(.borderedProminent)
+        .buttonBorderShape(.capsule)
+        .controlSize(.small)
+    }
+
+    /// Takes a scanned or pasted value, then asks for the keyword if there is none yet:
+    /// the keyword is always typed, since it is what the user will search for.
+    private func fill(_ text: String) {
+        let text = MemoryNormalizer.normalizeValue(text)
+        guard !text.isEmpty else { return }
+        value = text
+        if !isScanning, keyword.isEmpty { focusedField = .keyword }
     }
 
     /// A `LocalizedStringKey`, not a `String`: `navigationTitle` only localises

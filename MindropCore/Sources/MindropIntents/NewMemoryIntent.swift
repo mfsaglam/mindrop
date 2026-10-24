@@ -16,7 +16,25 @@ public struct NewMemoryIntent: AppIntent {
 
     @MainActor
     public func perform() async throws -> some IntentResult {
-        NewMemoryRequest.shared.isPending = true
+        NewMemoryRequest.shared.request(scanning: false)
+        return .result()
+    }
+}
+
+/// Opens Mindrop on the camera, to scan a value: a router sticker, a parking ticket, a
+/// Wi-Fi QR code. The editor follows, waiting for the keyword. Behind the Scan control, the
+/// Action button and Siri ("Scan into Mindrop").
+public struct ScanValueIntent: AppIntent {
+    public static let title: LocalizedStringResource = "Scan into Mindrop"
+    public static let description = IntentDescription("Opens Mindrop’s camera to scan the details of a new memory.")
+    /// Always runs in the app, even when started from the control's extension.
+    public static let openAppWhenRun = true
+
+    public init() {}
+
+    @MainActor
+    public func perform() async throws -> some IntentResult {
+        NewMemoryRequest.shared.request(scanning: true)
         return .result()
     }
 }
@@ -29,8 +47,15 @@ public final class NewMemoryRequest {
     public static let shared = NewMemoryRequest()
 
     public var isPending = false
+    /// The request came from Scan, so the editor opens on the camera.
+    public private(set) var scans = false
 
     private init() {}
+
+    public func request(scanning: Bool) {
+        scans = scanning
+        isPending = true
+    }
 }
 
 /// Lets the app's and the extension's App Intents metadata include the intent defined here.

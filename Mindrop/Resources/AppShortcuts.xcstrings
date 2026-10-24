@@ -140,6 +140,146 @@
           }
         }
       }
+    },
+    "Scan into ${applicationName}" : {
+      "comment" : "What the user says to Siri to scan into Mindrop. ${applicationName} is replaced by Mindrop.",
+      "localizations" : {
+        "ar" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "امسح إلى ${applicationName}",
+              "امسح معلومة إلى ${applicationName}"
+            ]
+          }
+        },
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "In ${applicationName} scannen",
+              "Scanne etwas in ${applicationName}"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Scan into ${applicationName}",
+              "Scan a memory into ${applicationName}"
+            ]
+          }
+        },
+        "es" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Escanear en ${applicationName}",
+              "Escanea algo en ${applicationName}"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Scanner dans ${applicationName}",
+              "Scanne une info dans ${applicationName}"
+            ]
+          }
+        },
+        "hi" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName} में स्कैन करें",
+              "${applicationName} में जानकारी स्कैन करें"
+            ]
+          }
+        },
+        "it" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Scansiona in ${applicationName}",
+              "Scansiona qualcosa in ${applicationName}"
+            ]
+          }
+        },
+        "ja" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}にスキャン",
+              "${applicationName}で情報をスキャン"
+            ]
+          }
+        },
+        "ko" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}으로 스캔해 줘",
+              "${applicationName}으로 정보 스캔해 줘"
+            ]
+          }
+        },
+        "nl" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Scan naar ${applicationName}",
+              "Scan iets naar ${applicationName}"
+            ]
+          }
+        },
+        "pt-BR" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Escanear para o ${applicationName}",
+              "Escaneie uma informação para o ${applicationName}"
+            ]
+          }
+        },
+        "ru" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Сканировать в ${applicationName}",
+              "Отсканируй информацию в ${applicationName}"
+            ]
+          }
+        },
+        "tr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName} ile tara",
+              "${applicationName} ile bilgi tara"
+            ]
+          }
+        },
+        "zh-Hans" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "扫描到${applicationName}",
+              "用${applicationName}扫描信息"
+            ]
+          }
+        },
+        "zh-Hant" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "掃描到${applicationName}",
+              "用${applicationName}掃描資訊"
+            ]
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
