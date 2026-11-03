@@ -44,6 +44,11 @@
           "exclusions": [
             "Info.plist",
           ],
+        }, {
+          "target": "MindropWatch",
+          "inclusions": [
+            "Resources/mindrop_icon.icon",
+          ],
         },
       ],
     }, {
@@ -142,7 +147,7 @@
         },
       ],
       "build-settings": {
-        "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
+        "ASSETCATALOG_COMPILER_APPICON_NAME": "mindrop_icon",
         "ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME": "AccentColor",
         "CODE_SIGN_ENTITLEMENTS": "Mindrop/Mindrop.entitlements",
         "CODE_SIGN_STYLE": "Automatic",
@@ -304,7 +309,7 @@
         },
       ],
       "build-settings": {
-        "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
+        "ASSETCATALOG_COMPILER_APPICON_NAME": "mindrop_icon",
         "ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME": "AccentColor",
         "CODE_SIGN_ENTITLEMENTS": "MindropWatch/MindropWatch.entitlements",
         "CODE_SIGN_STYLE": "Automatic",
