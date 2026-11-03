@@ -39,6 +39,12 @@ struct SettingsView: View {
                     }
                 }
 
+                Section {
+                    Link("Privacy Policy", destination: URL(string: "https://mfsaglam.github.io/mindrop/privacy.html")!)
+                    Link("Terms of Use", destination: URL(string: "https://mfsaglam.github.io/mindrop/terms.html")!)
+                    Link("Support", destination: URL(string: "https://mfsaglam.github.io/mindrop/support.html")!)
+                }
+
                 #if DEBUG
                 Section {
                     if let categorizationLog {

@@ -145,5 +145,8 @@ fall back to the primary locale, so an English set is enough to ship.
 | Export compliance | Already answered in the build: `ITSAppUsesNonExemptEncryption = NO` |
 | Review notes | No account or sign-in. To test: open the app, add a keyword and a value, then search that keyword in Spotlight from the Home Screen. |
 
-Still needed, both mandatory and neither written yet: a **privacy policy URL** and a
-**support URL**.
+Website pages and App Store URLs are documented in [website.md](website.md).
+
+**Release note:** The listing copy above predates iCloud Sync, Sensitive memories,
+and category grouping. Revise the outdated privacy/security claims before submitting;
+see the release facts in website.md.

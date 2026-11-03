@@ -874,3 +874,10 @@ The same goes for the Control Center symbol, which `--symbol` makes from the sam
 
 Before it, the icon was Lucide's brain, white on black (`Design/lucide-brain.svg`, ISC
 licensed, notice in `Design/LUCIDE-LICENSE.txt`).
+
+
+## Product website
+
+The English GitHub Pages website lives in `docs/`, with a Spotlight search demo,
+Privacy Policy, Terms of Use, and Support. See [AppStore/website.md](AppStore/website.md)
+for App Store URLs, publishing, local preview, and maintenance.
