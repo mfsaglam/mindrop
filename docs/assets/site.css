@@ -103,7 +103,7 @@ h2 { font-size: 36px; line-height: 1.17; letter-spacing: -1.5px; }
 .ghost-dock { height: 60px; margin: 30px 15px; background: #c8d5ff24; border-radius: 999px; }
 .spotlight { position: absolute; top: 145px; left: 24px; right: 24px; }
 .search-bar {
-  display: flex; align-items: center; gap: 11px; min-height: 59px; padding: 16px 20px;
+  display: flex; align-items: center; gap: 11px; min-height: 53px; padding: 13px 20px;
   border-radius: 999px; border: 1px solid #ffffff3b;
   background: linear-gradient(170deg, #ffffff20, #ffffff0b);
   -webkit-backdrop-filter: blur(28px) saturate(150%); backdrop-filter: blur(28px) saturate(150%);
