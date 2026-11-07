@@ -46,8 +46,14 @@ Spotlight animation are in `docs/assets/`. Without JavaScript or with Reduce
 Motion enabled, the demo displays a complete static example. A visible button
 pauses/resumes the animation, which also stops while the tab is hidden.
 
-Replace “Coming to the App Store” with the real App Store listing link once the
-listing is available. Keep policy dates and descriptions in sync with future
+The homepage uses Apple’s official “Download on the App Store” badge, stored in
+`docs/assets/app-store-badge.svg`, linked to the published app:
+https://apps.apple.com/tr/app/mindrop-spotlight-lookup/id6830335852
+
+Badge artwork source: https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg
+Follow https://developer.apple.com/app-store/marketing/guidelines/ when changing its presentation.
+
+Keep policy dates and descriptions in sync with future
 changes to storage, syncing, data collection, or monetization.
 
 ## Release facts to revisit

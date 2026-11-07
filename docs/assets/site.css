@@ -78,7 +78,10 @@ h2 { font-size: 36px; line-height: 1.17; letter-spacing: -1.5px; }
 }
 .button:hover { border-color: #ffffff60; background: linear-gradient(160deg, #ffffff30, #ffffff12); }
 .button span { font-size: 18px; }
-.availability { font-size: 11px; letter-spacing: .25px; color: var(--muted); margin: 16px 0 0; }
+.hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 26px; }
+.app-store-badge { display: inline-flex; flex-shrink: 0; }
+.app-store-badge img { display: block; width: 156px; height: auto; }
+.hero-actions .text-link { margin-top: 0; }
 .demo-wrap { min-width: 0; }
 .demo-stage {
   position: relative; isolation: isolate; height: 435px; overflow: hidden; border-radius: 40px;
