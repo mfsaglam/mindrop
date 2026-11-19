@@ -5,6 +5,15 @@ import Foundation
 public protocol MemoryStore: Sendable {
     func load() throws -> [Memory]
     func save(_ memories: [Memory]) throws
+    func update(_ transform: ([Memory]) -> [Memory]?) throws -> [Memory]?
+}
+
+public extension MemoryStore {
+    func update(_ transform: ([Memory]) -> [Memory]?) throws -> [Memory]? {
+        guard let updated = transform(try load()) else { return nil }
+        try save(updated)
+        return updated
+    }
 }
 
 /// JSON file persistence inside the App Group container.
@@ -27,12 +36,25 @@ public struct FileMemoryStore: MemoryStore {
     }
 
     public func load() throws -> [Memory] {
-        guard let data = try file.read(), !data.isEmpty else { return [] }
-        return try JSONDecoder.mindrop.decode([Memory].self, from: data)
+        try Self.decode(file.read())
     }
 
     public func save(_ memories: [Memory]) throws {
         try file.write(try JSONEncoder.mindrop.encode(memories))
+    }
+
+    public func update(_ transform: ([Memory]) -> [Memory]?) throws -> [Memory]? {
+        var updated: [Memory]?
+        try file.update { data in
+            updated = transform(try Self.decode(data))
+            return try updated.map { try JSONEncoder.mindrop.encode($0) }
+        }
+        return updated
+    }
+
+    private static func decode(_ data: Data?) throws -> [Memory] {
+        guard let data, !data.isEmpty else { return [] }
+        return try JSONDecoder.mindrop.decode([Memory].self, from: data)
     }
 }
 
@@ -58,6 +80,15 @@ public final class InMemoryMemoryStore: MemoryStore, @unchecked Sendable {
     public func save(_ memories: [Memory]) throws {
         if let saveError { throw saveError }
         lock.withLock { self.memories = memories }
+    }
+
+    public func update(_ transform: ([Memory]) -> [Memory]?) throws -> [Memory]? {
+        try lock.withLock {
+            guard let updated = transform(memories) else { return nil }
+            if let saveError { throw saveError }
+            memories = updated
+            return updated
+        }
     }
 }
 

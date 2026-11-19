@@ -22,6 +22,25 @@ struct CoordinatedFile: Sendable {
     }
 
     func write(_ data: Data) throws {
+        try coordinateWrite { url in try Self.write(data, to: url) }
+    }
+
+    func update(_ transform: (Data?) throws -> Data?) throws {
+        try coordinateWrite { url in
+            let existing = FileManager.default.fileExists(atPath: url.path) ? try Data(contentsOf: url) : nil
+            if let data = try transform(existing) { try Self.write(data, to: url) }
+        }
+    }
+
+    private static func write(_ data: Data, to url: URL) throws {
+        #if os(iOS)
+        try data.write(to: url, options: [.atomic, .completeFileProtectionUnlessOpen])
+        #else
+        try data.write(to: url, options: .atomic)
+        #endif
+    }
+
+    private func coordinateWrite(_ action: (URL) throws -> Void) throws {
         try FileManager.default.createDirectory(
             at: url.deletingLastPathComponent(),
             withIntermediateDirectories: true
@@ -30,15 +49,7 @@ struct CoordinatedFile: Sendable {
         var writeError: Error?
         NSFileCoordinator().coordinate(writingItemAt: url, options: .forReplacing, error: &coordinatorError) { url in
             do {
-                try data.write(to: url, options: .atomic)
-                #if os(iOS)
-                // Encrypt at rest while the device is locked. `completeUnlessOpen` keeps an
-                // already-open handle usable, which avoids surprising write failures.
-                try FileManager.default.setAttributes(
-                    [.protectionKey: FileProtectionType.completeUnlessOpen],
-                    ofItemAtPath: url.path
-                )
-                #endif
+                try action(url)
             } catch {
                 writeError = error
             }

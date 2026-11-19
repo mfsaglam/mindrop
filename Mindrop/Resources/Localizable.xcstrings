@@ -12157,6 +12157,397 @@
           }
         }
       }
+    },
+    "A backup keeps a dated copy of your active memories in iCloud. Backups stay available until you delete them." : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A backup keeps a dated copy of your active memories in iCloud. Backups stay available until you delete them."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedekleme, etkin kayıtlarının tarihli bir kopyasını iCloud’da saklar. Yedekler sen silene kadar saklanır."
+          }
+        }
+      }
+    },
+    "Adds copies of missing or changed memories that are still active." : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adds copies of missing or changed memories that are still active."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eksik veya değişmiş ve süresi dolmamış kayıtların kopyalarını ekler."
+          }
+        }
+      }
+    },
+    "Back Up Now" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back Up Now"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şimdi Yedekle"
+          }
+        }
+      }
+    },
+    "Backup Actions" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup Actions"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedekleme İşlemleri"
+          }
+        }
+      }
+    },
+    "Couldn’t Create Backup" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t Create Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedek Oluşturulamadı"
+          }
+        }
+      }
+    },
+    "Couldn’t Delete Backup" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t Delete Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedek Silinemedi"
+          }
+        }
+      }
+    },
+    "Couldn’t Load Backups" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t Load Backups"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedekler Yüklenemedi"
+          }
+        }
+      }
+    },
+    "Couldn’t Restore Backup" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t Restore Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedek Geri Yüklenemedi"
+          }
+        }
+      }
+    },
+    "Delete Backup" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedeği Sil"
+          }
+        }
+      }
+    },
+    "iCloud Backup" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Yedekleme"
+          }
+        }
+      }
+    },
+    "Memories restored: %lld" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memories restored: %lld"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geri yüklenen kayıt sayısı: %lld"
+          }
+        }
+      }
+    },
+    "Memories: %lld" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memories: %lld"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kayıt sayısı: %lld"
+          }
+        }
+      }
+    },
+    "No backups yet." : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No backups yet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Henüz yedek yok."
+          }
+        }
+      }
+    },
+    "No Memories to Back Up" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Memories to Back Up"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedeklenecek Kayıt Yok"
+          }
+        }
+      }
+    },
+    "Restore as Copies" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore as Copies"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopya Olarak Geri Yükle"
+          }
+        }
+      }
+    },
+    "Restore Backup" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedeği Geri Yükle"
+          }
+        }
+      }
+    },
+    "Restore Complete" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore Complete"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geri Yükleme Tamamlandı"
+          }
+        }
+      }
+    },
+    "Save a memory before creating a backup." : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save a memory before creating a backup."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedek oluşturmadan önce bir kayıt ekle."
+          }
+        }
+      }
+    },
+    "Saved Backups" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved Backups"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saklanan Yedekler"
+          }
+        }
+      }
+    },
+    "Sign in to iCloud on this device and try again." : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in to iCloud on this device and try again."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu cihazda iCloud’a giriş yapıp tekrar dene."
+          }
+        }
+      }
+    },
+    "This backup has no additional memories to restore." : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This backup has no additional memories to restore."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu yedekte geri yüklenecek ek kayıt yok."
+          }
+        }
+      }
+    },
+    "This backup will be deleted from iCloud on all your devices." : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This backup will be deleted from iCloud on all your devices."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu yedek iCloud’dan silinecek ve tüm cihazlarından kaldırılacak."
+          }
+        }
+      }
+    },
+    "Try Again" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try Again"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekrar Dene"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

@@ -17,7 +17,8 @@ public enum CloudRecord {
     }
 
     static func memoryID(of recordID: CKRecord.ID) -> UUID? {
-        UUID(uuidString: recordID.recordName)
+        guard recordID.zoneID == zoneID else { return nil }
+        return UUID(uuidString: recordID.recordName)
     }
 
     private enum Field {

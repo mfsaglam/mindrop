@@ -105,6 +105,61 @@ public final class MemoryRepository {
         memories.first { $0.id == id }
     }
 
+    /// Captures the active library, including saves from the share extension.
+    public func memoriesForBackup() throws -> [Memory] {
+        let now = now()
+        return try store.load().filter { !$0.isDeleted && !$0.isExpired(at: now) }
+    }
+
+    /// Restores earlier or missing entries as copies, preserving the current library.
+    @discardableResult
+    public func restore(_ snapshot: [Memory], from backup: MemoryBackup) throws -> Int {
+        var restored: [Memory] = []
+        let updated = try store.update { stored in
+            restored = Self.restoredCopies(from: snapshot, in: backup, alongside: stored, now: now())
+            guard !restored.isEmpty else { return nil }
+            return (stored + restored).sorted(by: Self.isOrderedBefore)
+        }
+        guard let updated else { return 0 }
+        memories = updated
+        onLocalChange?()
+        indexInBackground(restored)
+        categorizePending()
+        return restored.count
+    }
+
+    private static func restoredCopies(
+        from snapshot: [Memory], in backup: MemoryBackup, alongside stored: [Memory], now: Date
+    ) -> [Memory] {
+        let current = Dictionary(stored.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        var knownIDs = Set(current.keys)
+        var restored: [Memory] = []
+        for memory in snapshot where !memory.isDeleted && !memory.isExpired(at: now) {
+            let existing = current[memory.id]
+            let sensitive = memory.isSensitive || (existing?.isSensitive ?? false)
+            if let existing, !existing.isDeleted,
+               existing.keyword == memory.keyword, existing.value == memory.value,
+               existing.expiresAt == memory.expiresAt, existing.isSensitive == sensitive,
+               existing.category == memory.category {
+                continue
+            }
+
+            let id = backup.restoredID(for: memory.id)
+            guard knownIDs.insert(id).inserted else { continue }
+            restored.append(Memory(
+                id: id,
+                keyword: memory.keyword,
+                value: memory.value,
+                createdAt: memory.createdAt,
+                updatedAt: now,
+                category: memory.category,
+                expiresAt: memory.expiresAt,
+                isSensitive: sensitive
+            ))
+        }
+        return restored
+    }
+
     /// In-app filtering, newest first. An empty query and no category return every memory
     /// that has not expired or been deleted.
     public func results(for query: String, in category: MemoryCategory? = nil) -> [Memory] {

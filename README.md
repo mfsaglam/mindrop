@@ -564,6 +564,22 @@ The device build is signed with the iCloud container and push entitlements. Not 
 sync between two real devices. Before an App Store release, the CloudKit schema has to be
 deployed from the development environment to production in the CloudKit Console.
 
+### iCloud backup
+
+Settings → iCloud Backup lets users save a dated snapshot of active memories, restore an
+older snapshot or delete it. Snapshots use encrypted CloudKit assets in the private
+`MemoryBackups` zone of the existing container. Backups are available on iPhone, iPad and
+Mac with the same iCloud account and can be created with iCloud Sync switched off.
+
+Restore adds copies of missing memories and earlier versions. A copy keeps the original
+expiry and preserves Sensitive protection. Each restored memory has a stable copy
+identifier across devices and retries. Backups capture active entries, and only entries
+that are still active can be restored. Saved snapshots remain available until deleted.
+
+Before distribution, create a development backup to initialize the `MemoryBackup` record
+type and deploy its schema to production. Verify create, list, restore and delete across
+two devices on the same iCloud account using the same CloudKit environment.
+
 ## Apple Watch
 
 The watch app saves memories without reaching for the iPhone: Keyword, Details, Sensitive,

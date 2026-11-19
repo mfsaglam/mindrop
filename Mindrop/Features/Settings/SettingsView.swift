@@ -29,6 +29,9 @@ struct SettingsView: View {
                 Section {
                     Toggle("iCloud Sync", isOn: $syncsWithICloud)
                         .onChange(of: syncsWithICloud) { session.syncPreferenceChanged() }
+                    NavigationLink("iCloud Backup") {
+                        ICloudBackupsView(repository: repository)
+                    }
                 } footer: {
                     Text("Keeps your memories the same on every device signed in to your iCloud account. Keywords and values are end-to-end encrypted.")
                 }
