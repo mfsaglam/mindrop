@@ -1,7 +1,6 @@
 import MindropCore
 import MindropIntents
 import SwiftUI
-import UIKit
 
 struct MemoryListView: View {
     private enum Sheet: Hashable, Identifiable {
@@ -120,21 +119,25 @@ struct MemoryListView: View {
         .animation(.default, value: showsSections)
         .navigationTitle("Mindrop")
         .searchable(text: $query, isPresented: $isSearching, placement: .toolbar, prompt: "Search memories")
+        #if os(iOS)
         .searchToolbarBehavior(.minimize)
+        #endif
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button { sheet = .newMemory() } label: { Label("New Memory", image: "ix.add.linear") }
             }
+            #if os(iOS)
             // Search at the bottom right, where the thumb is, rather than centred.
             ToolbarSpacer(.flexible, placement: .bottomBar)
             DefaultToolbarItem(kind: .search, placement: .bottomBar)
-            ToolbarItem(placement: .topBarLeading) {
+            #endif
+            ToolbarItem(placement: .memoryLeading) {
                 Button { sheet = .settings } label: { Label("Settings", image: "ix.setting-2.linear") }
             }
             // Only once something is categorised: without Apple Intelligence the app
             // looks exactly as it did.
             if !repository.categoriesInUse.isEmpty {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .memoryLeading) {
                     categoryMenu
                 }
             }
@@ -225,7 +228,7 @@ struct MemoryListView: View {
             .contextMenu {
                 if sensitiveAccess.canShow(memory) {
                     Button {
-                        UIPasteboard.general.string = memory.value
+                        Clipboard.copy(memory.value)
                     } label: {
                         Label("Copy", image: "ix.copy.linear")
                     }

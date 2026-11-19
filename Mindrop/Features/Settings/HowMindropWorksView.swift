@@ -1,6 +1,8 @@
 import MindropCore
 import SwiftUI
+#if os(iOS)
 import WatchConnectivity
+#endif
 
 /// Settings → How Mindrop Works: the empty list's guide again, for anyone who has saved
 /// since, then the ways to save without opening Mindrop first. Nothing in the app leads to
@@ -18,19 +20,22 @@ struct HowMindropWorksView: View {
         ScrollView {
             VStack(spacing: 44) {
                 SpotlightGuide(memories: memories)
+                #if os(iOS)
                 MoreWaysToSave()
+                #endif
             }
         }
         .contentMargins(.horizontal, 16, for: .scrollContent)
         .contentMargins(.bottom, 24, for: .scrollContent)
         .navigationTitle("How Mindrop Works")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
     }
 }
 
 /// The other ways in, each with where to find it. Those that point at Apple's own features
 /// carry Apple's symbols, the ones people know from those features; Scan is Mindrop's own,
 /// so it carries the icon its button has.
+#if os(iOS)
 private struct MoreWaysToSave: View {
     /// Only for someone with a watch: to anyone else it is a feature they can't use.
     private var hasPairedWatch: Bool {
@@ -91,3 +96,4 @@ private struct MoreWaysToSave: View {
         .accessibilityElement(children: .combine)
     }
 }
+#endif

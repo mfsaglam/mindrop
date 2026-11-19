@@ -44,7 +44,7 @@ struct RecentlyDeletedView: View {
         .contentMargins(.horizontal, 16, for: .scrollContent)
         .contentMargins(.bottom, 24, for: .scrollContent)
         .navigationTitle("Recently Deleted")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
             if !repository.deletedMemories.isEmpty {
                 ToolbarItem(placement: .primaryAction) {

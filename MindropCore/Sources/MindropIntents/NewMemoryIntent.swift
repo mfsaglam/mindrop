@@ -24,6 +24,7 @@ public struct NewMemoryIntent: AppIntent {
 /// Opens Mindrop on the camera, to scan a value: a router sticker, a parking ticket, a
 /// Wi-Fi QR code. The editor follows, waiting for the keyword. Behind the Scan control, the
 /// Action button and Siri ("Scan with Mindrop").
+#if os(iOS)
 public struct ScanValueIntent: AppIntent {
     public static let title: LocalizedStringResource = "Scan with Mindrop"
     public static let description = IntentDescription("Open Mindrop’s camera to scan text or a QR code.")
@@ -38,6 +39,7 @@ public struct ScanValueIntent: AppIntent {
         return .result()
     }
 }
+#endif
 
 /// Carries a request for the editor from an intent to the UI. The intent can run before the
 /// list is on screen, so it leaves a flag rather than calling into a view.

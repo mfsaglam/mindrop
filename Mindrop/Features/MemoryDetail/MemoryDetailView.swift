@@ -1,6 +1,5 @@
 import MindropCore
 import SwiftUI
-import UIKit
 
 struct MemoryDetailView: View {
     let repository: MemoryRepository
@@ -60,7 +59,7 @@ struct MemoryDetailView: View {
             .padding()
         }
         // No navigation title: the keyword is already on screen, above the value.
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 // The editor shows the value, so a hidden one is unlocked first.
@@ -297,7 +296,7 @@ struct MemoryDetailView: View {
     }
 
     private func copy(_ value: String) {
-        UIPasteboard.general.string = value
+        Clipboard.copy(value)
         copyCount += 1
         withAnimation { didCopy = true }
         Task {

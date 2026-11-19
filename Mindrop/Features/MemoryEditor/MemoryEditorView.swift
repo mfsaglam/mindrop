@@ -31,7 +31,9 @@ struct MemoryEditorView: View {
     @State private var isSensitive: Bool
     @State private var saveError: String?
     @State private var hasVisitedDetails = false
+    #if os(iOS)
     @State private var isScanning = false
+    #endif
     @State private var isChoosingPhoto = false
     @State private var photo: PhotosPickerItem?
     @State private var imageLines = ImageLinesState.none
@@ -71,7 +73,9 @@ struct MemoryEditorView: View {
             Form {
                 Section {
                     TextField("Keyword", text: $keyword)
+                        #if os(iOS)
                         .textInputAutocapitalization(.never)
+                        #endif
                         .autocorrectionDisabled()
                         .focused($focusedField, equals: .keyword)
                 } footer: {
@@ -85,7 +89,9 @@ struct MemoryEditorView: View {
                     HStack(alignment: .top, spacing: 12) {
                         TextField("Value", text: $value, axis: .vertical)
                             .lineLimit(2...)
+                            #if os(iOS)
                             .textInputAutocapitalization(.never)
+                            #endif
                             .autocorrectionDisabled()
                             .focused($focusedField, equals: .details)
                         detailsSources
@@ -115,20 +121,24 @@ struct MemoryEditorView: View {
                 )
             }
             .navigationTitle(title)
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             // A new memory starts with the keyboard up, so the control and the Action
             // button land the user straight in typing.
             .onAppear {
+                #if os(iOS)
                 if startsScanning, ValueScanner.isSupported {
                     isScanning = true
-                } else if case .create = mode {
-                    focusedField = .keyword
+                    return
                 }
+                #endif
+                if case .create = mode { focusedField = .keyword }
             }
+            #if os(iOS)
             // Scanned or not, the keyword comes next.
             .sheet(isPresented: $isScanning, onDismiss: { if keyword.isEmpty { focusedField = .keyword } }) {
                 ValueScanner { fill($0) }
             }
+            #endif
             .photosPicker(isPresented: $isChoosingPhoto, selection: $photo, matching: .images)
             .task(id: photo) {
                 guard let photo else { return }
@@ -164,11 +174,13 @@ struct MemoryEditorView: View {
     /// iPhone can, and a photo, whose lines are then offered as pills.
     private var detailsSources: some View {
         Menu {
+            #if os(iOS)
             if ValueScanner.isSupported {
                 Button { isScanning = true } label: {
                     Label("Scan", image: "ix.scan.linear")
                 }
             }
+            #endif
             Button {
                 // The keyboard stays down after the picker, so the lines can be seen and picked.
                 focusedField = nil
@@ -192,7 +204,10 @@ struct MemoryEditorView: View {
         let text = MemoryNormalizer.normalizeValue(text)
         guard !text.isEmpty else { return }
         value = text
-        if !isScanning, keyword.isEmpty { focusedField = .keyword }
+        #if os(iOS)
+        guard !isScanning else { return }
+        #endif
+        if keyword.isEmpty { focusedField = .keyword }
     }
 
     /// A `LocalizedStringKey`, not a `String`: `navigationTitle` only localises

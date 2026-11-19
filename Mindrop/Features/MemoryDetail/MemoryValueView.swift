@@ -95,7 +95,7 @@ struct WiFiQRCodeView: View {
     var body: some View {
         HStack(spacing: 16) {
             if let image = Self.image(for: credentials.qrPayload) {
-                Image(uiImage: image)
+                Image(decorative: image, scale: 1)
                     .interpolation(.none)
                     .resizable()
                     .frame(width: 132, height: 132)
@@ -116,13 +116,11 @@ struct WiFiQRCodeView: View {
         }
     }
 
-    private static func image(for payload: String) -> UIImage? {
+    private static func image(for payload: String) -> CGImage? {
         let filter = CIFilter.qrCodeGenerator()
         filter.message = Data(payload.utf8)
         filter.correctionLevel = "M"
-        guard let output = filter.outputImage,
-              let image = CIContext().createCGImage(output, from: output.extent)
-        else { return nil }
-        return UIImage(cgImage: image)
+        guard let output = filter.outputImage else { return nil }
+        return CIContext().createCGImage(output, from: output.extent)
     }
 }

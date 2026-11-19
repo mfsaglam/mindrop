@@ -18,6 +18,7 @@ nonisolated struct Fold: Equatable, Sendable {
     /// `minimumPage` wide. Nil on every other iPhone, and on the inner display held upright,
     /// where the fold runs across the view rather than down it.
     init?(in proxy: GeometryProxy, minimumPage: CGFloat) {
+        #if os(iOS)
         guard #available(iOS 27.1, *) else { return nil }
         let width = proxy.size.width
         // Taller than wide runs down the view; a flat hinge is a line with no width.
@@ -32,6 +33,9 @@ nonisolated struct Fold: Equatable, Sendable {
         guard center - halfGap >= minimumPage, width - (center + halfGap) >= minimumPage else { return nil }
         leading = center - halfGap
         trailing = center + halfGap
+        #else
+        return nil
+        #endif
     }
 }
 

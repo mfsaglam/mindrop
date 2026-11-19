@@ -1,9 +1,10 @@
-#if os(iOS)
+#if os(iOS) || os(macOS)
 import ImageIO
 import MindropCore
 import Vision
 
 /// Reads the text and QR codes in a shared image, on the device.
+@available(macOS 26.0, *)
 public enum ImageTextReader {
     /// Large enough for small print in a screenshot, small enough to stay well inside
     /// an extension's memory limit even for a 48-megapixel photo.
