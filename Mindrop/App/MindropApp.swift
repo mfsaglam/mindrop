@@ -4,6 +4,7 @@ import UIKit
 
 @main
 struct MindropApp: App {
+    @UIApplicationDelegateAdaptor(HomeScreenActionAppDelegate.self) private var appDelegate
     @State private var session = MindropSession()
 
     var body: some Scene {
