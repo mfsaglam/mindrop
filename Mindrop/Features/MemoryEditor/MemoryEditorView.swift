@@ -69,59 +69,7 @@ struct MemoryEditorView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section {
-                    TextField("Keyword", text: $keyword)
-                        #if os(iOS)
-                        .textInputAutocapitalization(.never)
-                        #endif
-                        .autocorrectionDisabled()
-                        .focused($focusedField, equals: .keyword)
-                } footer: {
-                    if showsKeywordHint {
-                        Text("Use a keyword with at least 4 characters so Spotlight can find it.")
-                    } else {
-                        Text("What you’ll type in Spotlight to find it.")
-                    }
-                }
-                Section {
-                    HStack(alignment: .top, spacing: 12) {
-                        TextField("Value", text: $value, axis: .vertical)
-                            .lineLimit(2...)
-                            #if os(iOS)
-                            .textInputAutocapitalization(.never)
-                            #endif
-                            .autocorrectionDisabled()
-                            .focused($focusedField, equals: .details)
-                        detailsSources
-                    }
-                } footer: {
-                    // The system's Paste button: it reads the clipboard without asking
-                    // "Allow Paste?", which a button in a menu could not.
-                    HStack {
-                        Spacer()
-                        PasteButton(payloadType: String.self) { @Sendable strings in
-                            guard let text = strings.first else { return }
-                            Task { @MainActor in fill(text) }
-                        }
-                        .labelStyle(.titleAndIcon)
-                        .buttonBorderShape(.capsule)
-                        .controlSize(.small)
-                    }
-                }
-                ImageLinesSection(state: imageLines, value: $value)
-                MemoryOptionsSection(
-                    keyword: keyword,
-                    value: value,
-                    isSensitive: $isSensitive,
-                    option: $lifetime,
-                    date: $untilDate,
-                    earliestDate: mode.memory?.expiresAt.map { min($0, .now) } ?? .now
-                )
-            }
-            .navigationTitle(title)
-            .inlineNavigationTitle()
+        editor
             // A new memory starts with the keyboard up, so the control and the Action
             // button land the user straight in typing.
             .onAppear {
@@ -154,6 +102,139 @@ struct MemoryEditorView: View {
                     hasVisitedDetails = true
                 }
             }
+            .alert("Couldn’t save", isPresented: .constant(saveError != nil)) {
+                Button("OK") { saveError = nil }
+            } message: {
+                Text("Please try again.")
+            }
+    }
+
+    @ViewBuilder
+    private var keywordHint: some View {
+        if showsKeywordHint {
+            Text("Use a keyword with at least 4 characters so Spotlight can find it.")
+        } else {
+            Text("What you’ll type in Spotlight to find it.")
+        }
+    }
+
+    private var memoryOptions: some View {
+        MemoryOptionsSection(
+            keyword: keyword,
+            value: value,
+            isSensitive: $isSensitive,
+            option: $lifetime,
+            date: $untilDate,
+            earliestDate: mode.memory?.expiresAt.map { min($0, .now) } ?? .now
+        )
+    }
+
+    #if os(macOS)
+    private var editor: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    Text(title)
+                        .font(.title2.weight(.semibold))
+                        .accessibilityAddTraits(.isHeader)
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Keyword").fontWeight(.medium)
+                        TextField("Keyword", text: $keyword)
+                            .labelsHidden()
+                            .textFieldStyle(.roundedBorder)
+                            .autocorrectionDisabled()
+                            .focused($focusedField, equals: .keyword)
+                            .onSubmit { focusedField = .details }
+                        keywordHint
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack {
+                            Text("Details").fontWeight(.medium)
+                            Spacer()
+                            Button("Choose Photo", systemImage: "photo") {
+                                isChoosingPhoto = true
+                            }
+                            .controlSize(.small)
+                        }
+                        TextEditor(text: $value)
+                            .accessibilityLabel(Text("Details"))
+                            .autocorrectionDisabled()
+                            .focused($focusedField, equals: .details)
+                            .font(.body)
+                            .padding(6)
+                            .frame(minHeight: 116)
+                            .background(.background, in: .rect(cornerRadius: 8))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 8).strokeBorder(.quaternary)
+                            }
+                    }
+                    ImageLinesSection(state: imageLines, value: $value)
+                    memoryOptions
+                }
+                .padding(24)
+            }
+            Divider()
+            HStack {
+                Spacer()
+                Button("Cancel", role: .cancel) { dismiss() }
+                    .keyboardShortcut(.cancelAction)
+                Button("Save", action: save)
+                    .buttonStyle(.borderedProminent)
+                    .keyboardShortcut(.return, modifiers: .command)
+                    .disabled(!canSave)
+            }
+            .controlSize(.large)
+            .padding(.horizontal, 24)
+            .padding(.vertical, 14)
+        }
+        .frame(width: 500, height: 510)
+    }
+    #else
+    private var editor: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    TextField("Keyword", text: $keyword)
+                        #if os(iOS)
+                        .textInputAutocapitalization(.never)
+                        #endif
+                        .autocorrectionDisabled()
+                        .focused($focusedField, equals: .keyword)
+                } footer: {
+                    keywordHint
+                }
+                Section {
+                    HStack(alignment: .top, spacing: 12) {
+                        TextField("Value", text: $value, axis: .vertical)
+                            .lineLimit(2...)
+                            #if os(iOS)
+                            .textInputAutocapitalization(.never)
+                            #endif
+                            .autocorrectionDisabled()
+                            .focused($focusedField, equals: .details)
+                        detailsSources
+                    }
+                } footer: {
+                    // The system's Paste button: it reads the clipboard without asking
+                    // "Allow Paste?", which a button in a menu could not.
+                    HStack {
+                        Spacer()
+                        PasteButton(payloadType: String.self) { @Sendable strings in
+                            guard let text = strings.first else { return }
+                            Task { @MainActor in fill(text) }
+                        }
+                        .labelStyle(.titleAndIcon)
+                        .buttonBorderShape(.capsule)
+                        .controlSize(.small)
+                    }
+                }
+                ImageLinesSection(state: imageLines, value: $value)
+                memoryOptions
+            }
+            .navigationTitle(title)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(role: .cancel) { dismiss() }
@@ -162,16 +243,13 @@ struct MemoryEditorView: View {
                     Button(role: .confirm, action: save).disabled(!canSave)
                 }
             }
-            .alert("Couldn’t save", isPresented: .constant(saveError != nil)) {
-                Button("OK") { saveError = nil }
-            } message: {
-                Text("Please try again.")
-            }
         }
     }
+    #endif
 
     /// One + beside the details, for filling them other than by typing: Scan, where the
     /// iPhone can, and a photo, whose lines are then offered as pills.
+    #if os(iOS)
     private var detailsSources: some View {
         Menu {
             #if os(iOS)
@@ -197,6 +275,8 @@ struct MemoryEditorView: View {
         }
         .accessibilityLabel(Text("Fill In Details"))
     }
+
+    #endif
 
     /// Takes a scanned or pasted value, then asks for the keyword if there is none yet:
     /// the keyword is always typed, since it is what the user will search for.
