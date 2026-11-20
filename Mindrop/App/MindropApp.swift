@@ -29,6 +29,26 @@ struct MindropApp: App {
             }
         }
         #endif
+
+        #if os(macOS)
+        Settings {
+            Group {
+                switch session.phase {
+                case .loading:
+                    ProgressView()
+                case .ready(let repository):
+                    SettingsView(repository: repository, session: session)
+                case .failed:
+                    ContentUnavailableView {
+                        Label("Mindrop can’t open your memories", image: "ix.danger.linear")
+                    } description: {
+                        Text("Try closing Mindrop and opening it again.")
+                    }
+                }
+            }
+            .frame(minWidth: 480, idealWidth: 540, minHeight: 420, idealHeight: 520)
+        }
+        #endif
     }
 }
 

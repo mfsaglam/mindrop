@@ -5,7 +5,9 @@ import SwiftUI
 struct MemoryListView: View {
     private enum Sheet: Hashable, Identifiable {
         case newMemory(scanning: Bool = false)
+        #if os(iOS)
         case settings
+        #endif
 
         var id: Self { self }
     }
@@ -130,10 +132,10 @@ struct MemoryListView: View {
             // Search at the bottom right, where the thumb is, rather than centred.
             ToolbarSpacer(.flexible, placement: .bottomBar)
             DefaultToolbarItem(kind: .search, placement: .bottomBar)
-            #endif
             ToolbarItem(placement: .memoryLeading) {
                 Button { sheet = .settings } label: { Label("Settings", image: "ix.setting-2.linear") }
             }
+            #endif
             // Only once something is categorised: without Apple Intelligence the app
             // looks exactly as it did.
             if !repository.categoriesInUse.isEmpty {
@@ -155,8 +157,10 @@ struct MemoryListView: View {
             switch sheet {
             case .newMemory(let scanning):
                 MemoryEditorView(mode: .create, repository: repository, startsScanning: scanning)
+            #if os(iOS)
             case .settings:
-                SettingsView(repository: repository, categorizationLog: session.categorizationLog, session: session)
+                SettingsView(repository: repository, session: session)
+            #endif
             }
         }
         // A Control Center control, the Action button or Siri asked for a new memory.

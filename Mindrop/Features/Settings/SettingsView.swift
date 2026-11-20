@@ -11,10 +11,11 @@ enum Preference {
 
 struct SettingsView: View {
     let repository: MemoryRepository
-    let categorizationLog: CategorizationLog?
     let session: MindropSession
 
+    #if os(iOS)
     @Environment(\.dismiss) private var dismiss
+    #endif
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
     @AppStorage(Preference.syncsWithICloud) private var syncsWithICloud = true
 
@@ -51,7 +52,7 @@ struct SettingsView: View {
 
                 #if DEBUG
                 Section {
-                    if let categorizationLog {
+                    if let categorizationLog = session.categorizationLog {
                         NavigationLink {
                             CategorizationLogView(log: categorizationLog, repository: repository)
                         } label: {
@@ -70,11 +71,15 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .inlineNavigationTitle()
+            #if os(macOS)
+            .formStyle(.grouped)
+            #else
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done") { dismiss() }
                 }
             }
+            #endif
         }
     }
 }

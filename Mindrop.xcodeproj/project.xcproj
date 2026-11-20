@@ -230,10 +230,11 @@
         "MACOSX_DEPLOYMENT_TARGET": "26.0",
         "MARKETING_VERSION": "1.0",
         "PRODUCT_BUNDLE_IDENTIFIER": "mfsaglam.Mindrop",
-        "PRODUCT_NAME": "$(TARGET_NAME)",
+        "PRODUCT_NAME": "Mindrop",
         "SDKROOT": "macosx",
         "SUPPORTED_PLATFORMS": "macosx",
         "SWIFT_EMIT_LOC_STRINGS": "YES",
+        "WRAPPER_NAME": "MindropMac.app",
       },
     }, {
       "name": "MindropShare",
