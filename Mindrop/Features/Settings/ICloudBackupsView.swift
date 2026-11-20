@@ -16,7 +16,7 @@ struct ICloudBackupsView: View {
 
     let repository: MemoryRepository
     let drive: DriveMemoryBackup
-    private let cloud = CloudMemoryBackup()
+    private var cloud: CloudMemoryBackup { CloudMemoryBackup() }
 
     @State private var backups: [MemoryBackup] = []
     @State private var isWorking = false

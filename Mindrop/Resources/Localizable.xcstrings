@@ -12769,6 +12769,142 @@
           }
         }
       }
+    },
+    "All Memories" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All Memories"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm Kayıtlar"
+          }
+        }
+      }
+    },
+    "Find Memories…" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find Memories…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kayıtlarda Ara…"
+          }
+        }
+      }
+    },
+    "New Memory from Clipboard" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Memory from Clipboard"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panodan Yeni Kayıt"
+          }
+        }
+      }
+    },
+    "Open Mindrop" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Mindrop"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop’u Aç"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydet"
+          }
+        }
+      }
+    },
+    "Select a Memory" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select a Memory"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir Kayıt Seç"
+          }
+        }
+      }
+    },
+    "Select some text to save in Mindrop." : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select some text to save in Mindrop."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop’a kaydetmek için bir metin seç."
+          }
+        }
+      }
+    },
+    "Show Mindrop in Menu Bar" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Mindrop in Menu Bar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop’u menü çubuğunda göster"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

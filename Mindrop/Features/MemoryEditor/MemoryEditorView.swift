@@ -78,13 +78,18 @@ struct MemoryEditorView: View {
             // A new memory starts with the keyboard up, so the control and the Action
             // button land the user straight in typing.
             .onAppear {
-                #if os(iOS)
+                #if os(macOS)
+                if case .create = mode {
+                    // AppKit may load the hosting view before it makes the window key.
+                    DispatchQueue.main.async { focusedField = .keyword }
+                }
+                #else
                 if startsScanning, ValueScanner.isSupported {
                     isScanning = true
                     return
                 }
-                #endif
                 if case .create = mode { focusedField = .keyword }
+                #endif
             }
             #if os(iOS)
             // Scanned or not, the keyword comes next.
@@ -144,7 +149,7 @@ struct MemoryEditorView: View {
                         .accessibilityAddTraits(.isHeader)
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Keyword").fontWeight(.medium)
-                        TextField("Keyword", text: $keyword)
+                        TextField("Keyword", text: $keyword, prompt: Text(verbatim: ""))
                             .labelsHidden()
                             .textFieldStyle(.roundedBorder)
                             .autocorrectionDisabled()
@@ -155,16 +160,9 @@ struct MemoryEditorView: View {
                             .foregroundStyle(.secondary)
                     }
                     VStack(alignment: .leading, spacing: 6) {
-                        HStack {
-                            Text("Details").fontWeight(.medium)
-                            Spacer()
-                            Button("Choose Photo", systemImage: "photo") {
-                                isChoosingPhoto = true
-                            }
-                            .controlSize(.small)
-                        }
+                        Text("Value").fontWeight(.medium)
                         TextEditor(text: $value)
-                            .accessibilityLabel(Text("Details"))
+                            .accessibilityLabel(Text("Value"))
                             .autocorrectionDisabled()
                             .focused($focusedField, equals: .details)
                             .font(.body)
@@ -174,6 +172,11 @@ struct MemoryEditorView: View {
                             .overlay {
                                 RoundedRectangle(cornerRadius: 8).strokeBorder(.quaternary)
                             }
+                        Button("Choose Photo", systemImage: "photo") {
+                            isChoosingPhoto = true
+                        }
+                        .controlSize(.small)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                     }
                     ImageLinesSection(state: imageLines, value: $value)
                     memoryOptions
@@ -194,6 +197,7 @@ struct MemoryEditorView: View {
             .padding(.horizontal, 24)
             .padding(.vertical, 14)
         }
+        .defaultFocus($focusedField, .keyword)
         .frame(width: 500, height: 510)
     }
     #else

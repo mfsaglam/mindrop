@@ -7,7 +7,7 @@ import SwiftUI
 /// words.
 ///
 /// The footer says what Spotlight will show: the line itself once there is a keyword and
-/// details, and that anyone using the iPhone may see it, next to the switch that prevents
+/// details, and that anyone using this device may see it, next to the switch that prevents
 /// it.
 public struct MemoryOptionsSection: View {
     let keyword: String
@@ -74,9 +74,9 @@ public struct MemoryOptionsSection: View {
                     localized("Spotlight shows only the keyword, and Mindrop hides the value until you unlock it.")
                 } else if let spotlightLine {
                     // The line is user content: interpolated, never looked up.
-                    Text("Shows in Spotlight as “\(spotlightLine)”, where anyone using this iPhone may see it.", bundle: .module)
+                    Text("Shows in Spotlight as “\(spotlightLine)”, where anyone using this device may see it.", bundle: .module)
                 } else {
-                    localized("Saved values can show up directly in Spotlight search results, where anyone using this iPhone may see them.")
+                    localized("Saved values can show up directly in Spotlight search results, where anyone using this device may see them.")
                 }
                 if option != .forever {
                     localized("Leaves Spotlight when it expires. You can still recover it in Mindrop for 7 days.")

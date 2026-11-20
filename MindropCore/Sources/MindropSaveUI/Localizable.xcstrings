@@ -1328,66 +1328,66 @@
         }
       }
     },
-    "Saved values can show up directly in Spotlight search results, where anyone using this iPhone may see them.": {
+    "Saved values can show up directly in Spotlight search results, where anyone using this device may see them.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "قد تظهر المعلومات التي تحفظها في نتائج بحث Spotlight. ويمكن لأي شخص يستخدم هذا الـ iPhone رؤيتها."
+            "value": "قد تظهر المعلومات التي تحفظها في نتائج بحث Spotlight. ويمكن لأي شخص يستخدم هذا الجهاز رؤيتها."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Was du sicherst, kann in den Spotlight-Suchergebnissen erscheinen. Alle, die dieses iPhone benutzen, könnten es sehen."
+            "value": "Was du sicherst, kann in den Spotlight-Suchergebnissen erscheinen. Alle, die dieses Gerät benutzen, könnten es sehen."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "What you save may appear in Spotlight search results. Anyone using this iPhone could see it."
+            "value": "What you save may appear in Spotlight search results. Anyone using this device could see it."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lo que guardas puede aparecer en los resultados de Spotlight. Cualquier persona que use este iPhone podría verlo."
+            "value": "Lo que guardas puede aparecer en los resultados de Spotlight. Cualquier persona que use este dispositivo podría verlo."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ce que vous enregistrez peut apparaître dans les résultats de Spotlight. Toute personne utilisant cet iPhone pourrait le voir."
+            "value": "Ce que vous enregistrez peut apparaître dans les résultats de Spotlight. Toute personne utilisant cet appareil pourrait le voir."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "सेव की गई जानकारी Spotlight के खोज नतीजों में दिख सकती है। इस iPhone का इस्तेमाल करने वाला कोई भी व्यक्ति उसे देख सकता है।"
+            "value": "सेव की गई जानकारी Spotlight के खोज नतीजों में दिख सकती है। इस डिवाइस का इस्तेमाल करने वाला कोई भी व्यक्ति उसे देख सकता है।"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ciò che salvi può comparire nei risultati di Spotlight. Chiunque usi questo iPhone potrebbe vederlo."
+            "value": "Ciò che salvi può comparire nei risultati di Spotlight. Chiunque usi questo dispositivo potrebbe vederlo."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "保存した内容がSpotlightの検索結果に表示されることがあります。このiPhoneを使う人なら誰でも見られる可能性があります。"
+            "value": "保存した内容がSpotlightの検索結果に表示されることがあります。このデバイスを使う人なら誰でも見られる可能性があります。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "저장한 내용이 Spotlight 검색 결과에 나타날 수 있어요. 이 iPhone을 사용하는 사람은 누구나 볼 수 있어요."
+            "value": "저장한 내용이 Spotlight 검색 결과에 나타날 수 있어요. 이 기기를 사용하는 사람은 누구나 볼 수 있어요."
           }
         },
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wat je bewaart, kan in de zoekresultaten van Spotlight verschijnen. Iedereen die deze iPhone gebruikt, zou het kunnen zien."
+            "value": "Wat je bewaart, kan in de zoekresultaten van Spotlight verschijnen. Iedereen die dit apparaat gebruikt, zou het kunnen zien."
           }
         },
         "pt-BR": {
@@ -1399,25 +1399,25 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сохранённая информация может появиться в результатах поиска Spotlight. Её может увидеть любой, кто пользуется этим iPhone."
+            "value": "Сохранённая информация может появиться в результатах поиска Spotlight. Её может увидеть любой, кто пользуется этим устройством."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kaydettiğin bilgiler Spotlight arama sonuçlarında görünebilir. Bu iPhone’u kullanan herkes bu bilgileri görebilir."
+            "value": "Kaydettiğin bilgiler Spotlight arama sonuçlarında görünebilir. Bu cihazı kullanan herkes bu bilgileri görebilir."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "保存的内容可能出现在“聚焦”搜索结果中。任何使用这台 iPhone 的人都可能看到。"
+            "value": "保存的内容可能出现在“聚焦”搜索结果中。任何使用这台设备 的人都可能看到。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "儲存的內容可能出現在 Spotlight 搜尋結果中。任何使用這部 iPhone 的人都可能看到。"
+            "value": "儲存的內容可能出現在 Spotlight 搜尋結果中。任何使用這部裝置 的人都可能看到。"
           }
         }
       }
@@ -1612,67 +1612,67 @@
         }
       }
     },
-    "Shows in Spotlight as “%@”, where anyone using this iPhone may see it.": {
+    "Shows in Spotlight as “%@”, where anyone using this device may see it.": {
       "comment": "Under Sensitive and Keep. %@ is the line Spotlight will show, the details then the keyword, as the user typed them.",
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يظهر في Spotlight هكذا: «%@»، وقد يراه أي شخص يستخدم هذا الـ iPhone."
+            "value": "يظهر في Spotlight هكذا: «%@»، وقد يراه أي شخص يستخدم هذا الجهاز."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Erscheint in Spotlight als „%@“ – alle, die dieses iPhone benutzen, können es sehen."
+            "value": "Erscheint in Spotlight als „%@“ – alle, die dieses Gerät benutzen, können es sehen."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Shows in Spotlight as “%@”, where anyone using this iPhone may see it."
+            "value": "Shows in Spotlight as “%@”, where anyone using this device may see it."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aparece en Spotlight como «%@», donde cualquiera que use este iPhone puede verlo."
+            "value": "Aparece en Spotlight como «%@», donde cualquiera que use este dispositivo puede verlo."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apparaît dans Spotlight comme « %@ », où toute personne utilisant cet iPhone peut le voir."
+            "value": "Apparaît dans Spotlight comme « %@ », où toute personne utilisant cet appareil peut le voir."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight में “%@” के रूप में दिखेगा, जहाँ इस iPhone का इस्तेमाल करने वाला कोई भी इसे देख सकता है।"
+            "value": "Spotlight में “%@” के रूप में दिखेगा, जहाँ इस डिवाइस का इस्तेमाल करने वाला कोई भी इसे देख सकता है।"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Appare in Spotlight come “%@”, dove chiunque usi questo iPhone può vederlo."
+            "value": "Appare in Spotlight come “%@”, dove chiunque usi questo dispositivo può vederlo."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlightには「%@」と表示され、このiPhoneを使う人なら誰でも見られます。"
+            "value": "Spotlightには「%@」と表示され、このデバイスを使う人なら誰でも見られます。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight에 “%@”(으)로 표시되며, 이 iPhone을 사용하는 누구나 볼 수 있어요."
+            "value": "Spotlight에 “%@”(으)로 표시되며, 이 기기를 사용하는 누구나 볼 수 있어요."
           }
         },
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Verschijnt in Spotlight als ‘%@’, waar iedereen die deze iPhone gebruikt het kan zien."
+            "value": "Verschijnt in Spotlight als ‘%@’, waar iedereen die dit apparaat gebruikt het kan zien."
           }
         },
         "pt-BR": {
@@ -1684,25 +1684,25 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Отображается в Spotlight как «%@» — его может увидеть любой, кто пользуется этим iPhone."
+            "value": "Отображается в Spotlight как «%@» — его может увидеть любой, кто пользуется этим устройством."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spotlight’ta “%@” olarak görünür; bu iPhone’u kullanan herkes görebilir."
+            "value": "Spotlight’ta “%@” olarak görünür; bu cihazı kullanan herkes görebilir."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "在“聚焦”中显示为“%@”，任何使用这台 iPhone 的人都可能看到。"
+            "value": "在“聚焦”中显示为“%@”，任何使用这台设备 的人都可能看到。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "在「Spotlight」中顯示為「%@」，任何使用這部 iPhone 的人都可能看到。"
+            "value": "在「Spotlight」中顯示為「%@」，任何使用這部裝置 的人都可能看到。"
           }
         }
       }

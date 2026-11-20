@@ -34,8 +34,8 @@ final class MacCapture: NSObject, NSWindowDelegate {
             window.center()
         }
         windows.append(window)
-        window.makeKeyAndOrderFront(nil)
         NSApp.activate()
+        window.makeKeyAndOrderFront(nil)
     }
 
     func windowWillClose(_ notification: Notification) {
