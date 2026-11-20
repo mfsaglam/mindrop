@@ -3,18 +3,12 @@ import AppKit
 import MindropCore
 import SwiftUI
 
-/// Owns the editor window even when the library and Settings windows are closed.
+/// Keeps independent drafts open even when the library and Settings windows are closed.
 @MainActor
 final class MacCapture: NSObject, NSWindowDelegate {
-    private var window: NSWindow?
+    private var windows: [NSWindow] = []
 
     func show(repository: MemoryRepository, details: String = "") {
-        if let window {
-            window.makeKeyAndOrderFront(nil)
-            NSApp.activate()
-            return
-        }
-
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 500, height: 528),
             styleMask: [.titled, .closable, .fullSizeContentView],
@@ -33,14 +27,20 @@ final class MacCapture: NSObject, NSWindowDelegate {
             }
             .padding(.top, 18)
         )
-        self.window = window
-        window.center()
+        if let previousWindow = windows.last {
+            let topLeft = NSPoint(x: previousWindow.frame.minX, y: previousWindow.frame.maxY)
+            window.cascadeTopLeft(from: topLeft)
+        } else {
+            window.center()
+        }
+        windows.append(window)
         window.makeKeyAndOrderFront(nil)
         NSApp.activate()
     }
 
     func windowWillClose(_ notification: Notification) {
-        window = nil
+        guard let closed = notification.object as? NSWindow else { return }
+        windows.removeAll { $0 === closed }
     }
 }
 #endif

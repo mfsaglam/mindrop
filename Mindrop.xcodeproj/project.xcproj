@@ -46,6 +46,7 @@
             "Info.plist",
             "MindropMac-Info.plist",
             "MindropMac.entitlements",
+            "Resources/ServicesMenu.xcstrings",
           ],
         }, {
           "target": "MindropMac",

@@ -13,6 +13,7 @@ struct MindropApp: App {
     @UIApplicationDelegateAdaptor(HomeScreenActionAppDelegate.self) private var appDelegate
     @State private var session = MindropSession()
     #else
+    @NSApplicationDelegateAdaptor(MacServices.self) private var appDelegate
     @State private var session = MindropSession.shared
     @AppStorage(Preference.showsMenuBarIcon) private var showsMenuBarIcon = false
     #endif
