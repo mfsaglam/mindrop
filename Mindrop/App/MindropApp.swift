@@ -88,6 +88,8 @@ final class MindropSession {
     init() {
         #if os(iOS)
         watchLink = WatchLink(syncsWithICloud: Self.syncsWithICloud)
+        #else
+        NewMemoryRequest.shared.handleMacRequests { [weak self] in self?.showMacCapture() }
         #endif
         // Started here as well as by the first screen: a push from iCloud can launch the
         // app in the background, where no screen appears to start it.

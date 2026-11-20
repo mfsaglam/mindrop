@@ -9,8 +9,13 @@ import Observation
 public struct NewMemoryIntent: AppIntent {
     public static let title: LocalizedStringResource = "New Memory"
     public static let description = IntentDescription("Open Mindrop to start a new memory.")
+    #if os(macOS)
+    @available(macOS 26.0, *)
+    public static let supportedModes: IntentModes = .foreground
+    #else
     /// Always runs in the app, even when started from the control's extension.
     public static let openAppWhenRun = true
+    #endif
 
     public init() {}
 
@@ -51,13 +56,32 @@ public final class NewMemoryRequest {
     public var isPending = false
     /// The request came from Scan, so the editor opens on the camera.
     public private(set) var scans = false
+    #if os(macOS)
+    @ObservationIgnored private var macHandler: (() -> Void)?
+    #endif
 
     private init() {}
 
     public func request(scanning: Bool) {
+        #if os(macOS)
+        if let macHandler {
+            macHandler()
+            return
+        }
+        #endif
         scans = scanning
         isPending = true
     }
+
+    #if os(macOS)
+    public func handleMacRequests(with handler: @escaping () -> Void) {
+        macHandler = handler
+        if isPending {
+            isPending = false
+            handler()
+        }
+    }
+    #endif
 }
 
 /// Lets the app's and the extension's App Intents metadata include the intent defined here.

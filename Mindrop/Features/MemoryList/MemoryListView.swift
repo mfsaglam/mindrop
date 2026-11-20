@@ -24,7 +24,9 @@ struct MemoryListView: View {
     @State private var pendingDeletion: Memory?
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
     @Environment(\.sensitiveAccess) private var sensitiveAccess
+    #if os(iOS)
     private let newMemoryRequest = NewMemoryRequest.shared
+    #endif
 
     /// The filter, unless its last memory has since left that category.
     private var activeCategory: MemoryCategory? {
@@ -165,6 +167,7 @@ struct MemoryListView: View {
             #endif
             }
         }
+        #if os(iOS)
         // A Control Center control, the Action button or Siri asked for a new memory.
         // Replaces Settings if it was open: the user came here to write something down.
         .onChange(of: newMemoryRequest.isPending, initial: true) { _, isPending in
@@ -172,6 +175,7 @@ struct MemoryListView: View {
             newMemoryRequest.isPending = false
             sheet = .newMemory(scanning: newMemoryRequest.scans)
         }
+        #endif
         // "Search in Mindrop" in Spotlight: the same search here, across every category.
         .onChange(of: session.pendingSearch, initial: true) { _, pending in
             guard let pending else { return }
