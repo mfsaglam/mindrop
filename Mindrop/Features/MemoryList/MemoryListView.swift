@@ -61,7 +61,7 @@ struct MemoryListView: View {
     var body: some View {
         ScrollView {
             if hasNoMemories {
-                SpotlightGuide { sheet = .newMemory() }
+                SpotlightGuide(newMemory: createMemory)
             }
 
             CardGrid {
@@ -123,10 +123,12 @@ struct MemoryListView: View {
         .searchable(text: $query, isPresented: $isSearching, placement: .toolbar, prompt: "Search memories")
         #if os(iOS)
         .searchToolbarBehavior(.minimize)
+        #else
+        .focusedSceneValue(\.findMemories, { isSearching = true })
         #endif
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button { sheet = .newMemory() } label: { Label("New Memory", image: "ix.add.linear") }
+                Button(action: createMemory) { Label("New Memory", image: "ix.add.linear") }
             }
             #if os(iOS)
             // Search at the bottom right, where the thumb is, rather than centred.
@@ -193,6 +195,14 @@ struct MemoryListView: View {
         } message: {
             Text("Please try again.")
         }
+    }
+
+    private func createMemory() {
+        #if os(macOS)
+        session.showMacCapture()
+        #else
+        sheet = .newMemory()
+        #endif
     }
 
     private var categoryMenu: some View {

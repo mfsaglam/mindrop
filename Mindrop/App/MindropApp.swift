@@ -11,8 +11,10 @@ import UIKit
 struct MindropApp: App {
     #if os(iOS)
     @UIApplicationDelegateAdaptor(HomeScreenActionAppDelegate.self) private var appDelegate
-    #endif
     @State private var session = MindropSession()
+    #else
+    @State private var session = MindropSession.shared
+    #endif
 
     var body: some Scene {
         WindowGroup {
@@ -21,12 +23,7 @@ struct MindropApp: App {
         #if os(macOS)
         .defaultSize(width: 760, height: 620)
         .commands {
-            CommandGroup(replacing: .newItem) {
-                Button("New Memory") {
-                    NewMemoryRequest.shared.request(scanning: false)
-                }
-                .keyboardShortcut("n")
-            }
+            MacMemoryCommands(session: session)
         }
         #endif
 
@@ -83,6 +80,9 @@ final class MindropSession {
     private(set) var cloudSync: CloudSync?
     #if os(iOS)
     private let watchLink: WatchLink
+    #else
+    static let shared = MindropSession()
+    private let macCapture = MacCapture()
     #endif
 
     init() {
@@ -135,6 +135,26 @@ final class MindropSession {
             phase = .failed(String(describing: error))
         }
     }
+
+    #if os(macOS)
+    func showMacCapture(details: String = "") {
+        if let repository {
+            macCapture.show(repository: repository, details: details)
+            return
+        }
+        Task {
+            await start()
+            if let repository {
+                macCapture.show(repository: repository, details: details)
+            }
+        }
+    }
+
+    func showMacCaptureFromClipboard() {
+        let text = NSPasteboard.general.string(forType: .string) ?? ""
+        showMacCapture(details: text)
+    }
+    #endif
 
     /// Picks up memories the share extension added while the app was in the background,
     /// and categorises them, since the extension does not. Also where expired memories

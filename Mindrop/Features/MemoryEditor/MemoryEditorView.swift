@@ -22,6 +22,7 @@ struct MemoryEditorView: View {
     let repository: MemoryRepository
     /// Opens on the camera, for the Scan control: the value is scanned, the keyword typed.
     var startsScanning = false
+    private let onClose: (() -> Void)?
 
     @Environment(\.dismiss) private var dismiss
     @State private var keyword: String
@@ -39,14 +40,18 @@ struct MemoryEditorView: View {
     @State private var imageLines = ImageLinesState.none
     @FocusState private var focusedField: Field?
 
-    init(mode: Mode, repository: MemoryRepository, startsScanning: Bool = false) {
+    init(
+        mode: Mode, repository: MemoryRepository, startsScanning: Bool = false,
+        initialDetails: String = "", onClose: (() -> Void)? = nil
+    ) {
         self.mode = mode
         self.repository = repository
         self.startsScanning = startsScanning
+        self.onClose = onClose
         switch mode {
         case .create:
             _keyword = State(initialValue: "")
-            _value = State(initialValue: "")
+            _value = State(initialValue: initialDetails)
         case .edit(let memory):
             _keyword = State(initialValue: memory.keyword)
             _value = State(initialValue: memory.value)
@@ -178,7 +183,7 @@ struct MemoryEditorView: View {
             Divider()
             HStack {
                 Spacer()
-                Button("Cancel", role: .cancel) { dismiss() }
+                Button("Cancel", role: .cancel, action: close)
                     .keyboardShortcut(.cancelAction)
                 Button("Save", action: save)
                     .buttonStyle(.borderedProminent)
@@ -315,9 +320,13 @@ struct MemoryEditorView: View {
                     isSensitive: isSensitive
                 )
             }
-            dismiss()
+            close()
         } catch {
             saveError = String(describing: error)
         }
+    }
+
+    private func close() {
+        if let onClose { onClose() } else { dismiss() }
     }
 }
