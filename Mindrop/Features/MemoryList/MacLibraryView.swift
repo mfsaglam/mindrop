@@ -52,7 +52,17 @@ struct MacLibraryView: View {
             List(selection: $area) {
                 Label("All Memories", systemImage: "tray.full").tag(Area.all)
                 ForEach(repository.categoriesInUse, id: \.self) { category in
-                    category.label.tag(Area.category(category))
+                    let item = Area.category(category)
+                    Label {
+                        Text(category.title)
+                    } icon: {
+                        Image(category.symbolName)
+                            .symbolRenderingMode(.hierarchical)
+                            .foregroundStyle(
+                                destination == item ? AnyShapeStyle(.foreground) : AnyShapeStyle(category.tint)
+                            )
+                    }
+                    .tag(item)
                 }
                 if !repository.expiredResults(for: "").isEmpty {
                     Label("Expired", systemImage: "clock").tag(Area.expired)
@@ -176,16 +186,18 @@ struct MacLibraryView: View {
 
     private func rows(_ memories: [Memory]) -> some View {
         ForEach(memories) { memory in
+            let isSelected = session.path.last == memory.id
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
-                    HighlightedText(memory.keyword, query: query)
+                    HighlightedText(memory.keyword, query: query, highlightsBackground: !isSelected)
                         .fontWeight(.medium)
                         .lineLimit(1)
                     if memory.isSensitive { SensitiveBadge() }
                 }
                 if sensitiveAccess.canShow(memory) {
-                    HighlightedText(memory.value, query: query).lineLimit(1)
-                        .foregroundStyle(.secondary)
+                    HighlightedText(memory.value, query: query, highlightsBackground: !isSelected)
+                        .lineLimit(1)
+                        .foregroundStyle(isSelected ? .primary : .secondary)
                 }
             }
             .padding(.vertical, 4)
