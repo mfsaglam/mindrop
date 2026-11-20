@@ -165,6 +165,10 @@ final class MindropSession {
         let text = NSPasteboard.general.string(forType: .string) ?? ""
         showMacCapture(details: text)
     }
+
+    func clearSpotlightHighlight() {
+        spotlightHighlight = nil
+    }
     #endif
 
     /// Picks up memories the share extension added while the app was in the background,

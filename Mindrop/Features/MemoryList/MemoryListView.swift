@@ -1,3 +1,4 @@
+#if os(iOS)
 import MindropCore
 import MindropIntents
 import SwiftUI
@@ -5,9 +6,7 @@ import SwiftUI
 struct MemoryListView: View {
     private enum Sheet: Hashable, Identifiable {
         case newMemory(scanning: Bool = false)
-        #if os(iOS)
         case settings
-        #endif
 
         var id: Self { self }
     }
@@ -24,9 +23,7 @@ struct MemoryListView: View {
     @State private var pendingDeletion: Memory?
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
     @Environment(\.sensitiveAccess) private var sensitiveAccess
-    #if os(iOS)
     private let newMemoryRequest = NewMemoryRequest.shared
-    #endif
 
     /// The filter, unless its last memory has since left that category.
     private var activeCategory: MemoryCategory? {
@@ -123,23 +120,17 @@ struct MemoryListView: View {
         .animation(.default, value: showsSections)
         .navigationTitle("Mindrop")
         .searchable(text: $query, isPresented: $isSearching, placement: .toolbar, prompt: "Search memories")
-        #if os(iOS)
         .searchToolbarBehavior(.minimize)
-        #else
-        .focusedSceneValue(\.findMemories, { isSearching = true })
-        #endif
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button(action: createMemory) { Label("New Memory", image: "ix.add.linear") }
             }
-            #if os(iOS)
             // Search at the bottom right, where the thumb is, rather than centred.
             ToolbarSpacer(.flexible, placement: .bottomBar)
             DefaultToolbarItem(kind: .search, placement: .bottomBar)
             ToolbarItem(placement: .memoryLeading) {
                 Button { sheet = .settings } label: { Label("Settings", image: "ix.setting-2.linear") }
             }
-            #endif
             // Only once something is categorised: without Apple Intelligence the app
             // looks exactly as it did.
             if !repository.categoriesInUse.isEmpty {
@@ -161,13 +152,10 @@ struct MemoryListView: View {
             switch sheet {
             case .newMemory(let scanning):
                 MemoryEditorView(mode: .create, repository: repository, startsScanning: scanning)
-            #if os(iOS)
             case .settings:
                 SettingsView(repository: repository, session: session)
-            #endif
             }
         }
-        #if os(iOS)
         // A Control Center control, the Action button or Siri asked for a new memory.
         // Replaces Settings if it was open: the user came here to write something down.
         .onChange(of: newMemoryRequest.isPending, initial: true) { _, isPending in
@@ -175,7 +163,6 @@ struct MemoryListView: View {
             newMemoryRequest.isPending = false
             sheet = .newMemory(scanning: newMemoryRequest.scans)
         }
-        #endif
         // "Search in Mindrop" in Spotlight: the same search here, across every category.
         .onChange(of: session.pendingSearch, initial: true) { _, pending in
             guard let pending else { return }
@@ -202,11 +189,7 @@ struct MemoryListView: View {
     }
 
     private func createMemory() {
-        #if os(macOS)
-        session.showMacCapture()
-        #else
         sheet = .newMemory()
-        #endif
     }
 
     private var categoryMenu: some View {
@@ -374,28 +357,4 @@ private extension View {
             .padding(.leading, 4)
     }
 }
-
-/// "Expires tomorrow" for a temporary memory, "Deleted for good in 6 days" for an expired
-/// one, nothing for a memory kept forever. Shared by the list and the detail screen.
-struct ExpiryText: View {
-    private let memory: Memory
-    private let isExpired: Bool
-
-    init?(memory: Memory, now: Date = .now) {
-        guard memory.expiresAt != nil else { return nil }
-        self.memory = memory
-        isExpired = memory.isExpired(at: now)
-    }
-
-    var body: some View {
-        HStack(spacing: 4) {
-            if isExpired, let deletion = memory.deletionDate {
-                Image("ix.trash.linear")
-                Text("Deleted for good \(deletion, format: .relative(presentation: .named))")
-            } else if let expiry = memory.expiresAt {
-                Image("ix.timer.linear")
-                Text("Expires \(expiry, format: .relative(presentation: .named))")
-            }
-        }
-    }
-}
+#endif

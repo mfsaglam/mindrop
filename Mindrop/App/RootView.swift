@@ -11,6 +11,13 @@ struct RootView: View {
             case .loading:
                 ProgressView()
             case .ready(let repository):
+                #if os(macOS)
+                MacLibraryView(repository: repository, session: session)
+                    .frame(minWidth: 660, minHeight: 420)
+                    .task {
+                        if scenePhase == .active { session.refresh(backsUpToDrive: true) }
+                    }
+                #else
                 NavigationStack(path: Binding(get: { session.path }, set: { session.path = $0 })) {
                     MemoryListView(repository: repository, session: session)
                         .navigationDestination(for: UUID.self) { id in
@@ -20,6 +27,7 @@ struct RootView: View {
                 .task {
                     if scenePhase == .active { session.refresh(backsUpToDrive: true) }
                 }
+                #endif
             case .failed:
                 ContentUnavailableView {
                     Label("Mindrop can’t open your memories", image: "ix.danger.linear")
