@@ -59,6 +59,7 @@ final class MindropSession {
     private(set) var lastSpotlightActivity: (type: String, keys: [String])?
     #endif
     let sensitiveAccess = SensitiveAccess()
+    let driveBackup = DriveMemoryBackup()
     private(set) var cloudSync: CloudSync?
     #if os(iOS)
     private let watchLink: WatchLink
@@ -118,12 +119,19 @@ final class MindropSession {
     /// Picks up memories the share extension added while the app was in the background,
     /// and categorises them, since the extension does not. Also where expired memories
     /// past their 7 days are deleted for good.
-    func refresh() {
+    func refresh(backsUpToDrive: Bool = false) {
         try? repository?.load()
         try? repository?.purge()
         repository?.categorizePending()
         cloudSync?.sendLocalChanges()
-        if let cloudSync { Task { await cloudSync.fetchChanges() } }
+        Task {
+            await cloudSync?.fetchChanges()
+            guard backsUpToDrive, UserDefaults.standard.bool(forKey: Preference.automaticDriveBackup),
+                  let repository,
+                  let memories = try? repository.memoriesForBackup()
+            else { return }
+            try? await driveBackup.create(memories: memories, automatically: true)
+        }
     }
 
     /// On unless the user turned it off in Settings.

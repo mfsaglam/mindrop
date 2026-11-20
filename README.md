@@ -580,6 +580,20 @@ Before distribution, create a development backup to initialize the `MemoryBackup
 type and deploy its schema to production. Verify create, list, restore and delete across
 two devices on the same iCloud account using the same CloudKit environment.
 
+#### iCloud Drive files
+
+Settings → iCloud Backup → iCloud Drive Backups adds manual file backups and optional
+automatic backups. When the app opens, it checks the active library and creates a backup
+if it changed and at least 24 hours have elapsed since the last automatic backup on this
+device. The device stages the file in iCloud Drive → Mindrop → Backups. Settings shows
+the last upload confirmed by iCloud Drive.
+
+Mindrop encrypts the entire snapshot with AES-GCM and stores its key in iCloud Keychain.
+Enable iCloud Keychain on your devices to restore a file created elsewhere. Restore from
+File uses the same copy-based restore as CloudKit backups. For distribution, ensure the
+iOS and macOS signing profiles include CloudDocuments and refresh the app's build version
+so iCloud Drive picks up its document container metadata.
+
 ## Apple Watch
 
 The watch app saves memories without reaching for the iPhone: Keyword, Details, Sensitive,

@@ -15,6 +15,7 @@ struct ICloudBackupsView: View {
     }
 
     let repository: MemoryRepository
+    let drive: DriveMemoryBackup
     private let cloud = CloudMemoryBackup()
 
     @State private var backups: [MemoryBackup] = []
@@ -25,6 +26,12 @@ struct ICloudBackupsView: View {
 
     var body: some View {
         Form {
+            Section {
+                NavigationLink("iCloud Drive Backups") {
+                    DriveBackupsView(repository: repository, drive: drive)
+                }
+            }
+
             Section {
                 Button("Back Up Now") { Task { await create() } }
                     .disabled(isWorking)

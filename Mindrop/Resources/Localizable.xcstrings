@@ -12548,6 +12548,227 @@
           }
         }
       }
+    },
+    "Automatic Backups" : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatic Backups"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otomatik Yedekleme"
+          }
+        }
+      }
+    },
+    "Confirm this iCloud account with Back Up Now, or turn automatic backups off and on." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm this iCloud account with Back Up Now, or turn automatic backups off and on."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu iCloud hesabını doğrulamak için Şimdi Yedekle’ye dokun veya otomatik yedeklemeyi kapatıp yeniden aç."
+          }
+        }
+      }
+    },
+    "Find encrypted backups in iCloud Drive → Mindrop → Backups. Keep iCloud Keychain on to restore on your other devices." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find encrypted backups in iCloud Drive → Mindrop → Backups. Keep iCloud Keychain on to restore on your other devices."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreli yedekleri iCloud Drive → Mindrop → Backups altında bulabilirsin. Diğer cihazlarında geri yüklemek için iCloud Anahtar Zinciri’ni açık tut."
+          }
+        }
+      }
+    },
+    "iCloud Drive Backups" : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive Backups"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive Yedekleri"
+          }
+        }
+      }
+    },
+    "Last Successful Backup" : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last Successful Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son Başarılı Yedekleme"
+          }
+        }
+      }
+    },
+    "Mindrop checks for changes when you open the app and backs up at most once every 24 hours per device." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop checks for changes when you open the app and backs up at most once every 24 hours per device."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop açıldığında değişiklikleri kontrol eder ve her cihazda 24 saatte en fazla bir otomatik yedek alır."
+          }
+        }
+      }
+    },
+    "Mindrop couldn’t read this backup file." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop couldn’t read this backup file."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop bu yedek dosyasını okuyamadı."
+          }
+        }
+      }
+    },
+    "No confirmed upload on this device." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No confirmed upload on this device."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu cihazda henüz tamamlanmış yükleme yok."
+          }
+        }
+      }
+    },
+    "Preparing Backup or Restore…" : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparing Backup or Restore…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İşlem hazırlanıyor…"
+          }
+        }
+      }
+    },
+    "Restore from File" : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore from File"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosyadan Geri Yükle"
+          }
+        }
+      }
+    },
+    "The backup key is unavailable. Check iCloud Keychain or use the device that created the backup." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The backup key is unavailable. Check iCloud Keychain or use the device that created the backup."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedek anahtarına erişilemiyor. iCloud Anahtar Zinciri’ni kontrol et veya yedeği oluşturan cihazı kullan."
+          }
+        }
+      }
+    },
+    "Turn on iCloud Drive on this device and try again." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on iCloud Drive on this device and try again."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu cihazda iCloud Drive’ı açıp tekrar dene."
+          }
+        }
+      }
+    },
+    "Waiting for iCloud Drive to upload…" : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waiting for iCloud Drive to upload…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive’a yüklenmesi bekleniyor…"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

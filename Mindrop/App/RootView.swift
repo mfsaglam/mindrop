@@ -17,6 +17,9 @@ struct RootView: View {
                             MemoryDetailView(repository: repository, memoryID: id, highlight: session.highlight(for: id))
                         }
                 }
+                .task {
+                    if scenePhase == .active { session.refresh(backsUpToDrive: true) }
+                }
             case .failed:
                 ContentUnavailableView {
                     Label("Mindrop can’t open your memories", image: "ix.danger.linear")
@@ -34,7 +37,7 @@ struct RootView: View {
             session.open(activity: activity)
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active { session.refresh() }
+            if phase == .active { session.refresh(backsUpToDrive: true) }
             // Not on `.inactive`: the Face ID prompt itself makes the app inactive.
             if phase == .background { session.sensitiveAccess.lock() }
         }

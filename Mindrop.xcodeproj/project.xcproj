@@ -44,6 +44,7 @@
           "target": "Mindrop",
           "exclusions": [
             "Info.plist",
+            "MindropMac-Info.plist",
             "MindropMac.entitlements",
           ],
         }, {
@@ -53,6 +54,7 @@
             "App/WatchLink.swift",
             "Features/MemoryEditor/ValueScanner.swift",
             "Info.plist",
+            "MindropMac-Info.plist",
             "MindropMac.entitlements",
           ],
         }, {
@@ -220,6 +222,7 @@
         "ENABLE_APP_SANDBOX": "YES",
         "ENABLE_OUTGOING_NETWORK_CONNECTIONS": "YES",
         "GENERATE_INFOPLIST_FILE": "YES",
+        "INFOPLIST_FILE": "Mindrop/MindropMac-Info.plist",
         "INFOPLIST_KEY_CFBundleDisplayName": "Mindrop",
         "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",
         "INFOPLIST_KEY_LSApplicationCategoryType": "public.app-category.utilities",
