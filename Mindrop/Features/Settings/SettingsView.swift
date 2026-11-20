@@ -7,6 +7,9 @@ enum Preference {
     static let groupsByCategory = "groupsByCategory"
     static let syncsWithICloud = "syncsWithICloud"
     static let automaticDriveBackup = "automaticDriveBackup"
+    #if os(macOS)
+    static let showsMenuBarIcon = "showsMenuBarIcon"
+    #endif
 }
 
 struct SettingsView: View {
@@ -18,10 +21,18 @@ struct SettingsView: View {
     #endif
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
     @AppStorage(Preference.syncsWithICloud) private var syncsWithICloud = true
+    #if os(macOS)
+    @AppStorage(Preference.showsMenuBarIcon) private var showsMenuBarIcon = false
+    #endif
 
     var body: some View {
         NavigationStack {
             Form {
+                #if os(macOS)
+                Section {
+                    Toggle("Show Mindrop in Menu Bar", isOn: $showsMenuBarIcon)
+                }
+                #endif
                 Section {
                     Toggle("Group by Category", isOn: $groupsByCategory)
                 } footer: {

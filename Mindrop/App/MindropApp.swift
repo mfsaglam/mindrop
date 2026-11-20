@@ -14,20 +14,21 @@ struct MindropApp: App {
     @State private var session = MindropSession()
     #else
     @State private var session = MindropSession.shared
+    @AppStorage(Preference.showsMenuBarIcon) private var showsMenuBarIcon = false
     #endif
 
     var body: some Scene {
-        WindowGroup {
-            RootView(session: session)
-        }
         #if os(macOS)
+        WindowGroup("Mindrop", id: MacStatusMenu.libraryID, for: Bool.self) { _ in
+            RootView(session: session)
+        } defaultValue: {
+            true
+        }
         .defaultSize(width: 760, height: 620)
         .commands {
             MacMemoryCommands(session: session)
         }
-        #endif
 
-        #if os(macOS)
         Settings {
             Group {
                 switch session.phase {
@@ -44,6 +45,14 @@ struct MindropApp: App {
                 }
             }
             .frame(minWidth: 480, idealWidth: 540, minHeight: 420, idealHeight: 520)
+        }
+
+        MenuBarExtra("Mindrop", systemImage: "text.badge.plus", isInserted: $showsMenuBarIcon) {
+            MacStatusMenu(session: session)
+        }
+        #else
+        WindowGroup {
+            RootView(session: session)
         }
         #endif
     }
