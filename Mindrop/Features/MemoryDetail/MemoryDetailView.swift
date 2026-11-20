@@ -92,18 +92,33 @@ struct MemoryDetailView: View {
     }
 
     private func header(for memory: Memory) -> some View {
-        HStack(spacing: 10) {
-            CategoryTile(category: memory.category?.category)
-            HStack(spacing: 4) {
-                HighlightedText(memory.keyword, query: highlight)
-                    .lineLimit(2)
-                if memory.isSensitive {
-                    SensitiveBadge()
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(spacing: 10) {
+                CategoryTile(category: memory.category?.category)
+                HStack(spacing: 4) {
+                    HighlightedText(memory.keyword, query: highlight)
+                        .lineLimit(2)
+                    if memory.isSensitive {
+                        SensitiveBadge()
+                    }
                 }
+                .font(.headline)
+                Spacer(minLength: 8)
+                #if os(iOS)
+                categoryMenu(for: memory)
+                #endif
             }
-            .font(.headline)
-            Spacer(minLength: 8)
-            categoryMenu(for: memory)
+            #if os(macOS)
+            VStack(alignment: .leading, spacing: 5) {
+                Text("Category")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
+                categoryPicker(for: memory)
+                    .pickerStyle(.menu)
+                    .labelsHidden()
+            }
+            #endif
         }
     }
 
@@ -253,16 +268,10 @@ struct MemoryDetailView: View {
         }
     }
 
-    /// Shows the category and lets the user overrule it. "Automatic" hands the choice
-    /// back to Apple Intelligence.
+    #if os(iOS)
     private func categoryMenu(for memory: Memory) -> some View {
         Menu {
-            Picker("Category", selection: categoryBinding(for: memory)) {
-                Label("Automatic", image: "ix.magic-star.linear").tag(MemoryCategory?.none)
-                ForEach(MemoryCategory.allCases, id: \.self) { category in
-                    category.menuLabel.tag(Optional(category))
-                }
-            }
+            categoryPicker(for: memory)
         } label: {
             // The tile beside the keyword already shows the category's symbol.
             Group {
@@ -279,6 +288,30 @@ struct MemoryDetailView: View {
             .glassEffect(.category(memory.category?.category), in: .capsule)
         }
         .accessibilityLabel("Category")
+    }
+    #endif
+
+    /// "Automatic" hands the choice back to Apple Intelligence.
+    private func categoryPicker(for memory: Memory) -> some View {
+        Picker("Category", selection: categoryBinding(for: memory)) {
+            #if os(macOS)
+            if let assignment = memory.category, assignment.source == .automatic {
+                Text("\(Text("Automatic")) (\(Text(assignment.category.title)))")
+                    .tag(MemoryCategory?.none)
+            } else {
+                Text("Automatic").tag(MemoryCategory?.none)
+            }
+            #else
+            Label("Automatic", image: "ix.magic-star.linear").tag(MemoryCategory?.none)
+            #endif
+            ForEach(MemoryCategory.allCases, id: \.self) { category in
+                #if os(macOS)
+                Text(category.title).tag(Optional(category))
+                #else
+                category.menuLabel.tag(Optional(category))
+                #endif
+            }
+        }
     }
 
     /// What the picker shows as chosen: only a manual pick, so "Automatic" stays ticked
