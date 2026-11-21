@@ -294,7 +294,7 @@ struct MemoryListView: View {
 }
 
 /// A memory in the grid: the keyword small at the top, the value below as the card's
-/// headline, on glass touched with the category's colour.
+/// headline, on regular glass.
 struct MemoryCard: View {
     let memory: Memory
     /// The category's symbol beside the keyword, when no section heading names it.
@@ -344,7 +344,7 @@ struct MemoryCard: View {
         .padding(14)
         .frame(maxWidth: .infinity, minHeight: 104, alignment: .topLeading)
         .contentShape(.rect(cornerRadius: 22, style: .continuous))
-        .glassEffect(.category(memory.category?.category).interactive(), in: .rect(cornerRadius: 22, style: .continuous))
+        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 22, style: .continuous))
         .accessibilityElement(children: .combine)
     }
 }

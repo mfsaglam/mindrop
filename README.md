@@ -326,9 +326,8 @@ plain system background.
 
 - **The list is a grid of glass cards**, two columns (more on iPhone Duo's inner display; see
   [iPhone Duo](#iphone-duo)): the keyword small at the top, the value as the card's
-  headline. Each card's glass has a touch (8%) of its category's colour
-  (`Glass.category`). Grouped by category, the section heading carries the category's
-  symbol and the cards leave it out; as one list, each card shows its own symbol. A long
+  headline. Every card uses regular glass. Grouped by category, the section heading carries
+  the coloured category symbol. In the flat list, each card shows its own symbol. A long
   press offers Copy and Delete (Recover and Delete for an expired one): a grid has no swipe
   actions. Recently Deleted is a glass row under the cards.
 - **Search sits at the bottom right**, a toolbar item after a flexible spacer, not centred.
@@ -354,8 +353,8 @@ plain system background.
   only while something is there) deletes every one for good, after one alert. Empty (when its last memory
   is recovered or deleted for good), it shows a deleted memory's three stages: Deleted, 30
   days to recover, gone for good.
-- **The detail screen is the value on one glass card**, tinted the same way, under the
-  category's tile (the same icon as in Spotlight) and the keyword. Below it: Copy in the
+- **The detail screen is the value on one glass card** with the category tint. The category
+  tile (the same icon as in Spotlight) and the keyword sit above it. Below it: Copy in the
   category's colour, which reads "Copied" for a moment; Share; and the value's own action
   when it has one (`MemoryAction`): Open for a web address, Directions to an address in
   Apple Maps, or Call for a number in Contacts, Family & People or Health. Then the line
@@ -430,7 +429,7 @@ does not look like a stock iOS app. Two styles:
 - **Bulk for categories**, in section headers, on cards, the detail screen's tile and the
   Spotlight icons: a soft 40% shape under solid detail. The soft parts are the symbol's
   secondary layer, so `.symbolRenderingMode(.hierarchical)` draws them in a lighter shade of
-  the category's colour, the same touch of colour as the cards' glass.
+  the category's colour.
 - **Linear for everything tapped**: the toolbar, Copy, Share, the value's action, menus,
   swipe and long-press actions, empty states. Filter turns Bold while a category is
   chosen, and the sensitive lock is Bold.
