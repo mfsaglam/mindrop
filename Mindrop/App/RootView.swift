@@ -20,8 +20,10 @@ struct RootView: View {
                 #else
                 NavigationStack(path: Binding(get: { session.path }, set: { session.path = $0 })) {
                     MemoryListView(repository: repository, session: session)
+                        .memoryScreenBackground()
                         .navigationDestination(for: UUID.self) { id in
                             MemoryDetailView(repository: repository, memoryID: id, highlight: session.highlight(for: id))
+                                .memoryScreenBackground()
                         }
                 }
                 .task {

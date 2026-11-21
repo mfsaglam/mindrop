@@ -27,6 +27,9 @@ struct HowMindropWorksView: View {
         }
         .contentMargins(.horizontal, 16, for: .scrollContent)
         .contentMargins(.bottom, 24, for: .scrollContent)
+        #if os(iOS)
+        .memoryScreenBackground()
+        #endif
         .navigationTitle("How Mindrop Works")
         .inlineNavigationTitle()
     }

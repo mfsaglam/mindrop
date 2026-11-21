@@ -25,7 +25,7 @@ struct ICloudBackupsView: View {
     @State private var message: Message?
 
     var body: some View {
-        Form {
+        MemorySheetForm {
             Section {
                 NavigationLink("iCloud Drive Backups") {
                     DriveBackupsView(repository: repository, drive: drive)

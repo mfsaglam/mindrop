@@ -14,6 +14,9 @@ struct SpotlightGuide: View {
     private let examples: [SpotlightExample]
     private let showsOwnMemories: Bool
     private let newMemory: (() -> Void)?
+    #if os(iOS)
+    @Environment(\.colorScheme) private var colorScheme
+    #endif
 
     /// The empty list's guide: sample searches, and the button to save a first memory.
     init(newMemory: @escaping () -> Void) {
@@ -35,7 +38,7 @@ struct SpotlightGuide: View {
     var body: some View {
         FoldSpread(alignment: .center, spacing: 28, pageAlignment: .center) {
             VStack(spacing: 10) {
-                SpotlightPreview(examples: examples)
+                SpotlightPreview(examples: examples, panelBackground: panelBackground)
                 if showsOwnMemories {
                     Text("Your own memories, as Spotlight shows them.")
                         .font(.footnote)
@@ -78,6 +81,15 @@ struct SpotlightGuide: View {
                 .controlSize(.large)
             }
         }
+    }
+
+    private var panelBackground: AnyShapeStyle {
+        #if os(iOS)
+        if newMemory == nil && colorScheme == .dark {
+            return AnyShapeStyle(Color(.memorySheetDarkRowBackground))
+        }
+        #endif
+        return AnyShapeStyle(.quaternary.opacity(0.4))
     }
 
     private var buttonTextColor: Color {
@@ -136,6 +148,7 @@ struct SpotlightExample {
 private struct SpotlightPreview: View {
     /// Never empty, and fixed for the preview's lifetime: the animation steps through them.
     let examples: [SpotlightExample]
+    let panelBackground: AnyShapeStyle
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverEnabled
@@ -185,7 +198,7 @@ private struct SpotlightPreview: View {
             .offset(y: resultIsVisible ? 0 : 8)
         }
         .padding(18)
-        .background(.quaternary.opacity(0.4), in: .rect(cornerRadius: 34, style: .continuous))
+        .background(panelBackground, in: .rect(cornerRadius: 34, style: .continuous))
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("Example: searching “\(keyword)” in Spotlight shows “\(value)”."))
         .task(id: animatesSearch) {

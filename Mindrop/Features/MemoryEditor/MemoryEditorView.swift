@@ -203,7 +203,7 @@ struct MemoryEditorView: View {
     #else
     private var editor: some View {
         NavigationStack {
-            Form {
+            MemorySheetForm {
                 Section {
                     TextField("Keyword", text: $keyword)
                         #if os(iOS)

@@ -56,6 +56,7 @@ struct ValueScanner: View {
                     }
                 }
             }
+            .memoryScreenBackground()
             .navigationTitle("Scan")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

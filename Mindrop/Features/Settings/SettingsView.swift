@@ -27,7 +27,7 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
+            MemorySheetForm {
                 #if os(macOS)
                 Section {
                     Toggle("Show Mindrop in Menu Bar", isOn: $showsMenuBarIcon)

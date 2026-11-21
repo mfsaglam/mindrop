@@ -20,7 +20,7 @@ struct DriveBackupsView: View {
     @State private var message: String?
 
     var body: some View {
-        Form {
+        MemorySheetForm {
             Section {
                 Toggle("Automatic Backups", isOn: $automatic)
                     #if os(macOS)
