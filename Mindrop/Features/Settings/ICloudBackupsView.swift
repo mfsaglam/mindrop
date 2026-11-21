@@ -34,15 +34,30 @@ struct ICloudBackupsView: View {
             }
 
             Section {
-                Button("Back Up Now") { Task { await create() } }
-                    .disabled(isWorking)
+                #if os(macOS)
+                LabeledContent {
+                    backUpButton
+                        .buttonStyle(.bordered)
+                } label: {
+                    backupDescription
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                #else
+                backUpButton
+                #endif
             } footer: {
-                Text("A backup keeps a dated copy of your active memories in iCloud. Backups stay available until you delete them.")
+                #if os(iOS)
+                backupDescription
+                #endif
             }
 
             Section("Saved Backups") {
                 if isWorking {
                     ProgressView()
+                        #if os(macOS)
+                        .controlSize(.small)
+                        #endif
                 }
                 if backups.isEmpty, hasLoaded {
                     Text("No backups yet.")
@@ -52,33 +67,14 @@ struct ICloudBackupsView: View {
                     Button("Try Again") { Task { await load() } }
                 }
                 ForEach(backups) { backup in
-                    HStack {
-                        Button {
-                            confirmation = .restore(backup)
-                        } label: {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(backup.createdAt.formatted(date: .abbreviated, time: .shortened))
-                                Text("Memories: \(backup.memoryCount)")
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .contentShape(.rect)
-                        }
-                        .buttonStyle(.plain)
-
-                        Menu {
-                            Button("Restore Backup") { confirmation = .restore(backup) }
-                            Button("Delete Backup", role: .destructive) { confirmation = .delete(backup) }
-                        } label: {
-                            Label("Backup Actions", systemImage: "ellipsis.circle")
-                                .labelStyle(.iconOnly)
-                        }
-                    }
-                    .disabled(isWorking)
+                    backupRow(backup)
+                        .disabled(isWorking)
                 }
             }
         }
+        #if os(macOS)
+        .formStyle(.grouped)
+        #endif
         .navigationTitle("iCloud Backup")
         .inlineNavigationTitle()
         .task { await load() }
@@ -105,6 +101,60 @@ struct ICloudBackupsView: View {
         }
         .alert(item: $message) { message in
             Alert(title: Text(message.title), message: Text(message.detail), dismissButton: .default(Text("OK")))
+        }
+    }
+
+    private var backUpButton: some View {
+        Button("Back Up Now") { Task { await create() } }
+            .disabled(isWorking)
+    }
+
+    private var backupDescription: Text {
+        Text("A backup keeps a dated copy of your active memories in iCloud. Backups stay available until you delete them.")
+    }
+
+    private func backupRow(_ backup: MemoryBackup) -> some View {
+        HStack {
+            #if os(macOS)
+            backupSummary(backup)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            Button("Restore Backup") { confirmation = .restore(backup) }
+            Button(role: .destructive) { confirmation = .delete(backup) } label: {
+                Label("Delete Backup", systemImage: "trash")
+                    .labelStyle(.iconOnly)
+            }
+            .help("Delete Backup")
+            #else
+            Button {
+                confirmation = .restore(backup)
+            } label: {
+                backupSummary(backup)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(.rect)
+            }
+            .buttonStyle(.plain)
+
+            Menu {
+                Button("Restore Backup") { confirmation = .restore(backup) }
+                Button("Delete Backup", role: .destructive) { confirmation = .delete(backup) }
+            } label: {
+                Label("Backup Actions", systemImage: "ellipsis.circle")
+                    .labelStyle(.iconOnly)
+            }
+            #endif
+        }
+        #if os(macOS)
+        .buttonStyle(.bordered)
+        #endif
+    }
+
+    private func backupSummary(_ backup: MemoryBackup) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(backup.createdAt.formatted(date: .abbreviated, time: .shortened))
+            Text("Memories: \(backup.memoryCount)")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
         }
     }
 

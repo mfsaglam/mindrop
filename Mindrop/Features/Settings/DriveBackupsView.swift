@@ -23,16 +23,24 @@ struct DriveBackupsView: View {
         Form {
             Section {
                 Toggle("Automatic Backups", isOn: $automatic)
+                    #if os(macOS)
+                    .toggleStyle(.switch)
+                    #endif
                     .disabled(isWorking)
                     .onChange(of: automatic) { _, enabled in
                         if enabled { Task { await create(automatically: true) } }
                     }
-                Button("Back Up Now") {
-                    Task { await create(automatically: false) }
+                #if os(macOS)
+                HStack {
+                    Spacer()
+                    restoreButton
+                    backUpButton
                 }
-                .disabled(isWorking)
-                Button("Restore from File") { showsImporter = true }
-                    .disabled(isWorking)
+                .buttonStyle(.bordered)
+                #else
+                backUpButton
+                restoreButton
+                #endif
             } footer: {
                 Text("Find encrypted backups in iCloud Drive → Mindrop → Backups. Keep iCloud Keychain on to restore on your other devices.")
             }
@@ -63,6 +71,9 @@ struct DriveBackupsView: View {
                 Text("Mindrop checks for changes when you open the app and backs up at most once every 24 hours per device.")
             }
         }
+        #if os(macOS)
+        .formStyle(.grouped)
+        #endif
         .navigationTitle("iCloud Drive Backups")
         .inlineNavigationTitle()
         .task {
@@ -96,6 +107,16 @@ struct DriveBackupsView: View {
         } message: {
             Text(message ?? "")
         }
+    }
+
+    private var backUpButton: some View {
+        Button("Back Up Now") { Task { await create(automatically: false) } }
+            .disabled(isWorking)
+    }
+
+    private var restoreButton: some View {
+        Button("Restore from File") { showsImporter = true }
+            .disabled(isWorking)
     }
 
     private func refresh() async {
