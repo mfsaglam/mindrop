@@ -1,5 +1,8 @@
 import MindropCore
 import SwiftUI
+#if os(macOS)
+import AppKit
+#endif
 
 /// The list before anything is saved, which doubles as Mindrop's onboarding: a Spotlight
 /// search drawn the way Spotlight shows a memory, three steps, and the button to start.
@@ -51,7 +54,11 @@ struct SpotlightGuide: View {
 
             VStack(alignment: .leading, spacing: 16) {
                 step(1, Text("Save something with a keyword you’ll remember"))
+                #if os(macOS)
+                step(2, Text("Open Spotlight with Command–Space"))
+                #else
                 step(2, Text("Swipe down on the Home Screen"))
+                #endif
                 step(3, Text("Search for your keyword to see what you saved"))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -63,7 +70,7 @@ struct SpotlightGuide: View {
                         .labelStyle(.titleAndIcon)
                         .font(.headline)
                         // The accent is black, white in dark mode: the label takes the opposite.
-                        .foregroundStyle(Color(.systemBackground))
+                        .foregroundStyle(buttonTextColor)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
                 }
@@ -71,6 +78,14 @@ struct SpotlightGuide: View {
                 .controlSize(.large)
             }
         }
+    }
+
+    private var buttonTextColor: Color {
+        #if os(macOS)
+        Color(nsColor: .windowBackgroundColor)
+        #else
+        Color(.systemBackground)
+        #endif
     }
 
     private func step(_ number: Int, _ text: Text) -> some View {

@@ -22,6 +22,7 @@ struct MemoryEditorView: View {
     let repository: MemoryRepository
     /// Opens on the camera, for the Scan control: the value is scanned, the keyword typed.
     var startsScanning = false
+    private let onClose: (() -> Void)?
 
     @Environment(\.dismiss) private var dismiss
     @State private var keyword: String
@@ -31,20 +32,26 @@ struct MemoryEditorView: View {
     @State private var isSensitive: Bool
     @State private var saveError: String?
     @State private var hasVisitedDetails = false
+    #if os(iOS)
     @State private var isScanning = false
+    #endif
     @State private var isChoosingPhoto = false
     @State private var photo: PhotosPickerItem?
     @State private var imageLines = ImageLinesState.none
     @FocusState private var focusedField: Field?
 
-    init(mode: Mode, repository: MemoryRepository, startsScanning: Bool = false) {
+    init(
+        mode: Mode, repository: MemoryRepository, startsScanning: Bool = false,
+        initialDetails: String = "", onClose: (() -> Void)? = nil
+    ) {
         self.mode = mode
         self.repository = repository
         self.startsScanning = startsScanning
+        self.onClose = onClose
         switch mode {
         case .create:
             _keyword = State(initialValue: "")
-            _value = State(initialValue: "")
+            _value = State(initialValue: initialDetails)
         case .edit(let memory):
             _keyword = State(initialValue: memory.keyword)
             _value = State(initialValue: memory.value)
@@ -67,25 +74,153 @@ struct MemoryEditorView: View {
     }
 
     var body: some View {
+        editor
+            // A new memory starts with the keyboard up, so the control and the Action
+            // button land the user straight in typing.
+            .onAppear {
+                #if os(macOS)
+                if case .create = mode {
+                    // AppKit may load the hosting view before it makes the window key.
+                    DispatchQueue.main.async { focusedField = .keyword }
+                }
+                #else
+                if startsScanning, ValueScanner.isSupported {
+                    isScanning = true
+                    return
+                }
+                if case .create = mode { focusedField = .keyword }
+                #endif
+            }
+            #if os(iOS)
+            // Scanned or not, the keyword comes next.
+            .sheet(isPresented: $isScanning, onDismiss: { if keyword.isEmpty { focusedField = .keyword } }) {
+                ValueScanner { fill($0) }
+            }
+            #endif
+            .photosPicker(isPresented: $isChoosingPhoto, selection: $photo, matching: .images)
+            .task(id: photo) {
+                guard let photo else { return }
+                imageLines = .reading
+                if let data = try? await photo.loadTransferable(type: Data.self) {
+                    imageLines = .read(await ImageTextReader.lines(in: data))
+                } else {
+                    imageLines = .read([])
+                }
+            }
+            .onChange(of: focusedField) { _, field in
+                if field == .details, !MemoryNormalizer.normalizeKeyword(keyword).isEmpty {
+                    hasVisitedDetails = true
+                }
+            }
+            .alert("Couldn’t save", isPresented: .constant(saveError != nil)) {
+                Button("OK") { saveError = nil }
+            } message: {
+                Text("Please try again.")
+            }
+    }
+
+    @ViewBuilder
+    private var keywordHint: some View {
+        if showsKeywordHint {
+            Text("Use a keyword with at least 4 characters so Spotlight can find it.")
+        } else {
+            Text("What you’ll type in Spotlight to find it.")
+        }
+    }
+
+    private var memoryOptions: some View {
+        MemoryOptionsSection(
+            keyword: keyword,
+            value: value,
+            isSensitive: $isSensitive,
+            option: $lifetime,
+            date: $untilDate,
+            earliestDate: mode.memory?.expiresAt.map { min($0, .now) } ?? .now
+        )
+    }
+
+    #if os(macOS)
+    private var editor: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    Text(title)
+                        .font(.title2.weight(.semibold))
+                        .accessibilityAddTraits(.isHeader)
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Keyword").fontWeight(.medium)
+                        TextField("Keyword", text: $keyword, prompt: Text(verbatim: ""))
+                            .labelsHidden()
+                            .textFieldStyle(.roundedBorder)
+                            .autocorrectionDisabled()
+                            .focused($focusedField, equals: .keyword)
+                            .onSubmit { focusedField = .details }
+                        keywordHint
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Value").fontWeight(.medium)
+                        TextEditor(text: $value)
+                            .accessibilityLabel(Text("Value"))
+                            .autocorrectionDisabled()
+                            .focused($focusedField, equals: .details)
+                            .font(.body)
+                            .padding(6)
+                            .frame(minHeight: 116)
+                            .background(.background, in: .rect(cornerRadius: 8))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 8).strokeBorder(.quaternary)
+                            }
+                        Button("Choose Photo", systemImage: "photo") {
+                            isChoosingPhoto = true
+                        }
+                        .controlSize(.small)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+                    ImageLinesSection(state: imageLines, value: $value)
+                    memoryOptions
+                }
+                .padding(24)
+            }
+            Divider()
+            HStack {
+                Spacer()
+                Button("Cancel", role: .cancel, action: close)
+                    .keyboardShortcut(.cancelAction)
+                Button("Save", action: save)
+                    .buttonStyle(.borderedProminent)
+                    .keyboardShortcut(.return, modifiers: .command)
+                    .disabled(!canSave)
+            }
+            .controlSize(.large)
+            .padding(.horizontal, 24)
+            .padding(.vertical, 14)
+        }
+        .defaultFocus($focusedField, .keyword)
+        .frame(width: 500, height: 510)
+    }
+    #else
+    private var editor: some View {
         NavigationStack {
             Form {
                 Section {
                     TextField("Keyword", text: $keyword)
+                        #if os(iOS)
                         .textInputAutocapitalization(.never)
+                        #endif
                         .autocorrectionDisabled()
                         .focused($focusedField, equals: .keyword)
                 } footer: {
-                    if showsKeywordHint {
-                        Text("Use a keyword with at least 4 characters so Spotlight can find it.")
-                    } else {
-                        Text("What you’ll type in Spotlight to find it.")
-                    }
+                    keywordHint
                 }
                 Section {
                     HStack(alignment: .top, spacing: 12) {
                         TextField("Value", text: $value, axis: .vertical)
                             .lineLimit(2...)
+                            #if os(iOS)
                             .textInputAutocapitalization(.never)
+                            #endif
                             .autocorrectionDisabled()
                             .focused($focusedField, equals: .details)
                         detailsSources
@@ -105,45 +240,10 @@ struct MemoryEditorView: View {
                     }
                 }
                 ImageLinesSection(state: imageLines, value: $value)
-                MemoryOptionsSection(
-                    keyword: keyword,
-                    value: value,
-                    isSensitive: $isSensitive,
-                    option: $lifetime,
-                    date: $untilDate,
-                    earliestDate: mode.memory?.expiresAt.map { min($0, .now) } ?? .now
-                )
+                memoryOptions
             }
             .navigationTitle(title)
-            .navigationBarTitleDisplayMode(.inline)
-            // A new memory starts with the keyboard up, so the control and the Action
-            // button land the user straight in typing.
-            .onAppear {
-                if startsScanning, ValueScanner.isSupported {
-                    isScanning = true
-                } else if case .create = mode {
-                    focusedField = .keyword
-                }
-            }
-            // Scanned or not, the keyword comes next.
-            .sheet(isPresented: $isScanning, onDismiss: { if keyword.isEmpty { focusedField = .keyword } }) {
-                ValueScanner { fill($0) }
-            }
-            .photosPicker(isPresented: $isChoosingPhoto, selection: $photo, matching: .images)
-            .task(id: photo) {
-                guard let photo else { return }
-                imageLines = .reading
-                if let data = try? await photo.loadTransferable(type: Data.self) {
-                    imageLines = .read(await ImageTextReader.lines(in: data))
-                } else {
-                    imageLines = .read([])
-                }
-            }
-            .onChange(of: focusedField) { _, field in
-                if field == .details, !MemoryNormalizer.normalizeKeyword(keyword).isEmpty {
-                    hasVisitedDetails = true
-                }
-            }
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(role: .cancel) { dismiss() }
@@ -152,23 +252,22 @@ struct MemoryEditorView: View {
                     Button(role: .confirm, action: save).disabled(!canSave)
                 }
             }
-            .alert("Couldn’t save", isPresented: .constant(saveError != nil)) {
-                Button("OK") { saveError = nil }
-            } message: {
-                Text("Please try again.")
-            }
         }
     }
+    #endif
 
     /// One + beside the details, for filling them other than by typing: Scan, where the
     /// iPhone can, and a photo, whose lines are then offered as pills.
+    #if os(iOS)
     private var detailsSources: some View {
         Menu {
+            #if os(iOS)
             if ValueScanner.isSupported {
                 Button { isScanning = true } label: {
                     Label("Scan", image: "ix.scan.linear")
                 }
             }
+            #endif
             Button {
                 // The keyboard stays down after the picker, so the lines can be seen and picked.
                 focusedField = nil
@@ -186,13 +285,18 @@ struct MemoryEditorView: View {
         .accessibilityLabel(Text("Fill In Details"))
     }
 
+    #endif
+
     /// Takes a scanned or pasted value, then asks for the keyword if there is none yet:
     /// the keyword is always typed, since it is what the user will search for.
     private func fill(_ text: String) {
         let text = MemoryNormalizer.normalizeValue(text)
         guard !text.isEmpty else { return }
         value = text
-        if !isScanning, keyword.isEmpty { focusedField = .keyword }
+        #if os(iOS)
+        guard !isScanning else { return }
+        #endif
+        if keyword.isEmpty { focusedField = .keyword }
     }
 
     /// A `LocalizedStringKey`, not a `String`: `navigationTitle` only localises
@@ -220,9 +324,13 @@ struct MemoryEditorView: View {
                     isSensitive: isSensitive
                 )
             }
-            dismiss()
+            close()
         } catch {
             saveError = String(describing: error)
         }
+    }
+
+    private func close() {
+        if let onClose { onClose() } else { dismiss() }
     }
 }

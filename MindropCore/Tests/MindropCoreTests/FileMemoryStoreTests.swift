@@ -42,4 +42,19 @@ struct FileMemoryStoreTests {
 
         #expect(try store.load().map(\.keyword) == ["c"])
     }
+
+    @Test("A coordinated update reads the current file and preserves independent saves")
+    func coordinatedUpdate() throws {
+        let url = temporaryURL()
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        let store = FileMemoryStore(url: url)
+        let shared = FileMemoryStore(url: url)
+        let recent = makeMemory(keyword: "shared wifi", at: 1)
+        let restored = makeMemory(keyword: "old router", at: 2)
+        try shared.save([recent])
+
+        #expect(try store.update { $0 + [restored] } == [recent, restored])
+        #expect(try store.update { _ in nil } == nil)
+        #expect(try shared.load() == [recent, restored])
+    }
 }

@@ -30,6 +30,7 @@ struct CategorizationLogView: View {
                                     entry: entry,
                                     hidesPrompt: repository.memory(id: group.memoryID)?.isSensitive == true
                                 )
+                                .settingsBackButton()
                             } label: {
                                 EntryRow(entry: entry)
                             }
@@ -53,7 +54,7 @@ struct CategorizationLogView: View {
                 }
             }
             .navigationTitle(Text(verbatim: "Apple Intelligence"))
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Menu {
@@ -163,7 +164,7 @@ private struct EntryDetailView: View {
             }
         }
         .navigationTitle(Text(verbatim: entry.keyword))
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
     }
 
     private func block(_ text: String) -> some View {

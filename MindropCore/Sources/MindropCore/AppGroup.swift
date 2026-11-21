@@ -7,7 +7,21 @@ public enum AppGroup {
 
     /// The shared container, or `nil` when the entitlement is missing.
     public static var containerURL: URL? {
-        FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: identifier)
+        #if os(macOS)
+        let fileManager = FileManager.default
+        guard let support = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
+            return nil
+        }
+        let container = support.appending(path: "Mindrop", directoryHint: .isDirectory)
+        do {
+            try fileManager.createDirectory(at: container, withIntermediateDirectories: true)
+            return container
+        } catch {
+            return nil
+        }
+        #else
+        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: identifier)
+        #endif
     }
 
     public static let memoriesFileName = "memories.json"

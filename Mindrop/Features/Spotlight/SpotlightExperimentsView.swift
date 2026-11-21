@@ -73,7 +73,7 @@ struct SpotlightExperimentsView: View {
             }
         }
         .navigationTitle(Text(verbatim: "Spotlight Experiments"))
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .disabled(isWorking)
         .onChange(of: options) {
             SpotlightOptions.setCurrent(options)

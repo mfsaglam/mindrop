@@ -1,7 +1,7 @@
+#if os(iOS)
 import MindropCore
 import MindropIntents
 import SwiftUI
-import UIKit
 
 struct MemoryListView: View {
     private enum Sheet: Hashable, Identifiable {
@@ -60,7 +60,7 @@ struct MemoryListView: View {
     var body: some View {
         ScrollView {
             if hasNoMemories {
-                SpotlightGuide { sheet = .newMemory() }
+                SpotlightGuide(newMemory: createMemory)
             }
 
             CardGrid {
@@ -123,18 +123,18 @@ struct MemoryListView: View {
         .searchToolbarBehavior(.minimize)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button { sheet = .newMemory() } label: { Label("New Memory", image: "ix.add.linear") }
+                Button(action: createMemory) { Label("New Memory", image: "ix.add.linear") }
             }
             // Search at the bottom right, where the thumb is, rather than centred.
             ToolbarSpacer(.flexible, placement: .bottomBar)
             DefaultToolbarItem(kind: .search, placement: .bottomBar)
-            ToolbarItem(placement: .topBarLeading) {
+            ToolbarItem(placement: .memoryLeading) {
                 Button { sheet = .settings } label: { Label("Settings", image: "ix.setting-2.linear") }
             }
             // Only once something is categorised: without Apple Intelligence the app
             // looks exactly as it did.
             if !repository.categoriesInUse.isEmpty {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .memoryLeading) {
                     categoryMenu
                 }
             }
@@ -153,7 +153,7 @@ struct MemoryListView: View {
             case .newMemory(let scanning):
                 MemoryEditorView(mode: .create, repository: repository, startsScanning: scanning)
             case .settings:
-                SettingsView(repository: repository, categorizationLog: session.categorizationLog, session: session)
+                SettingsView(repository: repository, session: session)
             }
         }
         // A Control Center control, the Action button or Siri asked for a new memory.
@@ -186,6 +186,10 @@ struct MemoryListView: View {
         } message: {
             Text("Please try again.")
         }
+    }
+
+    private func createMemory() {
+        sheet = .newMemory()
     }
 
     private var categoryMenu: some View {
@@ -225,7 +229,7 @@ struct MemoryListView: View {
             .contextMenu {
                 if sensitiveAccess.canShow(memory) {
                     Button {
-                        UIPasteboard.general.string = memory.value
+                        Clipboard.copy(memory.value)
                     } label: {
                         Label("Copy", image: "ix.copy.linear")
                     }
@@ -353,28 +357,4 @@ private extension View {
             .padding(.leading, 4)
     }
 }
-
-/// "Expires tomorrow" for a temporary memory, "Deleted for good in 6 days" for an expired
-/// one, nothing for a memory kept forever. Shared by the list and the detail screen.
-struct ExpiryText: View {
-    private let memory: Memory
-    private let isExpired: Bool
-
-    init?(memory: Memory, now: Date = .now) {
-        guard memory.expiresAt != nil else { return nil }
-        self.memory = memory
-        isExpired = memory.isExpired(at: now)
-    }
-
-    var body: some View {
-        HStack(spacing: 4) {
-            if isExpired, let deletion = memory.deletionDate {
-                Image("ix.trash.linear")
-                Text("Deleted for good \(deletion, format: .relative(presentation: .named))")
-            } else if let expiry = memory.expiresAt {
-                Image("ix.timer.linear")
-                Text("Expires \(expiry, format: .relative(presentation: .named))")
-            }
-        }
-    }
-}
+#endif

@@ -1,7 +1,11 @@
 import MapKit
 import MindropCore
 import SwiftUI
+#if os(iOS)
 import UIKit
+#else
+import AppKit
+#endif
 
 /// Each category's icon as a PNG, which Spotlight shows on results in place of Mindrop's,
 /// with Mindrop's as a small badge: the category's symbol in white on its colour, like a
@@ -9,6 +13,7 @@ import UIKit
 enum SpotlightIcons {
     @MainActor
     static func make() -> [MemoryCategory: Data] {
+        #if os(iOS)
         let size = CGSize(width: 120, height: 120)
         let format = UIGraphicsImageRendererFormat()
         format.scale = 1
@@ -31,6 +36,27 @@ enum SpotlightIcons {
             }
         }
         return icons
+        #else
+        var icons: [MemoryCategory: Data] = [:]
+        for category in MemoryCategory.allCases {
+            let renderer = ImageRenderer(content:
+                RoundedRectangle(cornerRadius: 27)
+                    .fill(category.tint)
+                    .overlay {
+                        Image(category.symbolName)
+                            .renderingMode(.template)
+                            .font(.system(size: 56, weight: .semibold))
+                            .foregroundStyle(.white)
+                    }
+                    .frame(width: 120, height: 120)
+                    .environment(\.colorScheme, .light)
+            )
+            if let image = renderer.cgImage {
+                icons[category] = NSBitmapImageRep(cgImage: image).representation(using: .png, properties: [:])
+            }
+        }
+        return icons
+        #endif
     }
 }
 

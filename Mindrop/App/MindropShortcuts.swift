@@ -19,6 +19,7 @@ struct MindropShortcuts: AppShortcutsProvider {
             shortTitle: "New Memory",
             systemImageName: "plus"
         )
+        #if os(iOS)
         AppShortcut(
             intent: ScanValueIntent(),
             phrases: [
@@ -28,5 +29,6 @@ struct MindropShortcuts: AppShortcutsProvider {
             shortTitle: "Scan",
             systemImageName: "text.viewfinder"
         )
+        #endif
     }
 }

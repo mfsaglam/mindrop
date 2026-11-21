@@ -1,6 +1,5 @@
 import MindropCore
 import SwiftUI
-import UIKit
 
 struct MemoryDetailView: View {
     let repository: MemoryRepository
@@ -60,7 +59,7 @@ struct MemoryDetailView: View {
             .padding()
         }
         // No navigation title: the keyword is already on screen, above the value.
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 // The editor shows the value, so a hidden one is unlocked first.
@@ -93,18 +92,33 @@ struct MemoryDetailView: View {
     }
 
     private func header(for memory: Memory) -> some View {
-        HStack(spacing: 10) {
-            CategoryTile(category: memory.category?.category)
-            HStack(spacing: 4) {
-                HighlightedText(memory.keyword, query: highlight)
-                    .lineLimit(2)
-                if memory.isSensitive {
-                    SensitiveBadge()
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(spacing: 10) {
+                CategoryTile(category: memory.category?.category)
+                HStack(spacing: 4) {
+                    HighlightedText(memory.keyword, query: highlight)
+                        .lineLimit(2)
+                    if memory.isSensitive {
+                        SensitiveBadge()
+                    }
                 }
+                .font(.headline)
+                Spacer(minLength: 8)
+                #if os(iOS)
+                categoryMenu(for: memory)
+                #endif
             }
-            .font(.headline)
-            Spacer(minLength: 8)
-            categoryMenu(for: memory)
+            #if os(macOS)
+            VStack(alignment: .leading, spacing: 5) {
+                Text("Category")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
+                categoryPicker(for: memory)
+                    .pickerStyle(.menu)
+                    .labelsHidden()
+            }
+            #endif
         }
     }
 
@@ -215,34 +229,55 @@ struct MemoryDetailView: View {
                         .foregroundStyle(.orange)
                     Spacer()
                     Button { setExpiry(nil, for: memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.green)
+                    #if os(macOS)
+                    .buttonStyle(.bordered)
+                    #else
+                    .buttonStyle(.borderedProminent)
+                    .tint(.green)
+                    #endif
                 }
                 .font(.footnote.weight(.medium))
             } else if let expiresAt = memory.expiresAt {
                 Menu {
-                    Button {
-                        setExpiry(expiresAt.addingTimeInterval(24 * 60 * 60), for: memory)
-                    } label: {
-                        Label("1 More Day", image: "ix.add.linear")
-                    }
-                    Button {
-                        setExpiry(expiresAt.addingTimeInterval(7 * 24 * 60 * 60), for: memory)
-                    } label: {
-                        Label("1 More Week", image: "ix.add.linear")
-                    }
-                    // Iconsax has no infinity: a stopped timer says the same.
-                    Button { setExpiry(nil, for: memory) } label: { Label("Keep Forever", image: "ix.timer-pause.linear") }
+                    expiryActions(for: memory, expiresAt: expiresAt)
                 } label: {
+                    #if os(macOS)
+                    text
+                    #else
                     text
                         .font(.footnote.weight(.medium))
                         .padding(.horizontal, 10)
                         .padding(.vertical, 5)
                         .background(.orange.opacity(0.12), in: .capsule)
                         .foregroundStyle(.orange)
+                    #endif
                 }
+                #if os(macOS)
+                .fixedSize()
+                #else
                 .accessibilityLabel("Expiry")
+                #endif
             }
+        }
+    }
+
+    @ViewBuilder
+    private func expiryActions(for memory: Memory, expiresAt: Date) -> some View {
+        Button {
+            setExpiry(expiresAt.addingTimeInterval(24 * 60 * 60), for: memory)
+        } label: {
+            Label("1 More Day", image: "ix.add.linear")
+        }
+        Button {
+            setExpiry(expiresAt.addingTimeInterval(7 * 24 * 60 * 60), for: memory)
+        } label: {
+            Label("1 More Week", image: "ix.add.linear")
+        }
+        #if os(macOS)
+        Divider()
+        #endif
+        Button { setExpiry(nil, for: memory) } label: {
+            Label("Keep Forever", image: "ix.timer-pause.linear")
         }
     }
 
@@ -254,16 +289,10 @@ struct MemoryDetailView: View {
         }
     }
 
-    /// Shows the category and lets the user overrule it. "Automatic" hands the choice
-    /// back to Apple Intelligence.
+    #if os(iOS)
     private func categoryMenu(for memory: Memory) -> some View {
         Menu {
-            Picker("Category", selection: categoryBinding(for: memory)) {
-                Label("Automatic", image: "ix.magic-star.linear").tag(MemoryCategory?.none)
-                ForEach(MemoryCategory.allCases, id: \.self) { category in
-                    category.menuLabel.tag(Optional(category))
-                }
-            }
+            categoryPicker(for: memory)
         } label: {
             // The tile beside the keyword already shows the category's symbol.
             Group {
@@ -281,6 +310,30 @@ struct MemoryDetailView: View {
         }
         .accessibilityLabel("Category")
     }
+    #endif
+
+    /// "Automatic" hands the choice back to Apple Intelligence.
+    private func categoryPicker(for memory: Memory) -> some View {
+        Picker("Category", selection: categoryBinding(for: memory)) {
+            #if os(macOS)
+            if let assignment = memory.category, assignment.source == .automatic {
+                Text("\(Text("Automatic")) (\(Text(assignment.category.title)))")
+                    .tag(MemoryCategory?.none)
+            } else {
+                Text("Automatic").tag(MemoryCategory?.none)
+            }
+            #else
+            Label("Automatic", image: "ix.magic-star.linear").tag(MemoryCategory?.none)
+            #endif
+            ForEach(MemoryCategory.allCases, id: \.self) { category in
+                #if os(macOS)
+                Text(category.title).tag(Optional(category))
+                #else
+                category.menuLabel.tag(Optional(category))
+                #endif
+            }
+        }
+    }
 
     /// What the picker shows as chosen: only a manual pick, so "Automatic" stays ticked
     /// while Apple Intelligence decides.
@@ -297,7 +350,7 @@ struct MemoryDetailView: View {
     }
 
     private func copy(_ value: String) {
-        UIPasteboard.general.string = value
+        Clipboard.copy(value)
         copyCount += 1
         withAnimation { didCopy = true }
         Task {

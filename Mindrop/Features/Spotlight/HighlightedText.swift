@@ -6,17 +6,19 @@ import SwiftUI
 struct HighlightedText: View {
     let text: String
     let query: String?
+    let highlightsBackground: Bool
 
-    init(_ text: String, query: String?) {
+    init(_ text: String, query: String?, highlightsBackground: Bool = true) {
         self.text = text
         self.query = query
+        self.highlightsBackground = highlightsBackground
     }
 
     var body: some View {
-        Text(Self.attributed(text, query: query))
+        Text(Self.attributed(text, query: query, highlightsBackground: highlightsBackground))
     }
 
-    static func attributed(_ text: String, query: String?) -> AttributedString {
+    static func attributed(_ text: String, query: String?, highlightsBackground: Bool = true) -> AttributedString {
         var result = AttributedString(text)
         guard let query else { return result }
         for range in SearchHighlight.ranges(of: query, in: text) {
@@ -25,7 +27,9 @@ struct HighlightedText: View {
             else { continue }
             // Bold keeps whatever size and design the surrounding text has.
             result[lower..<upper].inlinePresentationIntent = .stronglyEmphasized
-            result[lower..<upper].backgroundColor = .yellow.opacity(0.35)
+            if highlightsBackground {
+                result[lower..<upper].backgroundColor = .yellow.opacity(0.35)
+            }
         }
         return result
     }

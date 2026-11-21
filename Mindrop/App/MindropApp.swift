@@ -1,15 +1,61 @@
 import MindropCore
+import MindropIntents
 import SwiftUI
+#if os(macOS)
+import AppKit
+#else
 import UIKit
+#endif
 
 @main
 struct MindropApp: App {
+    #if os(iOS)
+    @UIApplicationDelegateAdaptor(HomeScreenActionAppDelegate.self) private var appDelegate
     @State private var session = MindropSession()
+    #else
+    @NSApplicationDelegateAdaptor(MacServices.self) private var appDelegate
+    @State private var session = MindropSession.shared
+    @AppStorage(Preference.showsMenuBarIcon) private var showsMenuBarIcon = false
+    #endif
 
     var body: some Scene {
+        #if os(macOS)
+        WindowGroup("Mindrop", id: MacStatusMenu.libraryID, for: Bool.self) { _ in
+            RootView(session: session)
+        } defaultValue: {
+            true
+        }
+        .defaultSize(width: 760, height: 620)
+        .commands {
+            MacMemoryCommands(session: session)
+        }
+
+        Settings {
+            Group {
+                switch session.phase {
+                case .loading:
+                    ProgressView()
+                case .ready(let repository):
+                    SettingsView(repository: repository, session: session)
+                case .failed:
+                    ContentUnavailableView {
+                        Label("Mindrop can’t open your memories", image: "ix.danger.linear")
+                    } description: {
+                        Text("Try closing Mindrop and opening it again.")
+                    }
+                }
+            }
+            .frame(minWidth: 480, idealWidth: 540, minHeight: 420, idealHeight: 520)
+        }
+
+        MenuBarExtra("Mindrop", image: "MindropMenuBarMark", isInserted: $showsMenuBarIcon) {
+            MacStatusMenu(session: session)
+        }
+        #else
         WindowGroup {
             RootView(session: session)
         }
+        #endif
     }
 }
 
@@ -40,12 +86,21 @@ final class MindropSession {
     private(set) var lastSpotlightActivity: (type: String, keys: [String])?
     #endif
     let sensitiveAccess = SensitiveAccess()
+    let driveBackup = DriveMemoryBackup()
     private(set) var cloudSync: CloudSync?
-    /// Memories saved on the Apple Watch come in here.
+    #if os(iOS)
     private let watchLink: WatchLink
+    #else
+    static let shared = MindropSession()
+    private let macCapture = MacCapture()
+    #endif
 
     init() {
+        #if os(iOS)
         watchLink = WatchLink(syncsWithICloud: Self.syncsWithICloud)
+        #else
+        NewMemoryRequest.shared.handleMacRequests { [weak self] in self?.showMacCapture() }
+        #endif
         // Started here as well as by the first screen: a push from iCloud can launch the
         // app in the background, where no screen appears to start it.
         Task { await start() }
@@ -79,11 +134,16 @@ final class MindropSession {
                 spotlightExtras: Self.spotlightExtras
             )
             try repository.load()
+            #if os(macOS)
+            try? repository.importMacShares()
+            #endif
             try? repository.purge()
             // Show the list first: reconciling the Spotlight index can take seconds.
             phase = .ready(repository)
             startCloudSync(for: repository)
+            #if os(iOS)
             watchLink.deliver { [weak self] memory in self?.takeFromWatch(memory) }
+            #endif
             repository.categorizePending()
             await repository.resumeSpotlightSync()
         } catch {
@@ -91,15 +151,53 @@ final class MindropSession {
         }
     }
 
+    #if os(macOS)
+    func showMacCapture(details: String = "") {
+        if let repository {
+            macCapture.show(repository: repository, details: details)
+            return
+        }
+        Task {
+            await start()
+            if let repository {
+                macCapture.show(repository: repository, details: details)
+            }
+        }
+    }
+
+    func showMacCaptureFromClipboard() {
+        let text = NSPasteboard.general.string(forType: .string) ?? ""
+        showMacCapture(details: text)
+    }
+
+    func importMacShares() {
+        try? repository?.importMacShares()
+    }
+
+    func clearSpotlightHighlight() {
+        spotlightHighlight = nil
+    }
+    #endif
+
     /// Picks up memories the share extension added while the app was in the background,
     /// and categorises them, since the extension does not. Also where expired memories
     /// past their 7 days are deleted for good.
-    func refresh() {
+    func refresh(backsUpToDrive: Bool = false) {
         try? repository?.load()
+        #if os(macOS)
+        importMacShares()
+        #endif
         try? repository?.purge()
         repository?.categorizePending()
         cloudSync?.sendLocalChanges()
-        if let cloudSync { Task { await cloudSync.fetchChanges() } }
+        Task {
+            await cloudSync?.fetchChanges()
+            guard backsUpToDrive, UserDefaults.standard.bool(forKey: Preference.automaticDriveBackup),
+                  let repository,
+                  let memories = try? repository.memoriesForBackup()
+            else { return }
+            try? await driveBackup.create(memories: memories, automatically: true)
+        }
     }
 
     /// On unless the user turned it off in Settings.
@@ -110,9 +208,12 @@ final class MindropSession {
     /// Follows the Settings switch, here and on the Apple Watch.
     func syncPreferenceChanged() {
         if Self.syncsWithICloud { cloudSync?.start() } else { cloudSync?.stop() }
+        #if os(iOS)
         watchLink.setSyncsWithICloud(Self.syncsWithICloud)
+        #endif
     }
 
+    #if os(iOS)
     /// A memory saved on the Apple Watch, taken in like one synced from another device:
     /// filed, indexed and categorised. It may have come through iCloud already, in which
     /// case nothing changes. Sent on to iCloud, since it may have come only from the watch.
@@ -127,13 +228,18 @@ final class MindropSession {
         }
         cloudSync?.sendLocalChanges()
     }
+    #endif
 
     private func startCloudSync(for repository: MemoryRepository) {
         guard let cloudSync = try? CloudSync.live(repository: repository) else { return }
         self.cloudSync = cloudSync
         repository.onLocalChange = { [weak cloudSync] in cloudSync?.sendLocalChanges() }
         // Lets iCloud wake the app when another device changes something.
+        #if os(macOS)
+        NSApplication.shared.registerForRemoteNotifications()
+        #else
         UIApplication.shared.registerForRemoteNotifications()
+        #endif
         if Self.syncsWithICloud { cloudSync.start() }
     }
 

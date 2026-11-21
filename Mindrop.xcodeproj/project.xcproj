@@ -37,12 +37,26 @@
       "path": "Mindrop",
       "target-membership": [
         "Mindrop",
+        "MindropMac",
       ],
       "membership-exceptions": [
         {
           "target": "Mindrop",
           "exclusions": [
             "Info.plist",
+            "MindropMac-Info.plist",
+            "MindropMac.entitlements",
+            "Resources/ServicesMenu.xcstrings",
+          ],
+        }, {
+          "target": "MindropMac",
+          "exclusions": [
+            "App/HomeScreenActions.swift",
+            "App/WatchLink.swift",
+            "Features/MemoryEditor/ValueScanner.swift",
+            "Info.plist",
+            "MindropMac-Info.plist",
+            "MindropMac.entitlements",
           ],
         }, {
           "target": "MindropWatch",
@@ -56,12 +70,23 @@
       "path": "MindropShare",
       "target-membership": [
         "MindropShare",
+        "MindropMacShare",
       ],
       "membership-exceptions": [
         {
           "target": "MindropShare",
           "exclusions": [
             "Info.plist",
+            "Mac-Info.plist",
+            "MindropMacShare.entitlements",
+          ],
+        }, {
+          "target": "MindropMacShare",
+          "exclusions": [
+            "Info.plist",
+            "Mac-Info.plist",
+            "MindropMacShare.entitlements",
+            "MindropShare.entitlements",
           ],
         },
       ],
@@ -100,6 +125,8 @@
       "name": "Products",
       "children": [
         { "path": "<PRODUCTS>/Mindrop.app", "id": "MD0000000000000000000015", "type": "wrapper.application", "index": false },
+        { "path": "<PRODUCTS>/MindropMac.app", "id": "MD0000000000000000000041", "type": "wrapper.application", "index": false },
+        { "path": "<PRODUCTS>/MindropMacShare.appex", "id": "MD0000000000000000000043", "type": "wrapper.app-extension", "index": false, "target-membership": [ { "build-phase": "MindropMac/copy/Embed App Extensions", "header-preservation": "remove-on-copy" } ] },
         { "path": "<PRODUCTS>/MindropShare.appex", "id": "MD000000000000000000000C", "type": "wrapper.app-extension", "index": false, "target-membership": [ { "build-phase": "Mindrop/copy/Embed Foundation Extensions", "header-preservation": "remove-on-copy" } ] },
         { "path": "<PRODUCTS>/MindropAction.appex", "id": "MD000000000000000000000E", "type": "wrapper.app-extension", "index": false, "target-membership": [ { "build-phase": "Mindrop/copy/Embed Foundation Extensions", "header-preservation": "remove-on-copy" } ] },
         { "path": "<PRODUCTS>/MindropControls.appex", "id": "MD0000000000000000000020", "type": "wrapper.app-extension", "index": false, "target-membership": [ { "build-phase": "Mindrop/copy/Embed Foundation Extensions", "header-preservation": "remove-on-copy" } ] },
@@ -162,6 +189,7 @@
         "INFOPLIST_KEY_UIApplicationSceneManifest_Generation": "YES",
         "INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents": "YES",
         "INFOPLIST_KEY_UISupportedInterfaceOrientations": "UIInterfaceOrientationPortrait",
+        "INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad": "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight",
         "LD_RUNPATH_SEARCH_PATHS": [
           "$(inherited)",
           "@executable_path/Frameworks",
@@ -174,6 +202,92 @@
         "SUPPORTS_MACCATALYST": "NO",
         "SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD": "NO",
         "SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD": "NO",
+        "SWIFT_EMIT_LOC_STRINGS": "YES",
+      },
+    }, {
+      "name": "MindropMac",
+      "id": "MD0000000000000000000040",
+      "product": "Products/MindropMac.app",
+      "product-type": "application",
+      "dependencies": ["MindropMacShare"],
+      "build-phases": [
+        "compile-sources",
+        "frameworks",
+        "resources",
+        {
+          "kind": "copy",
+          "name": "Embed App Extensions",
+          "bundle-base-path": "plugins-directory",
+        },
+      ],
+      "package-product-members": [
+        {
+          "product-name": "MindropCore",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "product-name": "MindropIntents",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "product-name": "MindropSaveUI",
+          "build-phase": { "build-phase": "frameworks" },
+        },
+      ],
+      "build-settings": {
+        "ASSETCATALOG_COMPILER_APPICON_NAME": "mindrop_icon",
+        "CODE_SIGN_ENTITLEMENTS": "Mindrop/MindropMac.entitlements",
+        "CODE_SIGN_STYLE": "Automatic",
+        "CURRENT_PROJECT_VERSION": "1",
+        "ENABLE_APP_SANDBOX": "YES",
+        "ENABLE_OUTGOING_NETWORK_CONNECTIONS": "YES",
+        "GENERATE_INFOPLIST_FILE": "YES",
+        "INFOPLIST_FILE": "Mindrop/MindropMac-Info.plist",
+        "INFOPLIST_KEY_CFBundleDisplayName": "Mindrop",
+        "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",
+        "INFOPLIST_KEY_LSApplicationCategoryType": "public.app-category.utilities",
+        "LD_RUNPATH_SEARCH_PATHS": ["$(inherited)", "@executable_path/../Frameworks"],
+        "MACOSX_DEPLOYMENT_TARGET": "26.0",
+        "MARKETING_VERSION": "1.0",
+        "PRODUCT_BUNDLE_IDENTIFIER": "mfsaglam.Mindrop",
+        "PRODUCT_NAME": "Mindrop",
+        "SDKROOT": "macosx",
+        "SUPPORTED_PLATFORMS": "macosx",
+        "SWIFT_EMIT_LOC_STRINGS": "YES",
+        "WRAPPER_NAME": "MindropMac.app",
+      },
+    }, {
+      "name": "MindropMacShare",
+      "id": "MD0000000000000000000042",
+      "product": "Products/MindropMacShare.appex",
+      "product-type": "app-extension",
+      "build-phases": [
+        "compile-sources",
+        "frameworks",
+        "resources",
+      ],
+      "package-product-members": [
+        {
+          "product-name": "MindropSaveUI",
+          "build-phase": { "build-phase": "frameworks" },
+        },
+      ],
+      "build-settings": {
+        "APPLICATION_EXTENSION_API_ONLY": "YES",
+        "CODE_SIGN_ENTITLEMENTS": "MindropShare/MindropMacShare.entitlements",
+        "CODE_SIGN_STYLE": "Automatic",
+        "CURRENT_PROJECT_VERSION": "1",
+        "ENABLE_APP_SANDBOX": "YES",
+        "GENERATE_INFOPLIST_FILE": "YES",
+        "INFOPLIST_FILE": "MindropShare/Mac-Info.plist",
+        "INFOPLIST_KEY_CFBundleDisplayName": "Mindrop",
+        "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",
+        "LD_RUNPATH_SEARCH_PATHS": ["$(inherited)", "@executable_path/../../../../Frameworks"],
+        "MACOSX_DEPLOYMENT_TARGET": "26.0",
+        "MARKETING_VERSION": "1.0",
+        "PRODUCT_BUNDLE_IDENTIFIER": "mfsaglam.Mindrop.MacShare",
+        "PRODUCT_NAME": "$(TARGET_NAME)",
+        "SDKROOT": "macosx",
+        "SKIP_INSTALL": "YES",
+        "SUPPORTED_PLATFORMS": "macosx",
         "SWIFT_EMIT_LOC_STRINGS": "YES",
       },
     }, {
@@ -381,7 +495,7 @@
     "SWIFT_OPTIMIZATION_LEVEL[config=Debug]": "-Onone",
     "SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY": "YES",
     "SWIFT_VERSION": "6.0",
-    "TARGETED_DEVICE_FAMILY": "1",
+    "TARGETED_DEVICE_FAMILY": "1,2",
     "VALIDATE_PRODUCT[config=Release]": "YES",
   },
   "last-upgrade": "27.2",

@@ -1,4 +1,4 @@
-#if os(iOS)
+#if os(iOS) || os(macOS)
 import MindropCore
 import SwiftUI
 
@@ -81,6 +81,22 @@ private struct LinePill: View {
     let isPicked: Bool
     let toggle: () -> Void
 
+    private var selectedForeground: Color {
+        #if os(macOS)
+        Color(nsColor: .controlBackgroundColor)
+        #else
+        Color(.systemBackground)
+        #endif
+    }
+
+    private var unselectedBackground: Color {
+        #if os(macOS)
+        Color.primary.opacity(0.07)
+        #else
+        Color(.tertiarySystemFill)
+        #endif
+    }
+
     var body: some View {
         Button(action: toggle) {
             HStack(spacing: 6) {
@@ -96,13 +112,13 @@ private struct LinePill: View {
             .font(.subheadline)
             // Inverted when picked, like the app's Paste button, so it reads in light and
             // dark mode whatever the accent colour.
-            .foregroundStyle(isPicked ? Color(.systemBackground) : Color.primary)
+            .foregroundStyle(isPicked ? selectedForeground : Color.primary)
             .padding(.horizontal, 12)
             .padding(.vertical, 7)
             .background {
                 // A capsule while the pill is one line, a rounded card once it wraps.
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(isPicked ? Color.primary : Color(.tertiarySystemFill))
+                    .fill(isPicked ? Color.primary : unselectedBackground)
             }
             .contentShape(.rect(cornerRadius: 16))
         }
