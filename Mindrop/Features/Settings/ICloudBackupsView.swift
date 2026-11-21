@@ -29,6 +29,7 @@ struct ICloudBackupsView: View {
             Section {
                 NavigationLink("iCloud Drive Backups") {
                     DriveBackupsView(repository: repository, drive: drive)
+                        .settingsBackButton()
                 }
             }
 

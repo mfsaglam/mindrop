@@ -30,6 +30,7 @@ struct CategorizationLogView: View {
                                     entry: entry,
                                     hidesPrompt: repository.memory(id: group.memoryID)?.isSensitive == true
                                 )
+                                .settingsBackButton()
                             } label: {
                                 EntryRow(entry: entry)
                             }

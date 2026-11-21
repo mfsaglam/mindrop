@@ -44,6 +44,7 @@ struct SettingsView: View {
                         .onChange(of: syncsWithICloud) { session.syncPreferenceChanged() }
                     NavigationLink("iCloud Backup") {
                         ICloudBackupsView(repository: repository, drive: session.driveBackup)
+                            .settingsBackButton()
                     }
                 } footer: {
                     Text("Keeps your memories the same on every device signed in to your iCloud account. Keywords and values are end-to-end encrypted.")
@@ -52,6 +53,7 @@ struct SettingsView: View {
                 Section {
                     NavigationLink("How Mindrop Works") {
                         HowMindropWorksView(repository: repository)
+                            .settingsBackButton()
                     }
                 }
 
@@ -66,12 +68,14 @@ struct SettingsView: View {
                     if let categorizationLog = session.categorizationLog {
                         NavigationLink {
                             CategorizationLogView(log: categorizationLog, repository: repository)
+                                .settingsBackButton()
                         } label: {
                             Label { Text(verbatim: "Apple Intelligence Log") } icon: { Image(systemName: "ladybug") }
                         }
                     }
                     NavigationLink {
                         SpotlightExperimentsView(repository: repository, session: session)
+                            .settingsBackButton()
                     } label: {
                         Label { Text(verbatim: "Spotlight Experiments") } icon: { Image(systemName: "magnifyingglass") }
                     }
@@ -94,3 +98,37 @@ struct SettingsView: View {
         }
     }
 }
+
+extension View {
+    @ViewBuilder
+    func settingsBackButton() -> some View {
+        #if os(macOS)
+        modifier(SettingsBackButton())
+        #else
+        self
+        #endif
+    }
+}
+
+#if os(macOS)
+private struct SettingsBackButton: ViewModifier {
+    @Environment(\.dismiss) private var dismiss
+
+    func body(content: Content) -> some View {
+        content
+            .navigationBarBackButtonHidden()
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Label("Back", systemImage: "chevron.backward")
+                            .labelStyle(.iconOnly)
+                    }
+                    .keyboardShortcut("[", modifiers: .command)
+                    .help("Back")
+                }
+            }
+    }
+}
+#endif
