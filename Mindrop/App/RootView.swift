@@ -15,7 +15,7 @@ struct RootView: View {
                 MacLibraryView(repository: repository, session: session)
                     .frame(minWidth: 660, minHeight: 420)
                     .task {
-                        if scenePhase == .active { session.refresh(backsUpToDrive: true) }
+                        if scenePhase == .active { session.refreshOnActivation() }
                     }
                 #else
                 NavigationStack(path: Binding(get: { session.path }, set: { session.path = $0 })) {
@@ -27,7 +27,7 @@ struct RootView: View {
                         }
                 }
                 .task {
-                    if scenePhase == .active { session.refresh(backsUpToDrive: true) }
+                    if scenePhase == .active { session.refreshOnActivation() }
                 }
                 #endif
             case .failed:
@@ -47,7 +47,7 @@ struct RootView: View {
             session.open(activity: activity)
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active { session.refresh(backsUpToDrive: true) }
+            if phase == .active { session.refreshOnActivation() }
             // Not on `.inactive`: the Face ID prompt itself makes the app inactive.
             if phase == .background { session.sensitiveAccess.lock() }
         }

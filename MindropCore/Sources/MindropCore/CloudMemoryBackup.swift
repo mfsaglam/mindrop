@@ -9,7 +9,7 @@ private typealias BackupChangesPage = (
     moreComing: Bool
 )
 
-public struct MemoryBackup: Identifiable, Equatable, Sendable {
+public struct MemoryBackup: Codable, Identifiable, Equatable, Sendable {
     public let id: UUID
     public let createdAt: Date
     public let memoryCount: Int
@@ -28,8 +28,26 @@ public struct CloudMemoryBackup: Sendable {
     public init() {}
 
     public func list() async throws -> [MemoryBackup] {
-        var backups: [UUID: MemoryBackup] = [:]
-        var token: CKServerChangeToken?
+        try await updatedCatalog(from: CloudBackupCatalog(accountID: "")).orderedBackups
+    }
+
+    func accountID() async throws -> String {
+        try await container.userRecordID().recordName
+    }
+
+    func updatedCatalog(from cached: CloudBackupCatalog) async throws -> CloudBackupCatalog {
+        do {
+            return try await fetchCatalog(from: cached)
+        } catch let error as CKError where error.code == .changeTokenExpired {
+            return try await fetchCatalog(from: CloudBackupCatalog(accountID: cached.accountID))
+        }
+    }
+
+    private func fetchCatalog(from cached: CloudBackupCatalog) async throws -> CloudBackupCatalog {
+        var token = cached.changeToken.flatMap { data in
+            try? NSKeyedUnarchiver.unarchivedObject(ofClass: CKServerChangeToken.self, from: data)
+        }
+        var catalog = token == nil ? CloudBackupCatalog(accountID: cached.accountID) : cached
         while true {
             let page: BackupChangesPage
             do {
@@ -38,20 +56,17 @@ public struct CloudMemoryBackup: Sendable {
                     since: token,
                     desiredKeys: ["memoryCount"]
                 )
-            } catch let error as CKError where error.code == .zoneNotFound {
-                return []
+            } catch let error as CKError where error.code == .zoneNotFound || error.code == .userDeletedZone {
+                return CloudBackupCatalog(accountID: cached.accountID)
             }
-            for change in page.modificationResultsByID.values {
-                let record = try change.get().record
-                if let backup = Self.summary(for: record) { backups[backup.id] = backup }
-            }
-            for deletion in page.deletions {
-                if let id = Self.backupID(for: deletion.recordID) { backups[id] = nil }
-            }
-            guard page.moreComing else { break }
+            let updates = try page.modificationResultsByID.values.compactMap { Self.summary(for: try $0.get().record) }
+            let deletions = page.deletions.compactMap { Self.backupID(for: $0.recordID) }
+            catalog.apply(updates: updates, deletions: deletions)
             token = page.changeToken
+            guard page.moreComing else { break }
         }
-        return backups.values.sorted { $0.createdAt > $1.createdAt }
+        catalog.changeToken = try token.map { try NSKeyedArchiver.archivedData(withRootObject: $0, requiringSecureCoding: true) }
+        return catalog
     }
 
     public func create(memories: [Memory]) async throws -> MemoryBackup {

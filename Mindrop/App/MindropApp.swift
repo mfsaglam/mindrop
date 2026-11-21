@@ -1,3 +1,4 @@
+import CloudKit
 import MindropCore
 import MindropIntents
 import SwiftUI
@@ -87,6 +88,7 @@ final class MindropSession {
     #endif
     let sensitiveAccess = SensitiveAccess()
     let driveBackup = DriveMemoryBackup()
+    let cloudBackups = SavedCloudBackups()
     private(set) var cloudSync: CloudSync?
     #if os(iOS)
     private let watchLink: WatchLink
@@ -109,6 +111,11 @@ final class MindropSession {
         Task { [weak self] in
             for await _ in NotificationCenter.default.notifications(named: SaveMemoryIntent.didSave) {
                 self?.refresh()
+            }
+        }
+        Task { [weak self] in
+            for await _ in NotificationCenter.default.notifications(named: .CKAccountChanged) {
+                self?.cloudBackups.accountDidChange()
             }
         }
     }
@@ -178,6 +185,11 @@ final class MindropSession {
         spotlightHighlight = nil
     }
     #endif
+
+    func refreshOnActivation() {
+        refresh(backsUpToDrive: true)
+        Task { try? await cloudBackups.refresh() }
+    }
 
     /// Picks up memories the share extension added while the app was in the background,
     /// and categorises them, since the extension does not. Also where expired memories

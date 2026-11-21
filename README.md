@@ -573,6 +573,11 @@ older snapshot or delete it. Snapshots use encrypted CloudKit assets in the priv
 `MemoryBackups` zone of the existing container. Backups are available on iPhone, iPad and
 Mac with the same iCloud account and can be created with iCloud Sync switched off.
 
+Saved Backups reads a local catalogue of dates and memory counts. The app checks the
+CloudKit backup zone's change history in the background when it becomes active and
+persists its cursor with the catalogue. Creating or deleting a backup updates the
+local list immediately. Restoring fetches the selected snapshot from iCloud.
+
 Restore adds copies of missing memories and earlier versions. A copy keeps the original
 expiry and preserves Sensitive protection. Each restored memory has a stable copy
 identifier across devices and retries. Backups capture active entries, and only entries

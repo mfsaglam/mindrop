@@ -46,7 +46,7 @@ struct SettingsView: View {
                         .tint(Color(.brandCobalt))
                         .onChange(of: syncsWithICloud) { session.syncPreferenceChanged() }
                     NavigationLink("iCloud Backup") {
-                        ICloudBackupsView(repository: repository, drive: session.driveBackup)
+                        ICloudBackupsView(repository: repository, drive: session.driveBackup, cloud: session.cloudBackups)
                             .settingsBackButton()
                     }
                 } footer: {

@@ -16,11 +16,9 @@ struct ICloudBackupsView: View {
 
     let repository: MemoryRepository
     let drive: DriveMemoryBackup
-    private var cloud: CloudMemoryBackup { CloudMemoryBackup() }
+    let cloud: SavedCloudBackups
 
-    @State private var backups: [MemoryBackup] = []
     @State private var isWorking = false
-    @State private var hasLoaded = false
     @State private var confirmation: Action?
     @State private var message: Message?
 
@@ -53,22 +51,23 @@ struct ICloudBackupsView: View {
             }
 
             Section("Saved Backups") {
-                if isWorking {
+                if isWorking || (cloud.backups == nil && cloud.isRefreshing) {
                     ProgressView()
                         #if os(macOS)
                         .controlSize(.small)
                         #endif
                 }
-                if backups.isEmpty, hasLoaded {
-                    Text("No backups yet.")
-                        .foregroundStyle(.secondary)
-                }
-                if !hasLoaded, !isWorking {
+                if let backups = cloud.backups {
+                    if backups.isEmpty {
+                        Text("No backups yet.")
+                            .foregroundStyle(.secondary)
+                    }
+                    ForEach(backups) { backup in
+                        backupRow(backup)
+                            .disabled(isWorking)
+                    }
+                } else if !isWorking && !cloud.isRefreshing {
                     Button("Try Again") { Task { await load() } }
-                }
-                ForEach(backups) { backup in
-                    backupRow(backup)
-                        .disabled(isWorking)
                 }
             }
         }
@@ -77,7 +76,7 @@ struct ICloudBackupsView: View {
         #endif
         .navigationTitle("iCloud Backup")
         .inlineNavigationTitle()
-        .task { await load() }
+        .refreshable { await load() }
         .confirmationDialog(
             "iCloud Backup",
             isPresented: Binding(get: { confirmation != nil }, set: { if !$0 { confirmation = nil } }),
@@ -160,8 +159,7 @@ struct ICloudBackupsView: View {
 
     private func load() async {
         await perform("Couldn’t Load Backups") {
-            backups = try await cloud.list()
-            hasLoaded = true
+            try await cloud.refresh()
         }
     }
 
@@ -172,8 +170,7 @@ struct ICloudBackupsView: View {
                 message = Message(title: "No Memories to Back Up", detail: String(localized: "Save a memory before creating a backup."))
                 return
             }
-            let backup = try await cloud.create(memories: memories)
-            backups.insert(backup, at: 0)
+            try await cloud.create(memories: memories)
         }
     }
 
@@ -191,7 +188,6 @@ struct ICloudBackupsView: View {
     private func delete(_ backup: MemoryBackup) async {
         await perform("Couldn’t Delete Backup") {
             try await cloud.delete(backup)
-            backups.removeAll { $0.id == backup.id }
         }
     }
 
