@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ (%@)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ (%2$@)"
+          }
+        }
+      }
+    },
     "1 Day" : {
       "comment" : "Keep option.",
       "localizations" : {
@@ -571,6 +581,23 @@
         }
       }
     },
+    "A backup keeps a dated copy of your active memories in iCloud. Backups stay available until you delete them." : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A backup keeps a dated copy of your active memories in iCloud. Backups stay available until you delete them."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedekleme, etkin kayıtlarının tarihli bir kopyasını iCloud’da saklar. Yedekler sen silene kadar saklanır."
+          }
+        }
+      }
+    },
     "A deleted memory waits here, so a mistake can be undone." : {
       "comment" : "Under the title of the empty Recently Deleted.",
       "localizations" : {
@@ -856,100 +883,8 @@
         }
       }
     },
-    "Add Save to Mindrop to a shortcut to save without opening Mindrop, even from an automation." : {
-      "comment" : "How Mindrop Works: the Shortcuts action. “Save to Mindrop” is the action's name; match its translation.",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أضف «الحفظ في Mindrop» إلى اختصار للحفظ دون فتح Mindrop، حتى من أتمتة."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Füge „In Mindrop sichern“ zu einem Kurzbefehl hinzu, um zu sichern, ohne Mindrop zu öffnen – auch per Automation."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add Save to Mindrop to a shortcut to save without opening Mindrop, even from an automation."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Añade Guardar en Mindrop a un atajo para guardar sin abrir Mindrop, incluso desde una automatización."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajoutez Enregistrer dans Mindrop à un raccourci pour enregistrer sans ouvrir Mindrop, même depuis une automatisation."
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop खोले बिना सेव करने के लिए किसी शॉर्टकट में “Mindrop में सेव करें” जोड़ें, ऑटोमेशन से भी।"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aggiungi Salva in Mindrop a un comando rapido per salvare senza aprire Mindrop, anche da un’automazione."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ショートカットに「Mindropに保存」を追加すると、Mindropを開かずに保存できます。オートメーションからも使えます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "단축어에 ‘Mindrop에 저장’을 추가하면 Mindrop을 열지 않고 저장할 수 있어요. 자동화에서도 가능해요."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voeg ‘Bewaar in Mindrop’ toe aan een opdracht om te bewaren zonder Mindrop te openen, zelfs vanuit een automatisering."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adicione Salvar no Mindrop a um atalho para salvar sem abrir o Mindrop, até mesmo a partir de uma automação."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавьте «Сохранить в Mindrop» в быструю команду, чтобы сохранять, не открывая Mindrop, даже из автоматизации."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop’u açmadan kaydetmek için bir kestirmeye Mindrop’a kaydet’i ekle; bir otomasyondan bile olur."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "将“保存到 Mindrop”添加到快捷指令，无需打开 Mindrop 即可保存，自动化中也可以使用。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "將「儲存到 Mindrop」加入捷徑，無需打開 Mindrop 即可儲存，自動化中也可以使用。"
-          }
-        }
-      }
+    "Actions" : {
+
     },
     "Add a keyword to type in Spotlight." : {
       "comment" : "Error from the Save to Mindrop action when the keyword is empty.",
@@ -1042,6 +977,101 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "加入一個要在「Spotlight」中輸入的關鍵字。"
+          }
+        }
+      }
+    },
+    "Add Save to Mindrop to a shortcut to save without opening Mindrop, even from an automation." : {
+      "comment" : "How Mindrop Works: the Shortcuts action. “Save to Mindrop” is the action's name; match its translation.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أضف «الحفظ في Mindrop» إلى اختصار للحفظ دون فتح Mindrop، حتى من أتمتة."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füge „In Mindrop sichern“ zu einem Kurzbefehl hinzu, um zu sichern, ohne Mindrop zu öffnen – auch per Automation."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Save to Mindrop to a shortcut to save without opening Mindrop, even from an automation."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade Guardar en Mindrop a un atajo para guardar sin abrir Mindrop, incluso desde una automatización."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez Enregistrer dans Mindrop à un raccourci pour enregistrer sans ouvrir Mindrop, même depuis une automatisation."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop खोले बिना सेव करने के लिए किसी शॉर्टकट में “Mindrop में सेव करें” जोड़ें, ऑटोमेशन से भी।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi Salva in Mindrop a un comando rapido per salvare senza aprire Mindrop, anche da un’automazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ショートカットに「Mindropに保存」を追加すると、Mindropを開かずに保存できます。オートメーションからも使えます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어에 ‘Mindrop에 저장’을 추가하면 Mindrop을 열지 않고 저장할 수 있어요. 자동화에서도 가능해요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg ‘Bewaar in Mindrop’ toe aan een opdracht om te bewaren zonder Mindrop te openen, zelfs vanuit een automatisering."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione Salvar no Mindrop a um atalho para salvar sem abrir o Mindrop, até mesmo a partir de uma automação."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте «Сохранить в Mindrop» в быструю команду, чтобы сохранять, не открывая Mindrop, даже из автоматизации."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop’u açmadan kaydetmek için bir kestirmeye Mindrop’a kaydet’i ekle; bir otomasyondan bile olur."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将“保存到 Mindrop”添加到快捷指令，无需打开 Mindrop 即可保存，自动化中也可以使用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將「儲存到 Mindrop」加入捷徑，無需打開 Mindrop 即可儲存，自動化中也可以使用。"
           }
         }
       }
@@ -1141,6 +1171,23 @@
         }
       }
     },
+    "Adds copies of missing or changed memories that are still active." : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adds copies of missing or changed memories that are still active."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eksik veya değişmiş ve süresi dolmamış kayıtların kopyalarını ekler."
+          }
+        }
+      }
+    },
     "All" : {
       "comment" : "Category filter option that shows every entry.",
       "localizations" : {
@@ -1236,6 +1283,23 @@
         }
       }
     },
+    "All Memories" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All Memories"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm Kayıtlar"
+          }
+        }
+      }
+    },
     "Automatic" : {
       "comment" : "Category option: let Apple Intelligence choose the category.",
       "localizations" : {
@@ -1327,6 +1391,60 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自動"
+          }
+        }
+      }
+    },
+    "Automatic Backups" : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatic Backups"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otomatik Yedekleme"
+          }
+        }
+      }
+    },
+    "Back" : {
+
+    },
+    "Back Up Now" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back Up Now"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şimdi Yedekle"
+          }
+        }
+      }
+    },
+    "Backup Actions" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup Actions"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedekleme İşlemleri"
           }
         }
       }
@@ -1995,6 +2113,23 @@
         }
       }
     },
+    "Confirm this iCloud account with Back Up Now, or turn automatic backups off and on." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm this iCloud account with Back Up Now, or turn automatic backups off and on."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu iCloud hesabını doğrulamak için Şimdi Yedekle’ye dokun veya otomatik yedeklemeyi kapatıp yeniden aç."
+          }
+        }
+      }
+    },
     "Contacts" : {
       "comment" : "Category of saved entries: phone numbers and email addresses.",
       "localizations" : {
@@ -2375,6 +2510,23 @@
         }
       }
     },
+    "Couldn’t Create Backup" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t Create Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedek Oluşturulamadı"
+          }
+        }
+      }
+    },
     "Couldn’t delete" : {
       "localizations" : {
         "ar" : {
@@ -2465,6 +2617,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法刪除"
+          }
+        }
+      }
+    },
+    "Couldn’t Delete Backup" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t Delete Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedek Silinemedi"
+          }
+        }
+      }
+    },
+    "Couldn’t Load Backups" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t Load Backups"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedekler Yüklenemedi"
+          }
+        }
+      }
+    },
+    "Couldn’t Restore Backup" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t Restore Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedek Geri Yüklenemedi"
           }
         }
       }
@@ -2654,6 +2857,196 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "刪除"
+          }
+        }
+      }
+    },
+    "Delete “%@” for Good?" : {
+      "comment" : "Title of the alert confirming deletion for good in Recently Deleted. %@ is the entry's keyword.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف «%@» نهائيًا؟"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ endgültig löschen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permanently Delete “%@”?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar «%@» definitivamente?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer définitivement « %@ » ?"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” को हमेशा के लिए हटाएँ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminare “%@” definitivamente?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」を完全に削除しますか？"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’ 항목을 영구 삭제할까요?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’ definitief verwijderen?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar “%@” definitivamente?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить «%@» навсегда?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” kalıcı olarak silinsin mi?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "永久删除“%@”？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "永久刪除「%@」？"
+          }
+        }
+      }
+    },
+    "Delete “%@”?" : {
+      "comment" : "Title of the alert confirming deletion. %@ is the entry's keyword.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف «%@»؟"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ löschen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete “%@”?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar «%@»?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer « %@ » ?"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” हटाएँ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminare “%@”?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」を削除しますか？"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’ 항목을 삭제할까요?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’ verwijderen?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar “%@”?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить «%@»?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” silinsin mi?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除“%@”？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除「%@」？"
           }
         }
       }
@@ -2848,6 +3241,23 @@
         }
       }
     },
+    "Delete Backup" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedeği Sil"
+          }
+        }
+      }
+    },
     "Delete Now" : {
       "comment" : "Destructive action in Recently Deleted. Deletes permanently, without another recovery period. Make permanence explicit.",
       "localizations" : {
@@ -2939,196 +3349,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "永久刪除"
-          }
-        }
-      }
-    },
-    "Delete “%@” for Good?" : {
-      "comment" : "Title of the alert confirming deletion for good in Recently Deleted. %@ is the entry's keyword.",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "حذف «%@» نهائيًا؟"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "„%@“ endgültig löschen?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Permanently Delete “%@”?"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Eliminar «%@» definitivamente?"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimer définitivement « %@ » ?"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“%@” को हमेशा के लिए हटाएँ?"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminare “%@” definitivamente?"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "「%@」を完全に削除しますか？"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "‘%@’ 항목을 영구 삭제할까요?"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "‘%@’ definitief verwijderen?"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apagar “%@” definitivamente?"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалить «%@» навсегда?"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“%@” kalıcı olarak silinsin mi?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "永久删除“%@”？"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "永久刪除「%@」？"
-          }
-        }
-      }
-    },
-    "Delete “%@”?" : {
-      "comment" : "Title of the alert confirming deletion. %@ is the entry's keyword.",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "حذف «%@»؟"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "„%@“ löschen?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete “%@”?"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Eliminar «%@»?"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimer « %@ » ?"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“%@” हटाएँ?"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminare “%@”?"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "「%@」を削除しますか？"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "‘%@’ 항목을 삭제할까요?"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "‘%@’ verwijderen?"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apagar “%@”?"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалить «%@»?"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“%@” silinsin mi?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除“%@”？"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "刪除「%@」？"
           }
         }
       }
@@ -4651,6 +4871,40 @@
         }
       }
     },
+    "Find encrypted backups in iCloud Drive → Mindrop → Backups. Keep iCloud Keychain on to restore on your other devices." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find encrypted backups in iCloud Drive → Mindrop → Backups. Keep iCloud Keychain on to restore on your other devices."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreli yedekleri iCloud Drive → Mindrop → Backups altında bulabilirsin. Diğer cihazlarında geri yüklemek için iCloud Anahtar Zinciri’ni açık tut."
+          }
+        }
+      }
+    },
+    "Find Memories…" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find Memories…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kayıtlarda Ara…"
+          }
+        }
+      }
+    },
     "Forever" : {
       "comment" : "Keep option: the memory never expires.",
       "localizations" : {
@@ -4746,101 +5000,6 @@
         }
       }
     },
-    "From Other Apps" : {
-      "comment" : "How Mindrop Works: title of the share sheet way to save.",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "من التطبيقات الأخرى"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aus anderen Apps"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "From Other Apps"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desde otras apps"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Depuis d’autres apps"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "दूसरी ऐप्स से"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Da altre app"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ほかのアプリから"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다른 앱에서"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vanuit andere apps"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De outros apps"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Из других приложений"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diğer uygulamalardan"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "从其他 App"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "從其他 App"
-          }
-        }
-      }
-    },
     "From a Photo" : {
       "comment" : "How Mindrop Works: title of the way to save by reading text from a photo.",
       "localizations" : {
@@ -4932,6 +5091,101 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "從照片"
+          }
+        }
+      }
+    },
+    "From Other Apps" : {
+      "comment" : "How Mindrop Works: title of the share sheet way to save.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "من التطبيقات الأخرى"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus anderen Apps"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From Other Apps"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desde otras apps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depuis d’autres apps"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "दूसरी ऐप्स से"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da altre app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ほかのアプリから"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 앱에서"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vanuit andere apps"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De outros apps"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Из других приложений"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diğer uygulamalardan"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从其他 App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從其他 App"
           }
         }
       }
@@ -5502,6 +5756,135 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mindrop 使用方式"
+          }
+        }
+      }
+    },
+    "iCloud Backup" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Yedekleme"
+          }
+        }
+      }
+    },
+    "iCloud Drive Backups" : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive Backups"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive Yedekleri"
+          }
+        }
+      }
+    },
+    "iCloud Sync" : {
+      "comment" : "Settings switch that syncs memories through iCloud.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مزامنة iCloud"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud-Synchronisierung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Sync"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronización con iCloud"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Synchronisation iCloud"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud सिंक"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronizzazione iCloud"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud同期"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 동기화"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud-synchronisatie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronização com o iCloud"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Синхронизация с iCloud"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud ile eşzamanla"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 同步"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 同步"
           }
         }
       }
@@ -6361,6 +6744,23 @@
         }
       }
     },
+    "Last Successful Backup" : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last Successful Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son Başarılı Yedekleme"
+          }
+        }
+      }
+    },
     "Links" : {
       "comment" : "Category of saved entries: web addresses.",
       "localizations" : {
@@ -6547,6 +6947,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "刪除後，你有 30 天可以復原。之後，這些項目會從你的所有裝置上永久刪除。"
+          }
+        }
+      }
+    },
+    "Memories restored: %lld" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memories restored: %lld"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geri yüklenen kayıt sayısı: %lld"
+          }
+        }
+      }
+    },
+    "Memories: %lld" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memories: %lld"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kayıt sayısı: %lld"
           }
         }
       }
@@ -6739,6 +7173,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法開啟已儲存的項目"
+          }
+        }
+      }
+    },
+    "Mindrop checks for changes when you open the app and backs up at most once every 24 hours per device." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop checks for changes when you open the app and backs up at most once every 24 hours per device."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop açıldığında değişiklikleri kontrol eder ve her cihazda 24 saatte en fazla bir otomatik yedek alır."
+          }
+        }
+      }
+    },
+    "Mindrop couldn’t read this backup file." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop couldn’t read this backup file."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop bu yedek dosyasını okuyamadı."
           }
         }
       }
@@ -7028,6 +7496,40 @@
         }
       }
     },
+    "New Memory from Clipboard" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Memory from Clipboard"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panodan Yeni Kayıt"
+          }
+        }
+      }
+    },
+    "No backups yet." : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No backups yet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Henüz yedek yok."
+          }
+        }
+      }
+    },
     "No Category" : {
       "comment" : "Shown on an entry that has no category yet.",
       "localizations" : {
@@ -7119,6 +7621,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無類別"
+          }
+        }
+      }
+    },
+    "No confirmed upload on this device." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No confirmed upload on this device."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu cihazda henüz tamamlanmış yükleme yok."
+          }
+        }
+      }
+    },
+    "No Memories to Back Up" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Memories to Back Up"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedeklenecek Kayıt Yok"
           }
         }
       }
@@ -7597,6 +8133,23 @@
         }
       }
     },
+    "Open Mindrop" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Mindrop"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop’u Aç"
+          }
+        }
+      }
+    },
     "Open Mindrop on your Apple Watch to save a memory from your wrist." : {
       "comment" : "How Mindrop Works: the Apple Watch app, shown only when a watch is paired.",
       "localizations" : {
@@ -7979,6 +8532,101 @@
         }
       }
     },
+    "Open Spotlight with Command–Space" : {
+      "comment" : "Mac onboarding step to open Spotlight.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افتح Spotlight بالضغط على ⌘ ومفتاح المسافة"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne Spotlight mit ⌘ und Leertaste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Spotlight with Command–Space"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre Spotlight con ⌘ y la barra espaciadora"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez Spotlight avec ⌘ et la barre d’espace"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘ और स्पेस दबाकर Spotlight खोलें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Spotlight con ⌘ e la barra spaziatrice"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘キーとスペースキーでSpotlightを開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘와 스페이스 바를 눌러 Spotlight 열기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Spotlight met ⌘ en de spatiebalk"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abra o Spotlight com ⌘ e a barra de espaço"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откройте Spotlight сочетанием ⌘ и пробела"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komut–Boşluk ile Spotlight’ı aç"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按下 ⌘ 和空格键打开“聚焦”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按下 ⌘ 和空白鍵開啟 Spotlight"
+          }
+        }
+      }
+    },
     "Other" : {
       "comment" : "Category of saved entries that fit nowhere else.",
       "localizations" : {
@@ -8264,6 +8912,26 @@
         }
       }
     },
+    "Preparing Backup or Restore…" : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparing Backup or Restore…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İşlem hazırlanıyor…"
+          }
+        }
+      }
+    },
+    "Privacy Policy" : {
+
+    },
     "Recently Deleted" : {
       "comment" : "Row at the bottom of the list, and the title of the screen holding deleted memories for 30 days.",
       "localizations" : {
@@ -8454,6 +9122,91 @@
         }
       }
     },
+    "Restore as Copies" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore as Copies"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopya Olarak Geri Yükle"
+          }
+        }
+      }
+    },
+    "Restore Backup" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore Backup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedeği Geri Yükle"
+          }
+        }
+      }
+    },
+    "Restore Complete" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore Complete"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geri Yükleme Tamamlandı"
+          }
+        }
+      }
+    },
+    "Restore from File" : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore from File"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosyadan Geri Yükle"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydet"
+          }
+        }
+      }
+    },
     "Save ${details} as ${keyword}" : {
       "comment" : "Summary of the Save to Mindrop action in Shortcuts. ${details} and ${keyword} are filled with the action's Details and Keyword; keep both placeholders.",
       "localizations" : {
@@ -8549,97 +9302,19 @@
         }
       }
     },
-    "Save Your First Memory" : {
-      "comment" : "Button at the bottom of the guide; opens the new memory form.",
+    "Save a memory before creating a backup." : {
+      "comment" : "iCloud backup screen.",
       "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "احفظ أول عنصر"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ersten Eintrag sichern"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save Your First Memory"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guardar mi primera entrada"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enregistrer une première entrée"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "अपनी पहली एंट्री सेव करें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salva la tua prima voce"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "はじめての項目を保存"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "첫 항목 저장하기"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bewaar je eerste item"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salvar minha primeira entrada"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сохранить первую запись"
+            "value" : "Save a memory before creating a backup."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "İlk kaydını ekle"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存第一条内容"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "儲存第一筆內容"
+            "value" : "Yedek oluşturmadan önce bir kayıt ekle."
           }
         }
       }
@@ -9020,6 +9695,118 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "儲存到 Mindrop"
+          }
+        }
+      }
+    },
+    "Save Your First Memory" : {
+      "comment" : "Button at the bottom of the guide; opens the new memory form.",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "احفظ أول عنصر"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ersten Eintrag sichern"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Your First Memory"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar mi primera entrada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer une première entrée"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अपनी पहली एंट्री सेव करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva la tua prima voce"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "はじめての項目を保存"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "첫 항목 저장하기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewaar je eerste item"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar minha primeira entrada"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить первую запись"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İlk kaydını ekle"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存第一条内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存第一筆內容"
+          }
+        }
+      }
+    },
+    "Saved Backups" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved Backups"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saklanan Yedekler"
           }
         }
       }
@@ -9784,6 +10571,40 @@
         }
       }
     },
+    "Select a Memory" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select a Memory"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir Kayıt Seç"
+          }
+        }
+      }
+    },
+    "Select some text to save in Mindrop." : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select some text to save in Mindrop."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop’a kaydetmek için bir metin seç."
+          }
+        }
+      }
+    },
     "Sensitive" : {
       "comment" : "Accessibility label for the lock shown next to a sensitive memory's keyword.",
       "localizations" : {
@@ -10164,101 +10985,6 @@
         }
       }
     },
-    "Show Value" : {
-      "comment" : "Unlock button on a sensitive entry. Match the visible translation of the Value field (content/details).",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إظهار المحتوى"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inhalt anzeigen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Details"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostrar contenido"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Afficher le contenu"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "जानकारी दिखाएँ"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostra contenuto"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "内容を表示"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "내용 보기"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toon inhoud"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostrar conteúdo"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Показать содержимое"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bilgiyi göster"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示内容"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "顯示內容"
-          }
-        }
-      }
-    },
     "Show memories in sections by category. Turn this off for a single list, most recent first." : {
       "comment" : "Explains the Group by Category setting. 'Memories' are the saved entries.",
       "localizations" : {
@@ -10350,6 +11076,118 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "依類別整理項目。關閉後，所有項目會由新到舊顯示在同一份列表中。"
+          }
+        }
+      }
+    },
+    "Show Mindrop in Menu Bar" : {
+      "comment" : "macOS window or menu command.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Mindrop in Menu Bar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop’u menü çubuğunda göster"
+          }
+        }
+      }
+    },
+    "Show Value" : {
+      "comment" : "Unlock button on a sensitive entry. Match the visible translation of the Value field (content/details).",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إظهار المحتوى"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inhalt anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Details"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar contenido"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le contenu"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जानकारी दिखाएँ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra contenuto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "内容を表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "내용 보기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon inhoud"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar conteúdo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать содержимое"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilgiyi göster"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示內容"
           }
         }
       }
@@ -10543,6 +11381,26 @@
           }
         }
       }
+    },
+    "Sign in to iCloud on this device and try again." : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in to iCloud on this device and try again."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu cihazda iCloud’a giriş yapıp tekrar dene."
+          }
+        }
+      }
+    },
+    "Support" : {
+
     },
     "Swipe down on the Home Screen" : {
       "comment" : "Guide, step 2: how to open Spotlight.",
@@ -10829,6 +11687,60 @@
         }
       }
     },
+    "Terms of Use" : {
+
+    },
+    "The backup key is unavailable. Check iCloud Keychain or use the device that created the backup." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The backup key is unavailable. Check iCloud Keychain or use the device that created the backup."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedek anahtarına erişilemiyor. iCloud Anahtar Zinciri’ni kontrol et veya yedeği oluşturan cihazı kullan."
+          }
+        }
+      }
+    },
+    "This backup has no additional memories to restore." : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This backup has no additional memories to restore."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu yedekte geri yüklenecek ek kayıt yok."
+          }
+        }
+      }
+    },
+    "This backup will be deleted from iCloud on all your devices." : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This backup will be deleted from iCloud on all your devices."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu yedek iCloud’dan silinecek ve tüm cihazlarından kaldırılacak."
+          }
+        }
+      }
+    },
     "This memory is no longer saved in Mindrop." : {
       "localizations" : {
         "ar" : {
@@ -11018,6 +11930,23 @@
         }
       }
     },
+    "Try Again" : {
+      "comment" : "iCloud backup screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try Again"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekrar Dene"
+          }
+        }
+      }
+    },
     "Try closing Mindrop and opening it again." : {
       "comment" : "User-facing recovery guidance. Internal error details remain in state for debugging; do not display raw error descriptions.",
       "localizations" : {
@@ -11109,6 +12038,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "試著關閉 Mindrop，再重新開啟。"
+          }
+        }
+      }
+    },
+    "Turn on iCloud Drive on this device and try again." : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on iCloud Drive on this device and try again."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu cihazda iCloud Drive’ı açıp tekrar dene."
           }
         }
       }
@@ -11394,6 +12340,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "車輛"
+          }
+        }
+      }
+    },
+    "Waiting for iCloud Drive to upload…" : {
+      "comment" : "iCloud Drive backup settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waiting for iCloud Drive to upload…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive’a yüklenmesi bekleniyor…"
           }
         }
       }
@@ -11964,944 +12927,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你自己的項目，在 Spotlight 中就是這樣顯示的。"
-          }
-        }
-      }
-    },
-    "iCloud Sync" : {
-      "comment" : "Settings switch that syncs memories through iCloud.",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مزامنة iCloud"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud-Synchronisierung"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud Sync"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sincronización con iCloud"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Synchronisation iCloud"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud सिंक"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sincronizzazione iCloud"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud同期"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud 동기화"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud-synchronisatie"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sincronização com o iCloud"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Синхронизация с iCloud"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud ile eşzamanla"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud 同步"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud 同步"
-          }
-        }
-      }
-    },
-    "Open Spotlight with Command–Space" : {
-      "comment" : "Mac onboarding step to open Spotlight.",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "افتح Spotlight بالضغط على ⌘ ومفتاح المسافة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Öffne Spotlight mit ⌘ und Leertaste"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Spotlight with Command–Space"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abre Spotlight con ⌘ y la barra espaciadora"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvrez Spotlight avec ⌘ et la barre d’espace"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘ और स्पेस दबाकर Spotlight खोलें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apri Spotlight con ⌘ e la barra spaziatrice"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘キーとスペースキーでSpotlightを開く"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⌘와 스페이스 바를 눌러 Spotlight 열기"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Spotlight met ⌘ en de spatiebalk"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abra o Spotlight com ⌘ e a barra de espaço"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Откройте Spotlight сочетанием ⌘ и пробела"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Komut–Boşluk ile Spotlight’ı aç"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按下 ⌘ 和空格键打开“聚焦”"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按下 ⌘ 和空白鍵開啟 Spotlight"
-          }
-        }
-      }
-    },
-    "A backup keeps a dated copy of your active memories in iCloud. Backups stay available until you delete them." : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A backup keeps a dated copy of your active memories in iCloud. Backups stay available until you delete them."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yedekleme, etkin kayıtlarının tarihli bir kopyasını iCloud’da saklar. Yedekler sen silene kadar saklanır."
-          }
-        }
-      }
-    },
-    "Adds copies of missing or changed memories that are still active." : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adds copies of missing or changed memories that are still active."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eksik veya değişmiş ve süresi dolmamış kayıtların kopyalarını ekler."
-          }
-        }
-      }
-    },
-    "Back Up Now" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Back Up Now"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Şimdi Yedekle"
-          }
-        }
-      }
-    },
-    "Backup Actions" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Backup Actions"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yedekleme İşlemleri"
-          }
-        }
-      }
-    },
-    "Couldn’t Create Backup" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Couldn’t Create Backup"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yedek Oluşturulamadı"
-          }
-        }
-      }
-    },
-    "Couldn’t Delete Backup" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Couldn’t Delete Backup"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yedek Silinemedi"
-          }
-        }
-      }
-    },
-    "Couldn’t Load Backups" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Couldn’t Load Backups"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yedekler Yüklenemedi"
-          }
-        }
-      }
-    },
-    "Couldn’t Restore Backup" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Couldn’t Restore Backup"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yedek Geri Yüklenemedi"
-          }
-        }
-      }
-    },
-    "Delete Backup" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete Backup"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yedeği Sil"
-          }
-        }
-      }
-    },
-    "iCloud Backup" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud Backup"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud Yedekleme"
-          }
-        }
-      }
-    },
-    "Memories restored: %lld" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Memories restored: %lld"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geri yüklenen kayıt sayısı: %lld"
-          }
-        }
-      }
-    },
-    "Memories: %lld" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Memories: %lld"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kayıt sayısı: %lld"
-          }
-        }
-      }
-    },
-    "No backups yet." : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No backups yet."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Henüz yedek yok."
-          }
-        }
-      }
-    },
-    "No Memories to Back Up" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No Memories to Back Up"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yedeklenecek Kayıt Yok"
-          }
-        }
-      }
-    },
-    "Restore as Copies" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restore as Copies"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kopya Olarak Geri Yükle"
-          }
-        }
-      }
-    },
-    "Restore Backup" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restore Backup"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yedeği Geri Yükle"
-          }
-        }
-      }
-    },
-    "Restore Complete" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restore Complete"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geri Yükleme Tamamlandı"
-          }
-        }
-      }
-    },
-    "Save a memory before creating a backup." : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save a memory before creating a backup."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yedek oluşturmadan önce bir kayıt ekle."
-          }
-        }
-      }
-    },
-    "Saved Backups" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved Backups"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saklanan Yedekler"
-          }
-        }
-      }
-    },
-    "Sign in to iCloud on this device and try again." : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sign in to iCloud on this device and try again."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu cihazda iCloud’a giriş yapıp tekrar dene."
-          }
-        }
-      }
-    },
-    "This backup has no additional memories to restore." : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This backup has no additional memories to restore."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu yedekte geri yüklenecek ek kayıt yok."
-          }
-        }
-      }
-    },
-    "This backup will be deleted from iCloud on all your devices." : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This backup will be deleted from iCloud on all your devices."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu yedek iCloud’dan silinecek ve tüm cihazlarından kaldırılacak."
-          }
-        }
-      }
-    },
-    "Try Again" : {
-      "comment" : "iCloud backup screen.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Try Again"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tekrar Dene"
-          }
-        }
-      }
-    },
-    "Automatic Backups" : {
-      "comment" : "iCloud Drive backup settings.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automatic Backups"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Otomatik Yedekleme"
-          }
-        }
-      }
-    },
-    "Confirm this iCloud account with Back Up Now, or turn automatic backups off and on." : {
-      "comment" : "iCloud Drive backup settings.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Confirm this iCloud account with Back Up Now, or turn automatic backups off and on."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu iCloud hesabını doğrulamak için Şimdi Yedekle’ye dokun veya otomatik yedeklemeyi kapatıp yeniden aç."
-          }
-        }
-      }
-    },
-    "Find encrypted backups in iCloud Drive → Mindrop → Backups. Keep iCloud Keychain on to restore on your other devices." : {
-      "comment" : "iCloud Drive backup settings.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Find encrypted backups in iCloud Drive → Mindrop → Backups. Keep iCloud Keychain on to restore on your other devices."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Şifreli yedekleri iCloud Drive → Mindrop → Backups altında bulabilirsin. Diğer cihazlarında geri yüklemek için iCloud Anahtar Zinciri’ni açık tut."
-          }
-        }
-      }
-    },
-    "iCloud Drive Backups" : {
-      "comment" : "iCloud Drive backup settings.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud Drive Backups"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud Drive Yedekleri"
-          }
-        }
-      }
-    },
-    "Last Successful Backup" : {
-      "comment" : "iCloud Drive backup settings.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Last Successful Backup"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Son Başarılı Yedekleme"
-          }
-        }
-      }
-    },
-    "Mindrop checks for changes when you open the app and backs up at most once every 24 hours per device." : {
-      "comment" : "iCloud Drive backup settings.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop checks for changes when you open the app and backs up at most once every 24 hours per device."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop açıldığında değişiklikleri kontrol eder ve her cihazda 24 saatte en fazla bir otomatik yedek alır."
-          }
-        }
-      }
-    },
-    "Mindrop couldn’t read this backup file." : {
-      "comment" : "iCloud Drive backup settings.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop couldn’t read this backup file."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop bu yedek dosyasını okuyamadı."
-          }
-        }
-      }
-    },
-    "No confirmed upload on this device." : {
-      "comment" : "iCloud Drive backup settings.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No confirmed upload on this device."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu cihazda henüz tamamlanmış yükleme yok."
-          }
-        }
-      }
-    },
-    "Preparing Backup or Restore…" : {
-      "comment" : "iCloud Drive backup settings.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preparing Backup or Restore…"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İşlem hazırlanıyor…"
-          }
-        }
-      }
-    },
-    "Restore from File" : {
-      "comment" : "iCloud Drive backup settings.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restore from File"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dosyadan Geri Yükle"
-          }
-        }
-      }
-    },
-    "The backup key is unavailable. Check iCloud Keychain or use the device that created the backup." : {
-      "comment" : "iCloud Drive backup settings.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The backup key is unavailable. Check iCloud Keychain or use the device that created the backup."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yedek anahtarına erişilemiyor. iCloud Anahtar Zinciri’ni kontrol et veya yedeği oluşturan cihazı kullan."
-          }
-        }
-      }
-    },
-    "Turn on iCloud Drive on this device and try again." : {
-      "comment" : "iCloud Drive backup settings.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turn on iCloud Drive on this device and try again."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu cihazda iCloud Drive’ı açıp tekrar dene."
-          }
-        }
-      }
-    },
-    "Waiting for iCloud Drive to upload…" : {
-      "comment" : "iCloud Drive backup settings.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Waiting for iCloud Drive to upload…"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud Drive’a yüklenmesi bekleniyor…"
-          }
-        }
-      }
-    },
-    "All Memories" : {
-      "comment" : "macOS window or menu command.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All Memories"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tüm Kayıtlar"
-          }
-        }
-      }
-    },
-    "Find Memories…" : {
-      "comment" : "macOS window or menu command.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Find Memories…"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kayıtlarda Ara…"
-          }
-        }
-      }
-    },
-    "New Memory from Clipboard" : {
-      "comment" : "macOS window or menu command.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Memory from Clipboard"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Panodan Yeni Kayıt"
-          }
-        }
-      }
-    },
-    "Open Mindrop" : {
-      "comment" : "macOS window or menu command.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Mindrop"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop’u Aç"
-          }
-        }
-      }
-    },
-    "Save" : {
-      "comment" : "macOS window or menu command.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kaydet"
-          }
-        }
-      }
-    },
-    "Select a Memory" : {
-      "comment" : "macOS window or menu command.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select a Memory"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir Kayıt Seç"
-          }
-        }
-      }
-    },
-    "Select some text to save in Mindrop." : {
-      "comment" : "macOS window or menu command.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select some text to save in Mindrop."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop’a kaydetmek için bir metin seç."
-          }
-        }
-      }
-    },
-    "Show Mindrop in Menu Bar" : {
-      "comment" : "macOS window or menu command.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Mindrop in Menu Bar"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mindrop’u menü çubuğunda göster"
           }
         }
       }
