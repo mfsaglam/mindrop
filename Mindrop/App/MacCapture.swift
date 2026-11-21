@@ -8,7 +8,7 @@ import SwiftUI
 final class MacCapture: NSObject, NSWindowDelegate {
     private var windows: [NSWindow] = []
 
-    func show(repository: MemoryRepository, details: String = "") {
+    func show(repository: MemoryRepository, details: String, folderID: UUID) {
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 500, height: 528),
             styleMask: [.titled, .closable, .fullSizeContentView],
@@ -22,7 +22,9 @@ final class MacCapture: NSObject, NSWindowDelegate {
         window.isRestorable = false
         window.delegate = self
         window.contentViewController = NSHostingController(rootView:
-            MemoryEditorView(mode: .create, repository: repository, initialDetails: details) { [weak window] in
+            MemoryEditorView(
+                mode: .create, repository: repository, initialDetails: details, folderID: folderID
+            ) { [weak window] in
                 window?.close()
             }
             .padding(.top, 18)

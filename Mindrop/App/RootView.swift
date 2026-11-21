@@ -1,6 +1,12 @@
 import MindropCore
 import SwiftUI
 
+enum LibraryRoute: Hashable {
+    case folder(UUID)
+    case memory(UUID)
+    case recentlyDeleted
+}
+
 struct RootView: View {
     let session: MindropSession
     @Environment(\.scenePhase) private var scenePhase
@@ -21,9 +27,17 @@ struct RootView: View {
                 NavigationStack(path: Binding(get: { session.path }, set: { session.path = $0 })) {
                     MemoryListView(repository: repository, session: session)
                         .memoryScreenBackground()
-                        .navigationDestination(for: UUID.self) { id in
-                            MemoryDetailView(repository: repository, memoryID: id, highlight: session.highlight(for: id))
-                                .memoryScreenBackground()
+                        .navigationDestination(for: LibraryRoute.self) { route in
+                            switch route {
+                            case .folder(let id):
+                                MemoryListView(repository: repository, session: session, folderID: id)
+                                    .memoryScreenBackground()
+                            case .memory(let id):
+                                MemoryDetailView(repository: repository, memoryID: id, highlight: session.highlight(for: id))
+                                    .memoryScreenBackground()
+                            case .recentlyDeleted:
+                                RecentlyDeletedView(repository: repository)
+                            }
                         }
                 }
                 .task {

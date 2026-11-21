@@ -5,7 +5,8 @@ import SwiftUI
 
 struct MemoryListView: View {
     private enum Sheet: Hashable, Identifiable {
-        case newMemory(scanning: Bool = false)
+        case newMemory(folderID: UUID, scanning: Bool = false)
+        case newFolder
         case settings
 
         var id: Self { self }
@@ -13,145 +14,106 @@ struct MemoryListView: View {
 
     let repository: MemoryRepository
     let session: MindropSession
+    var folderID: UUID? = nil
 
     @State private var query = ""
     @State private var isSearching = false
     @State private var categoryFilter: MemoryCategory?
     @State private var sheet: Sheet?
-    @State private var deletionError: String?
+    @State private var changeFailed = false
     /// The memory the user swiped to delete, waiting for them to confirm.
     @State private var pendingDeletion: Memory?
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
+    @ScaledMetric(relativeTo: .title3) private var folderIconWidth: CGFloat = 24
     @Environment(\.sensitiveAccess) private var sensitiveAccess
     private let newMemoryRequest = NewMemoryRequest.shared
 
+    private var isShowingFolders: Bool { folderID == nil && query.allSatisfy(\.isWhitespace) }
+
+    private var categories: [MemoryCategory] { repository.categories(in: folderID) }
+
     /// The filter, unless its last memory has since left that category.
     private var activeCategory: MemoryCategory? {
-        categoryFilter.flatMap { repository.categoriesInUse.contains($0) ? $0 : nil }
+        categoryFilter.flatMap { categories.contains($0) ? $0 : nil }
     }
 
     private var results: [Memory] {
-        repository.results(for: query, in: activeCategory)
+        repository.results(for: query, in: activeCategory, folderID: folderID)
     }
 
     /// Hidden while filtering by category: an expired memory is no longer really in one.
     private var expiredResults: [Memory] {
-        activeCategory == nil ? repository.expiredResults(for: query) : []
-    }
-
-    /// The way into Recently Deleted, at the very bottom, only when there is something
-    /// in it and the list is not being searched or filtered.
-    private var showsRecentlyDeleted: Bool {
-        !repository.deletedMemories.isEmpty && query.isEmpty && activeCategory == nil
+        activeCategory == nil ? repository.expiredResults(for: query, folderID: folderID) : []
     }
 
     /// Sections only once something is categorised: a list of nothing but "No Category"
     /// would just be the flat list with a heading.
     private var showsSections: Bool {
-        groupsByCategory && !repository.categoriesInUse.isEmpty
+        groupsByCategory && !categories.isEmpty
     }
 
     /// Nothing saved at all, not even expired: the list shows the Spotlight guide, which is
-    /// also how a new user learns what Mindrop does. Recently Deleted may still be there.
+    /// also how a new user learns what Mindrop does.
     private var hasNoMemories: Bool {
-        repository.results(for: "").isEmpty && repository.expiredResults(for: "").isEmpty
+        repository.results(for: "", folderID: folderID).isEmpty
+            && repository.expiredResults(for: "", folderID: folderID).isEmpty
     }
 
     var body: some View {
         ScrollView {
-            if hasNoMemories {
-                SpotlightGuide(newMemory: createMemory)
-            }
-
-            CardGrid {
-                if showsSections {
-                    ForEach(results.groupedByCategory()) { section in
-                        Section {
-                            cards(section.memories, showsCategory: false)
-                        } header: {
-                            Group {
-                                if let category = section.category {
-                                    category.label
-                                } else {
-                                    Label("No Category", image: "ix.tag.linear")
-                                }
-                            }
-                            .sectionHeaderStyle()
-                        }
-                    }
-                } else {
-                    cards(results, showsCategory: true)
-                }
-
-                if !expiredResults.isEmpty {
-                    Section {
-                        ForEach(expiredResults) { memory in
-                            NavigationLink(value: memory.id) {
-                                MemoryCard(memory: memory, showsCategory: !showsSections, query: query)
-                            }
-                            .buttonStyle(.plain)
-                            .contextMenu {
-                                Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
-                                deleteAction(for: memory)
-                            }
-                        }
-                    } header: {
-                        Label("Expired", image: "ix.calendar-remove.linear")
-                            .sectionHeaderStyle()
-                    } footer: {
-                        Text("Expired memories are deleted for good 7 days after they expire.")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                            .padding(.horizontal, 4)
-                            .onLeadingPage()
-                    }
-                }
-            }
-            .padding(.top, showsSections ? 0 : 12)
-
-            if showsRecentlyDeleted {
-                recentlyDeleted
-                    .onLeadingPage()
-                    .padding(.top, 24)
+            if isShowingFolders {
+                folderList
+            } else {
+                memoryGrid
             }
         }
         .contentMargins(.horizontal, 16, for: .scrollContent)
         .contentMargins(.bottom, 24, for: .scrollContent)
         .animation(.default, value: showsSections)
-        .navigationTitle("Mindrop")
+        .navigationTitle(folderID.map { repository.folders.title(for: $0) } ?? Text("Mindrop"))
         .searchable(text: $query, isPresented: $isSearching, placement: .toolbar, prompt: "Search memories")
         .searchToolbarBehavior(.minimize)
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
+            ToolbarItemGroup(placement: .primaryAction) {
+                if folderID == nil {
+                    Button("New Folder", systemImage: "folder.badge.plus") {
+                        sheet = .newFolder
+                    }
+                    .labelStyle(.iconOnly)
+                    .tint(Color(.folderAccent))
+                }
                 Button(action: createMemory) { Label("New Memory", image: "ix.add.linear") }
             }
             // Search at the bottom right, where the thumb is, rather than centred.
             ToolbarSpacer(.flexible, placement: .bottomBar)
             DefaultToolbarItem(kind: .search, placement: .bottomBar)
-            ToolbarItem(placement: .memoryLeading) {
-                Button { sheet = .settings } label: { Label("Settings", image: "ix.setting-2.linear") }
+            if folderID == nil {
+                ToolbarItem(placement: .memoryLeading) {
+                    Button { sheet = .settings } label: { Label("Settings", image: "ix.setting-2.linear") }
+                }
             }
             // Only once something is categorised: without Apple Intelligence the app
             // looks exactly as it did.
-            if !repository.categoriesInUse.isEmpty {
+            if !isShowingFolders, !categories.isEmpty {
                 ToolbarItem(placement: .memoryLeading) {
                     categoryMenu
                 }
             }
         }
-        // Only for a search or a filter that finds nothing: with nothing saved, the guide
-        // is in the list.
         .overlay {
-            if !hasNoMemories && results.isEmpty && expiredResults.isEmpty && !showsRecentlyDeleted {
-                emptyState
-                    .onLeadingPage()
+            if !isShowingFolders, results.isEmpty, expiredResults.isEmpty {
+                emptyState.onLeadingPage()
             }
         }
         // One sheet modifier for both: a second `.sheet` on the same view never presented.
         .sheet(item: $sheet) { sheet in
             switch sheet {
-            case .newMemory(let scanning):
-                MemoryEditorView(mode: .create, repository: repository, startsScanning: scanning)
+            case .newMemory(let folderID, let scanning):
+                MemoryEditorView(
+                    mode: .create, repository: repository, startsScanning: scanning, folderID: folderID
+                )
+            case .newFolder:
+                NewFolderView(folders: repository.folders)
             case .settings:
                 SettingsView(repository: repository, session: session)
             }
@@ -159,13 +121,17 @@ struct MemoryListView: View {
         // A Control Center control, the Action button or Siri asked for a new memory.
         // Replaces Settings if it was open: the user came here to write something down.
         .onChange(of: newMemoryRequest.isPending, initial: true) { _, isPending in
-            guard isPending else { return }
+            let openFolderID = session.path.compactMap { route -> UUID? in
+                if case .folder(let id) = route { return id }
+                return nil
+            }.last
+            guard isPending, folderID == openFolderID else { return }
             newMemoryRequest.isPending = false
-            sheet = .newMemory(scanning: newMemoryRequest.scans)
+            sheet = .newMemory(folderID: MemoryFolders.generalID, scanning: newMemoryRequest.scans)
         }
         // "Search in Mindrop" in Spotlight: the same search here, across every category.
         .onChange(of: session.pendingSearch, initial: true) { _, pending in
-            guard let pending else { return }
+            guard folderID == nil, let pending else { return }
             session.pendingSearch = nil
             categoryFilter = nil
             query = pending
@@ -181,22 +147,133 @@ struct MemoryListView: View {
         } message: { _ in
             Text("It will be removed from Spotlight and kept in Recently Deleted for 30 days.")
         }
-        .alert("Couldn’t delete", isPresented: .constant(deletionError != nil)) {
-            Button("OK") { deletionError = nil }
+        .alert("Couldn’t save", isPresented: $changeFailed) {
+            Button("OK", role: .cancel) {}
         } message: {
             Text("Please try again.")
         }
     }
 
+    private var folderList: some View {
+        let counts = repository.results(for: "").reduce(into: [UUID: Int]()) { counts, memory in
+            counts[repository.folders.folderID(for: memory.id), default: 0] += 1
+        }
+        let deletedCount = repository.deletedMemories.count
+        return LazyVStack(spacing: 10) {
+            folderRow(
+                Text("General"), count: counts[MemoryFolders.generalID, default: 0],
+                route: .folder(MemoryFolders.generalID)
+            )
+            ForEach(repository.folders.custom) { folder in
+                folderRow(Text(folder.name), count: counts[folder.id, default: 0], route: .folder(folder.id))
+            }
+            if deletedCount > 0 {
+                folderRow(
+                    Text("Recently Deleted"), icon: Image("ix.trash.linear"),
+                    count: deletedCount, route: .recentlyDeleted
+                )
+            }
+        }
+        .padding(.top, 8)
+        .onLeadingPage()
+    }
+
+    private func folderRow(
+        _ title: Text, icon: Image = Image(systemName: "folder"), count: Int, route: LibraryRoute
+    ) -> some View {
+        NavigationLink(value: route) {
+            HStack(spacing: 12) {
+                icon
+                    .font(.title3)
+                    .foregroundStyle(Color(.folderAccent))
+                    .frame(width: folderIconWidth)
+                    .accessibilityHidden(true)
+                title
+                    .font(.headline)
+                Spacer(minLength: 0)
+                Text(count, format: .number)
+                    .monospacedDigit()
+                    .foregroundStyle(Color.primary.opacity(0.78))
+                    .accessibilityLabel(Text("Memory Count"))
+                    .accessibilityValue(Text(count, format: .number))
+                Image("ix.arrow-right-02.linear")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+                    .accessibilityHidden(true)
+            }
+            .padding(.horizontal, 18)
+            .padding(.vertical, 14)
+            .contentShape(.rect)
+            .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 18))
+            .accessibilityElement(children: .combine)
+        }
+        .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private var memoryGrid: some View {
+        if folderID == MemoryFolders.generalID, hasNoMemories, query.isEmpty,
+           repository.results(for: "").isEmpty, repository.expiredResults(for: "").isEmpty {
+            SpotlightGuide(newMemory: createMemory)
+        }
+
+        CardGrid {
+            if showsSections {
+                ForEach(results.groupedByCategory()) { section in
+                    Section {
+                        cards(section.memories, showsCategory: false)
+                    } header: {
+                        Group {
+                            if let category = section.category {
+                                category.label
+                            } else {
+                                Label("No Category", image: "ix.tag.linear")
+                            }
+                        }
+                        .sectionHeaderStyle()
+                    }
+                }
+            } else {
+                cards(results, showsCategory: true)
+            }
+
+            if !expiredResults.isEmpty {
+                Section {
+                    ForEach(expiredResults) { memory in
+                        NavigationLink(value: LibraryRoute.memory(memory.id)) {
+                            MemoryCard(memory: memory, showsCategory: !showsSections, query: query)
+                        }
+                        .buttonStyle(.plain)
+                        .contextMenu {
+                            Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
+                            moveMenu(for: memory)
+                            deleteAction(for: memory)
+                        }
+                    }
+                } header: {
+                    Label("Expired", image: "ix.calendar-remove.linear")
+                        .sectionHeaderStyle()
+                } footer: {
+                    Text("Expired memories are deleted for good 7 days after they expire.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 4)
+                        .onLeadingPage()
+                }
+            }
+        }
+        .padding(.top, showsSections ? 0 : 12)
+    }
+
     private func createMemory() {
-        sheet = .newMemory()
+        sheet = .newMemory(folderID: folderID ?? MemoryFolders.generalID)
     }
 
     private var categoryMenu: some View {
         Menu {
             Picker("Category", selection: $categoryFilter) {
                 Label("All", image: "ix.layer.linear").tag(MemoryCategory?.none)
-                ForEach(repository.categoriesInUse, id: \.self) { category in
+                ForEach(categories, id: \.self) { category in
                     category.menuLabel.tag(Optional(category))
                 }
             }
@@ -213,8 +290,11 @@ struct MemoryListView: View {
             } description: {
                 Text("Nothing in this category.")
             }
-        } else {
+        } else if !query.isEmpty {
             ContentUnavailableView.search(text: query)
+        } else if folderID != MemoryFolders.generalID
+                    || !repository.results(for: "").isEmpty || !repository.expiredResults(for: "").isEmpty {
+            ContentUnavailableView("No Memories", systemImage: "folder")
         }
     }
 
@@ -222,7 +302,7 @@ struct MemoryListView: View {
     /// A long press offers Copy and Delete: a grid has no swipe actions.
     private func cards(_ memories: [Memory], showsCategory: Bool) -> some View {
         ForEach(memories) { memory in
-            NavigationLink(value: memory.id) {
+            NavigationLink(value: LibraryRoute.memory(memory.id)) {
                 MemoryCard(memory: memory, showsCategory: showsCategory, query: query)
             }
             .buttonStyle(.plain)
@@ -234,31 +314,19 @@ struct MemoryListView: View {
                         Label("Copy", image: "ix.copy.linear")
                     }
                 }
+                moveMenu(for: memory)
                 deleteAction(for: memory)
             }
         }
     }
 
-    /// The way into Recently Deleted, a glass row under the cards.
-    private var recentlyDeleted: some View {
-        NavigationLink {
-            RecentlyDeletedView(repository: repository)
-        } label: {
-            HStack {
-                Label("Recently Deleted", image: "ix.trash.linear")
-                Spacer()
-                Text(repository.deletedMemories.count, format: .number)
-                    .foregroundStyle(.secondary)
-                Image("ix.arrow-right-02.linear")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.tertiary)
+    @ViewBuilder
+    private func moveMenu(for memory: Memory) -> some View {
+        if !repository.folders.custom.isEmpty {
+            MoveToFolderMenu(folders: repository.folders, memoryID: memory.id) { id in
+                change { try repository.move(memory, to: id) }
             }
-            .padding(.horizontal, 18)
-            .padding(.vertical, 14)
-            .contentShape(.rect)
-            .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 22, style: .continuous))
         }
-        .buttonStyle(.plain)
     }
 
     /// Deleting reaches every device, so the menu only asks; the alert does the deleting.
@@ -277,20 +345,21 @@ struct MemoryListView: View {
 
     /// Brings an expired memory back for good, not on a new timer.
     private func recover(_ memory: Memory) {
-        do {
-            try repository.setExpiry(nil, for: memory)
-        } catch {
-            deletionError = String(describing: error)
-        }
+        change { try repository.setExpiry(nil, for: memory) }
     }
 
     private func delete(_ ids: [UUID]) {
+        change { try repository.delete(ids: ids) }
+    }
+
+    private func change(_ action: () throws -> Void) {
         do {
-            try repository.delete(ids: ids)
+            try action()
         } catch {
-            deletionError = String(describing: error)
+            changeFailed = true
         }
     }
+
 }
 
 /// A memory in the grid: the keyword small at the top, the value below as the card's

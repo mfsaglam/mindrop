@@ -54,20 +54,15 @@ struct RecentlyDeletedView: View {
 
     @ViewBuilder
     private var deletedMemories: some View {
+        let memories = repository.deletedMemories
         #if os(macOS)
-        if repository.deletedMemories.isEmpty {
-            ContentUnavailableView {
-                Label("Nothing Deleted", systemImage: "trash")
-            } description: {
-                Text("A deleted memory waits here, so a mistake can be undone.")
-            }
-        } else {
-            List {
+        List {
+            if !memories.isEmpty {
                 retentionNotice
                     .font(.footnote)
                     .foregroundStyle(.secondary)
 
-                ForEach(repository.deletedMemories) { memory in
+                ForEach(memories) { memory in
                     HStack {
                         VStack(alignment: .leading, spacing: 0) {
                             MacMemoryRow(memory: memory)
@@ -91,9 +86,21 @@ struct RecentlyDeletedView: View {
                 }
             }
         }
+        .overlay {
+            if memories.isEmpty {
+                ContentUnavailableView {
+                    Label("Nothing Deleted", systemImage: "trash")
+                } description: {
+                    Text("A deleted memory waits here, so a mistake can be undone.")
+                }
+            }
+        }
         #else
         ScrollView {
-            if !repository.deletedMemories.isEmpty {
+            if memories.isEmpty {
+                EmptyRecentlyDeleted()
+                    .onLeadingPage()
+            } else {
                 retentionNotice
                     .font(.footnote)
                     .foregroundStyle(.secondary)
@@ -103,7 +110,7 @@ struct RecentlyDeletedView: View {
                     .onLeadingPage()
 
                 CardGrid {
-                    ForEach(repository.deletedMemories) { memory in
+                    ForEach(memories) { memory in
                         Menu {
                             actions(for: memory)
                         } label: {
@@ -114,14 +121,9 @@ struct RecentlyDeletedView: View {
                 }
             }
         }
-        .contentMargins(.horizontal, 16, for: .scrollContent)
+        .contentMargins(.horizontal, memories.isEmpty ? 0 : 16, for: .scrollContent)
         .contentMargins(.bottom, 24, for: .scrollContent)
-        .overlay(alignment: .top) {
-            if repository.deletedMemories.isEmpty {
-                EmptyRecentlyDeleted()
-                    .onLeadingPage()
-            }
-        }
+        .memoryScreenBackground()
         #endif
     }
 

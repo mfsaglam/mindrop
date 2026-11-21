@@ -4,14 +4,15 @@ Bu dosya, Mindrop’ta kayıtları düzenleme, türlerine göre kullanışlı de
 
 ## Hızlı kayıt
 
-Anahtar kelimeyi ve değeri girip kaydetmek temel akıştır. Kullanıcı klasörü, saklama süresini ve widget görünürlüğünü isterse kayıt sırasında seçer, isterse sonra düzenler. Örneğin havaalanında `gate` ve `21` yazıp hemen kaydedebilir. Kayıt daha sonra Spotlight’ta aynı anahtar kelimeyle bulunur.
+Anahtar kelimeyi ve değeri girip kaydetmek temel akıştır. Kullanıcı klasör seçmeden kaydederse kayıt varsayılan klasöre eklenir. Klasörü, saklama süresini ve widget görünürlüğünü kayıt sırasında ya da sonradan belirleyebilir. Örneğin havaalanında `gate` ve `21` yazıp hemen kaydedebilir. Kayıt daha sonra Spotlight’ta aynı anahtar kelimeyle bulunur.
 
-## Otomatik kategoriler ve isteğe bağlı klasörler
+## Otomatik kategoriler ve klasörler
 
 - **Kategori**, kaydın türünü belirtir. Wi‑Fi, Bağlantılar ve Kodlar gibi mevcut kategoriler otomatik belirlenir.
-- **Klasör**, kullanıcının kendi bağlamını belirtir. İş, Aile veya Roma Seyahati gibi bir klasör oluşturabilir ve kayıtlarını dilediği zaman oraya ekleyebilir.
-- Ana ekran, kategorilere ayrılmış kompakt kayıt listesini doğrudan gösterir. Kullanıcı ilk klasörünü oluşturduğunda listenin üstünde küçük bir **Klasörler** bölümü belirir.
-- Bir klasöre dokunulduğunda klasörün detay sayfası açılır. İçindeki kayıtlar türlerine göre otomatik gruplanır. Örneğin İş klasöründe Wi‑Fi ve Bağlantılar ayrı bölümler olabilir.
+- **Klasör**, kullanıcının kendi bağlamını belirtir. Her kayıt tek bir klasöre aittir. Mindrop başlangıçta Genel klasörünü sağlar. Kullanıcı İş, Aile veya Roma Seyahati gibi klasörler oluşturup kayıtlarını bunlara taşıyabilir.
+- Ana ekran ilk açılıştan itibaren klasör listesidir. Başlangıçta Genel görünür. Kullanıcının oluşturduğu klasörler aynı listeye eklenir. Silinmiş kayıtlar varsa listenin sonunda Son Silinenler görünür.
+- Bir klasöre dokunulduğunda kayıtları kategori başlıkları altında iPhone ve iPad’in mevcut kart grid’iyle göster. Geri gidildiğinde klasör listesine dön. Örneğin İş klasöründe Wi‑Fi ve Bağlantılar ayrı bölümler olabilir.
+- Klasör üyeliği olmayan mevcut kayıtları okuma sırasında varsayılan klasöre ait kabul et. Mevcut kayıt kimliklerini koru. İlk sürümde klasörler ve üyelikleri cihazda saklanır.
 
 ### Klasörleri koleksiyon olarak kullanmak
 

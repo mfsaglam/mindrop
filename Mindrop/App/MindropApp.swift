@@ -72,9 +72,21 @@ final class MindropSession {
 
     private(set) var phase: Phase = .loading
     /// Back at the list, a highlight from Spotlight has served its purpose.
-    var path: [UUID] = [] {
-        didSet { if path.isEmpty { spotlightHighlight = nil } }
+    var path: [LibraryRoute] = [] {
+        didSet {
+            if case .memory = path.last { return }
+            spotlightHighlight = nil
+        }
     }
+    #if os(macOS)
+    var selectedMemoryID: UUID? {
+        get {
+            guard case .memory(let id) = path.last else { return nil }
+            return id
+        }
+        set { path = newValue.map { [.memory($0)] } ?? [] }
+    }
+    #endif
     /// A search carried on from Spotlight ("Search in Mindrop"), for the list to show.
     /// The list clears it once shown.
     var pendingSearch: String?
@@ -136,9 +148,13 @@ final class MindropSession {
     func start() async {
         guard case .loading = phase else { return }
         do {
+            guard let container = AppGroup.containerURL else { throw MemoryStoreError.appGroupUnavailable }
+            let folders = MemoryFolders(url: container.appending(path: "folders.json"))
+            try? folders.load()
             let repository = try MemoryRepository.live(
                 categorizer: AppleIntelligenceCategorizer(log: categorizationLog),
-                spotlightExtras: Self.spotlightExtras
+                spotlightExtras: Self.spotlightExtras,
+                folders: folders
             )
             try repository.load()
             #if os(macOS)
@@ -159,15 +175,15 @@ final class MindropSession {
     }
 
     #if os(macOS)
-    func showMacCapture(details: String = "") {
+    func showMacCapture(details: String = "", folderID: UUID = MemoryFolders.generalID) {
         if let repository {
-            macCapture.show(repository: repository, details: details)
+            macCapture.show(repository: repository, details: details, folderID: folderID)
             return
         }
         Task {
             await start()
             if let repository {
-                macCapture.show(repository: repository, details: details)
+                macCapture.show(repository: repository, details: details, folderID: folderID)
             }
         }
     }
@@ -267,7 +283,7 @@ final class MindropSession {
             var transaction = Transaction()
             transaction.disablesAnimations = true
             withTransaction(transaction) {
-                path = [id]
+                path = [.memory(id)]
             }
             spotlightHighlight = query.map { (id, $0) }
         case .search(let query):

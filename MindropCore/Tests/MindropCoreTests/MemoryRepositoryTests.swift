@@ -16,6 +16,44 @@ struct MemoryRepositoryTests {
         #expect(indexer.indexedIDs == [memory.id])
     }
 
+    @Test("Existing memories appear in General and folder assignments survive reopening")
+    func foldersPreserveExistingData() throws {
+        let directory = URL.temporaryDirectory.appending(path: "mindrop-folders-\(UUID())")
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appending(path: "folders.json")
+        let folders = MemoryFolders(url: url)
+        try folders.load()
+        let legacy = makeMemory(keyword: "old router")
+        let (repository, store, _) = try makeRepository(memories: [legacy], folders: folders)
+        #expect(repository.results(for: "", folderID: MemoryFolders.generalID) == [legacy])
+        #expect(try store.load() == [legacy])
+
+        try folders.add(named: " Work ")
+        let work = try #require(folders.custom.first)
+        #expect(work.name == "Work")
+        try repository.move(legacy, to: work.id)
+        let saved = try repository.create(keyword: "work router", value: "Office Wi-Fi", folderID: work.id)
+
+        let reopened = MemoryFolders(url: url)
+        try reopened.load()
+        let (reloaded, _, _) = try makeRepository(store: store, folders: reopened)
+        #expect(reopened.custom.first?.id == work.id)
+        #expect(reloaded.results(for: "", folderID: MemoryFolders.generalID).isEmpty)
+        #expect(Set(reloaded.results(for: "router", folderID: work.id).map(\.id)) == [legacy.id, saved.id])
+        #expect(reloaded.results(for: "old router") == [legacy])
+        try reloaded.move(legacy, to: MemoryFolders.generalID)
+        #expect(reloaded.results(for: "", folderID: MemoryFolders.generalID) == [legacy])
+    }
+
+    @Test("Saving into an unknown folder leaves the memory store untouched")
+    func unknownFolderDoesNotCreateMemory() throws {
+        let (repository, store, _) = try makeRepository()
+        #expect(throws: MemoryFolders.ValidationError.unknownFolder) {
+            try repository.create(keyword: "wifi", value: "Office Wi-Fi", folderID: UUID())
+        }
+        #expect(try store.load().isEmpty)
+    }
+
     @Test("A short keyword cannot be saved by the app or share extension")
     func shortKeywordDoesNotPersist() async throws {
         let (repository, store, indexer) = try makeRepository()

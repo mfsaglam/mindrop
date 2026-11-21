@@ -20,6 +20,8 @@ public final class MemoryRepository {
     /// `indexingTask`.
     public private(set) var categorizationTask: Task<Void, Never>?
 
+    public let folders: MemoryFolders
+
     private let store: MemoryStore
     private let synchronizer: SpotlightSynchronizer
     private let categorizer: (any MemoryCategorizing)?
@@ -38,8 +40,10 @@ public final class MemoryRepository {
         store: MemoryStore,
         synchronizer: SpotlightSynchronizer,
         categorizer: (any MemoryCategorizing)? = nil,
+        folders: MemoryFolders = MemoryFolders(),
         now: @escaping @Sendable () -> Date = { Date() }
     ) {
+        self.folders = folders
         self.store = store
         self.synchronizer = synchronizer
         self.categorizer = categorizer
@@ -52,7 +56,8 @@ public final class MemoryRepository {
     /// whatever it saved the next time it comes to the foreground.
     public static func live(
         categorizer: (any MemoryCategorizing)? = nil,
-        spotlightExtras: SpotlightExtras = .none
+        spotlightExtras: SpotlightExtras = .none,
+        folders: MemoryFolders = MemoryFolders()
     ) throws -> MemoryRepository {
         MemoryRepository(
             store: try FileMemoryStore.shared(),
@@ -60,7 +65,8 @@ public final class MemoryRepository {
                 indexer: CoreSpotlightIndexer(extras: spotlightExtras),
                 stateStore: try FileSpotlightSyncStateStore.shared()
             ),
-            categorizer: categorizer
+            categorizer: categorizer,
+            folders: folders
         )
     }
     #endif
@@ -192,21 +198,28 @@ public final class MemoryRepository {
 
     /// In-app filtering, newest first. An empty query and no category return every memory
     /// that has not expired or been deleted.
-    public func results(for query: String, in category: MemoryCategory? = nil) -> [Memory] {
+    public func results(
+        for query: String, in category: MemoryCategory? = nil, folderID: UUID? = nil
+    ) -> [Memory] {
         let now = now()
         return memories.filter { memory in
             !memory.isExpired(at: now) && !memory.isDeleted
                 && (category == nil || memory.category?.category == category)
+                && (folderID == nil || folders.folderID(for: memory.id) == folderID)
                 && memory.matches(query: query)
         }
     }
 
     /// Expired memories matching the query, most recently expired first. Kept apart from
     /// `results` so they can be recovered but never get in the way.
-    public func expiredResults(for query: String) -> [Memory] {
+    public func expiredResults(for query: String, folderID: UUID? = nil) -> [Memory] {
         let now = now()
         return memories
-            .filter { $0.isExpired(at: now) && !$0.isDeleted && $0.matches(query: query) }
+            .filter { memory in
+                memory.isExpired(at: now) && !memory.isDeleted
+                    && (folderID == nil || folders.folderID(for: memory.id) == folderID)
+                    && memory.matches(query: query)
+            }
             .sorted { ($0.expiresAt ?? .distantPast) > ($1.expiresAt ?? .distantPast) }
     }
 
@@ -220,13 +233,27 @@ public final class MemoryRepository {
     /// The categories at least one live memory is in, in declaration order — what a
     /// filter offers.
     public var categoriesInUse: [MemoryCategory] {
-        let used = Set(results(for: "").compactMap(\.category?.category))
+        categories(in: nil)
+    }
+
+    public func categories(in folderID: UUID?) -> [MemoryCategory] {
+        let used = Set(results(for: "", folderID: folderID).compactMap(\.category?.category))
         return MemoryCategory.allCases.filter(used.contains)
     }
 
+    public func move(_ memory: Memory, to folderID: UUID) throws {
+        guard let current = self.memory(id: memory.id), !current.isDeleted else { return }
+        try folders.assign(current.id, to: folderID)
+    }
+
     @discardableResult
-    public func create(keyword: String, value: String, expiresAt: Date? = nil, isSensitive: Bool = false) throws -> Memory {
-        let memory = try insert(keyword: keyword, value: value, expiresAt: expiresAt, isSensitive: isSensitive)
+    public func create(
+        keyword: String, value: String, expiresAt: Date? = nil, isSensitive: Bool = false,
+        folderID: UUID = MemoryFolders.generalID
+    ) throws -> Memory {
+        let memory = try insert(
+            keyword: keyword, value: value, expiresAt: expiresAt, isSensitive: isSensitive, folderID: folderID
+        )
         indexInBackground([memory])
         categorizePending()
         return memory
@@ -248,7 +275,10 @@ public final class MemoryRepository {
         return memory
     }
 
-    private func insert(keyword: String, value: String, expiresAt: Date?, isSensitive: Bool) throws -> Memory {
+    private func insert(
+        keyword: String, value: String, expiresAt: Date?, isSensitive: Bool,
+        folderID: UUID = MemoryFolders.generalID
+    ) throws -> Memory {
         let memory = try Memory.make(
             keyword: keyword,
             value: value,
@@ -256,9 +286,17 @@ public final class MemoryRepository {
             expiresAt: expiresAt,
             isSensitive: isSensitive
         )
-        var updated = memories
-        updated.append(memory)
-        try commit(updated)
+        let isCustom = folderID != MemoryFolders.generalID
+        if isCustom { try folders.assign(memory.id, to: folderID) }
+        do {
+            // The share extension may have saved since the app last refreshed its list.
+            let stored = try store.update { ($0 + [memory]).sorted(by: Self.isOrderedBefore) }
+            if let stored { memories = stored }
+        } catch {
+            if isCustom { try? folders.assign(memory.id, to: MemoryFolders.generalID) }
+            throw error
+        }
+        onLocalChange?()
         return memory
     }
 
