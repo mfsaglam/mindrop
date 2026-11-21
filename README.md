@@ -321,8 +321,13 @@ form. The category chip, the expiry chip and Edit work as before.
 
 ## The look: glass cards
 
-The list and the detail screen are built from native components and Liquid Glass, on the
-plain system background.
+The list and the detail screen are built from native components and Liquid Glass.
+On iPhone and iPad, dark mode uses **night navy `#101522`** for the list, memory detail,
+settings, and the app's sheets. Form rows and the Spotlight preview panel in
+**How Mindrop Works** use **blue-grey `#25324A`**. Light mode uses the system background
+and row surfaces. The colours are defined in
+[`MemoryScreenDarkBackground`](Mindrop/Resources/Assets.xcassets/MemoryScreenDarkBackground.colorset/Contents.json)
+and [`MemorySheetDarkRowBackground`](Mindrop/Resources/Assets.xcassets/MemorySheetDarkRowBackground.colorset/Contents.json).
 
 - **The list is a grid of glass cards**, two columns (more on iPhone Duo's inner display; see
   [iPhone Duo](#iphone-duo)): the keyword small at the top, the value as the card's
@@ -891,6 +896,14 @@ The iPhone, iPad, Mac, and Apple Watch apps share
 (`#3456D1`) and ivory magnifier and cursor (`#FCFAF5`) use the proportions of the
 selected mark in [the design guide](DESIGN.md#ortak-marka-dili). The foreground is
 one vector layer. Xcode applies the platform mask and generates the icon assets.
+
+| Appearance | Background | QI mark |
+| --- | --- | --- |
+| Default | Cobalt `#3456D1` | Ivory `#FCFAF5` |
+| Dark | Night navy `#101522` | Light cobalt `#B9CAFF` |
+
+The dark icon values are stored in Display P3 in [`icon.json`](Mindrop/Resources/mindrop_icon.icon/icon.json).
+The app’s screen colors are sRGB assets.
 
 The iOS share tile and macOS share menu display the containing app’s icon. The
 Control Center symbol, Mac menu bar template, transparent iOS action icon, fallback
