@@ -229,34 +229,55 @@ struct MemoryDetailView: View {
                         .foregroundStyle(.orange)
                     Spacer()
                     Button { setExpiry(nil, for: memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.green)
+                    #if os(macOS)
+                    .buttonStyle(.bordered)
+                    #else
+                    .buttonStyle(.borderedProminent)
+                    .tint(.green)
+                    #endif
                 }
                 .font(.footnote.weight(.medium))
             } else if let expiresAt = memory.expiresAt {
                 Menu {
-                    Button {
-                        setExpiry(expiresAt.addingTimeInterval(24 * 60 * 60), for: memory)
-                    } label: {
-                        Label("1 More Day", image: "ix.add.linear")
-                    }
-                    Button {
-                        setExpiry(expiresAt.addingTimeInterval(7 * 24 * 60 * 60), for: memory)
-                    } label: {
-                        Label("1 More Week", image: "ix.add.linear")
-                    }
-                    // Iconsax has no infinity: a stopped timer says the same.
-                    Button { setExpiry(nil, for: memory) } label: { Label("Keep Forever", image: "ix.timer-pause.linear") }
+                    expiryActions(for: memory, expiresAt: expiresAt)
                 } label: {
+                    #if os(macOS)
+                    text
+                    #else
                     text
                         .font(.footnote.weight(.medium))
                         .padding(.horizontal, 10)
                         .padding(.vertical, 5)
                         .background(.orange.opacity(0.12), in: .capsule)
                         .foregroundStyle(.orange)
+                    #endif
                 }
+                #if os(macOS)
+                .fixedSize()
+                #else
                 .accessibilityLabel("Expiry")
+                #endif
             }
+        }
+    }
+
+    @ViewBuilder
+    private func expiryActions(for memory: Memory, expiresAt: Date) -> some View {
+        Button {
+            setExpiry(expiresAt.addingTimeInterval(24 * 60 * 60), for: memory)
+        } label: {
+            Label("1 More Day", image: "ix.add.linear")
+        }
+        Button {
+            setExpiry(expiresAt.addingTimeInterval(7 * 24 * 60 * 60), for: memory)
+        } label: {
+            Label("1 More Week", image: "ix.add.linear")
+        }
+        #if os(macOS)
+        Divider()
+        #endif
+        Button { setExpiry(nil, for: memory) } label: {
+            Label("Keep Forever", image: "ix.timer-pause.linear")
         }
     }
 
