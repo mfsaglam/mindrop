@@ -75,13 +75,14 @@ struct MacLibraryView: View {
             .navigationTitle("Mindrop")
             .navigationSplitViewColumnWidth(min: 155, ideal: 175, max: 225)
         } content: {
-            if destination == .recentlyDeleted {
-                RecentlyDeletedView(repository: repository)
-                    .navigationSplitViewColumnWidth(min: 230, ideal: 280)
-            } else {
-                memoryList
-                    .navigationSplitViewColumnWidth(min: 220, ideal: 255)
+            Group {
+                if destination == .recentlyDeleted {
+                    RecentlyDeletedView(repository: repository)
+                } else {
+                    memoryList
+                }
             }
+            .navigationSplitViewColumnWidth(min: 220, ideal: 255)
         } detail: {
             detail
                 .frame(minWidth: 270)
@@ -186,31 +187,17 @@ struct MacLibraryView: View {
 
     private func rows(_ memories: [Memory]) -> some View {
         ForEach(memories) { memory in
-            let isSelected = session.path.last == memory.id
-            VStack(alignment: .leading, spacing: 3) {
-                HStack(spacing: 6) {
-                    HighlightedText(memory.keyword, query: query, highlightsBackground: !isSelected)
-                        .fontWeight(.medium)
-                        .lineLimit(1)
-                    if memory.isSensitive { SensitiveBadge() }
+            MacMemoryRow(memory: memory, query: query, isSelected: session.path.last == memory.id)
+                .tag(memory.id)
+                .contextMenu {
+                    if sensitiveAccess.canShow(memory) {
+                        Button("Copy") { Clipboard.copy(memory.value) }
+                    }
+                    if memory.isExpired(at: .now) {
+                        Button("Recover") { change { try repository.setExpiry(nil, for: memory) } }
+                    }
+                    Button("Delete", role: .destructive) { pendingDeletion = memory }
                 }
-                if sensitiveAccess.canShow(memory) {
-                    HighlightedText(memory.value, query: query, highlightsBackground: !isSelected)
-                        .lineLimit(1)
-                        .foregroundStyle(isSelected ? .primary : .secondary)
-                }
-            }
-            .padding(.vertical, 4)
-            .tag(memory.id)
-            .contextMenu {
-                if sensitiveAccess.canShow(memory) {
-                    Button("Copy") { Clipboard.copy(memory.value) }
-                }
-                if memory.isExpired(at: .now) {
-                    Button("Recover") { change { try repository.setExpiry(nil, for: memory) } }
-                }
-                Button("Delete", role: .destructive) { pendingDeletion = memory }
-            }
         }
     }
 
@@ -220,6 +207,31 @@ struct MacLibraryView: View {
         } catch {
             changeFailed = true
         }
+    }
+}
+
+struct MacMemoryRow: View {
+    let memory: Memory
+    var query = ""
+    var isSelected = false
+
+    @Environment(\.sensitiveAccess) private var sensitiveAccess
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            HStack(spacing: 6) {
+                HighlightedText(memory.keyword, query: query, highlightsBackground: !isSelected)
+                    .fontWeight(.medium)
+                    .lineLimit(1)
+                if memory.isSensitive { SensitiveBadge() }
+            }
+            if sensitiveAccess.canShow(memory) {
+                HighlightedText(memory.value, query: query, highlightsBackground: !isSelected)
+                    .lineLimit(1)
+                    .foregroundStyle(isSelected ? .primary : .secondary)
+            }
+        }
+        .padding(.vertical, 4)
     }
 }
 #endif

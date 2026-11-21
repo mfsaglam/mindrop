@@ -13,12 +13,88 @@ struct RecentlyDeletedView: View {
     @State private var isConfirmingDeleteAll = false
     @State private var errorMessage: String?
 
-    /// The same grid of glass cards as the list, in clear glass: set aside, not gone. Tapping
-    /// a card offers Recover and Delete Now; a grid has no swipe actions.
     var body: some View {
+        deletedMemories
+            .navigationTitle("Recently Deleted")
+            .inlineNavigationTitle()
+            .toolbar {
+                if !repository.deletedMemories.isEmpty {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button("Delete All", role: .destructive) { isConfirmingDeleteAll = true }
+                            .tint(.red)
+                    }
+                }
+            }
+            .alert("Delete All for Good?", isPresented: $isConfirmingDeleteAll) {
+                Button("Delete All", role: .destructive) { deleteAllPermanently() }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Every memory in Recently Deleted will be deleted on all your devices. This can’t be undone.")
+            }
+            .alert(
+                deletionTitle,
+                isPresented: Binding(get: { pendingDeletion != nil }, set: { if !$0 { pendingDeletion = nil } }),
+                presenting: pendingDeletion
+            ) { memory in
+                Button("Delete", role: .destructive) { deletePermanently(memory) }
+                Button("Cancel", role: .cancel) {}
+            } message: { _ in
+                Text("This memory will be deleted on all your devices. This can’t be undone.")
+            }
+            .alert("Couldn’t save", isPresented: .constant(errorMessage != nil)) {
+                Button("OK") { errorMessage = nil }
+            } message: {
+                Text("Please try again.")
+            }
+    }
+
+    private var retentionNotice: Text {
+        Text("Memories are deleted for good 30 days after you delete them, on all your devices.")
+    }
+
+    @ViewBuilder
+    private var deletedMemories: some View {
+        #if os(macOS)
+        if repository.deletedMemories.isEmpty {
+            ContentUnavailableView {
+                Label("Nothing Deleted", systemImage: "trash")
+            } description: {
+                Text("A deleted memory waits here, so a mistake can be undone.")
+            }
+        } else {
+            List {
+                retentionNotice
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+
+                ForEach(repository.deletedMemories) { memory in
+                    HStack {
+                        VStack(alignment: .leading, spacing: 0) {
+                            MacMemoryRow(memory: memory)
+                            if let date = memory.deletedForGoodDate {
+                                DeletedMemoryCountdown(date: date)
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 4)
+
+                        Menu {
+                            actions(for: memory)
+                        } label: {
+                            Label("Actions", systemImage: "ellipsis.circle")
+                                .labelStyle(.iconOnly)
+                        }
+                        .menuStyle(.borderlessButton)
+                        .fixedSize()
+                    }
+                    .contextMenu { actions(for: memory) }
+                }
+            }
+        }
+        #else
         ScrollView {
             if !repository.deletedMemories.isEmpty {
-                Text("Memories are deleted for good 30 days after you delete them, on all your devices.")
+                retentionNotice
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -29,10 +105,7 @@ struct RecentlyDeletedView: View {
                 CardGrid {
                     ForEach(repository.deletedMemories) { memory in
                         Menu {
-                            Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
-                            Button(role: .destructive) { pendingDeletion = memory } label: {
-                                Label("Delete Now", image: "ix.trash.linear")
-                            }
+                            actions(for: memory)
                         } label: {
                             DeletedMemoryCard(memory: memory)
                         }
@@ -43,42 +116,20 @@ struct RecentlyDeletedView: View {
         }
         .contentMargins(.horizontal, 16, for: .scrollContent)
         .contentMargins(.bottom, 24, for: .scrollContent)
-        .navigationTitle("Recently Deleted")
-        .inlineNavigationTitle()
-        .toolbar {
-            if !repository.deletedMemories.isEmpty {
-                ToolbarItem(placement: .primaryAction) {
-                    Button("Delete All", role: .destructive) { isConfirmingDeleteAll = true }
-                        .tint(.red)
-                }
-            }
-        }
-        .alert("Delete All for Good?", isPresented: $isConfirmingDeleteAll) {
-            Button("Delete All", role: .destructive) { deleteAllPermanently() }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("Every memory in Recently Deleted will be deleted on all your devices. This can’t be undone.")
-        }
         .overlay(alignment: .top) {
             if repository.deletedMemories.isEmpty {
                 EmptyRecentlyDeleted()
                     .onLeadingPage()
             }
         }
-        .alert(
-            deletionTitle,
-            isPresented: Binding(get: { pendingDeletion != nil }, set: { if !$0 { pendingDeletion = nil } }),
-            presenting: pendingDeletion
-        ) { memory in
-            Button("Delete", role: .destructive) { deletePermanently(memory) }
-            Button("Cancel", role: .cancel) {}
-        } message: { _ in
-            Text("This memory will be deleted on all your devices. This can’t be undone.")
-        }
-        .alert("Couldn’t save", isPresented: .constant(errorMessage != nil)) {
-            Button("OK") { errorMessage = nil }
-        } message: {
-            Text("Please try again.")
+        #endif
+    }
+
+    @ViewBuilder
+    private func actions(for memory: Memory) -> some View {
+        Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
+        Button(role: .destructive) { pendingDeletion = memory } label: {
+            Label("Delete Now", image: "ix.trash.linear")
         }
     }
 
@@ -119,11 +170,6 @@ private struct DeletedMemoryCard: View {
 
     @Environment(\.sensitiveAccess) private var sensitiveAccess
 
-    private var isEndingSoon: Bool {
-        guard let date = memory.deletedForGoodDate else { return false }
-        return date.timeIntervalSinceNow < 3 * 24 * 60 * 60
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 5) {
@@ -156,15 +202,7 @@ private struct DeletedMemoryCard: View {
             Spacer(minLength: 4)
 
             if let date = memory.deletedForGoodDate {
-                HStack(spacing: 4) {
-                    Image("ix.clock.linear")
-                    // In days, so a month reads "in 30 days" rather than "next month".
-                    Text(date, format: Self.daysAway)
-                }
-                .font(.caption.weight(.medium))
-                .foregroundStyle(isEndingSoon ? AnyShapeStyle(.red) : AnyShapeStyle(.secondary))
-                .accessibilityElement(children: .ignore)
-                .accessibilityLabel(Text("Deleted for good \(date, format: Self.daysAway)"))
+                DeletedMemoryCountdown(date: date)
             }
         }
         .padding(14)
@@ -173,6 +211,21 @@ private struct DeletedMemoryCard: View {
         .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 22, style: .continuous))
         .accessibilityElement(children: .combine)
         .accessibilityHint(Text("Double tap to recover or delete now"))
+    }
+}
+
+private struct DeletedMemoryCountdown: View {
+    let date: Date
+
+    var body: some View {
+        HStack(spacing: 4) {
+            Image("ix.clock.linear")
+            Text(date, format: Self.daysAway)
+        }
+        .font(.caption.weight(.medium))
+        .foregroundStyle(date.timeIntervalSinceNow < 3 * 24 * 60 * 60 ? AnyShapeStyle(.red) : AnyShapeStyle(.secondary))
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("Deleted for good \(date, format: Self.daysAway)"))
     }
 
     private static let daysAway = Date.RelativeFormatStyle(
