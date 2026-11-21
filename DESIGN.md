@@ -31,6 +31,8 @@ Yüzeyleri aynı marka işareti, palet, anlaşılır örnekler ve sakin bir gör
 
 Seçilen ikon yönü, kobalt zemin üzerinde açık renkli **büyüteç ve imleç**. Büyüteç kalın bir halka ve halkaya bağlı kısa, yuvarlak sapla Q gibi okunur. İmleç benzer kalınlıkta tek bir dikey çizgidir. İki şekli kapsülsüz, birlikte ortalanmış ve ikon genişliğinin yaklaşık %65’ini kaplayacak biçimde yerleştir. Ana ekran boyutunda ikisinin de okunabilirliğini kontrol et. Bu, yeni ikon için seçilen yöndür. Mevcut sürümü temsil eden görsellerde o sürümün gerçek ikonunu kullan.
 
+Uygulama ikonu, Control Center’daki Yeni Kayıt kontrolü, Mac menü çubuğu, paylaşım uzantıları ve web’deki marka işareti aynı QI çizimini kullanır. Sistem şablonlarında renk ve boşluk platforma göre uygulanır. Ana çizim [Icon Composer SVG katmanında](Mindrop/Resources/mindrop_icon.icon/Assets/01-search-mark.svg) tutulur.
+
 ## İnce düşünülmüş ayrıntılar
 
 Mindrop’ta özen, kullanıcının tam ihtiyaç duyduğu anda fark ettiği küçük ayrıntılarda hissedilmeli. Bir ayrıntı bilgiyi daha rahat okutabilir, bir eylemin sonucunu anlaşılır kılabilir veya aynı hikâyeyi uygulamadan web’e ve App Store’a taşıyabilir.

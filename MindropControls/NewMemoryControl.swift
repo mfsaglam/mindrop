@@ -13,9 +13,7 @@ struct MindropControls: WidgetBundle {
 
 /// A Control Center and Lock Screen button that opens Mindrop on a blank editor.
 ///
-/// Its icon is Mindrop's mark, the app icon's search icon and cursor, so the button says
-/// whose it is; Control Center draws only symbols, so the mark is a custom symbol
-/// (`Tools/RenderAppIcon.swift --symbol`).
+/// Its QI symbol is generated from the app icon artwork by `Tools/RenderAppIcon.swift`.
 struct NewMemoryControl: ControlWidget {
     var body: some ControlWidgetConfiguration {
         StaticControlConfiguration(kind: "mfsaglam.Mindrop.NewMemory") {
