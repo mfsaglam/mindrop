@@ -25,11 +25,13 @@ Yüzeyleri aynı marka işareti, palet, anlaşılır örnekler ve sakin bir gör
 | Karar | Kullanım |
 | --- | --- |
 | Bricolage Grotesque | Web ve App Store’daki pazarlama başlıklarında **700**, kısa marka açıklamalarında **400** kullan. Web’deki ikincil metinlerin rolü aşağıdaki tipografi bölümünde tanımlıdır. Uygulama ekranları ve Spotlight, platform tipografisiyle çalışır. |
-| Kobalt mavisi `#3456D1` | Ana marka rengi. Seçilen ikonun zemini ve pazarlama yüzeylerindeki vurgular için kullan. |
-| Gece laciverti `#101522` | Koyu web bölümlerinin zemini ve açık web bölümlerinin metin rengi. |
+| Kobalt mavisi `#3456D1` | Ana marka rengi. Varsayılan uygulama ikonunun zemini ve pazarlama yüzeylerindeki vurgular. |
+| Gece laciverti `#101522` | Uygulamanın koyu görünümündeki ana zemin ve koyu ikonun zemini. Web’de koyu bölümlerin zemini ve açık bölümlerin metin rengi. |
+| Açık kobalt `#B9CAFF` | Gece laciverti zemin üzerindeki koyu mod QI işareti. |
+| Mavi-gri `#25324A` | Koyu modda sheet ve form satırlarının zemini. How Mindrop Works ekranındaki Spotlight önizleme paneli de bu tonu kullanır. |
 | Sıcak kırık beyaz `#F7F4EC` | Kâğıt hissi veren ikincil web zemini. |
 
-Seçilen ikon yönü, kobalt zemin üzerinde açık renkli **büyüteç ve imleç**. Büyüteç kalın bir halka ve halkaya bağlı kısa, yuvarlak sapla Q gibi okunur. İmleç benzer kalınlıkta tek bir dikey çizgidir. İki şekli kapsülsüz, birlikte ortalanmış ve ikon genişliğinin yaklaşık %65’ini kaplayacak biçimde yerleştir. Ana ekran boyutunda ikisinin de okunabilirliğini kontrol et. Bu, yeni ikon için seçilen yöndür. Mevcut sürümü temsil eden görsellerde o sürümün gerçek ikonunu kullan.
+Uygulama ikonunda **büyüteç ve imleç** birlikte QI işaretini oluşturur. Varsayılan görünümde kobalt mavisi `#3456D1` zemin üzerinde fildişi `#FCFAF5`, koyu görünümde gece laciverti `#101522` zemin üzerinde açık kobalt `#B9CAFF` kullan. Büyüteç kalın bir halka ve halkaya bağlı kısa, yuvarlak sapla Q gibi okunur. İmleç benzer kalınlıkta tek bir dikey çizgidir. İki şekli kapsülsüz, birlikte ortalanmış ve ikon genişliğinin yaklaşık %65’ini kaplayacak biçimde yerleştir. Ana ekran boyutunda ikisinin de okunabilirliğini kontrol et. Mevcut sürümü temsil eden görsellerde o sürümün gerçek ikonunu kullan.
 
 Uygulama ikonu, Control Center’daki Yeni Kayıt kontrolü, Mac menü çubuğu, paylaşım uzantıları ve web’deki marka işareti aynı QI çizimini kullanır. Sistem şablonlarında renk ve boşluk platforma göre uygulanır. Ana çizim [Icon Composer SVG katmanında](Mindrop/Resources/mindrop_icon.icon/Assets/01-search-mark.svg) tutulur.
 
@@ -45,7 +47,9 @@ Bir ayrıntıyı değerlendirirken hangi anda fark edildiğine ve kullanıcıya 
 
 ## Uygulama
 
-İlk tasarım çalışması uygulamada yapılacak. iPhone’daki mevcut iki sütunlu pastel kartlar, renkli kategori ikonları ve küçük anahtar kelime ile belirgin değer hiyerarşisi başlangıç referansıdır. Açık kararlar, ana ekranın yoğunluğu ve yerleşimi, kategori renginin ağırlığı, kobaltın uygulamadaki rolü ve detay eylemlerinin konumudur. Bunları mevcut davranışları göz önünde bulundurarak değerlendir. iPad ve Mac’te yerleşimi kendi ekran alanına ve platform davranışına göre ele al.
+İlk tasarım çalışması uygulamada yapılacak. iPhone’daki iki sütunlu cam kartlar, renkli kategori ikonları ve küçük anahtar kelime ile belirgin değer hiyerarşisi başlangıç referansıdır. Açık kararlar, ana ekranın yoğunluğu ve yerleşimi, kategori renginin ağırlığı, kobaltın uygulamadaki rolü ve detay eylemlerinin konumudur. Bunları mevcut davranışları göz önünde bulundurarak değerlendir. iPad ve Mac’te yerleşimi kendi ekran alanına ve platform davranışına göre ele al.
+
+iPhone ve iPad’de koyu modda ana liste, hafıza detayı, Ayarlar ve uygulamanın sheet’leri gece laciverti `#101522` kullanır. Form satırlarında ve How Mindrop Works önizleme panelinde mavi-gri `#25324A` kullan. Aydınlık modda sistemin ekran ve satır zeminlerini kullan. Ana liste kartlarında varsayılan Liquid Glass, kategori simgelerinde kategori rengi kullanılır.
 
 - **Kayıt ekleme.** Anahtar kelime ve değeri girişin odağı yap. Kullanıcı daha sonra neyi arayacağını kayıt anında anlayabilmeli. Uygulama içinden ve paylaşım menüsünden kaydetme akışlarını göz önünde bulundur. Mevcut otomatik kategorileştirme ve sonradan düzenleme, hızlı kaydın bir parçasıdır.
 - **Kategorili kütüphane.** Çok kayıt olduğunda kategori başlıklarının, ikonların, anahtar kelimelerin ve değerlerin taranabilirliğini değerlendir. Kısa kodları, uzun bağlantıları ve gizli değerleri aynı tasarımda dene. Kategoriyi renk ile birlikte ad veya ikonla da belli et.
