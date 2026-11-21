@@ -48,7 +48,7 @@ struct MindropApp: App {
             .frame(minWidth: 480, idealWidth: 540, minHeight: 420, idealHeight: 520)
         }
 
-        MenuBarExtra("Mindrop", systemImage: "text.badge.plus", isInserted: $showsMenuBarIcon) {
+        MenuBarExtra("Mindrop", image: "MindropMenuBarMark", isInserted: $showsMenuBarIcon) {
             MacStatusMenu(session: session)
         }
         #else
