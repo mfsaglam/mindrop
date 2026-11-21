@@ -71,6 +71,36 @@ public final class MemoryRepository {
         memories = try store.load().sorted(by: Self.isOrderedBefore)
     }
 
+    #if os(macOS)
+    public func importMacShares() throws {
+        try importMacShares(from: MacShareInbox.file())
+    }
+
+    func importMacShares(from inbox: CoordinatedFile) throws {
+        var imported: [Memory] = []
+        defer {
+            if !imported.isEmpty {
+                onLocalChange?()
+                indexInBackground(imported)
+                categorizePending()
+            }
+        }
+        try MacShareInbox.drain(from: inbox) { pending in
+            var additions: [Memory] = []
+            let updated = try store.update { stored in
+                var knownIDs = Set(stored.map(\.id))
+                additions = pending.filter { knownIDs.insert($0.id).inserted }
+                guard !additions.isEmpty else { return nil }
+                return (stored + additions).sorted(by: Self.isOrderedBefore)
+            }
+            if let updated {
+                memories = updated
+                imported = additions
+            }
+        }
+    }
+    #endif
+
     /// Finishes any Spotlight work left over from the last run. Call this after `load`,
     /// and never before showing the UI: talking to Core Spotlight can take seconds.
     public func resumeSpotlightSync() async {

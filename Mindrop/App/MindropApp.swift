@@ -134,6 +134,9 @@ final class MindropSession {
                 spotlightExtras: Self.spotlightExtras
             )
             try repository.load()
+            #if os(macOS)
+            try? repository.importMacShares()
+            #endif
             try? repository.purge()
             // Show the list first: reconciling the Spotlight index can take seconds.
             phase = .ready(repository)
@@ -167,6 +170,10 @@ final class MindropSession {
         showMacCapture(details: text)
     }
 
+    func importMacShares() {
+        try? repository?.importMacShares()
+    }
+
     func clearSpotlightHighlight() {
         spotlightHighlight = nil
     }
@@ -177,6 +184,9 @@ final class MindropSession {
     /// past their 7 days are deleted for good.
     func refresh(backsUpToDrive: Bool = false) {
         try? repository?.load()
+        #if os(macOS)
+        importMacShares()
+        #endif
         try? repository?.purge()
         repository?.categorizePending()
         cloudSync?.sendLocalChanges()

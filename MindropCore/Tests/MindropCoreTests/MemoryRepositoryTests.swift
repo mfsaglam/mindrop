@@ -169,6 +169,38 @@ struct MemoryRepositoryTests {
         #expect(try store.load() == [memory])
         #expect(indexer.indexedIDs == [memory.id])
     }
+
+    #if os(macOS)
+    @Test("Importing a Mac share can retry without losing or duplicating a memory")
+    func importMacSharesCanRetry() throws {
+        let (repository, store, _) = try makeRepository()
+        let existing = try repository.create(keyword: "office door", value: "482916")
+        let incoming = try Memory.make(keyword: "Apple", value: "https://www.apple.com/", now: .now)
+        let directory = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let inbox = CoordinatedFile(url: directory.appending(path: "pending-memories.json"))
+        let pending = try JSONEncoder.mindrop.encode([incoming])
+        try inbox.write(pending)
+
+        store.saveError = InMemoryMemoryStore.Failure.disk
+        #expect(throws: InMemoryMemoryStore.Failure.disk) {
+            try repository.importMacShares(from: inbox)
+        }
+        #expect(try inbox.read() == pending)
+        #expect(repository.memories.map(\.id) == [existing.id])
+
+        store.saveError = nil
+        try repository.importMacShares(from: inbox)
+        #expect(try inbox.read() == JSONEncoder.mindrop.encode([Memory]()))
+
+        // The inbox write can fail after the library has already stored the share.
+        try inbox.write(pending)
+        store.saveError = InMemoryMemoryStore.Failure.disk
+        try repository.importMacShares(from: inbox)
+        #expect(repository.memories.map(\.id) == [incoming.id, existing.id])
+        #expect(try inbox.read() == JSONEncoder.mindrop.encode([Memory]()))
+    }
+    #endif
 }
 
 extension InMemoryMemoryStore {

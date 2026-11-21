@@ -6,6 +6,14 @@ final class MacServices: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.servicesProvider = self
         NSUpdateDynamicServices()
+        DistributedNotificationCenter.default().addObserver(
+            self, selector: #selector(importSharedMemories), name: MacShareInbox.didSave,
+            object: nil, suspensionBehavior: .deliverImmediately
+        )
+    }
+
+    @objc private func importSharedMemories(_ notification: Notification) {
+        MindropSession.shared.importMacShares()
     }
 
     @objc(saveSelection:userData:error:)
