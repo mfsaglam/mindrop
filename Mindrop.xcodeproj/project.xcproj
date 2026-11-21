@@ -57,6 +57,26 @@
             "MindropMac-Info.plist",
           ],
         }, {
+          "target": "MindropMacShare",
+          "inclusions": [
+            "Resources/mindrop_icon.icon",
+          ],
+        }, {
+          "target": "MindropShare",
+          "inclusions": [
+            "Resources/mindrop_icon.icon",
+          ],
+        }, {
+          "target": "MindropAction",
+          "inclusions": [
+            "Resources/mindrop_icon.icon",
+          ],
+        }, {
+          "target": "MindropControls",
+          "inclusions": [
+            "Resources/mindrop_icon.icon",
+          ],
+        }, {
           "target": "MindropWatch",
           "inclusions": [
             "Resources/mindrop_icon.icon",

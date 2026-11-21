@@ -2,13 +2,13 @@
   "fill-specializations" : [
     {
       "value" : {
-        "solid" : "extended-srgb:0.20392,0.33725,0.81961,1.00000"
+        "solid" : "srgb:0.20392,0.33725,0.81961,1.00000"
       }
     },
     {
       "appearance" : "dark",
       "value" : {
-        "solid" : "extended-srgb:0.20392,0.33725,0.81961,1.00000"
+        "solid" : "display-p3:0.06275,0.08235,0.13333,1.00000"
       }
     }
   ],
@@ -24,11 +24,21 @@
         {
           "fill-specializations" : [
             {
+              "value" : "automatic"
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "display-p3:0.72549,0.79216,1.00000,1.00000"
+              }
+            },
+            {
               "appearance" : "tinted",
-              "value" : "system-light"
+              "value" : "automatic"
             }
           ],
           "glass" : false,
+          "hidden" : false,
           "image-name" : "01-search-mark.svg",
           "name" : "01-search-mark"
         }
