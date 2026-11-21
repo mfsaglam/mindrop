@@ -18,6 +18,7 @@ public struct MemoryOptionsSection: View {
     /// The earliest date the picker allows: now for a new memory, or an existing expiry
     /// that has already passed, so editing an expired memory does not move it.
     let earliestDate: Date
+    let sensitiveToggleTint: Color?
 
     public init(
         keyword: String,
@@ -25,7 +26,8 @@ public struct MemoryOptionsSection: View {
         isSensitive: Binding<Bool>,
         option: Binding<MemoryLifetime.Option>,
         date: Binding<Date>,
-        earliestDate: Date = .now
+        earliestDate: Date = .now,
+        sensitiveToggleTint: Color? = nil
     ) {
         self.keyword = keyword
         self.value = value
@@ -33,6 +35,7 @@ public struct MemoryOptionsSection: View {
         _option = option
         _date = date
         self.earliestDate = earliestDate
+        self.sensitiveToggleTint = sensitiveToggleTint
     }
 
     /// The line Spotlight will show, as it is built for the index. Nil until both fields
@@ -54,6 +57,7 @@ public struct MemoryOptionsSection: View {
                     Image(systemName: "lock.fill")
                 }
             }
+            .tint(sensitiveToggleTint)
             Picker(selection: $option) {
                 localized("Forever").tag(MemoryLifetime.Option.forever)
                 localized("1 Day").tag(MemoryLifetime.Option.day)

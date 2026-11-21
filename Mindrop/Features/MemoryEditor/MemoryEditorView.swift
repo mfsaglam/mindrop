@@ -135,7 +135,8 @@ struct MemoryEditorView: View {
             isSensitive: $isSensitive,
             option: $lifetime,
             date: $untilDate,
-            earliestDate: mode.memory?.expiresAt.map { min($0, .now) } ?? .now
+            earliestDate: mode.memory?.expiresAt.map { min($0, .now) } ?? .now,
+            sensitiveToggleTint: Color(.brandCobalt)
         )
     }
 

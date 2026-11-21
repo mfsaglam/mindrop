@@ -49,8 +49,11 @@ struct SpotlightExperimentsView: View {
 
             Section {
                 Toggle(isOn: $options.showsCategoryIcon) { Text(verbatim: "Category Icons (shipped)") }
+                    .tint(Color(.brandCobalt))
                 Toggle(isOn: $options.offersCall) { Text(verbatim: "Call Button (shipped)") }
+                    .tint(Color(.brandCobalt))
                 Toggle(isOn: $options.offersDirections) { Text(verbatim: "Directions Button") }
+                    .tint(Color(.brandCobalt))
             } footer: {
                 Text(verbatim: "Icons: each result shows its category's icon, with Mindrop's as a badge. Call: a phone number in a Contacts or Family & People memory. Directions: a place's coordinates, found through Apple Maps, so the address leaves the device. Neither button for sensitive memories. iOS may only draw the buttons after a restart.")
             }

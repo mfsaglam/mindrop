@@ -31,16 +31,19 @@ struct SettingsView: View {
                 #if os(macOS)
                 Section {
                     Toggle("Show Mindrop in Menu Bar", isOn: $showsMenuBarIcon)
+                        .tint(Color(.brandCobalt))
                 }
                 #endif
                 Section {
                     Toggle("Group by Category", isOn: $groupsByCategory)
+                        .tint(Color(.brandCobalt))
                 } footer: {
                     Text("Show memories in sections by category. Turn this off for a single list, most recent first.")
                 }
 
                 Section {
                     Toggle("iCloud Sync", isOn: $syncsWithICloud)
+                        .tint(Color(.brandCobalt))
                         .onChange(of: syncsWithICloud) { session.syncPreferenceChanged() }
                     NavigationLink("iCloud Backup") {
                         ICloudBackupsView(repository: repository, drive: session.driveBackup)

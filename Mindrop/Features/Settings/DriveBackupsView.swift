@@ -26,6 +26,7 @@ struct DriveBackupsView: View {
                     #if os(macOS)
                     .toggleStyle(.switch)
                     #endif
+                    .tint(Color(.brandCobalt))
                     .disabled(isWorking)
                     .onChange(of: automatic) { _, enabled in
                         if enabled { Task { await create(automatically: true) } }
