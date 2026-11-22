@@ -11,7 +11,7 @@ struct MemoryDetailView: View {
     @State private var isEditing = false
     @State private var didCopy = false
     @State private var copyCount = 0
-    @State private var categoryError: String?
+    @State private var changeFailed = false
     @Environment(\.sensitiveAccess) private var sensitiveAccess
 
     private var memory: Memory? {
@@ -45,6 +45,10 @@ struct MemoryDetailView: View {
             } secondary: {
                 if sensitiveAccess.canShow(memory) {
                     actions(for: memory)
+                }
+
+                if repository.isEligibleForStack(memory) {
+                    stackOption(for: memory)
                 }
 
                 // Not while expired: it has already left Spotlight.
@@ -84,11 +88,29 @@ struct MemoryDetailView: View {
             if memory.isSensitive { await sensitiveAccess.unlock() }
         }
         .sensoryFeedback(.success, trigger: copyCount)
-        .alert("Couldn’t save", isPresented: .constant(categoryError != nil)) {
-            Button("OK") { categoryError = nil }
+        .alert("Couldn’t save", isPresented: $changeFailed) {
+            Button("OK", role: .cancel) {}
         } message: {
             Text("Please try again.")
         }
+    }
+
+    private func stackOption(for memory: Memory) -> some View {
+        Toggle("Show in Stack", isOn: Binding(
+            get: { repository.isInStack(memory.id) },
+            set: { included in
+                do {
+                    try repository.setStackMembership([memory.id], included: included)
+                } catch {
+                    changeFailed = true
+                }
+            }
+        ))
+        .toggleStyle(.switch)
+        .tint(Color(.brandCobalt))
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .glassEffect(.regular, in: .rect(cornerRadius: 18))
     }
 
     private func header(for memory: Memory) -> some View {
@@ -285,7 +307,7 @@ struct MemoryDetailView: View {
         do {
             try repository.setExpiry(expiresAt, for: memory)
         } catch {
-            categoryError = String(describing: error)
+            changeFailed = true
         }
     }
 
@@ -344,7 +366,7 @@ struct MemoryDetailView: View {
             do {
                 try repository.setCategory(category, for: memory)
             } catch {
-                categoryError = String(describing: error)
+                changeFailed = true
             }
         }
     }

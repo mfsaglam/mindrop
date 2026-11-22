@@ -169,6 +169,10 @@ struct MemoryListView: View {
                 Text("General"), count: counts[MemoryFolders.generalID, default: 0],
                 route: .folder(MemoryFolders.generalID)
             )
+            folderRow(
+                Text("Stack"), icon: Image(systemName: "square.stack"),
+                count: repository.stackMemories.count, route: .stack
+            )
             ForEach(repository.folders.custom) { folder in
                 folderRow(Text(folder.name), count: counts[folder.id, default: 0], route: .folder(folder.id))
                     .contextMenu {

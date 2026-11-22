@@ -151,10 +151,13 @@ final class MindropSession {
             guard let container = AppGroup.containerURL else { throw MemoryStoreError.appGroupUnavailable }
             let folders = MemoryFolders(url: container.appending(path: "folders.json"))
             try? folders.load()
+            let stack = MemoryStack(url: container.appending(path: "stack.json"))
+            try? stack.load()
             let repository = try MemoryRepository.live(
                 categorizer: AppleIntelligenceCategorizer(log: categorizationLog),
                 spotlightExtras: Self.spotlightExtras,
-                folders: folders
+                folders: folders,
+                stack: stack
             )
             try repository.load()
             #if os(macOS)

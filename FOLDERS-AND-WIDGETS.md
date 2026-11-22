@@ -4,7 +4,7 @@ Bu dosya, Mindrop’ta kayıtları düzenleme, türlerine göre kullanışlı de
 
 ## Hızlı kayıt
 
-Anahtar kelimeyi ve değeri girip kaydetmek temel akıştır. Kullanıcı klasör seçmeden kaydederse kayıt varsayılan klasöre eklenir. Klasörü, saklama süresini ve widget görünürlüğünü kayıt sırasında ya da sonradan belirleyebilir. Örneğin havaalanında `gate` ve `21` yazıp hemen kaydedebilir. Kayıt daha sonra Spotlight’ta aynı anahtar kelimeyle bulunur.
+Anahtar kelimeyi ve değeri girip kaydetmek temel akıştır. Kullanıcı klasör seçmeden kaydederse kayıt varsayılan klasöre eklenir. Klasörü, saklama süresini ve Yığın üyeliğini kayıt sırasında ya da sonradan belirleyebilir. Örneğin havaalanında `gate` ve `21` yazıp hemen kaydedebilir. Kayıt daha sonra Spotlight’ta aynı anahtar kelimeyle bulunur.
 
 ## Otomatik kategoriler ve klasörler
 
@@ -33,25 +33,39 @@ Anahtar kelimeyi ve değeri girip kaydetmek temel akıştır. Kullanıcı klasö
 
 ## Yığın ve widget’lar
 
-**Yığın**, kullanıcının bir süre gözünün önünde tutmak istediği kayıtların sıralı listesidir. İlk sürüm için tek bir Yığın öneriyoruz. Örneğin `parking` kaydı Seyahat klasöründe dururken Yığın’a da eklenebilir. Her iki yer aynı kayda açılır.
+**Yığın**, kullanıcının bir süre gözünün önünde tutmak istediği kayıtların sıralı listesidir. Uygulamanın ana ekranında Genel’in hemen altında, katmanlı simgesi ve kayıt sayısıyla tek bir Yığın görünür. Örneğin `parking` kaydı Seyahat klasöründen ve Yığın’dan açılabilir. Üyelik ve sıra bu aşamada cihazda saklanır.
 
-- **Widget’ta göster** seçeneği, kayıt oluştururken veya sonradan detay ekranından açılabilir. Seçilen kayıt Yığın’da görünür.
-- Kullanıcı, hangi kaydın öncelikli olduğunu Yığın’daki sıralamayı değiştirerek belirler. İlk widget’lar en üstteki, süresi dolmamış ve gösterilebilen kaydı kullanır.
+- **Yığında Göster** seçeneği yeni kayıt formunda ve kayıt detayında yer alır. Yeni seçimler listenin sonuna eklenir.
+- **Kayıt Seç** eylemi, tüm klasörlerdeki uygun kayıtları klasör başlıklarına göre listeler. Kullanıcı arayabilir ve birden fazla kaydı ekleyebilir.
+- Yığın’da anahtar kelime küçük, değer belirgin görünür. Kullanıcı sıra değiştirerek önceliği belirler. **Yığından Çıkar** eylemi Yığın üyeliğini kaldırır.
+- Yığın’da hassas olmayan, süresi dolmamış ve aktif kayıtlar görünür. Bir kayıt yeniden uygun hale gelirse Yığın’daki konumundan açılabilir.
+
+### Widget davranışı
+
+- Widget, düzenin kapasitesine göre Yığın’ın başından uygun kayıtları alır.
 - Widget’ın ekrana yerleştirilmesi iOS üzerinden yapılır. Kullanıcı widget’ı ekledikten sonra içeriği Mindrop’tan yönetir. Yenilemenin zamanlamasını iOS belirler. [Widget ekleme](https://support.apple.com/en-us/118610) · [Widget yenileme](https://developer.apple.com/documentation/widgetkit/keeping-a-widget-up-to-date/)
 - Hassas kayıtların değerlerine ve QR kodlarına Mindrop’taki kilit açma akışı üzerinden erişilir. Widget yalnızca hassas olmayan değerleri gösterir.
 
-### İlk sürüm önerisi
+### Kilit ekranı düzenleri
 
-| Widget | Gösterilen bilgi |
-| --- | --- |
-| Kilit ekranında saatin altında dikdörtgen | Bir kayıt. Küçük anahtar kelime ve belirgin değer. Örneğin `Kalkış kapısı` ve `21`. |
-| Ana ekranda küçük | Bir kayıt. Anahtar kelime ve değer. Örneğin `Otopark` ve `B2 · Mavi · 147`. |
+İlk odak, iPhone’da saatin altındaki dikdörtgen widget (`accessoryRectangular`). Beş düzenin tamamı Mindrop’ta sunulabilecek seçenekler olarak değerlendiriliyor. İlk deneme için Alt alta önerildi. Varsayılan düzen ve düzen seçiminin nereden yapılacağı açık.
+
+| Düzen | Kapasite | Yerleşim |
+| --- | --- | --- |
+| Tek odak | 1 kayıt | Küçük anahtar kelime üstte, en büyük değer altta. Örnek kayıt `Kalkış kapısı` ve `C24`. |
+| Alt alta | 2 kayıt | İki kayıt dikey dizilir. Her değer tam genişliği kullanır. `C24` ile `B2 · Mavi · 147` gibi farklı uzunluktaki değerler aynı anda okunabilir. |
+| Yan yana | 2 kayıt | Eşit iki sütunda anahtar kelimeler değerlerin üstünde yer alır. `C24` ve `18A` gibi kısa değerler için daha büyük yazı kullanılabilir. |
+| Öncelikli | 3 kayıt | Yığın’ın ilk kaydı üstte tam genişlikte ve daha büyük gösterilir. İki kısa kayıt altta yan yana yer alır. |
+| Dörtlü ızgara | En fazla 4 kısa kayıt | İki sütun ve iki satırda kapı, koltuk, oda ve dolap gibi kısa kayıtlar gösterilir. Uzun bir değere tam genişlik verip üç kayda düşen düzen de denenebilir. |
+
+Her düzende anahtar kelime ve değer birlikte okunabilmeli. Kapasiteyi kısa kodlar ve daha uzun değerlerle birlikte değerlendir. Taslaktaki `#263554` → `#101522` gradient’i duvar kâğıdını temsil eder. Widget, kilit ekranının sistem görünümüne uyum sağlar. [Apple’ın widget tasarım rehberi](https://developer.apple.com/design/human-interface-guidelines/widgets)
 
 ### Sonraki seçenekler
 
+- Ana ekranda küçük widget ile `Otopark` ve `B2 · Mavi · 147` gibi tek bir kayıt göstermek.
 - Ana ekranda orta boy widget ile Yığın’dan iki veya üç kayıt göstermek.
 - Widget ayarlarında Yığın’ın ilk kaydı ile kullanıcının sabitlediği belirli bir kayıt arasında seçim sunmak.
 - Kilit ekranında saatin üstünde kısa tek satır, saatin altında yuvarlak alanda ise `21` gibi birkaç karakter göstermek.
 - Kilit ekranının altına veya Denetim Merkezi’ne doğrudan kayıt ekranını açan bir **Yeni kayıt** kontrolü eklemek.
 
-[Apple’ın widget tasarım rehberi](https://developer.apple.com/design/human-interface-guidelines/widgets) · [Yapılandırılabilir widget’lar](https://developer.apple.com/documentation/widgetkit/making-a-configurable-widget) · [Kilit ekranı ve Denetim Merkezi kontrolleri](https://developer.apple.com/documentation/widgetkit/creating-controls-to-perform-actions-across-the-system)
+[Yapılandırılabilir widget’lar](https://developer.apple.com/documentation/widgetkit/making-a-configurable-widget) · [Kilit ekranı ve Denetim Merkezi kontrolleri](https://developer.apple.com/documentation/widgetkit/creating-controls-to-perform-actions-across-the-system)

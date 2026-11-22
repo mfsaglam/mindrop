@@ -31,6 +31,7 @@ struct MemoryEditorView: View {
     @State private var lifetime: MemoryLifetime.Option
     @State private var untilDate: Date
     @State private var isSensitive: Bool
+    @State private var addsToStack = false
     @State private var saveError: String?
     @State private var hasVisitedDetails = false
     #if os(iOS)
@@ -114,6 +115,9 @@ struct MemoryEditorView: View {
                     hasVisitedDetails = true
                 }
             }
+            .onChange(of: isSensitive) { _, sensitive in
+                if sensitive { addsToStack = false }
+            }
             .alert("Couldn’t save", isPresented: .constant(saveError != nil)) {
                 Button("OK") { saveError = nil }
             } message: {
@@ -140,6 +144,12 @@ struct MemoryEditorView: View {
             earliestDate: mode.memory?.expiresAt.map { min($0, .now) } ?? .now,
             sensitiveToggleTint: Color(.brandCobalt)
         )
+    }
+
+    private var stackOption: some View {
+        Toggle("Show in Stack", isOn: $addsToStack)
+            .tint(Color(.brandCobalt))
+            .disabled(isSensitive)
     }
 
     #if os(macOS)
@@ -183,6 +193,7 @@ struct MemoryEditorView: View {
                     }
                     ImageLinesSection(state: imageLines, value: $value)
                     memoryOptions
+                    if case .create = mode { stackOption }
                 }
                 .padding(24)
             }
@@ -244,6 +255,9 @@ struct MemoryEditorView: View {
                 }
                 ImageLinesSection(state: imageLines, value: $value)
                 memoryOptions
+                if case .create = mode {
+                    Section { stackOption }
+                }
             }
             .navigationTitle(title)
             .inlineNavigationTitle()
@@ -318,7 +332,8 @@ struct MemoryEditorView: View {
             switch mode {
             case .create:
                 try repository.create(
-                    keyword: keyword, value: value, expiresAt: expiresAt, isSensitive: isSensitive, folderID: folderID
+                    keyword: keyword, value: value, expiresAt: expiresAt, isSensitive: isSensitive,
+                    folderID: folderID, addsToStack: addsToStack
                 )
             case .edit(let memory):
                 try repository.update(

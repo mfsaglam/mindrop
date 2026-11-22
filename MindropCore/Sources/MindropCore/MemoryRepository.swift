@@ -21,6 +21,7 @@ public final class MemoryRepository {
     public private(set) var categorizationTask: Task<Void, Never>?
 
     public let folders: MemoryFolders
+    private let stack: MemoryStack
 
     private let store: MemoryStore
     private let synchronizer: SpotlightSynchronizer
@@ -41,9 +42,11 @@ public final class MemoryRepository {
         synchronizer: SpotlightSynchronizer,
         categorizer: (any MemoryCategorizing)? = nil,
         folders: MemoryFolders = MemoryFolders(),
+        stack: MemoryStack = MemoryStack(),
         now: @escaping @Sendable () -> Date = { Date() }
     ) {
         self.folders = folders
+        self.stack = stack
         self.store = store
         self.synchronizer = synchronizer
         self.categorizer = categorizer
@@ -57,7 +60,8 @@ public final class MemoryRepository {
     public static func live(
         categorizer: (any MemoryCategorizing)? = nil,
         spotlightExtras: SpotlightExtras = .none,
-        folders: MemoryFolders = MemoryFolders()
+        folders: MemoryFolders = MemoryFolders(),
+        stack: MemoryStack = MemoryStack()
     ) throws -> MemoryRepository {
         MemoryRepository(
             store: try FileMemoryStore.shared(),
@@ -66,7 +70,8 @@ public final class MemoryRepository {
                 stateStore: try FileSpotlightSyncStateStore.shared()
             ),
             categorizer: categorizer,
-            folders: folders
+            folders: folders,
+            stack: stack
         )
     }
     #endif
@@ -251,13 +256,48 @@ public final class MemoryRepository {
         try folders.remove(id) { try delete(ids: $0) }
     }
 
+    public var stackMemories: [Memory] {
+        let ids = stack.ids
+        guard !ids.isEmpty else { return [] }
+        let byID = Dictionary(results(for: "").map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        return ids.compactMap { byID[$0] }.filter { !$0.isSensitive }
+    }
+
+    public func stackCandidates(matching query: String) -> [Memory] {
+        let selected = Set(stack.ids)
+        return results(for: query).filter { !$0.isSensitive && !selected.contains($0.id) }
+    }
+
+    public func isInStack(_ id: UUID) -> Bool { stack.ids.contains(id) }
+
+    public func isEligibleForStack(_ memory: Memory) -> Bool {
+        !memory.isSensitive && !memory.isDeleted && !memory.isExpired(at: now())
+    }
+
+    public func setStackMembership(_ ids: [UUID], included: Bool) throws {
+        if included {
+            let eligible = Set(results(for: "").filter { !$0.isSensitive }.map(\.id))
+            guard eligible.isSuperset(of: ids) else { throw MemoryStack.SelectionError.unavailableMemory }
+        }
+        try stack.setMembership(ids, included: included)
+    }
+
+    public func reorderStack(_ orderedIDs: [UUID]) throws {
+        let visible = Set(stackMemories.map(\.id))
+        guard orderedIDs.count == visible.count, Set(orderedIDs) == visible else {
+            throw MemoryStack.SelectionError.invalidOrder
+        }
+        try stack.reorder(orderedIDs)
+    }
+
     @discardableResult
     public func create(
         keyword: String, value: String, expiresAt: Date? = nil, isSensitive: Bool = false,
-        folderID: UUID = MemoryFolders.generalID
+        folderID: UUID = MemoryFolders.generalID, addsToStack: Bool = false
     ) throws -> Memory {
         let memory = try insert(
-            keyword: keyword, value: value, expiresAt: expiresAt, isSensitive: isSensitive, folderID: folderID
+            keyword: keyword, value: value, expiresAt: expiresAt, isSensitive: isSensitive,
+            folderID: folderID, addsToStack: addsToStack
         )
         indexInBackground([memory])
         categorizePending()
@@ -282,7 +322,7 @@ public final class MemoryRepository {
 
     private func insert(
         keyword: String, value: String, expiresAt: Date?, isSensitive: Bool,
-        folderID: UUID = MemoryFolders.generalID
+        folderID: UUID = MemoryFolders.generalID, addsToStack: Bool = false
     ) throws -> Memory {
         let memory = try Memory.make(
             keyword: keyword,
@@ -291,13 +331,16 @@ public final class MemoryRepository {
             expiresAt: expiresAt,
             isSensitive: isSensitive
         )
+        if addsToStack, !isEligibleForStack(memory) { throw MemoryStack.SelectionError.unavailableMemory }
         let isCustom = folderID != MemoryFolders.generalID
         if isCustom { try folders.assign(memory.id, to: folderID) }
         do {
+            if addsToStack { try stack.setMembership([memory.id], included: true) }
             // The share extension may have saved since the app last refreshed its list.
             let stored = try store.update { ($0 + [memory]).sorted(by: Self.isOrderedBefore) }
             if let stored { memories = stored }
         } catch {
+            if addsToStack { try? stack.setMembership([memory.id], included: false) }
             if isCustom { try? folders.assign(memory.id, to: MemoryFolders.generalID) }
             throw error
         }

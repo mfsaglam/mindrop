@@ -5,6 +5,7 @@ import SwiftUI
 struct MacLibraryView: View {
     private enum Area: Hashable {
         case folder(UUID)
+        case stack
         case expired
         case recentlyDeleted
     }
@@ -28,6 +29,7 @@ struct MacLibraryView: View {
     }
 
     private var showsRecentlyDeleted: Bool { query.isEmpty && area == .recentlyDeleted }
+    private var showsStack: Bool { query.isEmpty && area == .stack }
 
     private var selection: Binding<UUID?> {
         Binding(
@@ -43,6 +45,7 @@ struct MacLibraryView: View {
     private var memories: [Memory] {
         if area == .expired { return repository.expiredResults(for: query) }
         if !query.isEmpty { return repository.results(for: query) }
+        if showsStack { return repository.stackMemories }
         guard let folderID else { return [] }
         return repository.results(for: "", folderID: folderID)
     }
@@ -55,6 +58,9 @@ struct MacLibraryView: View {
         NavigationSplitView {
             List(selection: $area) {
                 folderRow(Text("General"), area: .folder(MemoryFolders.generalID))
+                folderRow(
+                    Text("Stack"), symbol: "square.stack", area: .stack, count: repository.stackMemories.count
+                )
                 ForEach(repository.folders.custom) { folder in
                     folderRow(Text(folder.name), area: .folder(folder.id))
                         .contextMenu {
@@ -76,6 +82,8 @@ struct MacLibraryView: View {
             Group {
                 if showsRecentlyDeleted {
                     RecentlyDeletedView(repository: repository)
+                } else if showsStack {
+                    MemoryStackView(repository: repository, selection: selection)
                 } else if area != nil || !query.isEmpty {
                     memoryList
                 } else {
@@ -114,11 +122,16 @@ struct MacLibraryView: View {
             NewFolderView(folders: repository.folders)
         }
         .onChange(of: area) {
-            if area == .recentlyDeleted {
+            if area == .recentlyDeleted || area == .stack {
                 query = ""
                 isSearching = false
             }
             if let id = selection.wrappedValue, !memories.contains(where: { $0.id == id }) {
+                selection.wrappedValue = nil
+            }
+        }
+        .onChange(of: repository.stackMemories.map(\.id)) { _, ids in
+            if showsStack, let id = selection.wrappedValue, !ids.contains(id) {
                 selection.wrappedValue = nil
             }
         }
@@ -159,12 +172,22 @@ struct MacLibraryView: View {
         }
     }
 
-    private func folderRow(_ title: Text, symbol: String = "folder", area: Area) -> some View {
-        Label {
-            title
-        } icon: {
-            Image(systemName: symbol)
-                .foregroundStyle(symbol == "folder" ? Color(.folderAccent) : .primary)
+    private func folderRow(_ title: Text, symbol: String = "folder", area: Area, count: Int? = nil) -> some View {
+        HStack {
+            Label {
+                title
+            } icon: {
+                Image(systemName: symbol)
+                    .foregroundStyle(area == .recentlyDeleted ? Color.primary : Color(.folderAccent))
+            }
+            if let count {
+                Spacer(minLength: 4)
+                Text(count, format: .number)
+                    .monospacedDigit()
+                    .foregroundStyle(.secondary)
+                    .accessibilityLabel(Text("Memory Count"))
+                    .accessibilityValue(Text(count, format: .number))
+            }
         }
         .frame(maxWidth: .infinity, minHeight: 60, alignment: .leading)
         .contentShape(.rect)
@@ -206,6 +229,7 @@ struct MacLibraryView: View {
     private var listTitle: Text {
         switch area {
         case .folder(let id): repository.folders.title(for: id)
+        case .stack: Text("Stack")
         case .expired: Text("Expired")
         case .recentlyDeleted: Text("Recently Deleted")
         case nil: Text("Mindrop")

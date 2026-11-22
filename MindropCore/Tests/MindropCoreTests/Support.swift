@@ -90,6 +90,7 @@ func makeRepository(
     syncState: InMemorySpotlightSyncStateStore = InMemorySpotlightSyncStateStore(),
     categorizer: (any MemoryCategorizing)? = nil,
     folders: MemoryFolders = MemoryFolders(),
+    stack: MemoryStack = MemoryStack(),
     now: @escaping @Sendable () -> Date = { Date(timeIntervalSince1970: 1_000) }
 ) throws -> (MemoryRepository, InMemoryMemoryStore, SpotlightIndexerSpy) {
     let store = store ?? InMemoryMemoryStore(memories)
@@ -98,6 +99,7 @@ func makeRepository(
         synchronizer: SpotlightSynchronizer(indexer: indexer, stateStore: syncState, options: { .shipping }, now: now),
         categorizer: categorizer,
         folders: folders,
+        stack: stack,
         now: now
     )
     try repository.load()

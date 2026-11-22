@@ -4,6 +4,7 @@ import SwiftUI
 enum LibraryRoute: Hashable {
     case folder(UUID)
     case memory(UUID)
+    case stack
     case recentlyDeleted
 }
 
@@ -35,6 +36,8 @@ struct RootView: View {
                             case .memory(let id):
                                 MemoryDetailView(repository: repository, memoryID: id, highlight: session.highlight(for: id))
                                     .memoryScreenBackground(usesGradient: true)
+                            case .stack:
+                                MemoryStackView(repository: repository)
                             case .recentlyDeleted:
                                 RecentlyDeletedView(repository: repository)
                             }
