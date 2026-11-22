@@ -170,7 +170,6 @@ struct MemoryListView: View {
             query = pending
             isSearching = true
         }
-        .onChange(of: categoryFilter) { selectedIDs?.removeAll() }
         .memoryDeletionAlert(for: $pendingDeletion, onDelete: delete)
         .folderDeletionAlert(for: $pendingFolderDeletion) { folder in
             change { try repository.deleteFolder(folder.id) }
