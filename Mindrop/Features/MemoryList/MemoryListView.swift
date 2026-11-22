@@ -404,7 +404,7 @@ struct MemoryListView: View {
     }
 
     /// In sections the header already names the category, so the card's icon is dropped.
-    /// A long press offers Copy and Delete: a grid has no swipe actions.
+    /// A long press opens the card's actions.
     private func cards(_ memories: [Memory], showsCategory: Bool) -> some View {
         ForEach(memories) { memory in
             if isSelecting {
@@ -420,6 +420,11 @@ struct MemoryListView: View {
                             Clipboard.copy(memory.value)
                         } label: {
                             Label("Copy", image: "ix.copy.linear")
+                        }
+                    }
+                    if repository.isEligibleForStack(memory), !repository.isInStack(memory.id) {
+                        Button("Add to Stack", systemImage: "square.stack") {
+                            change { try repository.setStackMembership([memory.id], included: true) }
                         }
                     }
                     moveMenu(for: memory)

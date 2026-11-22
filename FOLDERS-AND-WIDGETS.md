@@ -37,6 +37,7 @@ Anahtar kelimeyi ve değeri girip kaydetmek temel akıştır. Kullanıcı klasö
 **Yığın**, kullanıcının bir süre gözünün önünde tutmak istediği kayıtların sıralı listesidir. iPhone ve iPad’de Genel’in hemen üstündeki önizlemeden, Mac’te kenar çubuğundan açılır. Örneğin `parking` kaydı Seyahat klasöründen ve Yığın’dan açılabilir. Üyelik ve sıra bu aşamada cihazda saklanır.
 
 - **Yığında Göster** seçeneği yeni kayıt formunda ve kayıt detayında yer alır. Yeni seçimler listenin sonuna eklenir.
+- Yığın’a uygun bir kaydın bağlam menüsünde **Yığına Ekle** eylemi **Kopyala**’nın hemen altında yer alır.
 - **Kayıt Seç** eylemi, tüm klasörlerdeki uygun kayıtları klasör başlıklarına göre listeler. Kullanıcı arayabilir ve birden fazla kaydı ekleyebilir.
 - Yığın’da anahtar kelime küçük, değer belirgin görünür. Kullanıcı sıra değiştirerek önceliği belirler. iPhone ve iPad’de bir satırı sola kaydırınca **Yığından Çıkar** görünür. Tam kaydırma üyeliği hemen kaldırır ve kayıt kendi klasöründe kalır.
 - Yığın’da hassas olmayan, süresi dolmamış ve aktif kayıtlar görünür. Bir kayıt yeniden uygun hale gelirse Yığın’daki konumundan açılabilir.

@@ -291,6 +291,11 @@ struct MacLibraryView: View {
                         if sensitiveAccess.canShow(memory) {
                             Button("Copy") { Clipboard.copy(memory.value) }
                         }
+                        if repository.isEligibleForStack(memory), !repository.isInStack(memory.id) {
+                            Button("Add to Stack", systemImage: "square.stack") {
+                                change { try repository.setStackMembership([memory.id], included: true) }
+                            }
+                        }
                         if memory.isExpired(at: .now) {
                             Button("Recover") { change { try repository.setExpiry(nil, for: memory) } }
                         }
