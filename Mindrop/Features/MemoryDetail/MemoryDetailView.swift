@@ -240,17 +240,25 @@ struct MemoryDetailView: View {
         .controlSize(.large)
     }
 
-    /// A temporary memory says when it expires and can be kept longer; an expired one
-    /// says when it will be deleted and can be recovered. Nothing for one kept forever.
+    /// The exact expiry date and the remaining time to expire or be deleted.
     @ViewBuilder
     private func expiry(for memory: Memory) -> some View {
-        if let text = ExpiryText(memory: memory) {
-            if memory.isExpired(at: .now) {
-                HStack {
-                    text
-                        .foregroundStyle(.orange)
-                    Spacer()
+        if let expiresAt = memory.expiresAt {
+            let dateFormat = Date.FormatStyle.dateTime.day().month(.wide).year()
+            let now = Date.now
+            if memory.isExpired(at: now) {
+                HStack(spacing: 10) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Expired on \(expiresAt, format: dateFormat)")
+                            .font(.subheadline.weight(.medium))
+                            .foregroundStyle(.orange)
+                        ExpiryText(memory: memory, now: now)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer(minLength: 0)
                     Button { setExpiry(nil, for: memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
+                        .font(.footnote.weight(.medium))
                     #if os(macOS)
                     .buttonStyle(.bordered)
                     #else
@@ -258,27 +266,33 @@ struct MemoryDetailView: View {
                     .tint(.green)
                     #endif
                 }
-                .font(.footnote.weight(.medium))
-            } else if let expiresAt = memory.expiresAt {
-                Menu {
-                    expiryActions(for: memory, expiresAt: expiresAt)
-                } label: {
-                    #if os(macOS)
-                    text
-                    #else
-                    text
+            } else {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Expires on \(expiresAt, format: dateFormat)")
+                        .font(.subheadline.weight(.medium))
+                    Menu {
+                        expiryActions(for: memory, expiresAt: expiresAt)
+                    } label: {
+                        Label {
+                            Text(expiresAt, format: .relative(presentation: .named))
+                        } icon: {
+                            Image("ix.timer.linear")
+                        }
+                        #if os(iOS)
                         .font(.footnote.weight(.medium))
                         .padding(.horizontal, 10)
                         .padding(.vertical, 5)
                         .background(.orange.opacity(0.12), in: .capsule)
                         .foregroundStyle(.orange)
+                        #endif
+                    }
+                    #if os(macOS)
+                    .fixedSize()
+                    #else
+                    .accessibilityLabel("Expiry")
+                    .accessibilityValue(Text(expiresAt, format: .relative(presentation: .named)))
                     #endif
                 }
-                #if os(macOS)
-                .fixedSize()
-                #else
-                .accessibilityLabel("Expiry")
-                #endif
             }
         }
     }
