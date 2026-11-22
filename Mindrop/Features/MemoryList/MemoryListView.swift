@@ -497,6 +497,7 @@ struct MemoryCard: View {
     var isSelected: Bool?
 
     @Environment(\.sensitiveAccess) private var sensitiveAccess
+    @ScaledMetric(relativeTo: .body) private var selectionMarkSpace: CGFloat = 26
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -513,15 +514,9 @@ struct MemoryCard: View {
                 if memory.isSensitive {
                     SensitiveBadge()
                 }
-                if let isSelected {
-                    Spacer(minLength: 0)
-                    Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                        .font(.body.weight(.medium))
-                        .foregroundStyle(isSelected ? Color(.folderAccent) : .secondary)
-                        .accessibilityHidden(true)
-                }
             }
             .font(.footnote.weight(.medium))
+            .padding(.trailing, isSelected == nil ? 0 : selectionMarkSpace)
 
             Spacer(minLength: 0)
 
@@ -546,6 +541,16 @@ struct MemoryCard: View {
         .frame(maxWidth: .infinity, minHeight: 104, alignment: .topLeading)
         .contentShape(.rect(cornerRadius: 22, style: .continuous))
         .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 22, style: .continuous))
+        .overlay(alignment: .topTrailing) {
+            if let isSelected {
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .font(.body.weight(.medium))
+                    .foregroundStyle(isSelected ? Color(.folderAccent) : .secondary)
+                    .padding(14)
+                    .allowsHitTesting(false)
+                    .accessibilityHidden(true)
+            }
+        }
         .accessibilityElement(children: .combine)
     }
 }
