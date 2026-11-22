@@ -33,6 +33,14 @@ struct NewFolderView: View {
                 Text("Please try again.")
             }
             .defaultFocus($nameFocused, true)
+            .onAppear {
+                #if os(macOS)
+                // The sheet can appear before AppKit makes its window key.
+                DispatchQueue.main.async { nameFocused = true }
+                #else
+                nameFocused = true
+                #endif
+            }
         }
         #if os(macOS)
         .frame(minWidth: 350, minHeight: 180)
