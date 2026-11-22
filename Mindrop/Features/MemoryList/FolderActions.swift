@@ -107,7 +107,7 @@ struct FolderSelectionMenu: View {
                         Text("Add to Stack")
                     }
                 } icon: {
-                    Image(systemName: "square.stack.badge.plus")
+                    Image(systemName: "square.stack")
                 }
             }
             .disabled(stackAdditions.isEmpty)

@@ -107,15 +107,11 @@ struct MemoryListView: View {
                 }
             }
             ToolbarSpacer(.flexible, placement: .bottomBar)
-            DefaultToolbarItem(kind: .search, placement: .bottomBar)
-            ToolbarItemGroup(placement: .memoryLeading) {
-                if folderID == nil {
-                    Button { sheet = .settings } label: { Label("Settings", image: "ix.setting-2.linear") }
-                }
-                if !isShowingFolders, !categories.isEmpty {
-                    categoryMenu
-                }
-                if folderID != nil {
+            if folderID != nil {
+                ToolbarItemGroup(placement: .bottomBar) {
+                    if !categories.isEmpty {
+                        categoryMenu
+                    }
                     if isSelecting {
                         Button("Done") { selectedIDs = nil }
                     } else {
@@ -124,7 +120,16 @@ struct MemoryListView: View {
                             .disabled(results.isEmpty && expiredResults.isEmpty)
                     }
                 }
+                ToolbarSpacer(.fixed, placement: .bottomBar)
+            } else {
+                ToolbarItemGroup(placement: .memoryLeading) {
+                    Button { sheet = .settings } label: { Label("Settings", image: "ix.setting-2.linear") }
+                    if !isShowingFolders, !categories.isEmpty {
+                        categoryMenu
+                    }
+                }
             }
+            DefaultToolbarItem(kind: .search, placement: .bottomBar)
         }
         .overlay {
             if !isShowingFolders, results.isEmpty, expiredResults.isEmpty {
