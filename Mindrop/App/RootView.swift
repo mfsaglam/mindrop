@@ -26,15 +26,15 @@ struct RootView: View {
                 #else
                 NavigationStack(path: Binding(get: { session.path }, set: { session.path = $0 })) {
                     MemoryListView(repository: repository, session: session)
-                        .memoryScreenBackground()
+                        .memoryScreenBackground(usesGradient: true)
                         .navigationDestination(for: LibraryRoute.self) { route in
                             switch route {
                             case .folder(let id):
                                 MemoryListView(repository: repository, session: session, folderID: id)
-                                    .memoryScreenBackground()
+                                    .memoryScreenBackground(usesGradient: true)
                             case .memory(let id):
                                 MemoryDetailView(repository: repository, memoryID: id, highlight: session.highlight(for: id))
-                                    .memoryScreenBackground()
+                                    .memoryScreenBackground(usesGradient: true)
                             case .recentlyDeleted:
                                 RecentlyDeletedView(repository: repository)
                             }

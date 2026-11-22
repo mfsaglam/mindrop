@@ -29,6 +29,7 @@ extension View {
 
 #if os(iOS)
 private struct MemoryScreenBackground: ViewModifier {
+    let usesGradient: Bool
     @Environment(\.colorScheme) private var colorScheme
 
     func body(content: Content) -> some View {
@@ -36,15 +37,31 @@ private struct MemoryScreenBackground: ViewModifier {
             .scrollContentBackground(colorScheme == .dark ? .hidden : .automatic)
             .background {
                 if colorScheme == .dark {
-                    Color(.memoryScreenDarkBackground).ignoresSafeArea()
+                    darkBackground.ignoresSafeArea()
                 }
             }
+    }
+
+    @ViewBuilder
+    private var darkBackground: some View {
+        if usesGradient {
+            LinearGradient(
+                stops: [
+                    .init(color: Color(.memoryScreenDarkGradientStart), location: 0),
+                    .init(color: Color(.memoryScreenDarkBackground), location: 0.78)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        } else {
+            Color(.memoryScreenDarkBackground)
+        }
     }
 }
 
 extension View {
-    func memoryScreenBackground() -> some View {
-        modifier(MemoryScreenBackground())
+    func memoryScreenBackground(usesGradient: Bool = false) -> some View {
+        modifier(MemoryScreenBackground(usesGradient: usesGradient))
     }
 }
 #endif

@@ -123,7 +123,7 @@ struct RecentlyDeletedView: View {
         }
         .contentMargins(.horizontal, memories.isEmpty ? 0 : 16, for: .scrollContent)
         .contentMargins(.bottom, 24, for: .scrollContent)
-        .memoryScreenBackground()
+        .memoryScreenBackground(usesGradient: true)
         #endif
     }
 
