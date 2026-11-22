@@ -38,7 +38,7 @@ Anahtar kelimeyi ve değeri girip kaydetmek temel akıştır. Kullanıcı klasö
 
 - **Yığında Göster** seçeneği yeni kayıt formunda ve kayıt detayında yer alır. Yeni seçimler listenin sonuna eklenir.
 - **Kayıt Seç** eylemi, tüm klasörlerdeki uygun kayıtları klasör başlıklarına göre listeler. Kullanıcı arayabilir ve birden fazla kaydı ekleyebilir.
-- Yığın’da anahtar kelime küçük, değer belirgin görünür. Kullanıcı sıra değiştirerek önceliği belirler. **Yığından Çıkar** eylemi Yığın üyeliğini kaldırır.
+- Yığın’da anahtar kelime küçük, değer belirgin görünür. Kullanıcı sıra değiştirerek önceliği belirler. iPhone ve iPad’de bir satırı sola kaydırınca **Yığından Çıkar** görünür. Tam kaydırma üyeliği hemen kaldırır ve kayıt kendi klasöründe kalır.
 - Yığın’da hassas olmayan, süresi dolmamış ve aktif kayıtlar görünür. Bir kayıt yeniden uygun hale gelirse Yığın’daki konumundan açılabilir.
 
 ### Widget davranışı

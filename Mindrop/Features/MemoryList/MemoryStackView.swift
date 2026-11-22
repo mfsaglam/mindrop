@@ -72,7 +72,7 @@ struct MemoryStackView: View {
                         Button("Move Down", systemImage: "arrow.down") { move(memory.id, by: 1) }
                     }
                     Button("Remove from Stack", systemImage: "minus.circle") {
-                        change { try repository.setStackMembership([memory.id], included: false) }
+                        remove(memory.id)
                     }
                 }
         }
@@ -105,10 +105,20 @@ struct MemoryStackView: View {
             .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 18))
         }
         .buttonStyle(.plain)
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button("Remove from Stack", systemImage: "minus.circle") {
+                remove(memory.id)
+            }
+            .tint(.red)
+        }
         .listRowInsets(EdgeInsets(top: 5, leading: 16, bottom: 5, trailing: 16))
         .listRowBackground(Color.clear)
         .listRowSeparator(.hidden)
         #endif
+    }
+
+    private func remove(_ id: UUID) {
+        change { try repository.setStackMembership([id], included: false) }
     }
 
     private func move(_ id: UUID, by offset: Int) {
