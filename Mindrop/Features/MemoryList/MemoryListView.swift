@@ -52,8 +52,10 @@ struct MemoryListView: View {
     private var isSelecting: Bool { selectedIDs != nil }
 
     private var selectedMemories: [Memory] {
-        guard let selectedIDs, !selectedIDs.isEmpty else { return [] }
-        return (results + expiredResults).filter { selectedIDs.contains($0.id) }
+        guard let folderID, let selectedIDs, !selectedIDs.isEmpty else { return [] }
+        return repository.memories.filter {
+            selectedIDs.contains($0.id) && !$0.isDeleted && repository.folders.folderID(for: $0.id) == folderID
+        }
     }
 
     /// Sections only once something is categorised: a list of nothing but "No Category"
@@ -163,7 +165,6 @@ struct MemoryListView: View {
             query = pending
             isSearching = true
         }
-        .onChange(of: query) { selectedIDs?.removeAll() }
         .onChange(of: categoryFilter) { selectedIDs?.removeAll() }
         .memoryDeletionAlert(for: $pendingDeletion, onDelete: delete)
         .folderDeletionAlert(for: $pendingFolderDeletion) { folder in

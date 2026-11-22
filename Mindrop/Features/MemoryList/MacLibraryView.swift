@@ -45,6 +45,7 @@ struct MacLibraryView: View {
     }
 
     private var memories: [Memory] {
+        if isSelecting, let folderID { return repository.results(for: query, folderID: folderID) }
         if area == .expired { return repository.expiredResults(for: query) }
         if !query.isEmpty { return repository.results(for: query) }
         if showsStack { return repository.stackMemories }
@@ -119,10 +120,11 @@ struct MacLibraryView: View {
                     }
                 }
             }
-            if let folderID, query.isEmpty {
+            if let folderID, isSelecting || query.isEmpty {
                 ToolbarItemGroup {
                     if let selectedIDs {
-                        let selected = memories.filter { selectedIDs.contains($0.id) }
+                        let selected = repository.results(for: "", folderID: folderID)
+                            .filter { selectedIDs.contains($0.id) }
                         Text("\(selected.count) selected")
                             .foregroundStyle(.secondary)
                         FolderSelectionMenu(
@@ -156,7 +158,6 @@ struct MacLibraryView: View {
                 selection.wrappedValue = nil
             }
         }
-        .onChange(of: query) { selectedIDs = nil }
         .onChange(of: repository.stackMemories.map(\.id)) { _, ids in
             if showsStack, let id = selection.wrappedValue, !ids.contains(id) {
                 selection.wrappedValue = nil
