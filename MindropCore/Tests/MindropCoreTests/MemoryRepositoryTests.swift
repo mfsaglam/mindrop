@@ -54,6 +54,92 @@ struct MemoryRepositoryTests {
         #expect(try store.load().isEmpty)
     }
 
+    @Test("Folder deletion keeps its records recoverable and preserves independent saves")
+    func folderDeletionIsRecoverable() async throws {
+        let directory = URL.temporaryDirectory.appending(path: "mindrop-folder-delete-\(UUID())")
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let folderURL = directory.appending(path: "folders.json")
+        let folders = MemoryFolders(url: folderURL)
+        try folders.add(named: "Work")
+        let work = try #require(folders.custom.first)
+
+        let store = FileMemoryStore(url: directory.appending(path: "memories.json"))
+        let indexer = SpotlightIndexerSpy()
+        let clock = TestClock()
+        let repository = MemoryRepository(
+            store: store, synchronizer: SpotlightSynchronizer(
+                indexer: indexer, stateStore: InMemorySpotlightSyncStateStore(), options: { .shipping }, now: clock.reading
+            ), folders: folders, now: clock.reading
+        )
+        let workMemory = try repository.create(keyword: "office wifi", value: "Guest", folderID: work.id)
+        await repository.indexingTask?.value
+        let older = try repository.create(keyword: "office phone", value: "555-0100", folderID: work.id)
+        await repository.indexingTask?.value
+        try repository.delete(ids: [older.id])
+        await repository.indexingTask?.value
+        let originalDeletion = clock.now
+        clock.now = clock.now.addingTimeInterval(60)
+        let expired = try repository.create(
+            keyword: "temporary code", value: "1234", expiresAt: originalDeletion, folderID: work.id
+        )
+        await repository.indexingTask?.value
+        let shared = makeMemory(keyword: "shared memory")
+        _ = try store.update { $0 + [shared] }
+
+        try repository.deleteFolder(work.id)
+        await repository.indexingTask?.value
+
+        let reopened = MemoryFolders(url: folderURL)
+        try reopened.load()
+        #expect(reopened.custom.isEmpty)
+        #expect(try store.load().contains(shared))
+        #expect(Set(repository.deletedMemories.map(\.id)) == [workMemory.id, older.id, expired.id])
+        #expect(repository.memory(id: older.id)?.deletedAt == originalDeletion)
+        #expect(repository.memory(id: workMemory.id)?.deletedAt == clock.now)
+        #expect(repository.expiredResults(for: "").isEmpty)
+        #expect(!indexer.indexedIDs.contains(workMemory.id))
+
+        try repository.recoverDeleted(workMemory)
+        #expect(repository.results(for: "", folderID: MemoryFolders.generalID).contains { $0.id == workMemory.id })
+    }
+
+    @Test("A folder stays intact if its records cannot be moved to Recently Deleted")
+    func failedFolderDeletionCanBeRetried() throws {
+        let (repository, store, _) = try makeRepository()
+        try repository.folders.add(named: "Work")
+        let work = try #require(repository.folders.custom.first)
+        let memory = try repository.create(keyword: "office wifi", value: "Guest", folderID: work.id)
+        store.saveError = InMemoryMemoryStore.Failure.disk
+
+        #expect(throws: InMemoryMemoryStore.Failure.disk) {
+            try repository.deleteFolder(work.id)
+        }
+        #expect(repository.folders.custom.map(\.id) == [work.id])
+        #expect(repository.results(for: "", folderID: work.id) == [memory])
+        #expect(repository.deletedMemories.isEmpty)
+
+        store.saveError = nil
+        try repository.deleteFolder(work.id)
+        #expect(repository.folders.custom.isEmpty)
+        #expect(repository.deletedMemories.map(\.id) == [memory.id])
+    }
+
+    @Test("General is protected and an empty custom folder can be removed")
+    func canDeleteOnlyCustomFolders() throws {
+        let (repository, _, _) = try makeRepository()
+        let memory = try repository.create(keyword: "home wifi", value: "Guest")
+        try repository.folders.add(named: "Empty")
+        let empty = try #require(repository.folders.custom.first)
+
+        #expect(throws: MemoryFolders.ValidationError.unknownFolder) {
+            try repository.deleteFolder(MemoryFolders.generalID)
+        }
+        try repository.deleteFolder(empty.id)
+        #expect(repository.folders.custom.isEmpty)
+        #expect(repository.results(for: "") == [memory])
+        #expect(repository.deletedMemories.isEmpty)
+    }
+
     @Test("A short keyword cannot be saved by the app or share extension")
     func shortKeywordDoesNotPersist() async throws {
         let (repository, store, indexer) = try makeRepository()

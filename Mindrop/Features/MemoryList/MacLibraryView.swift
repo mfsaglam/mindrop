@@ -16,6 +16,7 @@ struct MacLibraryView: View {
     @State private var query = ""
     @State private var isSearching = false
     @State private var pendingDeletion: Memory?
+    @State private var pendingFolderDeletion: MemoryFolder?
     @State private var changeFailed = false
     @State private var showsNewFolder = false
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
@@ -53,13 +54,19 @@ struct MacLibraryView: View {
     var body: some View {
         NavigationSplitView {
             List(selection: $area) {
-                folderRow(MemoryFolders.generalID)
+                folderRow(Text("General"), area: .folder(MemoryFolders.generalID))
                 ForEach(repository.folders.custom) { folder in
-                    folderRow(folder.id)
+                    folderRow(Text(folder.name), area: .folder(folder.id))
+                        .contextMenu {
+                            Button(role: .destructive) {
+                                pendingFolderDeletion = folder
+                            } label: {
+                                Label("Delete Folder", systemImage: "trash")
+                            }
+                        }
                 }
                 if !repository.deletedMemories.isEmpty || area == .recentlyDeleted {
-                    Label("Recently Deleted", systemImage: "trash")
-                        .tag(Area.recentlyDeleted)
+                    folderRow(Text("Recently Deleted"), symbol: "trash", area: .recentlyDeleted)
                 }
             }
             .listStyle(.sidebar)
@@ -139,6 +146,12 @@ struct MacLibraryView: View {
         } message: { _ in
             Text("It will be removed from Spotlight and kept in Recently Deleted for 30 days.")
         }
+        .folderDeletionAlert(for: $pendingFolderDeletion) { folder in
+            change {
+                try repository.deleteFolder(folder.id)
+                if area == .folder(folder.id) { area = nil }
+            }
+        }
         .alert("Couldn’t save", isPresented: $changeFailed) {
             Button("OK", role: .cancel) {}
         } message: {
@@ -146,14 +159,17 @@ struct MacLibraryView: View {
         }
     }
 
-    private func folderRow(_ id: UUID) -> some View {
+    private func folderRow(_ title: Text, symbol: String = "folder", area: Area) -> some View {
         Label {
-            repository.folders.title(for: id)
+            title
         } icon: {
-            Image(systemName: "folder")
-                .foregroundStyle(Color(.folderAccent))
+            Image(systemName: symbol)
+                .foregroundStyle(symbol == "folder" ? Color(.folderAccent) : .primary)
         }
-        .tag(Area.folder(id))
+        .frame(maxWidth: .infinity, minHeight: 60, alignment: .leading)
+        .contentShape(.rect)
+        .listRowInsets(.vertical, 0)
+        .tag(area)
     }
 
     private var memoryList: some View {

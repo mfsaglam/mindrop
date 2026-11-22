@@ -246,6 +246,11 @@ public final class MemoryRepository {
         try folders.assign(current.id, to: folderID)
     }
 
+    /// Removes a custom folder and sends its memories through the usual recoverable deletion flow.
+    public func deleteFolder(_ id: UUID) throws {
+        try folders.remove(id) { try delete(ids: $0) }
+    }
+
     @discardableResult
     public func create(
         keyword: String, value: String, expiresAt: Date? = nil, isSensitive: Bool = false,
@@ -450,16 +455,22 @@ public final class MemoryRepository {
     /// deleted for good 30 days later unless recovered.
     public func delete(ids: [UUID]) throws {
         let doomed = Set(ids)
+        guard !doomed.isEmpty else { return }
         let now = now()
-        var updated = memories
         var moved: [UUID] = []
-        for position in updated.indices where doomed.contains(updated[position].id) && !updated[position].isDeleted {
-            updated[position].deletedAt = now
-            updated[position].modifiedAt = now
-            moved.append(updated[position].id)
+        // Read and write under the same coordination so a concurrent share save survives.
+        let updated = try store.update { stored in
+            var updated = stored
+            for position in updated.indices where doomed.contains(updated[position].id) && !updated[position].isDeleted {
+                updated[position].deletedAt = now
+                updated[position].modifiedAt = now
+                moved.append(updated[position].id)
+            }
+            return moved.isEmpty ? nil : updated.sorted(by: Self.isOrderedBefore)
         }
-        guard !moved.isEmpty else { return }
-        try commit(updated)
+        guard let updated else { return }
+        memories = updated
+        onLocalChange?()
         let synchronizer = synchronizer
         indexingTask = Task { await synchronizer.remove(ids: moved) }
     }

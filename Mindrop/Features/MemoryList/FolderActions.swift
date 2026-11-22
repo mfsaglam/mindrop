@@ -79,3 +79,23 @@ extension MemoryFolders {
         }
     }
 }
+
+extension View {
+    func folderDeletionAlert(
+        for folder: Binding<MemoryFolder?>, onDelete: @escaping (MemoryFolder) -> Void
+    ) -> some View {
+        alert(
+            Text("Delete folder “\(folder.wrappedValue?.name ?? "")”?"),
+            isPresented: Binding(
+                get: { folder.wrappedValue != nil },
+                set: { if !$0 { folder.wrappedValue = nil } }
+            ),
+            presenting: folder.wrappedValue
+        ) { folder in
+            Button("Cancel", role: .cancel) {}
+            Button("Delete Folder", role: .destructive) { onDelete(folder) }
+        } message: { _ in
+            Text("The folder will be removed. Its memories will move to Recently Deleted, where you can recover them for 30 days.")
+        }
+    }
+}

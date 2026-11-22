@@ -23,9 +23,11 @@ struct MemoryListView: View {
     @State private var changeFailed = false
     /// The memory the user swiped to delete, waiting for them to confirm.
     @State private var pendingDeletion: Memory?
+    @State private var pendingFolderDeletion: MemoryFolder?
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
     @ScaledMetric(relativeTo: .title3) private var folderIconWidth: CGFloat = 24
     @Environment(\.sensitiveAccess) private var sensitiveAccess
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     private let newMemoryRequest = NewMemoryRequest.shared
 
     private var isShowingFolders: Bool { folderID == nil && query.allSatisfy(\.isWhitespace) }
@@ -147,6 +149,9 @@ struct MemoryListView: View {
         } message: { _ in
             Text("It will be removed from Spotlight and kept in Recently Deleted for 30 days.")
         }
+        .folderDeletionAlert(for: $pendingFolderDeletion) { folder in
+            change { try repository.deleteFolder(folder.id) }
+        }
         .alert("Couldn’t save", isPresented: $changeFailed) {
             Button("OK", role: .cancel) {}
         } message: {
@@ -166,6 +171,13 @@ struct MemoryListView: View {
             )
             ForEach(repository.folders.custom) { folder in
                 folderRow(Text(folder.name), count: counts[folder.id, default: 0], route: .folder(folder.id))
+                    .contextMenu {
+                        Button(role: .destructive) {
+                            pendingFolderDeletion = folder
+                        } label: {
+                            Label("Delete Folder", systemImage: "trash")
+                        }
+                    }
             }
             if deletedCount > 0 {
                 folderRow(
@@ -190,6 +202,7 @@ struct MemoryListView: View {
                     .accessibilityHidden(true)
                 title
                     .font(.headline)
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
                 Spacer(minLength: 0)
                 Text(count, format: .number)
                     .monospacedDigit()
@@ -202,7 +215,8 @@ struct MemoryListView: View {
                     .accessibilityHidden(true)
             }
             .padding(.horizontal, 18)
-            .padding(.vertical, 14)
+            .padding(.vertical, 6)
+            .frame(minHeight: 60)
             .contentShape(.rect)
             .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 18))
             .accessibilityElement(children: .combine)

@@ -66,6 +66,20 @@ public final class MemoryFolders {
         }
     }
 
+    func remove(_ id: UUID, deletingMemories: ([UUID]) throws -> Void) throws {
+        try update { index in
+            guard let position = index.folders.firstIndex(where: { $0.id == id }) else {
+                throw ValidationError.unknownFolder
+            }
+            let members = index.assignments.compactMap { $0.value == id ? $0.key : nil }
+            // Keep the folder until its memories are safely in Recently Deleted.
+            // A retry leaves any existing deletion timestamps alone.
+            try deletingMemories(members)
+            index.folders.remove(at: position)
+            index.assignments = index.assignments.filter { $0.value != id }
+        }
+    }
+
     private func update(_ change: (inout Index) throws -> Void) throws {
         guard let file else {
             try change(&index)
