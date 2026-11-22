@@ -127,7 +127,7 @@ struct MemoryStackView: View {
     }
 }
 
-private struct StackMemoryPicker: View {
+struct StackMemoryPicker: View {
     let repository: MemoryRepository
 
     @Environment(\.dismiss) private var dismiss

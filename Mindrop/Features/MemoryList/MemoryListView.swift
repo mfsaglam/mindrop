@@ -7,6 +7,7 @@ struct MemoryListView: View {
     private enum Sheet: Hashable, Identifiable {
         case newMemory(folderID: UUID, scanning: Bool = false)
         case newFolder
+        case stackPicker
         case settings
 
         var id: Self { self }
@@ -116,6 +117,8 @@ struct MemoryListView: View {
                 )
             case .newFolder:
                 NewFolderView(folders: repository.folders)
+            case .stackPicker:
+                StackMemoryPicker(repository: repository)
             case .settings:
                 SettingsView(repository: repository, session: session)
             }
@@ -165,13 +168,11 @@ struct MemoryListView: View {
         }
         let deletedCount = repository.deletedMemories.count
         return LazyVStack(spacing: 10) {
+            stackPreview(repository.stackMemories)
+                .padding(.bottom, 6)
             folderRow(
                 Text("General"), count: counts[MemoryFolders.generalID, default: 0],
                 route: .folder(MemoryFolders.generalID)
-            )
-            folderRow(
-                Text("Stack"), icon: Image(systemName: "square.stack"),
-                count: repository.stackMemories.count, route: .stack
             )
             ForEach(repository.folders.custom) { folder in
                 folderRow(Text(folder.name), count: counts[folder.id, default: 0], route: .folder(folder.id))
@@ -192,6 +193,69 @@ struct MemoryListView: View {
         }
         .padding(.top, 8)
         .onLeadingPage()
+    }
+
+    @ViewBuilder
+    private func stackPreview(_ memories: [Memory]) -> some View {
+        if memories.isEmpty {
+            Button {
+                sheet = .stackPicker
+            } label: {
+                HStack(spacing: 10) {
+                    stackTitle
+                    Spacer(minLength: 0)
+                    Label("Choose Memories", systemImage: "plus")
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(Color(.folderAccent))
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .frame(minHeight: 52)
+                .contentShape(.rect)
+                .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 18))
+            }
+            .buttonStyle(.plain)
+        } else {
+            NavigationLink(value: LibraryRoute.stack) {
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 10) {
+                        stackTitle
+                        Spacer(minLength: 0)
+                        Image("ix.arrow-right-02.linear")
+                            .font(.footnote.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .accessibilityHidden(true)
+                    }
+                    .padding(.horizontal, 2)
+
+                    StackWidgetGrid(memories: memories)
+                        .background(
+                            LinearGradient(
+                                colors: [Color(.stackPreviewTop), Color(.stackPreviewBottom)],
+                                startPoint: .topLeading, endPoint: .bottomTrailing
+                            ),
+                            in: .rect(cornerRadius: 23)
+                        )
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 23)
+                                .strokeBorder(.primary.opacity(0.12), lineWidth: 1)
+                                .allowsHitTesting(false)
+                        }
+                }
+                .contentShape(.rect)
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    private var stackTitle: some View {
+        Label {
+            Text("Stack")
+        } icon: {
+            Image(systemName: "square.stack")
+                .foregroundStyle(Color(.folderAccent))
+        }
+        .font(.subheadline.weight(.semibold))
     }
 
     private func folderRow(
