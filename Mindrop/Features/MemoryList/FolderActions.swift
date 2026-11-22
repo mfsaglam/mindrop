@@ -84,13 +84,14 @@ struct FolderSelectionMenu: View {
     let requestDeletion: ([Memory]) -> Void
     let onSuccess: () -> Void
     let onFailure: () -> Void
+    var showsSelectionCount = false
 
     var body: some View {
         let stackAdditions = selection.filter {
             repository.isEligibleForStack($0) && !repository.isInStack($0.id)
         }.map(\.id)
 
-        Menu("Manage Memories", systemImage: "ellipsis.circle") {
+        Menu {
             MoveToFolderMenu(folders: repository.folders, sourceFolderID: folderID) { destination in
                 perform { try repository.move(ids: selection.map(\.id), to: destination) }
             }
@@ -112,9 +113,25 @@ struct FolderSelectionMenu: View {
             .disabled(stackAdditions.isEmpty)
 
             Button("Delete", systemImage: "trash", role: .destructive) { requestDeletion(selection) }
+        } label: {
+            if showsSelectionCount {
+                HStack(spacing: 8) {
+                    Image(systemName: "ellipsis.circle")
+                        .accessibilityHidden(true)
+                    Text("\(selection.count) selected")
+                        .font(.subheadline.weight(.medium))
+                        .monospacedDigit()
+                        .lineLimit(1)
+                        .accessibilityLabel("Manage Memories")
+                        .accessibilityValue(Text("\(selection.count) selected"))
+                }
+                .padding(.horizontal, 8)
+            } else {
+                Label("Manage Memories", systemImage: "ellipsis.circle")
+                    .labelStyle(.iconOnly)
+            }
         }
         .disabled(selection.isEmpty)
-        .labelStyle(.iconOnly)
     }
 
     private func perform(_ action: () throws -> Void) {

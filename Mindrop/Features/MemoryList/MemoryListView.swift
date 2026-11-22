@@ -85,27 +85,23 @@ struct MemoryListView: View {
         .searchToolbarBehavior(.minimize)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                if folderID == nil {
-                    Button("New Folder", systemImage: "folder.badge.plus") {
-                        sheet = .newFolder
-                    }
-                    .labelStyle(.iconOnly)
-                    .tint(Color(.folderAccent))
-                }
-                Button(action: createMemory) { Label("New Memory", image: "ix.add.linear") }
-            }
-            if let folderID, isSelecting {
-                let selection = selectedMemories
-                ToolbarItemGroup(placement: .bottomBar) {
+                if let folderID, isSelecting {
                     FolderSelectionMenu(
-                        repository: repository, folderID: folderID, selection: selection,
+                        repository: repository, folderID: folderID, selection: selectedMemories,
                         requestDeletion: { pendingDeletion = $0 },
                         onSuccess: { selectedIDs = nil },
-                        onFailure: { changeFailed = true }
+                        onFailure: { changeFailed = true },
+                        showsSelectionCount: true
                     )
-                    Text("\(selection.count) selected")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                } else {
+                    if folderID == nil {
+                        Button("New Folder", systemImage: "folder.badge.plus") {
+                            sheet = .newFolder
+                        }
+                        .labelStyle(.iconOnly)
+                        .tint(Color(.folderAccent))
+                    }
+                    Button(action: createMemory) { Label("New Memory", image: "ix.add.linear") }
                 }
             }
             ToolbarSpacer(.flexible, placement: .bottomBar)
