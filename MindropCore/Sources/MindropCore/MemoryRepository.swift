@@ -247,8 +247,16 @@ public final class MemoryRepository {
     }
 
     public func move(_ memory: Memory, to folderID: UUID) throws {
-        guard let current = self.memory(id: memory.id), !current.isDeleted else { return }
-        try folders.assign(current.id, to: folderID)
+        try move(ids: [memory.id], to: folderID)
+    }
+
+    /// Moves existing, non-deleted memories in one folder index update.
+    public func move(ids: [UUID], to folderID: UUID) throws {
+        guard !ids.isEmpty else { return }
+        let selection = Set(ids)
+        let movable = memories.filter { selection.contains($0.id) && !$0.isDeleted }.map(\.id)
+        guard !movable.isEmpty else { return }
+        try folders.assign(movable, to: folderID)
     }
 
     /// Removes a custom folder and sends its memories through the usual recoverable deletion flow.

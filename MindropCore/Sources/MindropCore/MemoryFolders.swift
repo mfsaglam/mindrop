@@ -54,14 +54,17 @@ public final class MemoryFolders {
     }
 
     func assign(_ memoryID: UUID, to folderID: UUID) throws {
+        try assign([memoryID], to: folderID)
+    }
+
+    func assign(_ memoryIDs: [UUID], to folderID: UUID) throws {
         try update { index in
-            if folderID == Self.generalID {
-                index.assignments.removeValue(forKey: memoryID)
-            } else {
-                guard index.folders.contains(where: { $0.id == folderID }) else {
-                    throw ValidationError.unknownFolder
-                }
-                index.assignments[memoryID] = folderID
+            let isGeneral = folderID == Self.generalID
+            guard isGeneral || index.folders.contains(where: { $0.id == folderID }) else {
+                throw ValidationError.unknownFolder
+            }
+            for memoryID in memoryIDs {
+                index.assignments[memoryID] = isGeneral ? nil : folderID
             }
         }
     }

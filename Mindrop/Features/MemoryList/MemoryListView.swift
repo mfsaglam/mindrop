@@ -22,8 +22,8 @@ struct MemoryListView: View {
     @State private var categoryFilter: MemoryCategory?
     @State private var sheet: Sheet?
     @State private var changeFailed = false
-    /// The memory the user swiped to delete, waiting for them to confirm.
-    @State private var pendingDeletion: Memory?
+    @State private var selectedIDs: Set<UUID>?
+    @State private var pendingDeletion: [Memory] = []
     @State private var pendingFolderDeletion: MemoryFolder?
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
     @ScaledMetric(relativeTo: .title3) private var folderIconWidth: CGFloat = 24
@@ -47,6 +47,13 @@ struct MemoryListView: View {
     /// Hidden while filtering by category: an expired memory is no longer really in one.
     private var expiredResults: [Memory] {
         activeCategory == nil ? repository.expiredResults(for: query, folderID: folderID) : []
+    }
+
+    private var isSelecting: Bool { selectedIDs != nil }
+
+    private var selectedMemories: [Memory] {
+        guard let selectedIDs, !selectedIDs.isEmpty else { return [] }
+        return (results + expiredResults).filter { selectedIDs.contains($0.id) }
     }
 
     /// Sections only once something is categorised: a list of nothing but "No Category"
@@ -87,19 +94,37 @@ struct MemoryListView: View {
                 }
                 Button(action: createMemory) { Label("New Memory", image: "ix.add.linear") }
             }
-            // Search at the bottom right, where the thumb is, rather than centred.
-            ToolbarSpacer(.flexible, placement: .bottomBar)
-            DefaultToolbarItem(kind: .search, placement: .bottomBar)
-            if folderID == nil {
-                ToolbarItem(placement: .memoryLeading) {
-                    Button { sheet = .settings } label: { Label("Settings", image: "ix.setting-2.linear") }
+            if let folderID, isSelecting {
+                let selection = selectedMemories
+                ToolbarItemGroup(placement: .bottomBar) {
+                    FolderSelectionMenu(
+                        repository: repository, folderID: folderID, selection: selection,
+                        requestDeletion: { pendingDeletion = $0 },
+                        onSuccess: { selectedIDs = nil },
+                        onFailure: { changeFailed = true }
+                    )
+                    Text("\(selection.count) selected")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
                 }
             }
-            // Only once something is categorised: without Apple Intelligence the app
-            // looks exactly as it did.
-            if !isShowingFolders, !categories.isEmpty {
-                ToolbarItem(placement: .memoryLeading) {
+            ToolbarSpacer(.flexible, placement: .bottomBar)
+            DefaultToolbarItem(kind: .search, placement: .bottomBar)
+            ToolbarItemGroup(placement: .memoryLeading) {
+                if folderID == nil {
+                    Button { sheet = .settings } label: { Label("Settings", image: "ix.setting-2.linear") }
+                }
+                if !isShowingFolders, !categories.isEmpty {
                     categoryMenu
+                }
+                if folderID != nil {
+                    if isSelecting {
+                        Button("Done") { selectedIDs = nil }
+                    } else {
+                        Button("Choose Memories", systemImage: "checkmark.circle") { selectedIDs = [] }
+                            .labelStyle(.iconOnly)
+                            .disabled(results.isEmpty && expiredResults.isEmpty)
+                    }
                 }
             }
         }
@@ -142,16 +167,9 @@ struct MemoryListView: View {
             query = pending
             isSearching = true
         }
-        .alert(
-            deletionTitle,
-            isPresented: Binding(get: { pendingDeletion != nil }, set: { if !$0 { pendingDeletion = nil } }),
-            presenting: pendingDeletion
-        ) { memory in
-            Button("Delete", role: .destructive) { delete([memory.id]) }
-            Button("Cancel", role: .cancel) {}
-        } message: { _ in
-            Text("It will be removed from Spotlight and kept in Recently Deleted for 30 days.")
-        }
+        .onChange(of: query) { selectedIDs?.removeAll() }
+        .onChange(of: categoryFilter) { selectedIDs?.removeAll() }
+        .memoryDeletionAlert(for: $pendingDeletion, onDelete: delete)
         .folderDeletionAlert(for: $pendingFolderDeletion) { folder in
             change { try repository.deleteFolder(folder.id) }
         }
@@ -322,14 +340,18 @@ struct MemoryListView: View {
             if !expiredResults.isEmpty {
                 Section {
                     ForEach(expiredResults) { memory in
-                        NavigationLink(value: LibraryRoute.memory(memory.id)) {
-                            MemoryCard(memory: memory, showsCategory: !showsSections, query: query)
-                        }
-                        .buttonStyle(.plain)
-                        .contextMenu {
-                            Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
-                            moveMenu(for: memory)
-                            deleteAction(for: memory)
+                        if isSelecting {
+                            selectionCard(memory, showsCategory: !showsSections)
+                        } else {
+                            NavigationLink(value: LibraryRoute.memory(memory.id)) {
+                                MemoryCard(memory: memory, showsCategory: !showsSections, query: query)
+                            }
+                            .buttonStyle(.plain)
+                            .contextMenu {
+                                Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
+                                moveMenu(for: memory)
+                                deleteAction(for: memory)
+                            }
                         }
                     }
                 } header: {
@@ -384,28 +406,48 @@ struct MemoryListView: View {
     /// A long press offers Copy and Delete: a grid has no swipe actions.
     private func cards(_ memories: [Memory], showsCategory: Bool) -> some View {
         ForEach(memories) { memory in
-            NavigationLink(value: LibraryRoute.memory(memory.id)) {
-                MemoryCard(memory: memory, showsCategory: showsCategory, query: query)
-            }
-            .buttonStyle(.plain)
-            .contextMenu {
-                if sensitiveAccess.canShow(memory) {
-                    Button {
-                        Clipboard.copy(memory.value)
-                    } label: {
-                        Label("Copy", image: "ix.copy.linear")
-                    }
+            if isSelecting {
+                selectionCard(memory, showsCategory: showsCategory)
+            } else {
+                NavigationLink(value: LibraryRoute.memory(memory.id)) {
+                    MemoryCard(memory: memory, showsCategory: showsCategory, query: query)
                 }
-                moveMenu(for: memory)
-                deleteAction(for: memory)
+                .buttonStyle(.plain)
+                .contextMenu {
+                    if sensitiveAccess.canShow(memory) {
+                        Button {
+                            Clipboard.copy(memory.value)
+                        } label: {
+                            Label("Copy", image: "ix.copy.linear")
+                        }
+                    }
+                    moveMenu(for: memory)
+                    deleteAction(for: memory)
+                }
             }
         }
+    }
+
+    private func selectionCard(_ memory: Memory, showsCategory: Bool) -> some View {
+        let isSelected = selectedIDs?.contains(memory.id) == true
+        return Button {
+            if isSelected {
+                selectedIDs?.remove(memory.id)
+            } else {
+                selectedIDs?.insert(memory.id)
+            }
+        } label: {
+            MemoryCard(memory: memory, showsCategory: showsCategory, query: query, isSelected: isSelected)
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 
     @ViewBuilder
     private func moveMenu(for memory: Memory) -> some View {
         if !repository.folders.custom.isEmpty {
-            MoveToFolderMenu(folders: repository.folders, memoryID: memory.id) { id in
+            let source = repository.folders.folderID(for: memory.id)
+            MoveToFolderMenu(folders: repository.folders, sourceFolderID: source) { id in
                 change { try repository.move(memory, to: id) }
             }
         }
@@ -414,15 +456,10 @@ struct MemoryListView: View {
     /// Deleting reaches every device, so the menu only asks; the alert does the deleting.
     private func deleteAction(for memory: Memory) -> some View {
         Button(role: .destructive) {
-            pendingDeletion = memory
+            pendingDeletion = [memory]
         } label: {
             Label("Delete", image: "ix.trash.linear")
         }
-    }
-
-    private var deletionTitle: Text {
-        // The keyword is user content, so it is interpolated, never looked up.
-        Text("Delete “\(pendingDeletion?.keyword ?? "")”?")
     }
 
     /// Brings an expired memory back for good, not on a new timer.
@@ -431,7 +468,10 @@ struct MemoryListView: View {
     }
 
     private func delete(_ ids: [UUID]) {
-        change { try repository.delete(ids: ids) }
+        change {
+            try repository.delete(ids: ids)
+            selectedIDs = nil
+        }
     }
 
     private func change(_ action: () throws -> Void) {
@@ -452,6 +492,8 @@ struct MemoryCard: View {
     let showsCategory: Bool
     /// The search in progress, whose words are marked in the keyword and value.
     var query: String = ""
+    /// A checkmark is shown when the card is in selection mode.
+    var isSelected: Bool?
 
     @Environment(\.sensitiveAccess) private var sensitiveAccess
 
@@ -469,6 +511,13 @@ struct MemoryCard: View {
                     .lineLimit(1)
                 if memory.isSensitive {
                     SensitiveBadge()
+                }
+                if let isSelected {
+                    Spacer(minLength: 0)
+                    Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                        .font(.body.weight(.medium))
+                        .foregroundStyle(isSelected ? Color(.folderAccent) : .secondary)
+                        .accessibilityHidden(true)
                 }
             }
             .font(.footnote.weight(.medium))

@@ -54,6 +54,44 @@ struct MemoryRepositoryTests {
         #expect(try store.load().isEmpty)
     }
 
+    @Test("Moving a selection updates only its live memories and preserves other folder edits")
+    func moveSelectionTogether() throws {
+        let directory = URL.temporaryDirectory.appending(path: "mindrop-folder-move-\(UUID())")
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appending(path: "folders.json")
+        let folders = MemoryFolders(url: url)
+        try folders.add(named: "Work")
+        let work = try #require(folders.custom.first)
+
+        let (repository, store, _) = try makeRepository(folders: folders)
+        let first = try repository.create(keyword: "door", value: "4821")
+        let second = try repository.create(keyword: "desk", value: "B2")
+        let unselected = try repository.create(keyword: "router", value: "Office Wi-Fi")
+        let deleted = try repository.create(keyword: "old desk", value: "A3")
+        try repository.delete(ids: [deleted.id])
+        let other = MemoryFolders(url: url)
+        try other.add(named: "Travel")
+
+        let selection = [first.id, second.id, deleted.id, UUID()]
+        #expect(throws: MemoryFolders.ValidationError.unknownFolder) {
+            try repository.move(ids: selection, to: UUID())
+        }
+        #expect(repository.results(for: "", folderID: work.id).isEmpty)
+
+        try repository.move(ids: selection, to: work.id)
+        try other.load()
+        #expect(other.custom.map(\.name) == ["Work", "Travel"])
+        #expect(Set(repository.results(for: "", folderID: work.id).map(\.id)) == [first.id, second.id])
+        #expect(other.folderID(for: unselected.id) == MemoryFolders.generalID)
+        #expect(other.folderID(for: deleted.id) == MemoryFolders.generalID)
+        #expect(try store.load().count == 4)
+
+        try repository.move(ids: [first.id, second.id], to: MemoryFolders.generalID)
+        try other.load()
+        #expect(other.folderID(for: first.id) == MemoryFolders.generalID)
+        #expect(other.folderID(for: second.id) == MemoryFolders.generalID)
+    }
+
     @Test("Folder deletion keeps its records recoverable and preserves independent saves")
     func folderDeletionIsRecoverable() async throws {
         let directory = URL.temporaryDirectory.appending(path: "mindrop-folder-delete-\(UUID())")

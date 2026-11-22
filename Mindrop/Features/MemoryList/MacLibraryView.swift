@@ -16,7 +16,8 @@ struct MacLibraryView: View {
     @State private var area: Area?
     @State private var query = ""
     @State private var isSearching = false
-    @State private var pendingDeletion: Memory?
+    @State private var selectedIDs: Set<UUID>?
+    @State private var pendingDeletion: [Memory] = []
     @State private var pendingFolderDeletion: MemoryFolder?
     @State private var changeFailed = false
     @State private var showsNewFolder = false
@@ -30,6 +31,7 @@ struct MacLibraryView: View {
 
     private var showsRecentlyDeleted: Bool { query.isEmpty && area == .recentlyDeleted }
     private var showsStack: Bool { query.isEmpty && area == .stack }
+    private var isSelecting: Bool { selectedIDs != nil }
 
     private var selection: Binding<UUID?> {
         Binding(
@@ -106,7 +108,7 @@ struct MacLibraryView: View {
                     session.showMacCapture(folderID: folderID ?? MemoryFolders.generalID)
                 }
             }
-            if !repository.expiredResults(for: "").isEmpty {
+            if !isSelecting, !repository.expiredResults(for: "").isEmpty {
                 ToolbarItem {
                     Menu("Manage Memories", systemImage: "ellipsis.circle") {
                         Button("Expired", systemImage: "clock") {
@@ -117,11 +119,35 @@ struct MacLibraryView: View {
                     }
                 }
             }
+            if let folderID, query.isEmpty {
+                ToolbarItemGroup {
+                    if let selectedIDs {
+                        let selected = memories.filter { selectedIDs.contains($0.id) }
+                        Text("\(selected.count) selected")
+                            .foregroundStyle(.secondary)
+                        FolderSelectionMenu(
+                            repository: repository, folderID: folderID, selection: selected,
+                            requestDeletion: { pendingDeletion = $0 },
+                            onSuccess: { self.selectedIDs = nil },
+                            onFailure: { changeFailed = true }
+                        )
+                        Button("Done") { self.selectedIDs = nil }
+                    } else {
+                        Button("Choose Memories", systemImage: "checkmark.circle") {
+                            selection.wrappedValue = nil
+                            selectedIDs = []
+                        }
+                        .labelStyle(.iconOnly)
+                        .disabled(memories.isEmpty)
+                    }
+                }
+            }
         }
         .sheet(isPresented: $showsNewFolder) {
             NewFolderView(folders: repository.folders)
         }
         .onChange(of: area) {
+            selectedIDs = nil
             if area == .recentlyDeleted || area == .stack {
                 query = ""
                 isSearching = false
@@ -130,12 +156,14 @@ struct MacLibraryView: View {
                 selection.wrappedValue = nil
             }
         }
+        .onChange(of: query) { selectedIDs = nil }
         .onChange(of: repository.stackMemories.map(\.id)) { _, ids in
             if showsStack, let id = selection.wrappedValue, !ids.contains(id) {
                 selection.wrappedValue = nil
             }
         }
         .onChange(of: session.selectedMemoryID, initial: true) {
+            if session.selectedMemoryID != nil { selectedIDs = nil }
             guard let id = session.selectedMemoryID, !memories.contains(where: { $0.id == id }),
                   let memory = repository.memory(id: id), !memory.isDeleted
             else { return }
@@ -149,15 +177,11 @@ struct MacLibraryView: View {
             query = search
             isSearching = true
         }
-        .alert(
-            Text("Delete “\(pendingDeletion?.keyword ?? "")”?"),
-            isPresented: Binding(get: { pendingDeletion != nil }, set: { if !$0 { pendingDeletion = nil } }),
-            presenting: pendingDeletion
-        ) { memory in
-            Button("Delete", role: .destructive) { change { try repository.delete(ids: [memory.id]) } }
-            Button("Cancel", role: .cancel) {}
-        } message: { _ in
-            Text("It will be removed from Spotlight and kept in Recently Deleted for 30 days.")
+        .memoryDeletionAlert(for: $pendingDeletion) { ids in
+            change {
+                try repository.delete(ids: ids)
+                selectedIDs = nil
+            }
         }
         .folderDeletionAlert(for: $pendingFolderDeletion) { folder in
             change {
@@ -197,7 +221,7 @@ struct MacLibraryView: View {
 
     private var memoryList: some View {
         let results = memories
-        return List(selection: selection) {
+        return List(selection: isSelecting ? nil : selection) {
             if groupsByCategory, area != .expired, results.contains(where: { $0.category != nil }) {
                 ForEach(results.groupedByCategory()) { section in
                     Section {
@@ -238,7 +262,9 @@ struct MacLibraryView: View {
 
     @ViewBuilder
     private var detail: some View {
-        if let id = selection.wrappedValue, repository.memory(id: id)?.isDeleted != true {
+        if isSelecting {
+            Color.clear
+        } else if let id = selection.wrappedValue, repository.memory(id: id)?.isDeleted != true {
             MemoryDetailView(repository: repository, memoryID: id, highlight: session.highlight(for: id))
                 .id(id)
         } else if isEmptyLibrary {
@@ -255,23 +281,50 @@ struct MacLibraryView: View {
 
     private func rows(_ memories: [Memory]) -> some View {
         ForEach(memories) { memory in
-            MacMemoryRow(memory: memory, query: query, isSelected: session.selectedMemoryID == memory.id)
-                .tag(memory.id)
-                .contextMenu {
-                    if sensitiveAccess.canShow(memory) {
-                        Button("Copy") { Clipboard.copy(memory.value) }
-                    }
-                    if memory.isExpired(at: .now) {
-                        Button("Recover") { change { try repository.setExpiry(nil, for: memory) } }
-                    }
-                    if !repository.folders.custom.isEmpty {
-                        MoveToFolderMenu(folders: repository.folders, memoryID: memory.id) { id in
-                            change { try repository.move(memory, to: id) }
+            if isSelecting {
+                selectionRow(memory)
+            } else {
+                MacMemoryRow(memory: memory, query: query, isSelected: session.selectedMemoryID == memory.id)
+                    .tag(memory.id)
+                    .contextMenu {
+                        if sensitiveAccess.canShow(memory) {
+                            Button("Copy") { Clipboard.copy(memory.value) }
                         }
+                        if memory.isExpired(at: .now) {
+                            Button("Recover") { change { try repository.setExpiry(nil, for: memory) } }
+                        }
+                        if !repository.folders.custom.isEmpty {
+                            let source = repository.folders.folderID(for: memory.id)
+                            MoveToFolderMenu(folders: repository.folders, sourceFolderID: source) { id in
+                                change { try repository.move(memory, to: id) }
+                            }
+                        }
+                        Button("Delete", role: .destructive) { pendingDeletion = [memory] }
                     }
-                    Button("Delete", role: .destructive) { pendingDeletion = memory }
-                }
+            }
         }
+    }
+
+    private func selectionRow(_ memory: Memory) -> some View {
+        let isSelected = selectedIDs?.contains(memory.id) == true
+        return Button {
+            if isSelected {
+                selectedIDs?.remove(memory.id)
+            } else {
+                selectedIDs?.insert(memory.id)
+            }
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .foregroundStyle(isSelected ? Color(.folderAccent) : .secondary)
+                    .accessibilityHidden(true)
+                MacMemoryRow(memory: memory)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 
     private func change(_ action: () throws -> Void) {

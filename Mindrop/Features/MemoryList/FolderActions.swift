@@ -60,20 +60,69 @@ struct NewFolderView: View {
 
 struct MoveToFolderMenu: View {
     let folders: MemoryFolders
-    let memoryID: UUID
+    let sourceFolderID: UUID
     let move: (UUID) -> Void
 
     var body: some View {
-        let current = folders.folderID(for: memoryID)
         Menu("Move to Folder", systemImage: "folder") {
-            if current != MemoryFolders.generalID {
+            if sourceFolderID != MemoryFolders.generalID {
                 Button("General") { move(MemoryFolders.generalID) }
             }
             ForEach(folders.custom) { folder in
-                if current != folder.id {
+                if sourceFolderID != folder.id {
                     Button(folder.name) { move(folder.id) }
                 }
             }
+        }
+    }
+}
+
+struct FolderSelectionMenu: View {
+    let repository: MemoryRepository
+    let folderID: UUID
+    let selection: [Memory]
+    let requestDeletion: ([Memory]) -> Void
+    let onSuccess: () -> Void
+    let onFailure: () -> Void
+
+    var body: some View {
+        let stackAdditions = selection.filter {
+            repository.isEligibleForStack($0) && !repository.isInStack($0.id)
+        }.map(\.id)
+
+        Menu("Manage Memories", systemImage: "ellipsis.circle") {
+            MoveToFolderMenu(folders: repository.folders, sourceFolderID: folderID) { destination in
+                perform { try repository.move(ids: selection.map(\.id), to: destination) }
+            }
+            .disabled(repository.folders.custom.isEmpty)
+
+            Button {
+                perform { try repository.setStackMembership(stackAdditions, included: true) }
+            } label: {
+                Label {
+                    if !stackAdditions.isEmpty, stackAdditions.count < selection.count {
+                        Text("Add to Stack (\(stackAdditions.count))")
+                    } else {
+                        Text("Add to Stack")
+                    }
+                } icon: {
+                    Image(systemName: "square.stack.badge.plus")
+                }
+            }
+            .disabled(stackAdditions.isEmpty)
+
+            Button("Delete", systemImage: "trash", role: .destructive) { requestDeletion(selection) }
+        }
+        .disabled(selection.isEmpty)
+        .labelStyle(.iconOnly)
+    }
+
+    private func perform(_ action: () throws -> Void) {
+        do {
+            try action()
+            onSuccess()
+        } catch {
+            onFailure()
         }
     }
 }
@@ -89,6 +138,34 @@ extension MemoryFolders {
 }
 
 extension View {
+    func memoryDeletionAlert(
+        for memories: Binding<[Memory]>, onDelete: @escaping ([UUID]) -> Void
+    ) -> some View {
+        let pending = memories.wrappedValue
+        let title = if pending.count > 1 {
+            Text("Delete \(pending.count) memories?")
+        } else {
+            Text("Delete “\(pending.first?.keyword ?? "")”?")
+        }
+        return alert(
+            title,
+            isPresented: Binding(
+                get: { !memories.wrappedValue.isEmpty },
+                set: { if !$0 { memories.wrappedValue = [] } }
+            ),
+            presenting: pending
+        ) { selection in
+            Button("Delete", role: .destructive) { onDelete(selection.map(\.id)) }
+            Button("Cancel", role: .cancel) {}
+        } message: { selection in
+            if selection.count > 1 {
+                Text("These memories will be removed from Spotlight and kept in Recently Deleted for 30 days.")
+            } else {
+                Text("It will be removed from Spotlight and kept in Recently Deleted for 30 days.")
+            }
+        }
+    }
+
     func folderDeletionAlert(
         for folder: Binding<MemoryFolder?>, onDelete: @escaping (MemoryFolder) -> Void
     ) -> some View {
