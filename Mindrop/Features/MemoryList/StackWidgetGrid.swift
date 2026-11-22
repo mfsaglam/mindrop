@@ -6,16 +6,41 @@ import SwiftUI
 struct StackWidgetGrid: View {
     let memories: [Memory]
 
-    private static let columns = [
-        GridItem(.flexible(minimum: 0), spacing: 0),
-        GridItem(.flexible(minimum: 0), spacing: 0)
-    ]
-    private static let capacity = 6
+    private static let columnCount = 2
+    private static let rowCount = 3
 
     var body: some View {
-        let items = Array(memories.prefix(Self.capacity))
-        LazyVGrid(columns: Self.columns, spacing: 0) {
-            ForEach(Array(items.enumerated()), id: \.element.id) { index, memory in
+        VStack(spacing: 0) {
+            ForEach(0..<Self.rowCount, id: \.self) { row in
+                HStack(spacing: 0) {
+                    ForEach(0..<Self.columnCount, id: \.self) { column in
+                        cell(at: row * Self.columnCount + column)
+                    }
+                }
+                .overlay(alignment: .top) {
+                    if row > 0 {
+                        divider.frame(height: 1)
+                    }
+                }
+            }
+        }
+        .overlay {
+            divider.frame(width: 1)
+        }
+        .padding(8)
+    }
+
+    private var divider: some View {
+        Rectangle()
+            .fill(.primary.opacity(0.14))
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
+    }
+
+    private func cell(at index: Int) -> some View {
+        Group {
+            if memories.indices.contains(index) {
+                let memory = memories[index]
                 VStack(alignment: .leading, spacing: 2) {
                     Text(memory.keyword)
                         .font(.caption.weight(.medium))
@@ -27,24 +52,14 @@ struct StackWidgetGrid: View {
                         .lineLimit(2)
                 }
                 .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 6)
-                .frame(maxWidth: .infinity, minHeight: 54, maxHeight: .infinity, alignment: .leading)
-                .overlay(alignment: .top) {
-                    if index >= Self.columns.count {
-                        Rectangle().fill(.primary.opacity(0.14)).frame(height: 1)
-                            .accessibilityHidden(true)
-                    }
-                }
-                .overlay(alignment: .leading) {
-                    if index % Self.columns.count != 0 {
-                        Rectangle().fill(.primary.opacity(0.14)).frame(width: 1)
-                            .accessibilityHidden(true)
-                    }
-                }
                 .accessibilityElement(children: .combine)
+            } else {
+                Color.clear.accessibilityHidden(true)
             }
         }
-        .padding(8)
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 54, alignment: .leading)
     }
 }

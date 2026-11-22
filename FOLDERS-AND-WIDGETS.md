@@ -48,7 +48,7 @@ Anahtar kelimeyi ve değeri girip kaydetmek temel akıştır. Kullanıcı klasö
 
 ### Ana Ekran widget’ı ve uygulama önizlemesi
 
-Orta boy widget, Yığın’daki ilk altı uygun kaydı iki sütun ve üç satıra kadar gösterir. Her hücrede küçük anahtar kelimenin altında daha büyük değer bulunur. `C24` ve `18A` gibi kısa değerler tek satırda görünür. Otopark konumu gibi uzun değerler iki satıra yayılabilir.
+Orta boy widget, Yığın’daki ilk altı uygun kaydı iki sütunlu, üç satırlı ızgarada gösterir. Kullanılmayan hücreler boş görünür ve ızgara çizgileri tüm satır ve sütunlar boyunca devam eder. Dolu hücrelerde küçük anahtar kelimenin altında daha büyük değer bulunur. `C24` ve `18A` gibi kısa değerler tek satırda görünür. Otopark konumu gibi uzun değerler iki satıra yayılabilir.
 
 Mindrop ana ekranında **Yığın** başlığı ve şevron, Genel’in hemen üstündeki ızgaranın üzerinde yer alır. Önizleme Yığın ekranını açar. Yığın boşken **Kayıt Seç** düğmesi doğrudan kayıt seçiciyi açar. Önizleme ve Ana Ekran widget’ı aynı kayıt sırasını ve ızgara yerleşimini kullanacak şekilde tasarlanır.
 
