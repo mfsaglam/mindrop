@@ -16,6 +16,7 @@ struct MemoryListView: View {
     let repository: MemoryRepository
     let session: MindropSession
     var folderID: UUID? = nil
+    var folderPullFeedback: FolderPullFeedback? = nil
 
     @State private var query = ""
     @State private var isSearching = false
@@ -81,6 +82,10 @@ struct MemoryListView: View {
         }
         .contentMargins(.horizontal, 16, for: .scrollContent)
         .contentMargins(.bottom, 24, for: .scrollContent)
+        .modifier(FolderPullScrollFeedback(
+            feedback: folderPullFeedback,
+            enabled: isShowingFolders && !isSearching && sheet == nil && session.path.isEmpty
+        ))
         .animation(.default, value: showsSections)
         .navigationTitle(folderID.map { repository.folders.title(for: $0) } ?? Text("Mindrop"))
         .searchable(text: $query, isPresented: $isSearching, placement: .toolbar, prompt: "Search memories")
