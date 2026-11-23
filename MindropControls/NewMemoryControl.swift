@@ -8,6 +8,7 @@ struct MindropControls: WidgetBundle {
     var body: some Widget {
         NewMemoryControl()
         ScanValueControl()
+        LockScreenStackWidget()
     }
 }
 

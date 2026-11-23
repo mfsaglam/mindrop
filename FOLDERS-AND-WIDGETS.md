@@ -47,6 +47,8 @@ Anahtar kelimeyi ve değeri girip kaydetmek temel akıştır. Kullanıcı klasö
 - Widget, düzenin kapasitesine göre Yığın’ın başından uygun kayıtları alır.
 - Widget’ın ekrana yerleştirilmesi iOS üzerinden yapılır. Kullanıcı widget’ı ekledikten sonra içeriği Mindrop’tan yönetir. Yenilemenin zamanlamasını iOS belirler. [Widget ekleme](https://support.apple.com/en-us/118610) · [Widget yenileme](https://developer.apple.com/documentation/widgetkit/keeping-a-widget-up-to-date/)
 - Hassas kayıtların değerlerine ve QR kodlarına Mindrop’taki kilit açma akışı üzerinden erişilir. Widget yalnızca hassas olmayan değerleri gösterir.
+- Mindrop, sıralı ve uygun Yığın kayıtlarının gösterilecek anahtar kelimesini, değerini ve varsa bitiş tarihini widget’a özel App Group’taki `widget-stack.json` dosyasına yazar. Widget uzantısı bu dosyayı okur. Ana Ekran widget’ı da aynı kaynağı kullanacak.
+- Kopya değiştiğinde Mindrop dosyayı atomik olarak yeniler ve WidgetKit’ten güncelleme ister. Widget, görünür kayıtların bitiş tarihleri için sıradaki uygun kayıtları timeline’a önceden yerleştirir.
 
 ### Ana Ekran widget’ı ve uygulama önizlemesi
 
@@ -56,7 +58,7 @@ Mindrop ana ekranında **Yığın** başlığı ve şevron, Genel’in hemen üs
 
 ### Kilit ekranı düzenleri
 
-İlk odak, iPhone’da saatin altındaki dikdörtgen widget (`accessoryRectangular`). Beş düzenin tamamı Mindrop’ta sunulabilecek seçenekler olarak değerlendiriliyor. İlk deneme için Alt alta önerildi. Varsayılan düzen ve düzen seçiminin nereden yapılacağı açık.
+iPhone’da saatin altındaki dikdörtgen Yığın widget’ı (`accessoryRectangular`) beş düzen sunar. Varsayılan düzen Alt alta’dır. Kullanıcı kilit ekranını özelleştirirken eklenmiş widget’a dokunup **Düzen** alanından seçim yapar. Widget’a normal görünümde dokununca Mindrop’ta Yığın açılır.
 
 | Düzen | Kapasite | Yerleşim |
 | --- | --- | --- |
@@ -64,7 +66,7 @@ Mindrop ana ekranında **Yığın** başlığı ve şevron, Genel’in hemen üs
 | Alt alta | 2 kayıt | İki kayıt dikey dizilir. Her değer tam genişliği kullanır. `C24` ile `B2 · Mavi · 147` gibi farklı uzunluktaki değerler aynı anda okunabilir. |
 | Yan yana | 2 kayıt | Eşit iki sütunda anahtar kelimeler değerlerin üstünde yer alır. `C24` ve `18A` gibi kısa değerler için daha büyük yazı kullanılabilir. |
 | Öncelikli | 3 kayıt | Yığın’ın ilk kaydı üstte tam genişlikte ve daha büyük gösterilir. İki kısa kayıt altta yan yana yer alır. |
-| Dörtlü ızgara | En fazla 4 kısa kayıt | İki sütun ve iki satırda kapı, koltuk, oda ve dolap gibi kısa kayıtlar gösterilir. Uzun bir değere tam genişlik verip üç kayda düşen düzen de denenebilir. |
+| Dörtlü ızgara | En fazla 4 kısa kayıt | İki sütun ve iki satırda kapı, koltuk, oda ve dolap gibi kısa kayıtlar gösterilir. İlk değer bir sütuna sığmazsa üstte tam genişliği kullanır ve altta en fazla iki kayıt gösterilir. |
 
 Her düzende anahtar kelime ve değer birlikte okunabilmeli. Kapasiteyi kısa kodlar ve daha uzun değerlerle birlikte değerlendir. Taslaktaki `#263554` → `#101522` gradient’i duvar kâğıdını temsil eder. Widget, kilit ekranının sistem görünümüne uyum sağlar. [Apple’ın widget tasarım rehberi](https://developer.apple.com/design/human-interface-guidelines/widgets)
 

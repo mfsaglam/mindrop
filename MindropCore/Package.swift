@@ -9,6 +9,7 @@ let package = Package(
         .library(name: "MindropCore", targets: ["MindropCore"]),
         .library(name: "MindropSaveUI", targets: ["MindropSaveUI"]),
         .library(name: "MindropIntents", targets: ["MindropIntents"]),
+        .library(name: "MindropWidgetData", targets: ["MindropWidgetData"]),
     ],
     targets: [
         .target(name: "MindropCore"),
@@ -18,6 +19,7 @@ let package = Package(
             resources: [.process("Localizable.xcstrings")]
         ),
         .target(name: "MindropIntents"),
-        .testTarget(name: "MindropCoreTests", dependencies: ["MindropCore"]),
+        .target(name: "MindropWidgetData"),
+        .testTarget(name: "MindropCoreTests", dependencies: ["MindropCore", "MindropWidgetData"]),
     ]
 )

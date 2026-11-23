@@ -104,6 +104,7 @@ final class MindropSession {
     private(set) var cloudSync: CloudSync?
     #if os(iOS)
     private let watchLink: WatchLink
+    private let stackWidgetPublisher = StackWidgetPublisher()
     #else
     static let shared = MindropSession()
     private let macCapture = MacCapture()
@@ -159,6 +160,12 @@ final class MindropSession {
                 folders: folders,
                 stack: stack
             )
+            #if os(iOS)
+            repository.onStackContentChange = { [weak repository, stackWidgetPublisher] in
+                guard let repository else { return }
+                stackWidgetPublisher.publish(repository.stackMemories)
+            }
+            #endif
             try repository.load()
             #if os(macOS)
             try? repository.importMacShares()

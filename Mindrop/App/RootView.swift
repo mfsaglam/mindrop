@@ -1,5 +1,8 @@
 import MindropCore
 import SwiftUI
+#if os(iOS)
+import MindropWidgetData
+#endif
 
 enum LibraryRoute: Hashable {
     case folder(UUID)
@@ -90,6 +93,11 @@ struct RootView: View {
         }
         .environment(\.sensitiveAccess, session.sensitiveAccess)
         .task { await session.start() }
+        #if os(iOS)
+        .onOpenURL { url in
+            if url == StackWidgetSnapshot.stackURL { session.path = [.stack] }
+        }
+        #endif
         .onContinueUserActivity(SpotlightRouter.activityType) { activity in
             session.open(activity: activity)
         }
