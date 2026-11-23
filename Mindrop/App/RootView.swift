@@ -12,7 +12,20 @@ struct RootView: View {
     let session: MindropSession
     @Environment(\.scenePhase) private var scenePhase
     #if os(iOS)
+    @State private var libraryPullFeedback = FolderPullFeedback()
     @State private var folderPullFeedback = FolderPullFeedback()
+    @State private var stackPullFeedback = FolderPullFeedback()
+    @State private var recentlyDeletedPullFeedback = FolderPullFeedback()
+
+    private var activePullFeedback: FolderPullFeedback? {
+        switch session.path.last {
+        case nil: libraryPullFeedback
+        case .folder: folderPullFeedback
+        case .stack: stackPullFeedback
+        case .recentlyDeleted: recentlyDeletedPullFeedback
+        case .memory: nil
+        }
+    }
     #endif
 
     var body: some View {
@@ -30,26 +43,38 @@ struct RootView: View {
                 #else
                 ZStack(alignment: .top) {
                     NavigationStack(path: Binding(get: { session.path }, set: { session.path = $0 })) {
-                        MemoryListView(repository: repository, session: session, folderPullFeedback: folderPullFeedback)
+                        MemoryListView(repository: repository, session: session, folderPullFeedback: libraryPullFeedback)
                             .memoryScreenBackground(usesGradient: true)
                             .navigationDestination(for: LibraryRoute.self) { route in
                                 switch route {
                                 case .folder(let id):
-                                    MemoryListView(repository: repository, session: session, folderID: id)
-                                        .memoryScreenBackground(usesGradient: true)
+                                    MemoryListView(
+                                        repository: repository, session: session, folderID: id,
+                                        folderPullFeedback: folderPullFeedback
+                                    )
+                                    .memoryScreenBackground(usesGradient: true)
                                 case .memory(let id):
                                     MemoryDetailView(repository: repository, memoryID: id, highlight: session.highlight(for: id))
                                         .memoryScreenBackground(usesGradient: true)
                                 case .stack:
-                                    MemoryStackView(repository: repository)
+                                    MemoryStackView(
+                                        repository: repository, pullFeedback: stackPullFeedback,
+                                        isActiveScreen: session.path.last == .stack
+                                    )
                                 case .recentlyDeleted:
-                                    RecentlyDeletedView(repository: repository)
+                                    RecentlyDeletedView(
+                                        repository: repository, pullFeedback: recentlyDeletedPullFeedback,
+                                        isActiveScreen: session.path.last == .recentlyDeleted
+                                    )
                                 }
                             }
                     }
                     // The large navigation title stretches with the scroll view.
-                    FolderPullIndicator(feedback: folderPullFeedback)
-                        .zIndex(1)
+                    if let activePullFeedback {
+                        FolderPullIndicator(feedback: activePullFeedback)
+                            .id(ObjectIdentifier(activePullFeedback))
+                            .zIndex(1)
+                    }
                 }
                 .task {
                     if scenePhase == .active { session.refreshOnActivation() }

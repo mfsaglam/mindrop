@@ -5,35 +5,31 @@ import os
 import SwiftUI
 
 struct FolderPullScrollFeedback: ViewModifier {
-    let feedback: FolderPullFeedback?
+    let feedback: FolderPullFeedback
     let enabled: Bool
 
     @Environment(\.scenePhase) private var scenePhase
     private var isActive: Bool { enabled && scenePhase == .active }
 
     func body(content: Content) -> some View {
-        if let feedback {
-            content
-                .scrollBounceBehavior(enabled ? .always : .automatic)
-                .onScrollGeometryChange(for: CGFloat.self, of: Self.overscroll) { _, distance in
-                    if isActive { feedback.scroll(to: distance) }
+        content
+            .scrollBounceBehavior(enabled ? .always : .automatic)
+            .onScrollGeometryChange(for: CGFloat.self, of: Self.overscroll) { _, distance in
+                if isActive { feedback.scroll(to: distance) }
+            }
+            .onScrollPhaseChange { _, phase, context in
+                if isActive {
+                    feedback.phaseChanged(
+                        to: phase,
+                        at: Self.overscroll(context.geometry),
+                        viewportHeight: context.geometry.containerSize.height
+                    )
                 }
-                .onScrollPhaseChange { _, phase, context in
-                    if isActive {
-                        feedback.phaseChanged(
-                            to: phase,
-                            at: Self.overscroll(context.geometry),
-                            viewportHeight: context.geometry.containerSize.height
-                        )
-                    }
-                }
-                .onChange(of: isActive) { _, active in
-                    if !active { feedback.reset() }
-                }
-                .onDisappear(perform: feedback.reset)
-        } else {
-            content
-        }
+            }
+            .onChange(of: isActive) { _, active in
+                if !active { feedback.reset() }
+            }
+            .onDisappear(perform: feedback.reset)
     }
 
     private nonisolated static func overscroll(_ geometry: ScrollGeometry) -> CGFloat {

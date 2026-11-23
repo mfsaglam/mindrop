@@ -6,6 +6,10 @@ import SwiftUI
 /// All ends every one of them.
 struct RecentlyDeletedView: View {
     let repository: MemoryRepository
+    #if os(iOS)
+    let pullFeedback: FolderPullFeedback
+    let isActiveScreen: Bool
+    #endif
 
     /// The memory the user chose to delete for good, waiting for them to confirm.
     @State private var pendingDeletion: Memory?
@@ -123,6 +127,10 @@ struct RecentlyDeletedView: View {
         }
         .contentMargins(.horizontal, memories.isEmpty ? 0 : 16, for: .scrollContent)
         .contentMargins(.bottom, 24, for: .scrollContent)
+        .modifier(FolderPullScrollFeedback(
+            feedback: pullFeedback,
+            enabled: isActiveScreen && pendingDeletion == nil && !isConfirmingDeleteAll && errorMessage == nil
+        ))
         .memoryScreenBackground(usesGradient: true)
         #endif
     }

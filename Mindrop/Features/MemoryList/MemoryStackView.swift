@@ -5,6 +5,9 @@ struct MemoryStackView: View {
     let repository: MemoryRepository
     #if os(macOS)
     let selection: Binding<UUID?>
+    #else
+    let pullFeedback: FolderPullFeedback
+    let isActiveScreen: Bool
     #endif
 
     @State private var showsPicker = false
@@ -55,6 +58,10 @@ struct MemoryStackView: View {
         #else
         List { rows(memories) }
             .listStyle(.plain)
+            .modifier(FolderPullScrollFeedback(
+                feedback: pullFeedback,
+                enabled: isActiveScreen && !showsPicker && !changeFailed
+            ))
             .navigationLinkIndicatorVisibility(.hidden)
             .onLeadingPage()
             .memoryScreenBackground(usesGradient: true)

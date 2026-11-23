@@ -16,7 +16,7 @@ struct MemoryListView: View {
     let repository: MemoryRepository
     let session: MindropSession
     var folderID: UUID? = nil
-    var folderPullFeedback: FolderPullFeedback? = nil
+    let folderPullFeedback: FolderPullFeedback
 
     @State private var query = ""
     @State private var isSearching = false
@@ -33,6 +33,12 @@ struct MemoryListView: View {
     private let newMemoryRequest = NewMemoryRequest.shared
 
     private var isShowingFolders: Bool { folderID == nil && query.allSatisfy(\.isWhitespace) }
+
+    private var canPullForFeedback: Bool {
+        guard !isSearching, query.allSatisfy(\.isWhitespace), sheet == nil else { return false }
+        if let folderID { return session.path.last == .folder(folderID) }
+        return session.path.isEmpty
+    }
 
     private var categories: [MemoryCategory] { repository.categories(in: folderID) }
 
@@ -84,7 +90,7 @@ struct MemoryListView: View {
         .contentMargins(.bottom, 24, for: .scrollContent)
         .modifier(FolderPullScrollFeedback(
             feedback: folderPullFeedback,
-            enabled: isShowingFolders && !isSearching && sheet == nil && session.path.isEmpty
+            enabled: canPullForFeedback
         ))
         .animation(.default, value: showsSections)
         .navigationTitle(folderID.map { repository.folders.title(for: $0) } ?? Text("Mindrop"))
@@ -138,7 +144,7 @@ struct MemoryListView: View {
         }
         .overlay {
             if !isShowingFolders, results.isEmpty, expiredResults.isEmpty {
-                emptyState.onLeadingPage()
+                emptyState.onLeadingPage().allowsHitTesting(false)
             }
         }
         // One sheet modifier for both: a second `.sheet` on the same view never presented.
