@@ -7,6 +7,7 @@ import SwiftUI
 struct FolderPullScrollFeedback: ViewModifier {
     let feedback: FolderPullFeedback
     let enabled: Bool
+    let onLaunch: () -> Void
 
     @Environment(\.scenePhase) private var scenePhase
     private var isActive: Bool { enabled && scenePhase == .active }
@@ -18,12 +19,13 @@ struct FolderPullScrollFeedback: ViewModifier {
                 if isActive { feedback.scroll(to: distance) }
             }
             .onScrollPhaseChange { _, phase, context in
-                if isActive {
-                    feedback.phaseChanged(
-                        to: phase,
-                        at: Self.overscroll(context.geometry),
-                        viewportHeight: context.geometry.containerSize.height
-                    )
+                guard isActive else { return }
+                if feedback.phaseChanged(
+                    to: phase,
+                    at: Self.overscroll(context.geometry),
+                    viewportHeight: context.geometry.containerSize.height
+                ) {
+                    onLaunch()
                 }
             }
             .onChange(of: isActive) { _, active in
@@ -139,22 +141,23 @@ final class FolderPullFeedback {
         max(0, (distance - Self.revealDistance) / (threshold - Self.revealDistance))
     }
 
-    func phaseChanged(to phase: ScrollPhase, at distance: CGFloat, viewportHeight: CGFloat) {
+    /// Returns true when the user releases an active pull at or beyond its threshold.
+    func phaseChanged(to phase: ScrollPhase, at distance: CGFloat, viewportHeight: CGFloat) -> Bool {
         if phase == .interacting {
-            guard !isDragging else { return }
+            guard !isDragging else { return false }
             isDragging = true
             // Keep the longer pull reachable in short iPad windows and stable during a drag.
             threshold = min(Self.maximumThreshold, max(60, viewportHeight * 0.25))
             self.distance = 0
             updateDrag(to: distance)
-            return
+            return false
         }
 
-        guard isDragging else { return }
+        guard isDragging else { return false }
         isDragging = false
         guard phase == .decelerating || phase == .idle else {
             self.distance = 0
-            return
+            return false
         }
 
         // Use the last actively dragged position before the scroll view rebounds.
@@ -163,9 +166,9 @@ final class FolderPullFeedback {
         withAnimation(.easeOut(duration: duration)) {
             self.distance = 0
         }
-        if tension >= 1 {
-            haptics.playLaunch(tension: tension)
-        }
+        guard tension >= 1 else { return false }
+        haptics.playLaunch(tension: tension)
+        return true
     }
 
     func scroll(to distance: CGFloat) {

@@ -60,7 +60,8 @@ struct MemoryStackView: View {
             .listStyle(.plain)
             .modifier(FolderPullScrollFeedback(
                 feedback: pullFeedback,
-                enabled: isActiveScreen && !showsPicker && !changeFailed
+                enabled: isActiveScreen && !showsPicker && !changeFailed,
+                onLaunch: { showsPicker = true }
             ))
             .navigationLinkIndicatorVisibility(.hidden)
             .onLeadingPage()

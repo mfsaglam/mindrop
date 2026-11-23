@@ -35,7 +35,7 @@ struct MemoryListView: View {
     private var isShowingFolders: Bool { folderID == nil && query.allSatisfy(\.isWhitespace) }
 
     private var canPullForFeedback: Bool {
-        guard !isSearching, query.allSatisfy(\.isWhitespace), sheet == nil else { return false }
+        guard !isSearching, query.allSatisfy(\.isWhitespace), !isSelecting, sheet == nil else { return false }
         if let folderID { return session.path.last == .folder(folderID) }
         return session.path.isEmpty
     }
@@ -90,7 +90,10 @@ struct MemoryListView: View {
         .contentMargins(.bottom, 24, for: .scrollContent)
         .modifier(FolderPullScrollFeedback(
             feedback: folderPullFeedback,
-            enabled: canPullForFeedback
+            enabled: canPullForFeedback,
+            onLaunch: {
+                if folderID == nil { createFolder() } else { createMemory() }
+            }
         ))
         .animation(.default, value: showsSections)
         .navigationTitle(folderID.map { repository.folders.title(for: $0) } ?? Text("Mindrop"))
@@ -108,9 +111,7 @@ struct MemoryListView: View {
                     )
                 } else {
                     if folderID == nil {
-                        Button("New Folder", systemImage: "folder.badge.plus") {
-                            sheet = .newFolder
-                        }
+                        Button("New Folder", systemImage: "folder.badge.plus", action: createFolder)
                         .labelStyle(.iconOnly)
                         .tint(Color(.folderAccent))
                     }
@@ -379,6 +380,10 @@ struct MemoryListView: View {
             }
         }
         .padding(.top, showsSections ? 0 : 12)
+    }
+
+    private func createFolder() {
+        sheet = .newFolder
     }
 
     private func createMemory() {

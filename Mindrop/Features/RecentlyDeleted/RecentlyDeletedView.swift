@@ -24,7 +24,7 @@ struct RecentlyDeletedView: View {
             .toolbar {
                 if !repository.deletedMemories.isEmpty {
                     ToolbarItem(placement: .primaryAction) {
-                        Button("Delete All", role: .destructive) { isConfirmingDeleteAll = true }
+                        Button("Delete All", role: .destructive, action: confirmDeleteAll)
                             .tint(.red)
                     }
                 }
@@ -129,7 +129,8 @@ struct RecentlyDeletedView: View {
         .contentMargins(.bottom, 24, for: .scrollContent)
         .modifier(FolderPullScrollFeedback(
             feedback: pullFeedback,
-            enabled: isActiveScreen && pendingDeletion == nil && !isConfirmingDeleteAll && errorMessage == nil
+            enabled: isActiveScreen && pendingDeletion == nil && !isConfirmingDeleteAll && errorMessage == nil,
+            onLaunch: confirmDeleteAll
         ))
         .memoryScreenBackground(usesGradient: true)
         #endif
@@ -162,6 +163,11 @@ struct RecentlyDeletedView: View {
         } catch {
             errorMessage = String(describing: error)
         }
+    }
+
+    private func confirmDeleteAll() {
+        guard !repository.deletedMemories.isEmpty else { return }
+        isConfirmingDeleteAll = true
     }
 
     private func deletePermanently(_ memory: Memory) {
