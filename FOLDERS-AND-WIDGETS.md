@@ -47,14 +47,18 @@ Anahtar kelimeyi ve değeri girip kaydetmek temel akıştır. Kullanıcı klasö
 - Widget, düzenin kapasitesine göre Yığın’ın başından uygun kayıtları alır.
 - Widget’ın ekrana yerleştirilmesi iOS üzerinden yapılır. Kullanıcı widget’ı ekledikten sonra içeriği Mindrop’tan yönetir. Yenilemenin zamanlamasını iOS belirler. [Widget ekleme](https://support.apple.com/en-us/118610) · [Widget yenileme](https://developer.apple.com/documentation/widgetkit/keeping-a-widget-up-to-date/)
 - Hassas kayıtların değerlerine ve QR kodlarına Mindrop’taki kilit açma akışı üzerinden erişilir. Widget yalnızca hassas olmayan değerleri gösterir.
-- Mindrop, sıralı ve uygun Yığın kayıtlarının gösterilecek anahtar kelimesini, değerini ve varsa bitiş tarihini widget’a özel App Group’taki `widget-stack.json` dosyasına yazar. Widget uzantısı bu dosyayı okur. Ana Ekran widget’ı da aynı kaynağı kullanacak.
+- Mindrop, sıralı ve uygun Yığın kayıtlarının gösterilecek anahtar kelimesini, değerini ve varsa bitiş tarihini widget’a özel App Group’taki `widget-stack.json` dosyasına yazar. Kilit ekranı ve Ana Ekran widget’ları bu dosyayı okur.
 - Kopya değiştiğinde Mindrop dosyayı atomik olarak yeniler ve WidgetKit’ten güncelleme ister. Widget, görünür kayıtların bitiş tarihleri için sıradaki uygun kayıtları timeline’a önceden yerleştirir.
 
 ### Ana Ekran widget’ı ve uygulama önizlemesi
 
+Küçük boy widget, Yığın’daki ilk uygun kaydı gösterir. Anahtar kelime iki, değer beş satıra kadar uzayabilir. Kısa değerler büyük yazıyla görünür. Uzun değerlerde yazı alana göre küçülür.
+
 Orta boy widget, Yığın’daki ilk altı uygun kaydı iki sütunlu, üç satırlı ızgarada gösterir. Kullanılmayan hücreler boş görünür ve ızgara çizgileri tüm satır ve sütunlar boyunca devam eder. Dolu hücrelerde küçük anahtar kelimenin altında daha büyük değer bulunur. `C24` ve `18A` gibi kısa değerler tek satırda görünür. Otopark konumu gibi uzun değerler iki satıra yayılabilir.
 
-Mindrop ana ekranında **Yığın** başlığı ve şevron, Genel’in hemen üstündeki ızgaranın üzerinde yer alır. Önizleme Yığın ekranını açar. Yığın boşken **Kayıt Seç** düğmesi doğrudan kayıt seçiciyi açar. Önizleme ve Ana Ekran widget’ı aynı kayıt sırasını ve ızgara yerleşimini kullanacak şekilde tasarlanır.
+İki boy da dokunulduğunda Mindrop’ta Yığın’ı açar. Yığın boşsa widget, kayıt seçme eylemini gösterir.
+
+Mindrop ana ekranında **Yığın** başlığı ve şevron, Genel’in hemen üstündeki ızgaranın üzerinde yer alır. Önizleme Yığın ekranını açar. Yığın boşken **Kayıt Seç** düğmesi doğrudan kayıt seçiciyi açar. Önizleme ve orta boy widget aynı ızgara bileşenini ve gradient’i kullanır.
 
 ### Kilit ekranı düzenleri
 
@@ -72,7 +76,6 @@ Her düzende anahtar kelime ve değer birlikte okunabilmeli. Kapasiteyi kısa ko
 
 ### Sonraki seçenekler
 
-- Ana ekranda küçük widget ile `Otopark` ve `B2 · Mavi · 147` gibi tek bir kayıt göstermek.
 - Widget ayarlarında Yığın’ın ilk kaydı ile kullanıcının sabitlediği belirli bir kayıt arasında seçim sunmak.
 - Kilit ekranında saatin üstünde kısa tek satır, saatin altında yuvarlak alanda ise `21` gibi birkaç karakter göstermek.
 - Kilit ekranının altına veya Denetim Merkezi’ne doğrudan kayıt ekranını açan bir **Yeni kayıt** kontrolü eklemek.

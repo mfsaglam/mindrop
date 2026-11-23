@@ -1,6 +1,7 @@
 #if os(iOS)
 import MindropCore
 import MindropIntents
+import MindropWidgetData
 import SwiftUI
 
 struct MemoryListView: View {
@@ -259,14 +260,10 @@ struct MemoryListView: View {
                     }
                     .padding(.horizontal, 2)
 
-                    StackWidgetGrid(memories: memories)
-                        .background(
-                            LinearGradient(
-                                colors: [Color(.stackPreviewTop), Color(.stackPreviewBottom)],
-                                startPoint: .topLeading, endPoint: .bottomTrailing
-                            ),
-                            in: .rect(cornerRadius: 23)
-                        )
+                    StackWidgetGrid(records: memories.prefix(StackWidgetGrid.capacity).map(
+                        StackWidgetSnapshot.Record.init(memory:)
+                    ))
+                        .background(StackWidgetGrid.background, in: .rect(cornerRadius: 23))
                         .overlay {
                             RoundedRectangle(cornerRadius: 23)
                                 .strokeBorder(.primary.opacity(0.12), lineWidth: 1)

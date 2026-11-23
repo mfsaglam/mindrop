@@ -5,6 +5,16 @@ import MindropWidgetData
 import OSLog
 import WidgetKit
 
+extension StackWidgetSnapshot.Record {
+    init(memory: Memory) {
+        self.init(
+            keyword: String(memory.keyword.prefix(128)),
+            value: String(memory.value.prefix(256)),
+            expiresAt: memory.expiresAt
+        )
+    }
+}
+
 @MainActor
 final class StackWidgetPublisher {
     private let logger = Logger(subsystem: "mfsaglam.Mindrop", category: "stack-widget")
@@ -12,13 +22,7 @@ final class StackWidgetPublisher {
 
     func publish(_ memories: [Memory]) {
         guard let url = StackWidgetSnapshot.fileURL else { return }
-        let snapshot = StackWidgetSnapshot(records: memories.map { memory in
-            StackWidgetSnapshot.Record(
-                keyword: String(memory.keyword.prefix(128)),
-                value: String(memory.value.prefix(256)),
-                expiresAt: memory.expiresAt
-            )
-        })
+        let snapshot = StackWidgetSnapshot(records: memories.map(StackWidgetSnapshot.Record.init(memory:)))
         if lastPublished == nil { lastPublished = StackWidgetSnapshot.read(from: url) }
         guard snapshot != lastPublished else { return }
 
@@ -33,6 +37,7 @@ final class StackWidgetPublisher {
             lastPublished = nil
         }
         WidgetCenter.shared.reloadTimelines(ofKind: StackWidgetSnapshot.lockScreenKind)
+        WidgetCenter.shared.reloadTimelines(ofKind: StackWidgetSnapshot.homeScreenKind)
     }
 }
 #endif

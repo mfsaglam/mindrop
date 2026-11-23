@@ -20,6 +20,7 @@ public struct StackWidgetSnapshot: Codable, Equatable, Sendable {
     }
 
     public static let lockScreenKind = "mfsaglam.Mindrop.Stack.LockScreen"
+    public static let homeScreenKind = "mfsaglam.Mindrop.Stack.HomeScreen"
     public static let stackURL = URL(string: "mindrop://stack")!
 
     public static var fileURL: URL? {

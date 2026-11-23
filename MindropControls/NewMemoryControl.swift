@@ -9,6 +9,7 @@ struct MindropControls: WidgetBundle {
         NewMemoryControl()
         ScanValueControl()
         LockScreenStackWidget()
+        HomeScreenStackWidget()
     }
 }
 

@@ -74,6 +74,8 @@
         }, {
           "target": "MindropControls",
           "inclusions": [
+            "Features/MemoryList/StackWidgetGrid.swift",
+            "Resources/StackWidgetColors.xcassets",
             "Resources/mindrop_icon.icon",
           ],
         }, {
