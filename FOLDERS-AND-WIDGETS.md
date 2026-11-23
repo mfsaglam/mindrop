@@ -56,7 +56,11 @@ Küçük boy widget, Yığın’daki ilk uygun kaydı gösterir. Anahtar kelime 
 
 Orta boy widget, Yığın’daki ilk altı uygun kaydı iki sütunlu, üç satırlı ızgarada gösterir. Kullanılmayan hücreler boş görünür ve ızgara çizgileri tüm satır ve sütunlar boyunca devam eder. Dolu hücrelerde küçük anahtar kelimenin altında daha büyük değer bulunur. `C24` ve `18A` gibi kısa değerler tek satırda görünür. Otopark konumu gibi uzun değerler iki satıra yayılabilir.
 
-İki boy da dokunulduğunda Mindrop’ta Yığın’ı açar. Yığın boşsa widget, kayıt seçme eylemini gösterir.
+Büyük boy widget iPhone ve iPad’de ilk dokuz uygun kaydı gösterir. İlk kayıt üstte tam genişlikte yer alır. Sonraki sekiz kayıt altta iki sütun ve dört satıra yerleşir.
+
+Çok büyük boy widget iPad’de ilk on iki uygun kaydı gösterir. İlk iki kayıt solda alt alta öne çıkar. Sonraki on kayıt sağda iki sütun ve beş satıra yerleşir.
+
+Öne çıkan kayıtları Yığın sırası belirler. Çok satırlı bir değerde ilk satırı daha büyük göster ve devamına daha küçük yazıyla yer ayır. Tüm boylar dokunulduğunda Mindrop’ta Yığın’ı açar. Yığın boşsa widget, kayıt seçme eylemini gösterir.
 
 Mindrop ana ekranında **Yığın** başlığı ve şevron, Genel’in hemen üstündeki ızgaranın üzerinde yer alır. Önizleme Yığın ekranını açar. Yığın boşken **Kayıt Seç** düğmesi doğrudan kayıt seçiciyi açar. Önizleme ve orta boy widget aynı ızgara bileşenini ve gradient’i kullanır.
 

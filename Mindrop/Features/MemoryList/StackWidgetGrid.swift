@@ -2,15 +2,16 @@
 import MindropWidgetData
 import SwiftUI
 
-/// The content of the medium Home Screen widget and its preview in Mindrop.
-/// The caller supplies the ordered memories and the surrounding surface.
+/// The two-column grid shared by the Home Screen widgets and the preview in Mindrop.
 struct StackWidgetGrid: View {
     let records: [StackWidgetSnapshot.Record]
     var fillsAvailableHeight = false
+    var rowCount = StackWidgetGrid.mediumRowCount
+    var inset: CGFloat = 8
 
-    private static let columnCount = 2
-    private static let rowCount = 3
-    static let capacity = columnCount * rowCount
+    static let columnCount = 2
+    static let mediumRowCount = 3
+    static let capacity = columnCount * mediumRowCount
 
     static var background: LinearGradient {
         LinearGradient(
@@ -23,18 +24,18 @@ struct StackWidgetGrid: View {
         Group {
             if fillsAvailableHeight {
                 GeometryReader { geometry in
-                    grid(rowHeight: geometry.size.height / CGFloat(Self.rowCount))
+                    grid(rowHeight: geometry.size.height / CGFloat(rowCount))
                 }
             } else {
                 grid(rowHeight: nil)
             }
         }
-        .padding(8)
+        .padding(inset)
     }
 
     private func grid(rowHeight: CGFloat?) -> some View {
         VStack(spacing: 0) {
-            ForEach(0..<Self.rowCount, id: \.self) { row in
+            ForEach(0..<rowCount, id: \.self) { row in
                 HStack(spacing: 0) {
                     ForEach(0..<Self.columnCount, id: \.self) { column in
                         cell(at: row * Self.columnCount + column, rowHeight: rowHeight)
@@ -42,17 +43,17 @@ struct StackWidgetGrid: View {
                 }
                 .overlay(alignment: .top) {
                     if row > 0 {
-                        divider.frame(height: 1)
+                        Self.divider.frame(height: 1)
                     }
                 }
             }
         }
         .overlay {
-            divider.frame(width: 1)
+            Self.divider.frame(width: 1)
         }
     }
 
-    private var divider: some View {
+    static var divider: some View {
         Rectangle()
             .fill(.primary.opacity(0.14))
             .allowsHitTesting(false)
