@@ -47,10 +47,19 @@ public final class MemoryFolders {
     }
 
     public func add(named rawName: String) throws {
-        let name = MemoryNormalizer.normalizeValue(rawName)
-        guard !name.isEmpty else { throw ValidationError.emptyName }
+        let name = try Self.validatedName(rawName)
         let folder = MemoryFolder(id: UUID(), name: name)
         try update { $0.folders.append(folder) }
+    }
+
+    public func rename(_ id: UUID, to rawName: String) throws {
+        let name = try Self.validatedName(rawName)
+        try update { index in
+            guard let position = index.folders.firstIndex(where: { $0.id == id }) else {
+                throw ValidationError.unknownFolder
+            }
+            index.folders[position] = MemoryFolder(id: id, name: name)
+        }
     }
 
     func assign(_ memoryID: UUID, to folderID: UUID) throws {
@@ -100,5 +109,11 @@ public final class MemoryFolders {
     private static func decode(_ data: Data?) throws -> Index {
         guard let data else { return Index() }
         return try JSONDecoder.mindrop.decode(Index.self, from: data)
+    }
+
+    private static func validatedName(_ rawName: String) throws -> String {
+        let name = MemoryNormalizer.normalizeValue(rawName)
+        guard !name.isEmpty else { throw ValidationError.emptyName }
+        return name
     }
 }

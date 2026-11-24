@@ -7,7 +7,7 @@ import SwiftUI
 struct MemoryListView: View {
     private enum Sheet: Hashable, Identifiable {
         case newMemory(folderID: UUID, scanning: Bool = false)
-        case newFolder
+        case folderEditor(FolderEditorView.Mode)
         case stackPicker
         case settings
 
@@ -111,7 +111,9 @@ struct MemoryListView: View {
                     )
                 } else {
                     if folderID == nil {
-                        Button("New Folder", systemImage: "folder.badge.plus", action: createFolder)
+                        Button("New Folder", systemImage: "folder.badge.plus") {
+                            sheet = .folderEditor(.create)
+                        }
                         .labelStyle(.iconOnly)
                         .tint(Color(.folderAccent))
                     }
@@ -155,8 +157,8 @@ struct MemoryListView: View {
                 MemoryEditorView(
                     mode: .create, repository: repository, startsScanning: scanning, folderID: folderID
                 )
-            case .newFolder:
-                NewFolderView(folders: repository.folders)
+            case .folderEditor(let mode):
+                FolderEditorView(folders: repository.folders, mode: mode)
             case .stackPicker:
                 StackMemoryPicker(repository: repository)
             case .settings:
@@ -210,17 +212,17 @@ struct MemoryListView: View {
             .buttonStyle(.plain)
             ForEach(repository.folders.custom) { folder in
                 Menu {
-                    Button(role: .destructive) {
-                        pendingFolderDeletion = folder
-                    } label: {
-                        Label("Delete Folder", systemImage: "trash")
-                    }
+                    FolderMenuActions(
+                        rename: { sheet = .folderEditor(.rename(folder.id)) },
+                        delete: { pendingFolderDeletion = folder }
+                    )
                 } label: {
                     folderLabel(Text(folder.name), count: counts[folder.id, default: 0])
                 } primaryAction: {
                     session.path.append(.folder(folder.id))
                 }
                 .buttonStyle(.plain)
+                .menuOrder(.fixed)
             }
             if deletedCount > 0 {
                 Menu {
@@ -389,10 +391,6 @@ struct MemoryListView: View {
             }
         }
         .padding(.top, showsSections ? 0 : 12)
-    }
-
-    private func createFolder() {
-        sheet = .newFolder
     }
 
     private func createMemory() {

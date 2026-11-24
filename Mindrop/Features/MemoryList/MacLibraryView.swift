@@ -20,7 +20,7 @@ struct MacLibraryView: View {
     @State private var pendingDeletion: [Memory] = []
     @State private var pendingFolderDeletion: MemoryFolder?
     @State private var changeFailed = false
-    @State private var showsNewFolder = false
+    @State private var folderEditor: FolderEditorView.Mode?
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
     @Environment(\.sensitiveAccess) private var sensitiveAccess
 
@@ -67,11 +67,10 @@ struct MacLibraryView: View {
                 ForEach(repository.folders.custom) { folder in
                     folderRow(Text(folder.name), area: .folder(folder.id))
                         .contextMenu {
-                            Button(role: .destructive) {
-                                pendingFolderDeletion = folder
-                            } label: {
-                                Label("Delete Folder", systemImage: "trash")
-                            }
+                            FolderMenuActions(
+                                rename: { folderEditor = .rename(folder.id) },
+                                delete: { pendingFolderDeletion = folder }
+                            )
                         }
                 }
                 if !repository.deletedMemories.isEmpty || area == .recentlyDeleted {
@@ -102,7 +101,7 @@ struct MacLibraryView: View {
         .focusedSceneValue(\.findMemories, { isSearching = true })
         .toolbar {
             ToolbarItem {
-                Button("New Folder", systemImage: "folder.badge.plus") { showsNewFolder = true }
+                Button("New Folder", systemImage: "folder.badge.plus") { folderEditor = .create }
             }
             ToolbarItem {
                 Button("New Memory", systemImage: "plus") {
@@ -145,8 +144,8 @@ struct MacLibraryView: View {
                 }
             }
         }
-        .sheet(isPresented: $showsNewFolder) {
-            NewFolderView(folders: repository.folders)
+        .sheet(item: $folderEditor) { mode in
+            FolderEditorView(folders: repository.folders, mode: mode)
         }
         .onChange(of: area) {
             selectedIDs = nil
