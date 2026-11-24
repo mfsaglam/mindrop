@@ -147,6 +147,11 @@ struct MacLibraryView: View {
         .sheet(item: $folderEditor) { mode in
             FolderEditorView(folders: repository.folders, mode: mode)
         }
+        .onChange(of: repository.folders.custom.map(\.id)) { _, ids in
+            if let folderID, folderID != MemoryFolders.generalID, !ids.contains(folderID) {
+                area = .folder(MemoryFolders.generalID)
+            }
+        }
         .onChange(of: area) {
             selectedIDs = nil
             if area == .recentlyDeleted || area == .stack {

@@ -56,6 +56,7 @@ public final class MemoryRepository {
         self.synchronizer = synchronizer
         self.categorizer = categorizer
         self.now = now
+        folders.onLocalChange = { [weak self] in self?.onLocalChange?() }
     }
 
     #if canImport(CoreSpotlight)
@@ -286,7 +287,7 @@ public final class MemoryRepository {
         return results(for: query).filter { !$0.isSensitive && !selected.contains($0.id) }
     }
 
-    public func isInStack(_ id: UUID) -> Bool { stack.ids.contains(id) }
+    public func isInStack(_ id: UUID) -> Bool { stack.contains(id) }
 
     public func isEligibleForStack(_ memory: Memory) -> Bool {
         !memory.isSensitive && !memory.isDeleted && !memory.isExpired(at: now())
@@ -299,6 +300,7 @@ public final class MemoryRepository {
         }
         try stack.setMembership(ids, included: included)
         onStackContentChange?()
+        onLocalChange?()
     }
 
     public func reorderStack(_ orderedIDs: [UUID]) throws {
@@ -308,6 +310,46 @@ public final class MemoryRepository {
         }
         try stack.reorder(orderedIDs)
         onStackContentChange?()
+        onLocalChange?()
+    }
+
+    var libraryRevisions: [CloudLibraryRecord.ID: LibraryRecordRevision] {
+        var revisions: [CloudLibraryRecord.ID: LibraryRecordRevision] = [:]
+        for (id, change) in folders.definitions {
+            revisions[.init(kind: .folder, uuid: id)] = LibraryRecord.folder(change).revision
+        }
+        for (id, change) in folders.placements {
+            revisions[.init(kind: .placement, uuid: id)] = LibraryRecord.placement(change).revision
+        }
+        for (id, change) in stack.positions {
+            revisions[.init(kind: .stack, uuid: id)] = LibraryRecord.stack(change).revision
+        }
+        return revisions
+    }
+
+    func libraryRecord(for id: CloudLibraryRecord.ID) -> LibraryRecord? {
+        switch id.kind {
+        case .folder: folders.definitions[id.uuid].map(LibraryRecord.folder)
+        case .placement: folders.placements[id.uuid].map(LibraryRecord.placement)
+        case .stack: stack.positions[id.uuid].map(LibraryRecord.stack)
+        }
+    }
+
+    func applyRemoteLibrary(_ records: [CloudLibraryRecord.ID: LibraryRecord]) throws {
+        var definitions: [UUID: LibraryChange<LibraryFolderDetails>] = [:]
+        var placements: [UUID: LibraryChange<UUID>] = [:]
+        var positions: [UUID: LibraryStackPosition] = [:]
+        for (id, record) in records {
+            switch record {
+            case .folder(let change): definitions[id.uuid] = change
+            case .placement(let change): placements[id.uuid] = change
+            case .stack(let change): positions[id.uuid] = change
+            }
+        }
+        try folders.applyRemote(definitions: definitions, placements: placements)
+        let previousStack = stack.positions
+        try stack.applyRemote(positions)
+        if stack.positions != previousStack { onStackContentChange?() }
     }
 
     @discardableResult

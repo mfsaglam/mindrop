@@ -80,6 +80,13 @@ struct RootView: View {
                             .zIndex(1)
                     }
                 }
+                .onChange(of: repository.folders.custom.map(\.id)) { _, ids in
+                    guard let removedFolder = session.path.firstIndex(where: { route in
+                        guard case .folder(let id) = route else { return false }
+                        return id != MemoryFolders.generalID && !ids.contains(id)
+                    }) else { return }
+                    session.path.removeSubrange(removedFolder...)
+                }
                 .task {
                     if scenePhase == .active { session.refreshOnActivation() }
                 }
