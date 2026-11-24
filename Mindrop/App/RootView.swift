@@ -62,7 +62,8 @@ struct RootView: View {
                                 case .stack:
                                     MemoryStackView(
                                         repository: repository, pullFeedback: stackPullFeedback,
-                                        isActiveScreen: session.path.last == .stack
+                                        isActiveScreen: session.path.last == .stack,
+                                        openMemory: { session.path.append(.memory($0)) }
                                     )
                                 case .recentlyDeleted:
                                     RecentlyDeletedView(

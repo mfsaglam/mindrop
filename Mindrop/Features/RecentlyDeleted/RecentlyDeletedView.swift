@@ -29,11 +29,8 @@ struct RecentlyDeletedView: View {
                     }
                 }
             }
-            .alert("Delete All for Good?", isPresented: $isConfirmingDeleteAll) {
-                Button("Delete All", role: .destructive) { deleteAllPermanently() }
-                Button("Cancel", role: .cancel) {}
-            } message: {
-                Text("Every memory in Recently Deleted will be deleted on all your devices. This can’t be undone.")
+            .emptyTrashAlert(isPresented: $isConfirmingDeleteAll, repository: repository) { error in
+                errorMessage = String(describing: error)
             }
             .alert(
                 deletionTitle,
@@ -67,26 +64,17 @@ struct RecentlyDeletedView: View {
                     .foregroundStyle(.secondary)
 
                 ForEach(memories) { memory in
-                    HStack {
+                    MacMemoryActionsRow {
                         VStack(alignment: .leading, spacing: 0) {
                             MacMemoryRow(memory: memory)
                             if let date = memory.deletedForGoodDate {
                                 DeletedMemoryCountdown(date: date)
                             }
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.bottom, 4)
-
-                        Menu {
-                            actions(for: memory)
-                        } label: {
-                            Label("Actions", systemImage: "ellipsis.circle")
-                                .labelStyle(.iconOnly)
-                        }
-                        .menuStyle(.borderlessButton)
-                        .fixedSize()
+                    } actions: {
+                        actions(for: memory)
                     }
-                    .contextMenu { actions(for: memory) }
                 }
             }
         }
@@ -157,14 +145,6 @@ struct RecentlyDeletedView: View {
         }
     }
 
-    private func deleteAllPermanently() {
-        do {
-            try repository.deletePermanently(ids: repository.deletedMemories.map(\.id))
-        } catch {
-            errorMessage = String(describing: error)
-        }
-    }
-
     private func confirmDeleteAll() {
         guard !repository.deletedMemories.isEmpty else { return }
         isConfirmingDeleteAll = true
@@ -175,6 +155,26 @@ struct RecentlyDeletedView: View {
             try repository.deletePermanently(ids: [memory.id])
         } catch {
             errorMessage = String(describing: error)
+        }
+    }
+}
+
+extension View {
+    @MainActor
+    func emptyTrashAlert(
+        isPresented: Binding<Bool>, repository: MemoryRepository, onError: @escaping (Error) -> Void
+    ) -> some View {
+        alert("Delete All for Good?", isPresented: isPresented) {
+            Button("Delete All", role: .destructive) {
+                do {
+                    try repository.deletePermanently(ids: repository.deletedMemories.map(\.id))
+                } catch {
+                    onError(error)
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Every memory in Recently Deleted will be deleted on all your devices. This can’t be undone.")
         }
     }
 }

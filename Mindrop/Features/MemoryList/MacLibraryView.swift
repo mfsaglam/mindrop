@@ -285,28 +285,29 @@ struct MacLibraryView: View {
             if isSelecting {
                 selectionRow(memory)
             } else {
-                MacMemoryRow(memory: memory, query: query, isSelected: session.selectedMemoryID == memory.id)
-                    .tag(memory.id)
-                    .contextMenu {
-                        if sensitiveAccess.canShow(memory) {
-                            Button("Copy") { Clipboard.copy(memory.value) }
-                        }
-                        if repository.isEligibleForStack(memory), !repository.isInStack(memory.id) {
-                            Button("Add to Stack", systemImage: "square.stack") {
-                                change { try repository.setStackMembership([memory.id], included: true) }
-                            }
-                        }
-                        if memory.isExpired(at: .now) {
-                            Button("Recover") { change { try repository.setExpiry(nil, for: memory) } }
-                        }
-                        if !repository.folders.custom.isEmpty {
-                            let source = repository.folders.folderID(for: memory.id)
-                            MoveToFolderMenu(folders: repository.folders, sourceFolderID: source) { id in
-                                change { try repository.move(memory, to: id) }
-                            }
-                        }
-                        Button("Delete", role: .destructive) { pendingDeletion = [memory] }
+                MacMemoryActionsRow {
+                    MacMemoryRow(memory: memory, query: query, isSelected: session.selectedMemoryID == memory.id)
+                } actions: {
+                    if sensitiveAccess.canShow(memory) {
+                        Button("Copy") { Clipboard.copy(memory.value) }
                     }
+                    if repository.isEligibleForStack(memory), !repository.isInStack(memory.id) {
+                        Button("Add to Stack", systemImage: "square.stack") {
+                            change { try repository.setStackMembership([memory.id], included: true) }
+                        }
+                    }
+                    if memory.isExpired(at: .now) {
+                        Button("Recover") { change { try repository.setExpiry(nil, for: memory) } }
+                    }
+                    if !repository.folders.custom.isEmpty {
+                        let source = repository.folders.folderID(for: memory.id)
+                        MoveToFolderMenu(folders: repository.folders, sourceFolderID: source) { id in
+                            change { try repository.move(memory, to: id) }
+                        }
+                    }
+                    Button("Delete", role: .destructive) { pendingDeletion = [memory] }
+                }
+                .tag(memory.id)
             }
         }
     }
@@ -339,6 +340,28 @@ struct MacLibraryView: View {
         } catch {
             changeFailed = true
         }
+    }
+}
+
+struct MacMemoryActionsRow<RowContent: View, Actions: View>: View {
+    @ViewBuilder let rowContent: () -> RowContent
+    @ViewBuilder let actions: () -> Actions
+
+    var body: some View {
+        HStack {
+            rowContent()
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            Menu {
+                actions()
+            } label: {
+                Label("Actions", systemImage: "ellipsis.circle")
+                    .labelStyle(.iconOnly)
+            }
+            .menuStyle(.borderlessButton)
+            .fixedSize()
+        }
+        .contextMenu { actions() }
     }
 }
 

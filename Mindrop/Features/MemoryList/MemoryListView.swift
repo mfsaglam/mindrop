@@ -27,6 +27,7 @@ struct MemoryListView: View {
     @State private var selectedIDs: Set<UUID>?
     @State private var pendingDeletion: [Memory] = []
     @State private var pendingFolderDeletion: MemoryFolder?
+    @State private var isConfirmingEmptyTrash = false
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
     @ScaledMetric(relativeTo: .title3) private var folderIconWidth: CGFloat = 24
     @Environment(\.sensitiveAccess) private var sensitiveAccess
@@ -185,6 +186,9 @@ struct MemoryListView: View {
         .folderDeletionAlert(for: $pendingFolderDeletion) { folder in
             change { try repository.deleteFolder(folder.id) }
         }
+        .emptyTrashAlert(isPresented: $isConfirmingEmptyTrash, repository: repository) { _ in
+            changeFailed = true
+        }
         .alert("Couldn’t save", isPresented: $changeFailed) {
             Button("OK", role: .cancel) {}
         } message: {
@@ -200,25 +204,37 @@ struct MemoryListView: View {
         return LazyVStack(spacing: 10) {
             stackPreview(repository.stackMemories)
                 .padding(.bottom, 6)
-            folderRow(
-                Text("General"), count: counts[MemoryFolders.generalID, default: 0],
-                route: .folder(MemoryFolders.generalID)
-            )
+            NavigationLink(value: LibraryRoute.folder(MemoryFolders.generalID)) {
+                folderLabel(Text("General"), count: counts[MemoryFolders.generalID, default: 0])
+            }
+            .buttonStyle(.plain)
             ForEach(repository.folders.custom) { folder in
-                folderRow(Text(folder.name), count: counts[folder.id, default: 0], route: .folder(folder.id))
-                    .contextMenu {
-                        Button(role: .destructive) {
-                            pendingFolderDeletion = folder
-                        } label: {
-                            Label("Delete Folder", systemImage: "trash")
-                        }
+                Menu {
+                    Button(role: .destructive) {
+                        pendingFolderDeletion = folder
+                    } label: {
+                        Label("Delete Folder", systemImage: "trash")
                     }
+                } label: {
+                    folderLabel(Text(folder.name), count: counts[folder.id, default: 0])
+                } primaryAction: {
+                    session.path.append(.folder(folder.id))
+                }
+                .buttonStyle(.plain)
             }
             if deletedCount > 0 {
-                folderRow(
-                    Text("Recently Deleted"), icon: Image("ix.trash.linear"),
-                    count: deletedCount, route: .recentlyDeleted
-                )
+                Menu {
+                    Button(role: .destructive) {
+                        isConfirmingEmptyTrash = true
+                    } label: {
+                        Label("Empty Trash", image: "ix.trash.linear")
+                    }
+                } label: {
+                    folderLabel(Text("Recently Deleted"), icon: Image("ix.trash.linear"), count: deletedCount)
+                } primaryAction: {
+                    session.path.append(.recentlyDeleted)
+                }
+                .buttonStyle(.plain)
             }
         }
         .padding(.top, 8)
@@ -284,38 +300,35 @@ struct MemoryListView: View {
         .font(.subheadline.weight(.semibold))
     }
 
-    private func folderRow(
-        _ title: Text, icon: Image = Image(systemName: "folder"), count: Int, route: LibraryRoute
+    private func folderLabel(
+        _ title: Text, icon: Image = Image(systemName: "folder"), count: Int
     ) -> some View {
-        NavigationLink(value: route) {
-            HStack(spacing: 12) {
-                icon
-                    .font(.title3)
-                    .foregroundStyle(Color(.folderAccent))
-                    .frame(width: folderIconWidth)
-                    .accessibilityHidden(true)
-                title
-                    .font(.headline)
-                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
-                Spacer(minLength: 0)
-                Text(count, format: .number)
-                    .monospacedDigit()
-                    .foregroundStyle(Color.primary.opacity(0.78))
-                    .accessibilityLabel(Text("Memory Count"))
-                    .accessibilityValue(Text(count, format: .number))
-                Image("ix.arrow-right-02.linear")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-                    .accessibilityHidden(true)
-            }
-            .padding(.horizontal, 18)
-            .padding(.vertical, 6)
-            .frame(minHeight: 60)
-            .contentShape(.rect)
-            .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 18))
-            .accessibilityElement(children: .combine)
+        HStack(spacing: 12) {
+            icon
+                .font(.title3)
+                .foregroundStyle(Color(.folderAccent))
+                .frame(width: folderIconWidth)
+                .accessibilityHidden(true)
+            title
+                .font(.headline)
+                .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
+            Spacer(minLength: 0)
+            Text(count, format: .number)
+                .monospacedDigit()
+                .foregroundStyle(Color.primary.opacity(0.78))
+                .accessibilityLabel(Text("Memory Count"))
+                .accessibilityValue(Text(count, format: .number))
+            Image("ix.arrow-right-02.linear")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(.tertiary)
+                .accessibilityHidden(true)
         }
-        .buttonStyle(.plain)
+        .padding(.horizontal, 18)
+        .padding(.vertical, 6)
+        .frame(minHeight: 60)
+        .contentShape(.rect(cornerRadius: 18))
+        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 18))
+        .accessibilityElement(children: .combine)
     }
 
     @ViewBuilder
@@ -351,15 +364,16 @@ struct MemoryListView: View {
                         if isSelecting {
                             selectionCard(memory, showsCategory: !showsSections)
                         } else {
-                            NavigationLink(value: LibraryRoute.memory(memory.id)) {
-                                MemoryCard(memory: memory, showsCategory: !showsSections, query: query)
-                            }
-                            .buttonStyle(.plain)
-                            .contextMenu {
+                            Menu {
                                 Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
                                 moveMenu(for: memory)
                                 deleteAction(for: memory)
+                            } label: {
+                                MemoryCard(memory: memory, showsCategory: !showsSections, query: query)
+                            } primaryAction: {
+                                session.path.append(.memory(memory.id))
                             }
+                            .buttonStyle(.plain)
                         }
                     }
                 } header: {
@@ -421,11 +435,7 @@ struct MemoryListView: View {
             if isSelecting {
                 selectionCard(memory, showsCategory: showsCategory)
             } else {
-                NavigationLink(value: LibraryRoute.memory(memory.id)) {
-                    MemoryCard(memory: memory, showsCategory: showsCategory, query: query)
-                }
-                .buttonStyle(.plain)
-                .contextMenu {
+                Menu {
                     if sensitiveAccess.canShow(memory) {
                         Button {
                             Clipboard.copy(memory.value)
@@ -440,7 +450,12 @@ struct MemoryListView: View {
                     }
                     moveMenu(for: memory)
                     deleteAction(for: memory)
+                } label: {
+                    MemoryCard(memory: memory, showsCategory: showsCategory, query: query)
+                } primaryAction: {
+                    session.path.append(.memory(memory.id))
                 }
+                .buttonStyle(.plain)
             }
         }
     }
