@@ -1,12 +1,13 @@
 #if os(iOS)
 import MindropCore
 import MindropIntents
+import MindropWidgetData
 import SwiftUI
 
 struct MemoryListView: View {
     private enum Sheet: Hashable, Identifiable {
         case newMemory(folderID: UUID, scanning: Bool = false)
-        case newFolder
+        case folderEditor(FolderEditorView.Mode)
         case stackPicker
         case settings
 
@@ -26,6 +27,7 @@ struct MemoryListView: View {
     @State private var selectedIDs: Set<UUID>?
     @State private var pendingDeletion: [Memory] = []
     @State private var pendingFolderDeletion: MemoryFolder?
+    @State private var isConfirmingEmptyTrash = false
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
     @ScaledMetric(relativeTo: .title3) private var folderIconWidth: CGFloat = 24
     @Environment(\.sensitiveAccess) private var sensitiveAccess
@@ -91,9 +93,7 @@ struct MemoryListView: View {
         .modifier(FolderPullScrollFeedback(
             feedback: folderPullFeedback,
             enabled: canPullForFeedback,
-            onLaunch: {
-                if folderID == nil { createFolder() } else { createMemory() }
-            }
+            onLaunch: createMemory
         ))
         .animation(.default, value: showsSections)
         .navigationTitle(folderID.map { repository.folders.title(for: $0) } ?? Text("Mindrop"))
@@ -111,11 +111,12 @@ struct MemoryListView: View {
                     )
                 } else {
                     if folderID == nil {
-                        Button("New Folder", systemImage: "folder.badge.plus", action: createFolder)
+                        Button("New Folder", systemImage: "folder.badge.plus") {
+                            sheet = .folderEditor(.create)
+                        }
                         .labelStyle(.iconOnly)
-                        .tint(Color(.folderAccent))
                     }
-                    Button(action: createMemory) { Label("New Memory", image: "ix.add.linear") }
+                    Button(action: createMemory) { Label("New Memory", systemImage: "plus") }
                 }
             }
             ToolbarSpacer(.flexible, placement: .bottomBar)
@@ -135,7 +136,7 @@ struct MemoryListView: View {
                 ToolbarSpacer(.fixed, placement: .bottomBar)
             } else {
                 ToolbarItemGroup(placement: .memoryLeading) {
-                    Button { sheet = .settings } label: { Label("Settings", image: "ix.setting-2.linear") }
+                    Button { sheet = .settings } label: { Label("Settings", systemImage: "gearshape") }
                     if !isShowingFolders, !categories.isEmpty {
                         categoryMenu
                     }
@@ -155,8 +156,8 @@ struct MemoryListView: View {
                 MemoryEditorView(
                     mode: .create, repository: repository, startsScanning: scanning, folderID: folderID
                 )
-            case .newFolder:
-                NewFolderView(folders: repository.folders)
+            case .folderEditor(let mode):
+                FolderEditorView(folders: repository.folders, mode: mode)
             case .stackPicker:
                 StackMemoryPicker(repository: repository)
             case .settings:
@@ -186,6 +187,9 @@ struct MemoryListView: View {
         .folderDeletionAlert(for: $pendingFolderDeletion) { folder in
             change { try repository.deleteFolder(folder.id) }
         }
+        .emptyTrashAlert(isPresented: $isConfirmingEmptyTrash, repository: repository) { _ in
+            changeFailed = true
+        }
         .alert("Couldn’t save", isPresented: $changeFailed) {
             Button("OK", role: .cancel) {}
         } message: {
@@ -201,25 +205,37 @@ struct MemoryListView: View {
         return LazyVStack(spacing: 10) {
             stackPreview(repository.stackMemories)
                 .padding(.bottom, 6)
-            folderRow(
-                Text("General"), count: counts[MemoryFolders.generalID, default: 0],
-                route: .folder(MemoryFolders.generalID)
-            )
+            NavigationLink(value: LibraryRoute.folder(MemoryFolders.generalID)) {
+                folderLabel(Text("General"), count: counts[MemoryFolders.generalID, default: 0])
+            }
+            .buttonStyle(.plain)
             ForEach(repository.folders.custom) { folder in
-                folderRow(Text(folder.name), count: counts[folder.id, default: 0], route: .folder(folder.id))
-                    .contextMenu {
-                        Button(role: .destructive) {
-                            pendingFolderDeletion = folder
-                        } label: {
-                            Label("Delete Folder", systemImage: "trash")
-                        }
-                    }
+                Menu {
+                    FolderMenuActions(
+                        rename: { sheet = .folderEditor(.rename(folder.id)) },
+                        delete: { pendingFolderDeletion = folder }
+                    )
+                } label: {
+                    folderLabel(Text(folder.name), count: counts[folder.id, default: 0])
+                } primaryAction: {
+                    session.path.append(.folder(folder.id))
+                }
+                .buttonStyle(.plain)
+                .menuOrder(.fixed)
             }
             if deletedCount > 0 {
-                folderRow(
-                    Text("Recently Deleted"), icon: Image("ix.trash.linear"),
-                    count: deletedCount, route: .recentlyDeleted
-                )
+                Menu {
+                    Button(role: .destructive) {
+                        isConfirmingEmptyTrash = true
+                    } label: {
+                        Label("Empty Trash", systemImage: "trash")
+                    }
+                } label: {
+                    folderLabel(Text("Recently Deleted"), icon: Image(systemName: "trash"), count: deletedCount)
+                } primaryAction: {
+                    session.path.append(.recentlyDeleted)
+                }
+                .buttonStyle(.plain)
             }
         }
         .padding(.top, 8)
@@ -252,21 +268,17 @@ struct MemoryListView: View {
                     HStack(spacing: 10) {
                         stackTitle
                         Spacer(minLength: 0)
-                        Image("ix.arrow-right-02.linear")
+                        Image(systemName: "chevron.forward")
                             .font(.footnote.weight(.semibold))
                             .foregroundStyle(.secondary)
                             .accessibilityHidden(true)
                     }
                     .padding(.horizontal, 2)
 
-                    StackWidgetGrid(memories: memories)
-                        .background(
-                            LinearGradient(
-                                colors: [Color(.stackPreviewTop), Color(.stackPreviewBottom)],
-                                startPoint: .topLeading, endPoint: .bottomTrailing
-                            ),
-                            in: .rect(cornerRadius: 23)
-                        )
+                    StackWidgetGrid(records: memories.prefix(StackWidgetGrid.capacity).map(
+                        StackWidgetSnapshot.Record.init(memory:)
+                    ))
+                        .background(StackWidgetGrid.background, in: .rect(cornerRadius: 23))
                         .overlay {
                             RoundedRectangle(cornerRadius: 23)
                                 .strokeBorder(.primary.opacity(0.12), lineWidth: 1)
@@ -289,38 +301,35 @@ struct MemoryListView: View {
         .font(.subheadline.weight(.semibold))
     }
 
-    private func folderRow(
-        _ title: Text, icon: Image = Image(systemName: "folder"), count: Int, route: LibraryRoute
+    private func folderLabel(
+        _ title: Text, icon: Image = Image(systemName: "folder"), count: Int
     ) -> some View {
-        NavigationLink(value: route) {
-            HStack(spacing: 12) {
-                icon
-                    .font(.title3)
-                    .foregroundStyle(Color(.folderAccent))
-                    .frame(width: folderIconWidth)
-                    .accessibilityHidden(true)
-                title
-                    .font(.headline)
-                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
-                Spacer(minLength: 0)
-                Text(count, format: .number)
-                    .monospacedDigit()
-                    .foregroundStyle(Color.primary.opacity(0.78))
-                    .accessibilityLabel(Text("Memory Count"))
-                    .accessibilityValue(Text(count, format: .number))
-                Image("ix.arrow-right-02.linear")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-                    .accessibilityHidden(true)
-            }
-            .padding(.horizontal, 18)
-            .padding(.vertical, 6)
-            .frame(minHeight: 60)
-            .contentShape(.rect)
-            .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 18))
-            .accessibilityElement(children: .combine)
+        HStack(spacing: 12) {
+            icon
+                .font(.title3)
+                .foregroundStyle(Color(.folderAccent))
+                .frame(width: folderIconWidth)
+                .accessibilityHidden(true)
+            title
+                .font(.headline)
+                .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
+            Spacer(minLength: 0)
+            Text(count, format: .number)
+                .monospacedDigit()
+                .foregroundStyle(Color.primary.opacity(0.78))
+                .accessibilityLabel(Text("Memory Count"))
+                .accessibilityValue(Text(count, format: .number))
+            Image(systemName: "chevron.forward")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(.tertiary)
+                .accessibilityHidden(true)
         }
-        .buttonStyle(.plain)
+        .padding(.horizontal, 18)
+        .padding(.vertical, 6)
+        .frame(minHeight: 60)
+        .contentShape(.rect(cornerRadius: 18))
+        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 18))
+        .accessibilityElement(children: .combine)
     }
 
     @ViewBuilder
@@ -340,7 +349,7 @@ struct MemoryListView: View {
                             if let category = section.category {
                                 category.label
                             } else {
-                                Label("No Category", image: "ix.tag.linear")
+                                Label("No Category", systemImage: "tag")
                             }
                         }
                         .sectionHeaderStyle()
@@ -356,19 +365,20 @@ struct MemoryListView: View {
                         if isSelecting {
                             selectionCard(memory, showsCategory: !showsSections)
                         } else {
-                            NavigationLink(value: LibraryRoute.memory(memory.id)) {
-                                MemoryCard(memory: memory, showsCategory: !showsSections, query: query)
-                            }
-                            .buttonStyle(.plain)
-                            .contextMenu {
-                                Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
+                            Menu {
+                                Button { recover(memory) } label: { Label("Recover", systemImage: "arrow.uturn.backward") }
                                 moveMenu(for: memory)
                                 deleteAction(for: memory)
+                            } label: {
+                                MemoryCard(memory: memory, showsCategory: !showsSections, query: query)
+                            } primaryAction: {
+                                session.path.append(.memory(memory.id))
                             }
+                            .buttonStyle(.plain)
                         }
                     }
                 } header: {
-                    Label("Expired", image: "ix.calendar-remove.linear")
+                    Label("Expired", systemImage: "calendar.badge.minus")
                         .sectionHeaderStyle()
                 } footer: {
                     Text("Expired memories are deleted for good 7 days after they expire.")
@@ -382,10 +392,6 @@ struct MemoryListView: View {
         .padding(.top, showsSections ? 0 : 12)
     }
 
-    private func createFolder() {
-        sheet = .newFolder
-    }
-
     private func createMemory() {
         sheet = .newMemory(folderID: folderID ?? MemoryFolders.generalID)
     }
@@ -393,13 +399,16 @@ struct MemoryListView: View {
     private var categoryMenu: some View {
         Menu {
             Picker("Category", selection: $categoryFilter) {
-                Label("All", image: "ix.layer.linear").tag(MemoryCategory?.none)
+                Label("All", systemImage: "line.3.horizontal.decrease").tag(MemoryCategory?.none)
                 ForEach(categories, id: \.self) { category in
                     category.menuLabel.tag(Optional(category))
                 }
             }
         } label: {
-            Label("Category", image: activeCategory == nil ? "ix.filter.linear" : "ix.filter.bold")
+            Label(
+                "Category",
+                systemImage: activeCategory == nil ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill"
+            )
         }
     }
 
@@ -426,16 +435,12 @@ struct MemoryListView: View {
             if isSelecting {
                 selectionCard(memory, showsCategory: showsCategory)
             } else {
-                NavigationLink(value: LibraryRoute.memory(memory.id)) {
-                    MemoryCard(memory: memory, showsCategory: showsCategory, query: query)
-                }
-                .buttonStyle(.plain)
-                .contextMenu {
+                Menu {
                     if sensitiveAccess.canShow(memory) {
                         Button {
                             Clipboard.copy(memory.value)
                         } label: {
-                            Label("Copy", image: "ix.copy.linear")
+                            Label("Copy", systemImage: "document.on.document")
                         }
                     }
                     if repository.isEligibleForStack(memory), !repository.isInStack(memory.id) {
@@ -445,7 +450,12 @@ struct MemoryListView: View {
                     }
                     moveMenu(for: memory)
                     deleteAction(for: memory)
+                } label: {
+                    MemoryCard(memory: memory, showsCategory: showsCategory, query: query)
+                } primaryAction: {
+                    session.path.append(.memory(memory.id))
                 }
+                .buttonStyle(.plain)
             }
         }
     }
@@ -480,7 +490,7 @@ struct MemoryListView: View {
         Button(role: .destructive) {
             pendingDeletion = [memory]
         } label: {
-            Label("Delete", image: "ix.trash.linear")
+            Label("Delete", systemImage: "trash")
         }
     }
 
@@ -524,7 +534,7 @@ struct MemoryCard: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 5) {
                 if showsCategory, let category = memory.category?.category {
-                    Image(category.symbolName)
+                    Image(systemName: category.symbolName)
                         .symbolRenderingMode(.hierarchical)
                         .foregroundStyle(category.tint)
                         .accessibilityLabel(Text(category.title))

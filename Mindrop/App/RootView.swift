@@ -1,5 +1,8 @@
 import MindropCore
 import SwiftUI
+#if os(iOS)
+import MindropWidgetData
+#endif
 
 enum LibraryRoute: Hashable {
     case folder(UUID)
@@ -59,7 +62,8 @@ struct RootView: View {
                                 case .stack:
                                     MemoryStackView(
                                         repository: repository, pullFeedback: stackPullFeedback,
-                                        isActiveScreen: session.path.last == .stack
+                                        isActiveScreen: session.path.last == .stack,
+                                        openMemory: { session.path.append(.memory($0)) }
                                     )
                                 case .recentlyDeleted:
                                     RecentlyDeletedView(
@@ -82,7 +86,7 @@ struct RootView: View {
                 #endif
             case .failed:
                 ContentUnavailableView {
-                    Label("Mindrop can’t open your memories", image: "ix.danger.linear")
+                    Label("Mindrop can’t open your memories", systemImage: "exclamationmark.triangle")
                 } description: {
                     Text("Try closing Mindrop and opening it again.")
                 }
@@ -90,6 +94,11 @@ struct RootView: View {
         }
         .environment(\.sensitiveAccess, session.sensitiveAccess)
         .task { await session.start() }
+        #if os(iOS)
+        .onOpenURL { url in
+            if url == StackWidgetSnapshot.stackURL { session.path = [.stack] }
+        }
+        #endif
         .onContinueUserActivity(SpotlightRouter.activityType) { activity in
             session.open(activity: activity)
         }

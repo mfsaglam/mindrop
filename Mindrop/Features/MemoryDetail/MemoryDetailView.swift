@@ -24,7 +24,7 @@ struct MemoryDetailView: View {
         } else {
             // Reachable from a Spotlight result whose memory has since been deleted.
             ContentUnavailableView {
-                Label("Memory Not Found", image: "ix.info-circle.linear")
+                Label("Memory Not Found", systemImage: "info.circle")
             } description: {
                 Text("This memory is no longer saved in Mindrop.")
             }
@@ -74,7 +74,7 @@ struct MemoryDetailView: View {
                         isEditing = true
                     }
                 } label: {
-                    Label("Edit", image: "ix.edit-2.linear")
+                    Label("Edit", systemImage: "pencil")
                 }
             }
         }
@@ -179,7 +179,7 @@ struct MemoryDetailView: View {
                         HiddenValue()
                             .font(.largeTitle)
                             .foregroundStyle(.secondary)
-                        Label("Show Value", image: "ix.unlock.linear")
+                        Label("Show Value", systemImage: "lock.open")
                             .font(.body.weight(.medium))
                             .foregroundStyle(.tint)
                     }
@@ -204,9 +204,9 @@ struct MemoryDetailView: View {
                 } label: {
                     Group {
                         if didCopy {
-                            Label("Copied", image: "ix.tick-circle.linear")
+                            Label("Copied", systemImage: "checkmark.circle")
                         } else {
-                            Label("Copy", image: "ix.copy.linear")
+                            Label("Copy", systemImage: "document.on.document")
                         }
                     }
                     .font(.headline)
@@ -218,7 +218,7 @@ struct MemoryDetailView: View {
                 .tint(memory.category?.category.tint)
 
                 ShareLink(item: memory.value) {
-                    Label("Share", image: "ix.export-arrow-01.linear")
+                    Label("Share", systemImage: "square.and.arrow.up")
                         .labelStyle(.iconOnly)
                         .font(.headline)
                         .padding(6)
@@ -227,7 +227,7 @@ struct MemoryDetailView: View {
 
                 if let action = MemoryAction(memory: memory) {
                     Link(destination: action.url) {
-                        Label { Text(action.title) } icon: { Image(action.symbolName) }
+                        Label { Text(action.title) } icon: { Image(systemName: action.symbolName) }
                             .labelStyle(.iconOnly)
                             .font(.headline)
                             .padding(6)
@@ -257,7 +257,7 @@ struct MemoryDetailView: View {
                             .foregroundStyle(.secondary)
                     }
                     Spacer(minLength: 0)
-                    Button { setExpiry(nil, for: memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
+                    Button { setExpiry(nil, for: memory) } label: { Label("Recover", systemImage: "arrow.uturn.backward") }
                         .font(.footnote.weight(.medium))
                     #if os(macOS)
                     .buttonStyle(.bordered)
@@ -276,7 +276,7 @@ struct MemoryDetailView: View {
                         Label {
                             Text(expiresAt, format: .relative(presentation: .named))
                         } icon: {
-                            Image("ix.timer.linear")
+                            Image(systemName: "timer")
                         }
                         #if os(iOS)
                         .font(.footnote.weight(.medium))
@@ -302,18 +302,18 @@ struct MemoryDetailView: View {
         Button {
             setExpiry(expiresAt.addingTimeInterval(24 * 60 * 60), for: memory)
         } label: {
-            Label("1 More Day", image: "ix.add.linear")
+            Label("1 More Day", systemImage: "plus")
         }
         Button {
             setExpiry(expiresAt.addingTimeInterval(7 * 24 * 60 * 60), for: memory)
         } label: {
-            Label("1 More Week", image: "ix.add.linear")
+            Label("1 More Week", systemImage: "plus")
         }
         #if os(macOS)
         Divider()
         #endif
         Button { setExpiry(nil, for: memory) } label: {
-            Label("Keep Forever", image: "ix.timer-pause.linear")
+            Label("Keep Forever", systemImage: "infinity")
         }
     }
 
@@ -359,7 +359,7 @@ struct MemoryDetailView: View {
                 Text("Automatic").tag(MemoryCategory?.none)
             }
             #else
-            Label("Automatic", image: "ix.magic-star.linear").tag(MemoryCategory?.none)
+            Label("Automatic", systemImage: "sparkles").tag(MemoryCategory?.none)
             #endif
             ForEach(MemoryCategory.allCases, id: \.self) { category in
                 #if os(macOS)

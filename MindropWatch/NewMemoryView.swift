@@ -31,7 +31,7 @@ struct NewMemoryView: View {
 
                 Section {
                     Button(action: save) {
-                        Label("Save", image: "ix.add.linear")
+                        Label("Save", systemImage: "plus")
                             .labelStyle(.titleAndIcon)
                             .font(.headline)
                             .foregroundStyle(.black)
@@ -68,7 +68,7 @@ struct NewMemoryView: View {
 
     private var savedConfirmation: some View {
         VStack(spacing: 8) {
-            Image("ix.tick-circle.linear")
+            Image(systemName: "checkmark.circle")
                 .font(.system(size: 44))
             Text("Saved")
                 .font(.headline)

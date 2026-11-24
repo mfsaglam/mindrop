@@ -77,6 +77,8 @@ struct MemoryStackTests {
         try folders.add(named: "Travel")
         let travel = try #require(folders.custom.first)
         let (repository, store, _) = try makeRepository(folders: folders, stack: stack)
+        var published = false
+        repository.onStackContentChange = { published = true }
         store.saveError = InMemoryMemoryStore.Failure.disk
 
         #expect(throws: InMemoryMemoryStore.Failure.disk) {
@@ -84,5 +86,33 @@ struct MemoryStackTests {
         }
         #expect(stack.ids.isEmpty)
         #expect(repository.memories.isEmpty)
+        #expect(!published)
+    }
+
+    @Test("Stack publication observes persisted text, membership, and privacy changes, including remote edits")
+    func observesStackChanges() throws {
+        let (repository, _, _) = try makeRepository()
+        var lastPublished: [String] = []
+        repository.onStackContentChange = { [weak repository] in
+            lastPublished = repository?.stackMemories.map(\.value) ?? []
+        }
+
+        let gate = try repository.create(keyword: "departure gate", value: "C24", addsToStack: true)
+        let seat = try repository.create(keyword: "flight seat", value: "18A")
+        #expect(lastPublished == ["C24"])
+        try repository.setStackMembership([seat.id], included: true)
+        try repository.reorderStack([seat.id, gate.id])
+        #expect(lastPublished == ["18A", "C24"])
+
+        var remote = gate
+        remote.isSensitive = true
+        remote.modifiedAt = gate.modifiedAt.addingTimeInterval(60)
+        try repository.applyRemote([remote], deletedIDs: [])
+        #expect(lastPublished == ["18A"])
+
+        _ = try repository.update(seat, keyword: seat.keyword, value: "22B")
+        #expect(lastPublished == ["22B"])
+        try repository.delete(ids: [seat.id])
+        #expect(lastPublished.isEmpty)
     }
 }

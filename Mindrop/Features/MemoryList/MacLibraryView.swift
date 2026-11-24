@@ -20,7 +20,7 @@ struct MacLibraryView: View {
     @State private var pendingDeletion: [Memory] = []
     @State private var pendingFolderDeletion: MemoryFolder?
     @State private var changeFailed = false
-    @State private var showsNewFolder = false
+    @State private var folderEditor: FolderEditorView.Mode?
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
     @Environment(\.sensitiveAccess) private var sensitiveAccess
 
@@ -67,11 +67,10 @@ struct MacLibraryView: View {
                 ForEach(repository.folders.custom) { folder in
                     folderRow(Text(folder.name), area: .folder(folder.id))
                         .contextMenu {
-                            Button(role: .destructive) {
-                                pendingFolderDeletion = folder
-                            } label: {
-                                Label("Delete Folder", systemImage: "trash")
-                            }
+                            FolderMenuActions(
+                                rename: { folderEditor = .rename(folder.id) },
+                                delete: { pendingFolderDeletion = folder }
+                            )
                         }
                 }
                 if !repository.deletedMemories.isEmpty || area == .recentlyDeleted {
@@ -102,7 +101,7 @@ struct MacLibraryView: View {
         .focusedSceneValue(\.findMemories, { isSearching = true })
         .toolbar {
             ToolbarItem {
-                Button("New Folder", systemImage: "folder.badge.plus") { showsNewFolder = true }
+                Button("New Folder", systemImage: "folder.badge.plus") { folderEditor = .create }
             }
             ToolbarItem {
                 Button("New Memory", systemImage: "plus") {
@@ -145,8 +144,8 @@ struct MacLibraryView: View {
                 }
             }
         }
-        .sheet(isPresented: $showsNewFolder) {
-            NewFolderView(folders: repository.folders)
+        .sheet(item: $folderEditor) { mode in
+            FolderEditorView(folders: repository.folders, mode: mode)
         }
         .onChange(of: area) {
             selectedIDs = nil
@@ -285,28 +284,29 @@ struct MacLibraryView: View {
             if isSelecting {
                 selectionRow(memory)
             } else {
-                MacMemoryRow(memory: memory, query: query, isSelected: session.selectedMemoryID == memory.id)
-                    .tag(memory.id)
-                    .contextMenu {
-                        if sensitiveAccess.canShow(memory) {
-                            Button("Copy") { Clipboard.copy(memory.value) }
-                        }
-                        if repository.isEligibleForStack(memory), !repository.isInStack(memory.id) {
-                            Button("Add to Stack", systemImage: "square.stack") {
-                                change { try repository.setStackMembership([memory.id], included: true) }
-                            }
-                        }
-                        if memory.isExpired(at: .now) {
-                            Button("Recover") { change { try repository.setExpiry(nil, for: memory) } }
-                        }
-                        if !repository.folders.custom.isEmpty {
-                            let source = repository.folders.folderID(for: memory.id)
-                            MoveToFolderMenu(folders: repository.folders, sourceFolderID: source) { id in
-                                change { try repository.move(memory, to: id) }
-                            }
-                        }
-                        Button("Delete", role: .destructive) { pendingDeletion = [memory] }
+                MacMemoryActionsRow {
+                    MacMemoryRow(memory: memory, query: query, isSelected: session.selectedMemoryID == memory.id)
+                } actions: {
+                    if sensitiveAccess.canShow(memory) {
+                        Button("Copy") { Clipboard.copy(memory.value) }
                     }
+                    if repository.isEligibleForStack(memory), !repository.isInStack(memory.id) {
+                        Button("Add to Stack", systemImage: "square.stack") {
+                            change { try repository.setStackMembership([memory.id], included: true) }
+                        }
+                    }
+                    if memory.isExpired(at: .now) {
+                        Button("Recover") { change { try repository.setExpiry(nil, for: memory) } }
+                    }
+                    if !repository.folders.custom.isEmpty {
+                        let source = repository.folders.folderID(for: memory.id)
+                        MoveToFolderMenu(folders: repository.folders, sourceFolderID: source) { id in
+                            change { try repository.move(memory, to: id) }
+                        }
+                    }
+                    Button("Delete", role: .destructive) { pendingDeletion = [memory] }
+                }
+                .tag(memory.id)
             }
         }
     }
@@ -339,6 +339,28 @@ struct MacLibraryView: View {
         } catch {
             changeFailed = true
         }
+    }
+}
+
+struct MacMemoryActionsRow<RowContent: View, Actions: View>: View {
+    @ViewBuilder let rowContent: () -> RowContent
+    @ViewBuilder let actions: () -> Actions
+
+    var body: some View {
+        HStack {
+            rowContent()
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            Menu {
+                actions()
+            } label: {
+                Label("Actions", systemImage: "ellipsis.circle")
+                    .labelStyle(.iconOnly)
+            }
+            .menuStyle(.borderlessButton)
+            .fixedSize()
+        }
+        .contextMenu { actions() }
     }
 }
 

@@ -5,6 +5,7 @@ import SwiftUI
 #if os(macOS)
 import AppKit
 #else
+import MindropWidgetData
 import UIKit
 #endif
 
@@ -40,7 +41,7 @@ struct MindropApp: App {
                     SettingsView(repository: repository, session: session)
                 case .failed:
                     ContentUnavailableView {
-                        Label("Mindrop can’t open your memories", image: "ix.danger.linear")
+                        Label("Mindrop can’t open your memories", systemImage: "exclamationmark.triangle")
                     } description: {
                         Text("Try closing Mindrop and opening it again.")
                     }
@@ -104,6 +105,7 @@ final class MindropSession {
     private(set) var cloudSync: CloudSync?
     #if os(iOS)
     private let watchLink: WatchLink
+    private let stackWidgetPublisher = StackWidgetPublisher()
     #else
     static let shared = MindropSession()
     private let macCapture = MacCapture()
@@ -159,6 +161,16 @@ final class MindropSession {
                 folders: folders,
                 stack: stack
             )
+            #if os(iOS)
+            repository.onStackContentChange = { [weak repository, stackWidgetPublisher, watchLink] in
+                guard let repository else { return }
+                let snapshot = StackWidgetSnapshot(
+                    records: repository.stackMemories.map(StackWidgetSnapshot.Record.init(memory:))
+                )
+                stackWidgetPublisher.publish(snapshot)
+                watchLink.setStackSnapshot(snapshot)
+            }
+            #endif
             try repository.load()
             #if os(macOS)
             try? repository.importMacShares()

@@ -19,16 +19,17 @@ enum SpotlightIcons {
         format.scale = 1
         let renderer = UIGraphicsImageRenderer(size: size, format: format)
         let light = UITraitCollection(userInterfaceStyle: .light)
-        // Iconsax Bulk, white, its soft parts a lighter white: the same two tones as in the app.
         let configuration = UIImage.SymbolConfiguration(pointSize: 56, weight: .semibold)
             .applying(UIImage.SymbolConfiguration(hierarchicalColor: .white))
 
         var icons: [MemoryCategory: Data] = [:]
         for category in MemoryCategory.allCases {
+            guard let symbol = UIImage(systemName: category.symbolName, withConfiguration: configuration) else {
+                continue
+            }
             icons[category] = renderer.pngData { _ in
                 UIColor(category.tint).resolvedColor(with: light).setFill()
                 UIBezierPath(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: 27).fill()
-                guard let symbol = UIImage(named: category.symbolName, in: nil, with: configuration) else { return }
                 symbol.draw(at: CGPoint(
                     x: (size.width - symbol.size.width) / 2,
                     y: (size.height - symbol.size.height) / 2
@@ -43,8 +44,8 @@ enum SpotlightIcons {
                 RoundedRectangle(cornerRadius: 27)
                     .fill(category.tint)
                     .overlay {
-                        Image(category.symbolName)
-                            .renderingMode(.template)
+                        Image(systemName: category.symbolName)
+                            .symbolRenderingMode(.hierarchical)
                             .font(.system(size: 56, weight: .semibold))
                             .foregroundStyle(.white)
                     }

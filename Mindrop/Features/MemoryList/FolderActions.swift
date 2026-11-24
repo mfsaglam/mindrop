@@ -1,30 +1,55 @@
 import MindropCore
 import SwiftUI
 
-struct NewFolderView: View {
+struct FolderEditorView: View {
+    enum Mode: Hashable, Identifiable {
+        case create
+        case rename(UUID)
+
+        var id: Self { self }
+    }
+
     let folders: MemoryFolders
+    let mode: Mode
 
     @Environment(\.dismiss) private var dismiss
     @FocusState private var nameFocused: Bool
-    @State private var name = ""
+    @State private var name: String
+    @State private var selection: TextSelection?
+    @State private var selectsNameOnFocus: Bool
     @State private var saveFailed = false
+
+    init(folders: MemoryFolders, mode: Mode) {
+        self.folders = folders
+        self.mode = mode
+        let initialName = switch mode {
+        case .create: ""
+        case .rename(let id): folders.custom.first { $0.id == id }?.name ?? ""
+        }
+        _name = State(initialValue: initialName)
+        _selectsNameOnFocus = State(initialValue: !initialName.isEmpty)
+    }
+
+    private var canSave: Bool { !MemoryNormalizer.normalizeValue(name).isEmpty }
 
     var body: some View {
         NavigationStack {
             MemorySheetForm {
-                TextField("Folder Name", text: $name)
+                TextField("Folder Name", text: $name, selection: $selection)
                     .focused($nameFocused)
                     .onSubmit(save)
             }
-            .navigationTitle("New Folder")
+            .navigationTitle(mode == .create ? Text("New Folder") : Text("Rename Folder"))
             .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", role: .cancel) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Create", action: save)
-                        .disabled(MemoryNormalizer.normalizeValue(name).isEmpty)
+                    Button(action: save) {
+                        mode == .create ? Text("Create") : Text("Save")
+                    }
+                    .disabled(!canSave)
                 }
             }
             .alert("Couldn’t save", isPresented: $saveFailed) {
@@ -33,6 +58,11 @@ struct NewFolderView: View {
                 Text("Please try again.")
             }
             .defaultFocus($nameFocused, true)
+            .onChange(of: nameFocused, initial: true) { _, focused in
+                guard focused, selectsNameOnFocus else { return }
+                selection = TextSelection(range: name.startIndex..<name.endIndex)
+                selectsNameOnFocus = false
+            }
             .onAppear {
                 #if os(macOS)
                 // The sheet can appear before AppKit makes its window key.
@@ -48,13 +78,26 @@ struct NewFolderView: View {
     }
 
     private func save() {
-        guard !MemoryNormalizer.normalizeValue(name).isEmpty else { return }
+        guard canSave else { return }
         do {
-            try folders.add(named: name)
+            switch mode {
+            case .create: try folders.add(named: name)
+            case .rename(let id): try folders.rename(id, to: name)
+            }
             dismiss()
         } catch {
             saveFailed = true
         }
+    }
+}
+
+struct FolderMenuActions: View {
+    let rename: () -> Void
+    let delete: () -> Void
+
+    var body: some View {
+        Button("Rename", systemImage: "pencil", action: rename)
+        Button("Delete Folder", systemImage: "trash", role: .destructive, action: delete)
     }
 }
 

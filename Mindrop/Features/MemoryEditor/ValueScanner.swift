@@ -46,7 +46,7 @@ struct ValueScanner: View {
                         }
                 default:
                     ContentUnavailableView {
-                        Label("Camera Access Is Off", image: "ix.scan.linear")
+                        Label("Camera Access Is Off", systemImage: "text.viewfinder")
                     } description: {
                         Text("Mindrop uses the camera to scan text and QR codes. You can turn on camera access in Settings.")
                     } actions: {

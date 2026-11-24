@@ -8,6 +8,7 @@ struct MemoryStackView: View {
     #else
     let pullFeedback: FolderPullFeedback
     let isActiveScreen: Bool
+    let openMemory: (UUID) -> Void
     #endif
 
     @State private var showsPicker = false
@@ -63,7 +64,6 @@ struct MemoryStackView: View {
                 enabled: isActiveScreen && !showsPicker && !changeFailed,
                 onLaunch: { showsPicker = true }
             ))
-            .navigationLinkIndicatorVisibility(.hidden)
             .onLeadingPage()
             .memoryScreenBackground(usesGradient: true)
         #endif
@@ -71,18 +71,7 @@ struct MemoryStackView: View {
 
     private func rows(_ memories: [Memory]) -> some View {
         ForEach(Array(memories.enumerated()), id: \.element.id) { index, memory in
-            row(for: memory)
-                .contextMenu {
-                    if index > 0 {
-                        Button("Move Up", systemImage: "arrow.up") { move(memory.id, by: -1) }
-                    }
-                    if index + 1 < memories.count {
-                        Button("Move Down", systemImage: "arrow.down") { move(memory.id, by: 1) }
-                    }
-                    Button("Remove from Stack", systemImage: "minus.circle") {
-                        remove(memory.id)
-                    }
-                }
+            row(for: memory, index: index, count: memories.count)
         }
         .onMove { offsets, destination in
             var order = memories.map(\.id)
@@ -92,16 +81,22 @@ struct MemoryStackView: View {
     }
 
     @ViewBuilder
-    private func row(for memory: Memory) -> some View {
+    private func row(for memory: Memory, index: Int, count: Int) -> some View {
         #if os(macOS)
-        StackMemoryLabel(memory: memory)
-            .padding(.vertical, 4)
-            .tag(memory.id)
+        MacMemoryActionsRow {
+            StackMemoryLabel(memory: memory)
+                .padding(.vertical, 4)
+        } actions: {
+            actions(for: memory, index: index, count: count)
+        }
+        .tag(memory.id)
         #else
-        NavigationLink(value: LibraryRoute.memory(memory.id)) {
+        Menu {
+            actions(for: memory, index: index, count: count)
+        } label: {
             HStack(spacing: 12) {
                 StackMemoryLabel(memory: memory)
-                Image("ix.arrow-right-02.linear")
+                Image(systemName: "chevron.forward")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(.tertiary)
                     .accessibilityHidden(true)
@@ -109,8 +104,10 @@ struct MemoryStackView: View {
             .padding(.horizontal, 14)
             .padding(.vertical, 10)
             .frame(minHeight: 60)
-            .contentShape(.rect)
+            .contentShape(.rect(cornerRadius: 18))
             .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 18))
+        } primaryAction: {
+            openMemory(memory.id)
         }
         .buttonStyle(.plain)
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -123,6 +120,19 @@ struct MemoryStackView: View {
         .listRowBackground(Color.clear)
         .listRowSeparator(.hidden)
         #endif
+    }
+
+    @ViewBuilder
+    private func actions(for memory: Memory, index: Int, count: Int) -> some View {
+        if index > 0 {
+            Button("Move Up", systemImage: "arrow.up") { move(memory.id, by: -1) }
+        }
+        if index + 1 < count {
+            Button("Move Down", systemImage: "arrow.down") { move(memory.id, by: 1) }
+        }
+        Button("Remove from Stack", systemImage: "minus.circle") {
+            remove(memory.id)
+        }
     }
 
     private func remove(_ id: UUID) {

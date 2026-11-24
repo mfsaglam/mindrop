@@ -47,16 +47,26 @@ Anahtar kelimeyi ve değeri girip kaydetmek temel akıştır. Kullanıcı klasö
 - Widget, düzenin kapasitesine göre Yığın’ın başından uygun kayıtları alır.
 - Widget’ın ekrana yerleştirilmesi iOS üzerinden yapılır. Kullanıcı widget’ı ekledikten sonra içeriği Mindrop’tan yönetir. Yenilemenin zamanlamasını iOS belirler. [Widget ekleme](https://support.apple.com/en-us/118610) · [Widget yenileme](https://developer.apple.com/documentation/widgetkit/keeping-a-widget-up-to-date/)
 - Hassas kayıtların değerlerine ve QR kodlarına Mindrop’taki kilit açma akışı üzerinden erişilir. Widget yalnızca hassas olmayan değerleri gösterir.
+- Mindrop, sıralı ve uygun Yığın kayıtlarının gösterilecek anahtar kelimesini, değerini ve varsa bitiş tarihini widget’a özel App Group’taki `widget-stack.json` dosyasına yazar. Kilit ekranı ve Ana Ekran widget’ları bu dosyayı okur.
+- Kopya değiştiğinde Mindrop dosyayı atomik olarak yeniler ve WidgetKit’ten güncelleme ister. Widget, görünür kayıtların bitiş tarihleri için sıradaki uygun kayıtları timeline’a önceden yerleştirir.
 
 ### Ana Ekran widget’ı ve uygulama önizlemesi
 
+Küçük boy widget, Yığın’daki ilk uygun kaydı gösterir. Anahtar kelime iki, değer beş satıra kadar uzayabilir. Kısa değerler büyük yazıyla görünür. Uzun değerlerde yazı alana göre küçülür.
+
 Orta boy widget, Yığın’daki ilk altı uygun kaydı iki sütunlu, üç satırlı ızgarada gösterir. Kullanılmayan hücreler boş görünür ve ızgara çizgileri tüm satır ve sütunlar boyunca devam eder. Dolu hücrelerde küçük anahtar kelimenin altında daha büyük değer bulunur. `C24` ve `18A` gibi kısa değerler tek satırda görünür. Otopark konumu gibi uzun değerler iki satıra yayılabilir.
 
-Mindrop ana ekranında **Yığın** başlığı ve şevron, Genel’in hemen üstündeki ızgaranın üzerinde yer alır. Önizleme Yığın ekranını açar. Yığın boşken **Kayıt Seç** düğmesi doğrudan kayıt seçiciyi açar. Önizleme ve Ana Ekran widget’ı aynı kayıt sırasını ve ızgara yerleşimini kullanacak şekilde tasarlanır.
+Büyük boy widget iPhone ve iPad’de ilk dokuz uygun kaydı gösterir. İlk kayıt üstte tam genişlikte yer alır. Sonraki sekiz kayıt altta iki sütun ve dört satıra yerleşir.
+
+Çok büyük boy widget iPad’de ilk on iki uygun kaydı gösterir. İlk iki kayıt solda alt alta öne çıkar. Sonraki on kayıt sağda iki sütun ve beş satıra yerleşir.
+
+Öne çıkan kayıtları Yığın sırası belirler. Çok satırlı bir değerde ilk satırı daha büyük göster ve devamına daha küçük yazıyla yer ayır. Tüm boylar dokunulduğunda Mindrop’ta Yığın’ı açar. Yığın boşsa widget, kayıt seçme eylemini gösterir.
+
+Mindrop ana ekranında **Yığın** başlığı ve şevron, Genel’in hemen üstündeki ızgaranın üzerinde yer alır. Önizleme Yığın ekranını açar. Yığın boşken **Kayıt Seç** düğmesi doğrudan kayıt seçiciyi açar. Önizleme ve orta boy widget aynı ızgara bileşenini ve gradient’i kullanır.
 
 ### Kilit ekranı düzenleri
 
-İlk odak, iPhone’da saatin altındaki dikdörtgen widget (`accessoryRectangular`). Beş düzenin tamamı Mindrop’ta sunulabilecek seçenekler olarak değerlendiriliyor. İlk deneme için Alt alta önerildi. Varsayılan düzen ve düzen seçiminin nereden yapılacağı açık.
+iPhone’da saatin altındaki dikdörtgen Yığın widget’ı (`accessoryRectangular`) beş düzen sunar. Varsayılan düzen Alt alta’dır. Kullanıcı kilit ekranını özelleştirirken eklenmiş widget’a dokunup **Düzen** alanından seçim yapar. Widget’a normal görünümde dokununca Mindrop’ta Yığın açılır.
 
 | Düzen | Kapasite | Yerleşim |
 | --- | --- | --- |
@@ -64,13 +74,18 @@ Mindrop ana ekranında **Yığın** başlığı ve şevron, Genel’in hemen üs
 | Alt alta | 2 kayıt | İki kayıt dikey dizilir. Her değer tam genişliği kullanır. `C24` ile `B2 · Mavi · 147` gibi farklı uzunluktaki değerler aynı anda okunabilir. |
 | Yan yana | 2 kayıt | Eşit iki sütunda anahtar kelimeler değerlerin üstünde yer alır. `C24` ve `18A` gibi kısa değerler için daha büyük yazı kullanılabilir. |
 | Öncelikli | 3 kayıt | Yığın’ın ilk kaydı üstte tam genişlikte ve daha büyük gösterilir. İki kısa kayıt altta yan yana yer alır. |
-| Dörtlü ızgara | En fazla 4 kısa kayıt | İki sütun ve iki satırda kapı, koltuk, oda ve dolap gibi kısa kayıtlar gösterilir. Uzun bir değere tam genişlik verip üç kayda düşen düzen de denenebilir. |
+| Dörtlü ızgara | En fazla 4 kısa kayıt | İki sütun ve iki satırda kapı, koltuk, oda ve dolap gibi kısa kayıtlar gösterilir. İlk değer bir sütuna sığmazsa üstte tam genişliği kullanır ve altta en fazla iki kayıt gösterilir. |
 
 Her düzende anahtar kelime ve değer birlikte okunabilmeli. Kapasiteyi kısa kodlar ve daha uzun değerlerle birlikte değerlendir. Taslaktaki `#263554` → `#101522` gradient’i duvar kâğıdını temsil eder. Widget, kilit ekranının sistem görünümüne uyum sağlar. [Apple’ın widget tasarım rehberi](https://developer.apple.com/design/human-interface-guidelines/widgets)
 
+### Apple Watch
+
+Dikdörtgen komplikasyon watchOS 9 ve sonrasında uygun kadranlarda Yığın’ın ilk uygun kaydını gösterir. watchOS 10 ve sonrasında aynı widget, Akıllı Gruplama’da ilk iki uygun kaydı alt alta gösterir. Dokunulduğunda saatteki salt okunur Yığın ekranı açılır.
+
+iPhone, Yığın’daki ilk altı uygun kaydın anahtar kelimesini, değerini ve varsa bitiş tarihini WatchConnectivity üzerinden gönderir. Saat bu kopyayı widget ile aynı App Group’ta saklar ve süre dolumlarını yerelde uygular. Düzenleme ve silmeler en son kopya saate ulaştığında yansır.
+
 ### Sonraki seçenekler
 
-- Ana ekranda küçük widget ile `Otopark` ve `B2 · Mavi · 147` gibi tek bir kayıt göstermek.
 - Widget ayarlarında Yığın’ın ilk kaydı ile kullanıcının sabitlediği belirli bir kayıt arasında seçim sunmak.
 - Kilit ekranında saatin üstünde kısa tek satır, saatin altında yuvarlak alanda ise `21` gibi birkaç karakter göstermek.
 - Kilit ekranının altına veya Denetim Merkezi’ne doğrudan kayıt ekranını açan bir **Yeni kayıt** kontrolü eklemek.

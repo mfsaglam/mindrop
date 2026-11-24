@@ -10,7 +10,9 @@ import Observation
 @Observable
 public final class MemoryRepository {
     /// Most recently touched first.
-    public private(set) var memories: [Memory] = []
+    public private(set) var memories: [Memory] = [] {
+        didSet { onStackContentChange?() }
+    }
 
     /// The most recent background indexing work. Exposed so callers that must not
     /// outlive it — and tests — can wait for Spotlight to settle.
@@ -31,6 +33,9 @@ public final class MemoryRepository {
     /// Called after every change made on this device, not after changes that came from
     /// iCloud. How iCloud sync learns there is something to send.
     public var onLocalChange: (() -> Void)?
+
+    /// Re-evaluate the visible Stack after loading or persisting records or changing its order.
+    public var onStackContentChange: (() -> Void)?
 
     /// Text the categorizer already declined this run, so a memory it cannot place is
     /// not sent again on every foregrounding. Keyed by content: an edit earns a retry.
@@ -267,8 +272,13 @@ public final class MemoryRepository {
     public var stackMemories: [Memory] {
         let ids = stack.ids
         guard !ids.isEmpty else { return [] }
-        let byID = Dictionary(results(for: "").map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-        return ids.compactMap { byID[$0] }.filter { !$0.isSensitive }
+        let selected = Set(ids)
+        let now = now()
+        let visible = memories.lazy.filter {
+            selected.contains($0.id) && !$0.isSensitive && !$0.isDeleted && !$0.isExpired(at: now)
+        }
+        let byID = Dictionary(visible.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        return ids.compactMap { byID[$0] }
     }
 
     public func stackCandidates(matching query: String) -> [Memory] {
@@ -288,6 +298,7 @@ public final class MemoryRepository {
             guard eligible.isSuperset(of: ids) else { throw MemoryStack.SelectionError.unavailableMemory }
         }
         try stack.setMembership(ids, included: included)
+        onStackContentChange?()
     }
 
     public func reorderStack(_ orderedIDs: [UUID]) throws {
@@ -296,6 +307,7 @@ public final class MemoryRepository {
             throw MemoryStack.SelectionError.invalidOrder
         }
         try stack.reorder(orderedIDs)
+        onStackContentChange?()
     }
 
     @discardableResult

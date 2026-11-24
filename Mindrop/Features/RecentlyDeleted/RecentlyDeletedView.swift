@@ -29,11 +29,8 @@ struct RecentlyDeletedView: View {
                     }
                 }
             }
-            .alert("Delete All for Good?", isPresented: $isConfirmingDeleteAll) {
-                Button("Delete All", role: .destructive) { deleteAllPermanently() }
-                Button("Cancel", role: .cancel) {}
-            } message: {
-                Text("Every memory in Recently Deleted will be deleted on all your devices. This can’t be undone.")
+            .emptyTrashAlert(isPresented: $isConfirmingDeleteAll, repository: repository) { error in
+                errorMessage = String(describing: error)
             }
             .alert(
                 deletionTitle,
@@ -67,26 +64,17 @@ struct RecentlyDeletedView: View {
                     .foregroundStyle(.secondary)
 
                 ForEach(memories) { memory in
-                    HStack {
+                    MacMemoryActionsRow {
                         VStack(alignment: .leading, spacing: 0) {
                             MacMemoryRow(memory: memory)
                             if let date = memory.deletedForGoodDate {
                                 DeletedMemoryCountdown(date: date)
                             }
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.bottom, 4)
-
-                        Menu {
-                            actions(for: memory)
-                        } label: {
-                            Label("Actions", systemImage: "ellipsis.circle")
-                                .labelStyle(.iconOnly)
-                        }
-                        .menuStyle(.borderlessButton)
-                        .fixedSize()
+                    } actions: {
+                        actions(for: memory)
                     }
-                    .contextMenu { actions(for: memory) }
                 }
             }
         }
@@ -138,9 +126,9 @@ struct RecentlyDeletedView: View {
 
     @ViewBuilder
     private func actions(for memory: Memory) -> some View {
-        Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
+        Button { recover(memory) } label: { Label("Recover", systemImage: "arrow.uturn.backward") }
         Button(role: .destructive) { pendingDeletion = memory } label: {
-            Label("Delete Now", image: "ix.trash.linear")
+            Label("Delete Now", systemImage: "trash")
         }
     }
 
@@ -152,14 +140,6 @@ struct RecentlyDeletedView: View {
     private func recover(_ memory: Memory) {
         do {
             try repository.recoverDeleted(memory)
-        } catch {
-            errorMessage = String(describing: error)
-        }
-    }
-
-    private func deleteAllPermanently() {
-        do {
-            try repository.deletePermanently(ids: repository.deletedMemories.map(\.id))
         } catch {
             errorMessage = String(describing: error)
         }
@@ -179,6 +159,26 @@ struct RecentlyDeletedView: View {
     }
 }
 
+extension View {
+    @MainActor
+    func emptyTrashAlert(
+        isPresented: Binding<Bool>, repository: MemoryRepository, onError: @escaping (Error) -> Void
+    ) -> some View {
+        alert("Delete All for Good?", isPresented: isPresented) {
+            Button("Delete All", role: .destructive) {
+                do {
+                    try repository.deletePermanently(ids: repository.deletedMemories.map(\.id))
+                } catch {
+                    onError(error)
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Every memory in Recently Deleted will be deleted on all your devices. This can’t be undone.")
+        }
+    }
+}
+
 /// A deleted memory: its category's icon and keyword, the value, and how long until it is
 /// deleted for good, red in the last three days. Clear glass, with no category tint.
 private struct DeletedMemoryCard: View {
@@ -190,7 +190,7 @@ private struct DeletedMemoryCard: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 5) {
                 if let category = memory.category?.category {
-                    Image(category.symbolName)
+                    Image(systemName: category.symbolName)
                         .symbolRenderingMode(.hierarchical)
                         .foregroundStyle(category.tint)
                         .accessibilityLabel(Text(category.title))
@@ -235,7 +235,7 @@ private struct DeletedMemoryCountdown: View {
 
     var body: some View {
         HStack(spacing: 4) {
-            Image("ix.clock.linear")
+            Image(systemName: "clock")
             Text(date, format: Self.daysAway)
         }
         .font(.caption.weight(.medium))
@@ -256,7 +256,7 @@ private struct DeletedMemoryCountdown: View {
 private struct EmptyRecentlyDeleted: View {
     var body: some View {
         VStack(spacing: 28) {
-            Image("ix.trash.bulk")
+            Image(systemName: "trash.fill")
                 .symbolRenderingMode(.hierarchical)
                 .font(.system(size: 40))
                 .foregroundStyle(.secondary)
@@ -274,11 +274,11 @@ private struct EmptyRecentlyDeleted: View {
             .multilineTextAlignment(.center)
 
             HStack(alignment: .top, spacing: 0) {
-                stage("ix.trash.linear", Text("Deleted"))
+                stage("trash", Text("Deleted"))
                 connector
-                stage("ix.clock.linear", Text("30 days to recover"))
+                stage("clock", Text("30 days to recover"))
                 connector
-                stage("ix.close-circle.linear", Text("Gone for good"))
+                stage("xmark.circle", Text("Gone for good"))
             }
             .accessibilityElement(children: .combine)
         }
@@ -288,7 +288,7 @@ private struct EmptyRecentlyDeleted: View {
 
     private func stage(_ symbol: String, _ title: Text) -> some View {
         VStack(spacing: 8) {
-            Image(symbol)
+            Image(systemName: symbol)
                 .font(.title3)
                 .frame(width: 52, height: 52)
                 .glassEffect(.regular, in: .circle)

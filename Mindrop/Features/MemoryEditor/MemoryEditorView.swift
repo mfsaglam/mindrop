@@ -26,6 +26,7 @@ struct MemoryEditorView: View {
     private let onClose: (() -> Void)?
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var keyword: String
     @State private var value: String
     @State private var lifetime: MemoryLifetime.Option
@@ -34,6 +35,10 @@ struct MemoryEditorView: View {
     @State private var addsToStack = false
     @State private var saveError: String?
     @State private var hasVisitedDetails = false
+    @State private var keywordWarningID: UUID?
+    @State private var highlightsKeywordWarning = false
+    @State private var valueWarningID: UUID?
+    @State private var showsValueWarning = false
     #if os(iOS)
     @State private var isScanning = false
     #endif
@@ -67,14 +72,9 @@ struct MemoryEditorView: View {
         _untilDate = State(initialValue: expiresAt ?? .now.addingTimeInterval(7 * 24 * 60 * 60))
     }
 
-    private var canSave: Bool {
-        (try? MemoryNormalizer.validate(keyword: keyword, value: value)) != nil
-    }
-
-    private var showsKeywordHint: Bool {
-        let keyword = MemoryNormalizer.normalizeKeyword(keyword)
-        return hasVisitedDetails && !keyword.isEmpty && keyword.count < MemoryNormalizer.minimumKeywordLength
-    }
+    private var normalizedKeyword: String { MemoryNormalizer.normalizeKeyword(keyword) }
+    private var isKeywordTooShort: Bool { normalizedKeyword.count < MemoryNormalizer.minimumKeywordLength }
+    private var isValueEmpty: Bool { MemoryNormalizer.normalizeValue(value).isEmpty }
 
     var body: some View {
         editor
@@ -111,9 +111,21 @@ struct MemoryEditorView: View {
                 }
             }
             .onChange(of: focusedField) { _, field in
-                if field == .details, !MemoryNormalizer.normalizeKeyword(keyword).isEmpty {
+                if field == .details, !normalizedKeyword.isEmpty {
                     hasVisitedDetails = true
                 }
+            }
+            .onChange(of: isKeywordTooShort) { _, isShort in
+                if !isShort { highlightsKeywordWarning = false }
+            }
+            .onChange(of: isValueEmpty) { _, isEmpty in
+                if !isEmpty { showsValueWarning = false }
+            }
+            .task(id: keywordWarningID) {
+                guard let warningID = keywordWarningID else { return }
+                try? await Task.sleep(for: .seconds(1.5))
+                guard !Task.isCancelled, keywordWarningID == warningID else { return }
+                highlightsKeywordWarning = false
             }
             .onChange(of: isSensitive) { _, sensitive in
                 if sensitive { addsToStack = false }
@@ -125,13 +137,20 @@ struct MemoryEditorView: View {
             }
     }
 
-    @ViewBuilder
     private var keywordHint: some View {
-        if showsKeywordHint {
-            Text("Use a keyword with at least 4 characters so Spotlight can find it.")
-        } else {
-            Text("What you’ll type in Spotlight to find it.")
-        }
+        let showsLengthHint = isKeywordTooShort && (highlightsKeywordWarning || (hasVisitedDetails && !normalizedKeyword.isEmpty))
+        let message: LocalizedStringKey = showsLengthHint
+            ? "Use a keyword with at least 4 characters so Spotlight can find it."
+            : "What you’ll type in Spotlight to find it."
+        return Text(message)
+            .foregroundStyle(showsLengthHint && highlightsKeywordWarning ? Color.pink : Color.secondary)
+            .shakeOnInvalidSave(trigger: keywordWarningID, reduceMotion: reduceMotion)
+    }
+
+    private func valueWarningOutline(cornerRadius: CGFloat) -> some View {
+        RoundedRectangle(cornerRadius: cornerRadius)
+            .strokeBorder(showsValueWarning ? Color.pink : Color.clear, lineWidth: 2)
+            .allowsHitTesting(false)
     }
 
     private var memoryOptions: some View {
@@ -185,6 +204,9 @@ struct MemoryEditorView: View {
                             .overlay {
                                 RoundedRectangle(cornerRadius: 8).strokeBorder(.quaternary)
                             }
+                            .overlay { valueWarningOutline(cornerRadius: 8) }
+                            .shakeOnInvalidSave(trigger: valueWarningID, reduceMotion: reduceMotion)
+                            .accessibilityHint(showsValueWarning ? Text("Add the details to remember.") : Text(verbatim: ""))
                         Button("Choose Photo", systemImage: "photo") {
                             isChoosingPhoto = true
                         }
@@ -205,7 +227,6 @@ struct MemoryEditorView: View {
                 Button("Save", action: save)
                     .buttonStyle(.borderedProminent)
                     .keyboardShortcut(.return, modifiers: .command)
-                    .disabled(!canSave)
             }
             .controlSize(.large)
             .padding(.horizontal, 24)
@@ -222,9 +243,11 @@ struct MemoryEditorView: View {
                     TextField("Keyword", text: $keyword)
                         #if os(iOS)
                         .textInputAutocapitalization(.never)
+                        .submitLabel(.next)
                         #endif
                         .autocorrectionDisabled()
                         .focused($focusedField, equals: .keyword)
+                        .onSubmit { focusedField = .details }
                 } footer: {
                     keywordHint
                 }
@@ -237,8 +260,15 @@ struct MemoryEditorView: View {
                             #endif
                             .autocorrectionDisabled()
                             .focused($focusedField, equals: .details)
+                            .accessibilityHint(showsValueWarning ? Text("Add the details to remember.") : Text(verbatim: ""))
                         detailsSources
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .overlay { valueWarningOutline(cornerRadius: 24) }
+                    .shakeOnInvalidSave(trigger: valueWarningID, reduceMotion: reduceMotion)
+                    .listRowInsets(EdgeInsets())
                 } footer: {
                     // The system's Paste button: it reads the clipboard without asking
                     // "Allow Paste?", which a button in a menu could not.
@@ -266,7 +296,7 @@ struct MemoryEditorView: View {
                     Button(role: .cancel) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(role: .confirm, action: save).disabled(!canSave)
+                    Button(role: .confirm, action: save)
                 }
             }
         }
@@ -281,7 +311,7 @@ struct MemoryEditorView: View {
             #if os(iOS)
             if ValueScanner.isSupported {
                 Button { isScanning = true } label: {
-                    Label("Scan", image: "ix.scan.linear")
+                    Label("Scan", systemImage: "text.viewfinder")
                 }
             }
             #endif
@@ -290,10 +320,10 @@ struct MemoryEditorView: View {
                 focusedField = nil
                 isChoosingPhoto = true
             } label: {
-                Label("Choose Photo", image: "ix.gallery.linear")
+                Label("Choose Photo", systemImage: "photo")
             }
         } label: {
-            Image("ix.add.linear")
+            Image(systemName: "plus")
                 .font(.title3)
                 .foregroundStyle(.secondary)
                 .frame(minWidth: 28, minHeight: 28)
@@ -326,7 +356,22 @@ struct MemoryEditorView: View {
     }
 
     private func save() {
-        guard canSave else { return }
+        let needsKeyword = isKeywordTooShort
+        let needsValue = isValueEmpty
+        if needsKeyword || needsValue {
+            if needsKeyword {
+                hasVisitedDetails = true
+                highlightsKeywordWarning = true
+                keywordWarningID = UUID()
+            }
+            if needsValue {
+                showsValueWarning = true
+                valueWarningID = UUID()
+            }
+            focusedField = needsKeyword ? .keyword : .details
+            return
+        }
+
         do {
             let expiresAt = MemoryLifetime(lifetime, until: untilDate).expiry(from: .now)
             switch mode {
@@ -352,5 +397,19 @@ struct MemoryEditorView: View {
 
     private func close() {
         if let onClose { onClose() } else { dismiss() }
+    }
+}
+
+private extension View {
+    func shakeOnInvalidSave(trigger: UUID?, reduceMotion: Bool) -> some View {
+        keyframeAnimator(initialValue: CGFloat.zero, trigger: trigger) { content, offset in
+            content.offset(x: reduceMotion ? 0 : offset)
+        } keyframes: { _ in
+            CubicKeyframe(-5, duration: 0.06)
+            CubicKeyframe(5, duration: 0.08)
+            CubicKeyframe(-3, duration: 0.08)
+            CubicKeyframe(2, duration: 0.07)
+            CubicKeyframe(0, duration: 0.07)
+        }
     }
 }

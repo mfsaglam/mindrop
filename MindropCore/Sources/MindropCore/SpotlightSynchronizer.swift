@@ -22,7 +22,8 @@ public final class SpotlightSynchronizer {
     /// 11: the keyword back on the drawn line on every device, where a Debug experiment
     /// had moved it to the second line (not found by Spotlight, on iOS 27 too).
     /// 12: category icons redrawn with Iconsax symbols.
-    public static let currentIndexFormatVersion = 12
+    /// 13: category icons redrawn with SF Symbols.
+    public static let currentIndexFormatVersion = 13
 
     private let indexer: SpotlightIndexing
     private let stateStore: SpotlightSyncStateStore
