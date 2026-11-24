@@ -115,7 +115,6 @@ struct MemoryListView: View {
                             sheet = .folderEditor(.create)
                         }
                         .labelStyle(.iconOnly)
-                        .tint(Color(.folderAccent))
                     }
                     Button(action: createMemory) { Label("New Memory", systemImage: "plus") }
                 }
