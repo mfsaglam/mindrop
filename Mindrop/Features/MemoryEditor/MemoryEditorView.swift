@@ -26,6 +26,7 @@ struct MemoryEditorView: View {
     private let onClose: (() -> Void)?
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var keyword: String
     @State private var value: String
     @State private var lifetime: MemoryLifetime.Option
@@ -34,6 +35,8 @@ struct MemoryEditorView: View {
     @State private var addsToStack = false
     @State private var saveError: String?
     @State private var hasVisitedDetails = false
+    @State private var keywordWarningID: UUID?
+    @State private var highlightsKeywordWarning = false
     #if os(iOS)
     @State private var isScanning = false
     #endif
@@ -67,13 +70,13 @@ struct MemoryEditorView: View {
         _untilDate = State(initialValue: expiresAt ?? .now.addingTimeInterval(7 * 24 * 60 * 60))
     }
 
-    private var canSave: Bool {
-        (try? MemoryNormalizer.validate(keyword: keyword, value: value)) != nil
+    private var canSubmit: Bool {
+        !MemoryNormalizer.normalizeKeyword(keyword).isEmpty && !MemoryNormalizer.normalizeValue(value).isEmpty
     }
 
-    private var showsKeywordHint: Bool {
+    private var hasShortKeyword: Bool {
         let keyword = MemoryNormalizer.normalizeKeyword(keyword)
-        return hasVisitedDetails && !keyword.isEmpty && keyword.count < MemoryNormalizer.minimumKeywordLength
+        return !keyword.isEmpty && keyword.count < MemoryNormalizer.minimumKeywordLength
     }
 
     var body: some View {
@@ -115,6 +118,15 @@ struct MemoryEditorView: View {
                     hasVisitedDetails = true
                 }
             }
+            .onChange(of: hasShortKeyword) { _, isShort in
+                if !isShort { highlightsKeywordWarning = false }
+            }
+            .task(id: keywordWarningID) {
+                guard let warningID = keywordWarningID else { return }
+                try? await Task.sleep(for: .seconds(1.5))
+                guard !Task.isCancelled, keywordWarningID == warningID else { return }
+                highlightsKeywordWarning = false
+            }
             .onChange(of: isSensitive) { _, sensitive in
                 if sensitive { addsToStack = false }
             }
@@ -125,13 +137,22 @@ struct MemoryEditorView: View {
             }
     }
 
-    @ViewBuilder
     private var keywordHint: some View {
-        if showsKeywordHint {
-            Text("Use a keyword with at least 4 characters so Spotlight can find it.")
-        } else {
-            Text("What you’ll type in Spotlight to find it.")
-        }
+        let showsLengthHint = hasVisitedDetails && hasShortKeyword
+        let message: LocalizedStringKey = showsLengthHint
+            ? "Use a keyword with at least 4 characters so Spotlight can find it."
+            : "What you’ll type in Spotlight to find it."
+        return Text(message)
+            .foregroundStyle(showsLengthHint && highlightsKeywordWarning ? Color.pink : Color.secondary)
+            .keyframeAnimator(initialValue: CGFloat.zero, trigger: keywordWarningID) { [reduceMotion] text, offset in
+                text.offset(x: reduceMotion ? 0 : offset)
+            } keyframes: { _ in
+                CubicKeyframe(-5, duration: 0.06)
+                CubicKeyframe(5, duration: 0.08)
+                CubicKeyframe(-3, duration: 0.08)
+                CubicKeyframe(2, duration: 0.07)
+                CubicKeyframe(0, duration: 0.07)
+            }
     }
 
     private var memoryOptions: some View {
@@ -205,7 +226,7 @@ struct MemoryEditorView: View {
                 Button("Save", action: save)
                     .buttonStyle(.borderedProminent)
                     .keyboardShortcut(.return, modifiers: .command)
-                    .disabled(!canSave)
+                    .disabled(!canSubmit)
             }
             .controlSize(.large)
             .padding(.horizontal, 24)
@@ -222,9 +243,11 @@ struct MemoryEditorView: View {
                     TextField("Keyword", text: $keyword)
                         #if os(iOS)
                         .textInputAutocapitalization(.never)
+                        .submitLabel(.next)
                         #endif
                         .autocorrectionDisabled()
                         .focused($focusedField, equals: .keyword)
+                        .onSubmit { focusedField = .details }
                 } footer: {
                     keywordHint
                 }
@@ -266,7 +289,7 @@ struct MemoryEditorView: View {
                     Button(role: .cancel) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(role: .confirm, action: save).disabled(!canSave)
+                    Button(role: .confirm, action: save).disabled(!canSubmit)
                 }
             }
         }
@@ -326,7 +349,7 @@ struct MemoryEditorView: View {
     }
 
     private func save() {
-        guard canSave else { return }
+        guard canSubmit else { return }
         do {
             let expiresAt = MemoryLifetime(lifetime, until: untilDate).expiry(from: .now)
             switch mode {
@@ -345,6 +368,11 @@ struct MemoryEditorView: View {
                 )
             }
             close()
+        } catch MemoryValidationError.keywordTooShort {
+            hasVisitedDetails = true
+            highlightsKeywordWarning = true
+            keywordWarningID = UUID()
+            focusedField = .keyword
         } catch {
             saveError = String(describing: error)
         }
