@@ -5,6 +5,7 @@ import SwiftUI
 #if os(macOS)
 import AppKit
 #else
+import MindropWidgetData
 import UIKit
 #endif
 
@@ -161,9 +162,13 @@ final class MindropSession {
                 stack: stack
             )
             #if os(iOS)
-            repository.onStackContentChange = { [weak repository, stackWidgetPublisher] in
+            repository.onStackContentChange = { [weak repository, stackWidgetPublisher, watchLink] in
                 guard let repository else { return }
-                stackWidgetPublisher.publish(repository.stackMemories)
+                let snapshot = StackWidgetSnapshot(
+                    records: repository.stackMemories.map(StackWidgetSnapshot.Record.init(memory:))
+                )
+                stackWidgetPublisher.publish(snapshot)
+                watchLink.setStackSnapshot(snapshot)
             }
             #endif
             try repository.load()

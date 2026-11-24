@@ -4,14 +4,14 @@ import Foundation
 /// here so both sides read and write it the same way. Plain property-list values only,
 /// which is all WatchConnectivity carries.
 ///
-/// The watch only adds memories. Each one goes to the iPhone as a user-info transfer, which
+/// A memory saved on the watch goes to the iPhone as a user-info transfer, which
 /// the system queues and delivers even if either app is closed, and the iPhone takes it in
-/// like a memory synced from another device. The iPhone tells the watch, through the
-/// application context, whether iCloud Sync is on, so the watch saves to iCloud only when
-/// the user lets Mindrop use it.
+/// like a memory synced from another device. In the other direction, the application
+/// context carries the iCloud Sync preference and the latest display-only Stack snapshot.
 public enum WatchHandoff {
     private static let memoryKey = "memory"
     private static let syncsWithICloudKey = "syncsWithICloud"
+    private static let stackSnapshotKey = "stackSnapshot"
 
     /// A memory saved on the watch, as a user-info transfer.
     public static func userInfo(for memory: Memory) throws -> [String: Any] {
@@ -24,9 +24,15 @@ public enum WatchHandoff {
         return try? JSONDecoder().decode(Memory.self, from: data)
     }
 
-    /// The iPhone's iCloud Sync setting, as an application context.
-    public static func applicationContext(syncsWithICloud: Bool) -> [String: Any] {
-        [syncsWithICloudKey: syncsWithICloud]
+    /// Application context replaces the entire previous dictionary.
+    public static func applicationContext(syncsWithICloud: Bool, stackSnapshot: Data? = nil) -> [String: Any] {
+        var context: [String: Any] = [syncsWithICloudKey: syncsWithICloud]
+        context[stackSnapshotKey] = stackSnapshot
+        return context
+    }
+
+    public static func stackSnapshot(in context: [String: Any]) -> Data? {
+        context[stackSnapshotKey] as? Data
     }
 
     /// Whether the iPhone said iCloud Sync is on. False until it has said so: the watch

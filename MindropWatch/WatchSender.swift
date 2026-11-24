@@ -1,12 +1,13 @@
 import Foundation
 import Combine
 import MindropCore
+import MindropWidgetData
 import WatchConnectivity
+import WidgetKit
 import os
 
-/// Gets memories saved on the watch to the iPhone, which files them, adds them to Spotlight
-/// and categorises them. The watch keeps nothing else: no library, so nothing sensitive
-/// lives on the wrist.
+/// Sends new memories to the iPhone and receives the small, display-only Stack snapshot
+/// used by the watch app and its widget.
 ///
 /// Each memory goes two ways, and arriving twice is harmless, since it has one identifier:
 /// - to the iPhone as a WatchConnectivity user-info transfer, which the system queues and
@@ -32,8 +33,10 @@ final class WatchSender: NSObject, ObservableObject {
     }
 
     @Published private var entries: [Entry] = []
+    @Published private(set) var stackSnapshot: StackWidgetSnapshot?
     private let session: WCSession? = WCSession.isSupported() ? .default : nil
     private let fileURL = URL.applicationSupportDirectory.appending(path: "outbox.json")
+    private let stackURL = StackWidgetSnapshot.fileURL
     private var isUploading = false
     private let log = Logger(subsystem: "mfsaglam.Mindrop.watchkitapp", category: "sender")
 
@@ -43,6 +46,7 @@ final class WatchSender: NSObject, ObservableObject {
     override init() {
         super.init()
         entries = load()
+        stackSnapshot = StackWidgetSnapshot.read(from: stackURL)
         session?.delegate = self
         session?.activate()
         #if DEBUG
@@ -71,6 +75,7 @@ final class WatchSender: NSObject, ObservableObject {
     /// whenever WatchConnectivity reports progress.
     func send() {
         if let session, session.activationState == .activated {
+            refreshStack(from: session.receivedApplicationContext)
             for index in entries.indices where !entries[index].handedToPhone {
                 guard let userInfo = try? WatchHandoff.userInfo(for: entries[index].memory) else { continue }
                 session.transferUserInfo(userInfo)
@@ -79,6 +84,36 @@ final class WatchSender: NSObject, ObservableObject {
         }
         forgetDelivered()
         Task { await uploadToICloud() }
+    }
+
+    func receiveBackgroundUpdates() async {
+        guard let session else { return }
+        let states = session.publisher(for: \.activationState)
+            .combineLatest(session.publisher(for: \.hasContentPending))
+        for await (activationState, hasPendingContent) in states.values {
+            if activationState == .activated && !hasPendingContent {
+                refreshStack(from: session.receivedApplicationContext)
+                return
+            }
+        }
+    }
+
+    private func refreshStack(from context: [String: Any]) {
+        guard let data = WatchHandoff.stackSnapshot(in: context),
+              let snapshot = StackWidgetSnapshot.decode(data),
+              snapshot != stackSnapshot,
+              let stackURL
+        else { return }
+
+        do {
+            try data.write(to: stackURL, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+            stackSnapshot = snapshot
+        } catch {
+            log.error("Could not save the Stack snapshot: \(error.localizedDescription, privacy: .private)")
+            try? FileManager.default.removeItem(at: stackURL)
+            stackSnapshot = nil
+        }
+        WidgetCenter.shared.reloadTimelines(ofKind: StackWidgetSnapshot.watchKind)
     }
 
     /// iCloud only while the iPhone says iCloud Sync is on, and only for memories it lacks.

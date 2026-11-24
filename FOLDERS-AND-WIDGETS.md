@@ -78,6 +78,12 @@ iPhone’da saatin altındaki dikdörtgen Yığın widget’ı (`accessoryRectan
 
 Her düzende anahtar kelime ve değer birlikte okunabilmeli. Kapasiteyi kısa kodlar ve daha uzun değerlerle birlikte değerlendir. Taslaktaki `#263554` → `#101522` gradient’i duvar kâğıdını temsil eder. Widget, kilit ekranının sistem görünümüne uyum sağlar. [Apple’ın widget tasarım rehberi](https://developer.apple.com/design/human-interface-guidelines/widgets)
 
+### Apple Watch
+
+Dikdörtgen komplikasyon watchOS 9 ve sonrasında uygun kadranlarda Yığın’ın ilk uygun kaydını gösterir. watchOS 10 ve sonrasında aynı widget, Akıllı Gruplama’da ilk iki uygun kaydı alt alta gösterir. Dokunulduğunda saatteki salt okunur Yığın ekranı açılır.
+
+iPhone, Yığın’daki ilk altı uygun kaydın anahtar kelimesini, değerini ve varsa bitiş tarihini WatchConnectivity üzerinden gönderir. Saat bu kopyayı widget ile aynı App Group’ta saklar ve süre dolumlarını yerelde uygular. Düzenleme ve silmeler en son kopya saate ulaştığında yansır.
+
 ### Sonraki seçenekler
 
 - Widget ayarlarında Yığın’ın ilk kaydı ile kullanıcının sabitlediği belirli bir kayıt arasında seçim sunmak.

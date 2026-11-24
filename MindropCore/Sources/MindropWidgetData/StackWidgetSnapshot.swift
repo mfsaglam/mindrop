@@ -21,6 +21,8 @@ public struct StackWidgetSnapshot: Codable, Equatable, Sendable {
 
     public static let lockScreenKind = "mfsaglam.Mindrop.Stack.LockScreen"
     public static let homeScreenKind = "mfsaglam.Mindrop.Stack.HomeScreen"
+    public static let watchKind = "mfsaglam.Mindrop.Stack.Watch"
+    public static let watchCapacity = 6
     public static let stackURL = URL(string: "mindrop://stack")!
 
     public static var fileURL: URL? {
@@ -37,7 +39,11 @@ public struct StackWidgetSnapshot: Codable, Equatable, Sendable {
 
     public static func read(from url: URL?) -> Self? {
         guard let url, let data = try? Data(contentsOf: url) else { return nil }
-        return try? JSONDecoder().decode(Self.self, from: data)
+        return decode(data)
+    }
+
+    public static func decode(_ data: Data) -> Self? {
+        try? JSONDecoder().decode(Self.self, from: data)
     }
 
     public func visibleRecords(at date: Date, capacity: Int) -> [Record] {

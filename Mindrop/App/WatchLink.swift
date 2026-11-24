@@ -1,11 +1,12 @@
 import Foundation
 import MindropCore
+import MindropWidgetData
 import WatchConnectivity
 
 /// The iPhone's end of the Apple Watch link. Memories saved on the watch arrive here as
 /// user-info transfers and are taken in like memories synced from another device: filed,
-/// added to Spotlight, categorised, then sent to iCloud. The watch is told whether iCloud
-/// Sync is on, so it writes to iCloud itself only when the user lets Mindrop use it.
+/// added to Spotlight, categorised, then sent to iCloud. The watch receives the iCloud
+/// Sync setting and a display-only copy of the head of the Stack.
 ///
 /// Activated as the app starts, before the library is loaded: the system may launch the app
 /// in the background just to hand it a transfer.
@@ -17,6 +18,7 @@ final class WatchLink: NSObject {
     private var receive: ((Memory) -> Void)?
     private var arrivals: [Memory] = []
     private var syncsWithICloud: Bool
+    private var stackSnapshot: StackWidgetSnapshot?
 
     init(syncsWithICloud: Bool) {
         self.syncsWithICloud = syncsWithICloud
@@ -54,9 +56,19 @@ final class WatchLink: NSObject {
         sendContext()
     }
 
+    func setStackSnapshot(_ snapshot: StackWidgetSnapshot) {
+        let watchSnapshot = StackWidgetSnapshot(records: Array(snapshot.records.prefix(StackWidgetSnapshot.watchCapacity)))
+        guard watchSnapshot != stackSnapshot else { return }
+        stackSnapshot = watchSnapshot
+        sendContext()
+    }
+
     private func sendContext() {
         guard let session, session.activationState == .activated, session.isPaired, session.isWatchAppInstalled else { return }
-        try? session.updateApplicationContext(WatchHandoff.applicationContext(syncsWithICloud: syncsWithICloud))
+        let snapshotData = stackSnapshot.flatMap { try? JSONEncoder().encode($0) }
+        try? session.updateApplicationContext(WatchHandoff.applicationContext(
+            syncsWithICloud: syncsWithICloud, stackSnapshot: snapshotData
+        ))
     }
 
     private func arrived(_ memory: Memory) {

@@ -20,9 +20,8 @@ final class StackWidgetPublisher {
     private let logger = Logger(subsystem: "mfsaglam.Mindrop", category: "stack-widget")
     private var lastPublished: StackWidgetSnapshot?
 
-    func publish(_ memories: [Memory]) {
+    func publish(_ snapshot: StackWidgetSnapshot) {
         guard let url = StackWidgetSnapshot.fileURL else { return }
-        let snapshot = StackWidgetSnapshot(records: memories.map(StackWidgetSnapshot.Record.init(memory:)))
         if lastPublished == nil { lastPublished = StackWidgetSnapshot.read(from: url) }
         guard snapshot != lastPublished else { return }
 

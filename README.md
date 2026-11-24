@@ -603,10 +603,13 @@ so iCloud Drive picks up its document container metadata.
 
 ## Apple Watch
 
-The watch app saves memories without reaching for the iPhone: Keyword, Details, Sensitive,
-Save. It only adds. It keeps no library, so nothing sensitive lives on the wrist, and there
-is no Spotlight on watchOS to search in. The iPhone does the rest: files the memory, adds it
-to Spotlight, gets its category from Apple Intelligence, and sends it to iCloud.
+The watch app saves memories without reaching for the iPhone. The iPhone files the memory,
+adds it to Spotlight, gets its category from Apple Intelligence, and sends it to iCloud.
+
+The Stack widget shows the first eligible memory on compatible watch faces and the first two
+in the watchOS 10+ Smart Stack. Tapping it opens a read-only Stack on the watch. The iPhone sends
+the first six eligible Stack memories through WatchConnectivity. The watch stores their display
+text and expiry dates in an App Group shared with the widget, which can advance as records expire.
 
 Each memory leaves the watch two ways, and arriving twice is harmless (one identifier):
 

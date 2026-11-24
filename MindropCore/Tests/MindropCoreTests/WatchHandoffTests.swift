@@ -1,4 +1,5 @@
 import Foundation
+import MindropWidgetData
 import Testing
 @testable import MindropCore
 
@@ -36,6 +37,21 @@ struct WatchHandoffTests {
         #expect(!WatchHandoff.syncsWithICloud(in: [:]))
         #expect(WatchHandoff.syncsWithICloud(in: WatchHandoff.applicationContext(syncsWithICloud: true)))
         #expect(!WatchHandoff.syncsWithICloud(in: WatchHandoff.applicationContext(syncsWithICloud: false)))
+    }
+
+    @Test("A Stack update preserves the iCloud preference and an empty Stack clears the display")
+    func stackContext() throws {
+        let record = StackWidgetSnapshot.Record(
+            keyword: "Departure gate", value: "C24", expiresAt: Date(timeIntervalSinceReferenceDate: 1_000)
+        )
+        for snapshot in [StackWidgetSnapshot(records: [record]), StackWidgetSnapshot(records: [])] {
+            let data = try JSONEncoder().encode(snapshot)
+            let context = WatchHandoff.applicationContext(syncsWithICloud: false, stackSnapshot: data)
+
+            #expect(!WatchHandoff.syncsWithICloud(in: context))
+            #expect(WatchHandoff.stackSnapshot(in: context).flatMap(StackWidgetSnapshot.decode) == snapshot)
+        }
+        #expect(WatchHandoff.stackSnapshot(in: WatchHandoff.applicationContext(syncsWithICloud: true)) == nil)
     }
 
     @Test("A memory from the watch is filed like one from another device, once, however often it arrives")
