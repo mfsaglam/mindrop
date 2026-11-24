@@ -4,23 +4,20 @@
   const result = document.getElementById('demo-result');
   const value = document.getElementById('demo-value');
   const label = document.getElementById('demo-label');
-  const icon = document.getElementById('demo-icon');
   const pause = document.getElementById('demo-pause');
   const stage = document.querySelector('.demo-stage');
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const examples = [
-    { keyword: 'parking', value: 'Level B2 blue zone 147', icon: 'P', color: '#668876' },
-    { keyword: 'gym locker', value: '4826', icon: '#', color: '#89749f' },
-    { keyword: 'shoe size', value: 'EU 42', icon: '↔', color: '#a27886' },
-    { keyword: 'printer ink', value: '305XL black', icon: '▤', color: '#97836c' }
+    { keyword: 'gate', value: 'C24' },
+    { keyword: 'film recommendation', value: 'Arrival' },
+    { keyword: 'parking', value: 'Level B2 blue zone 147' },
+    { keyword: 'printer ink', value: '305XL black' }
   ];
   let index = 0, character = 0, phase = 'typing', timer, paused = false;
   function showExample() {
     const example = examples[index];
     value.textContent = example.value;
     label.textContent = example.keyword;
-    icon.textContent = example.icon;
-    icon.style.background = example.color;
     stage.setAttribute('aria-label', `Illustrative Spotlight search: searching ${example.keyword} shows ${example.value}, saved in Mindrop.`);
   }
   function stop() { clearTimeout(timer); }
@@ -53,8 +50,9 @@
       index = 0; showExample(); keyword.textContent = examples[0].keyword;
       result.classList.remove('is-hidden');
     } else {
-      character = 0; phase = 'typing'; keyword.textContent = '';
-      result.classList.add('is-hidden'); schedule(700);
+      character = examples[index].keyword.length; phase = 'hold';
+      keyword.textContent = examples[index].keyword;
+      result.classList.remove('is-hidden'); schedule(3100);
     }
   }
   pause.addEventListener('click', () => {
