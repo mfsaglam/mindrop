@@ -53,10 +53,10 @@ private struct MoreWaysToSave: View {
 
             // Only where the editor offers Scan.
             if ValueScanner.isSupported {
-                way(Image("ix.scan.linear"), Text("Scan"),
+                way(Image(systemName: "text.viewfinder"), Text("Scan"),
                     Text("In a new memory, tap +, then Scan. Point the camera at text or a QR code and tap what to save."))
             }
-            way(Image("ix.gallery.linear"), Text("From a Photo"),
+            way(Image(systemName: "photo"), Text("From a Photo"),
                 Text("In a new memory, tap +, then Choose Photo, and tap the lines you want."))
             way("square.and.arrow.up", Text("From Other Apps"),
                 Text("Tap Share and choose Mindrop to save text, a link or a screenshot. If it isn’t there, tap More."))

@@ -304,7 +304,7 @@ struct MemoryEditorView: View {
             #if os(iOS)
             if ValueScanner.isSupported {
                 Button { isScanning = true } label: {
-                    Label("Scan", image: "ix.scan.linear")
+                    Label("Scan", systemImage: "text.viewfinder")
                 }
             }
             #endif
@@ -313,10 +313,10 @@ struct MemoryEditorView: View {
                 focusedField = nil
                 isChoosingPhoto = true
             } label: {
-                Label("Choose Photo", image: "ix.gallery.linear")
+                Label("Choose Photo", systemImage: "photo")
             }
         } label: {
-            Image("ix.add.linear")
+            Image(systemName: "plus")
                 .font(.title3)
                 .foregroundStyle(.secondary)
                 .frame(minWidth: 28, minHeight: 28)

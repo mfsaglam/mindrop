@@ -16,10 +16,10 @@ struct ExpiryText: View {
     var body: some View {
         HStack(spacing: 4) {
             if isExpired, let deletion = memory.deletionDate {
-                Image("ix.trash.linear")
+                Image(systemName: "trash")
                 Text("Deleted for good \(deletion, format: .relative(presentation: .named))")
             } else if let expiry = memory.expiresAt {
-                Image("ix.timer.linear")
+                Image(systemName: "timer")
                 Text("Expires \(expiry, format: .relative(presentation: .named))")
             }
         }

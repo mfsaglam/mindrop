@@ -117,7 +117,7 @@ struct MemoryListView: View {
                         .labelStyle(.iconOnly)
                         .tint(Color(.folderAccent))
                     }
-                    Button(action: createMemory) { Label("New Memory", image: "ix.add.linear") }
+                    Button(action: createMemory) { Label("New Memory", systemImage: "plus") }
                 }
             }
             ToolbarSpacer(.flexible, placement: .bottomBar)
@@ -137,7 +137,7 @@ struct MemoryListView: View {
                 ToolbarSpacer(.fixed, placement: .bottomBar)
             } else {
                 ToolbarItemGroup(placement: .memoryLeading) {
-                    Button { sheet = .settings } label: { Label("Settings", image: "ix.setting-2.linear") }
+                    Button { sheet = .settings } label: { Label("Settings", systemImage: "gearshape") }
                     if !isShowingFolders, !categories.isEmpty {
                         categoryMenu
                     }
@@ -229,10 +229,10 @@ struct MemoryListView: View {
                     Button(role: .destructive) {
                         isConfirmingEmptyTrash = true
                     } label: {
-                        Label("Empty Trash", image: "ix.trash.linear")
+                        Label("Empty Trash", systemImage: "trash")
                     }
                 } label: {
-                    folderLabel(Text("Recently Deleted"), icon: Image("ix.trash.linear"), count: deletedCount)
+                    folderLabel(Text("Recently Deleted"), icon: Image(systemName: "trash"), count: deletedCount)
                 } primaryAction: {
                     session.path.append(.recentlyDeleted)
                 }
@@ -269,7 +269,7 @@ struct MemoryListView: View {
                     HStack(spacing: 10) {
                         stackTitle
                         Spacer(minLength: 0)
-                        Image("ix.arrow-right-02.linear")
+                        Image(systemName: "chevron.forward")
                             .font(.footnote.weight(.semibold))
                             .foregroundStyle(.secondary)
                             .accessibilityHidden(true)
@@ -320,7 +320,7 @@ struct MemoryListView: View {
                 .foregroundStyle(Color.primary.opacity(0.78))
                 .accessibilityLabel(Text("Memory Count"))
                 .accessibilityValue(Text(count, format: .number))
-            Image("ix.arrow-right-02.linear")
+            Image(systemName: "chevron.forward")
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(.tertiary)
                 .accessibilityHidden(true)
@@ -350,7 +350,7 @@ struct MemoryListView: View {
                             if let category = section.category {
                                 category.label
                             } else {
-                                Label("No Category", image: "ix.tag.linear")
+                                Label("No Category", systemImage: "tag")
                             }
                         }
                         .sectionHeaderStyle()
@@ -367,7 +367,7 @@ struct MemoryListView: View {
                             selectionCard(memory, showsCategory: !showsSections)
                         } else {
                             Menu {
-                                Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
+                                Button { recover(memory) } label: { Label("Recover", systemImage: "arrow.uturn.backward") }
                                 moveMenu(for: memory)
                                 deleteAction(for: memory)
                             } label: {
@@ -379,7 +379,7 @@ struct MemoryListView: View {
                         }
                     }
                 } header: {
-                    Label("Expired", image: "ix.calendar-remove.linear")
+                    Label("Expired", systemImage: "calendar.badge.minus")
                         .sectionHeaderStyle()
                 } footer: {
                     Text("Expired memories are deleted for good 7 days after they expire.")
@@ -400,13 +400,16 @@ struct MemoryListView: View {
     private var categoryMenu: some View {
         Menu {
             Picker("Category", selection: $categoryFilter) {
-                Label("All", image: "ix.layer.linear").tag(MemoryCategory?.none)
+                Label("All", systemImage: "line.3.horizontal.decrease").tag(MemoryCategory?.none)
                 ForEach(categories, id: \.self) { category in
                     category.menuLabel.tag(Optional(category))
                 }
             }
         } label: {
-            Label("Category", image: activeCategory == nil ? "ix.filter.linear" : "ix.filter.bold")
+            Label(
+                "Category",
+                systemImage: activeCategory == nil ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill"
+            )
         }
     }
 
@@ -438,7 +441,7 @@ struct MemoryListView: View {
                         Button {
                             Clipboard.copy(memory.value)
                         } label: {
-                            Label("Copy", image: "ix.copy.linear")
+                            Label("Copy", systemImage: "document.on.document")
                         }
                     }
                     if repository.isEligibleForStack(memory), !repository.isInStack(memory.id) {
@@ -488,7 +491,7 @@ struct MemoryListView: View {
         Button(role: .destructive) {
             pendingDeletion = [memory]
         } label: {
-            Label("Delete", image: "ix.trash.linear")
+            Label("Delete", systemImage: "trash")
         }
     }
 
@@ -532,7 +535,7 @@ struct MemoryCard: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 5) {
                 if showsCategory, let category = memory.category?.category {
-                    Image(category.symbolName)
+                    Image(systemName: category.symbolName)
                         .symbolRenderingMode(.hierarchical)
                         .foregroundStyle(category.tint)
                         .accessibilityLabel(Text(category.title))

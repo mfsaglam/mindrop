@@ -34,7 +34,7 @@ struct ScanValueControl: ControlWidget {
     var body: some ControlWidgetConfiguration {
         StaticControlConfiguration(kind: "mfsaglam.Mindrop.ScanValue") {
             ControlWidgetButton(action: ScanValueIntent()) {
-                Label("Scan with Mindrop", image: "ix.scan.linear")
+                Label("Scan with Mindrop", systemImage: "text.viewfinder")
             }
         }
         .displayName("Scan with Mindrop")

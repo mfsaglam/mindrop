@@ -41,7 +41,7 @@ struct MindropApp: App {
                     SettingsView(repository: repository, session: session)
                 case .failed:
                     ContentUnavailableView {
-                        Label("Mindrop can’t open your memories", image: "ix.danger.linear")
+                        Label("Mindrop can’t open your memories", systemImage: "exclamationmark.triangle")
                     } description: {
                         Text("Try closing Mindrop and opening it again.")
                     }

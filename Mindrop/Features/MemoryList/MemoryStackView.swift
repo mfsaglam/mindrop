@@ -96,7 +96,7 @@ struct MemoryStackView: View {
         } label: {
             HStack(spacing: 12) {
                 StackMemoryLabel(memory: memory)
-                Image("ix.arrow-right-02.linear")
+                Image(systemName: "chevron.forward")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(.tertiary)
                     .accessibilityHidden(true)

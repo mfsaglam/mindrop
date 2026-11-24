@@ -21,34 +21,27 @@ extension MemoryCategory {
         }
     }
 
-    /// The category's Iconsax symbol, in its Bulk style: drawn with
-    /// `.symbolRenderingMode(.hierarchical)`, its soft parts take a lighter shade of the tint.
+    /// The SF Symbol used for this category in the app and in Spotlight.
     var symbolName: String {
         switch self {
-        case .network: "ix.wifi.bulk"
-        case .account: "ix.key.bulk"
-        case .code: "ix.lock-circle.bulk"
-        case .finance: "ix.money.bulk"
-        case .contact: "ix.call.bulk"
-        case .people: "ix.profile-2user.bulk"
-        case .address: "ix.location.bulk"
-        case .home: "ix.home-2.bulk"
-        case .vehicle: "ix.car.bulk"
-        case .document: "ix.document-text.bulk"
-        case .health: "ix.hospital.bulk"
-        case .link: "ix.link.bulk"
-        case .other: "ix.category.bulk"
+        case .network: "wifi"
+        case .account: "key.fill"
+        case .code: "lock.circle.fill"
+        case .finance: "banknote.fill"
+        case .contact: "phone.fill"
+        case .people: "person.2.fill"
+        case .address: "mappin.circle.fill"
+        case .home: "house.fill"
+        case .vehicle: "car.fill"
+        case .document: "doc.text.fill"
+        case .health: "cross.case.fill"
+        case .link: "link"
+        case .other: "square.grid.2x2.fill"
         }
     }
 
     /// For a memory without a category.
-    static let uncategorisedSymbolName = "ix.tag.bulk"
-
-    /// The Linear version, for menus and pickers. iOS draws those in one colour, and Bulk's
-    /// soft layer would then cover the detail drawn over it.
-    var menuSymbolName: String {
-        symbolName.replacingOccurrences(of: ".bulk", with: ".linear")
-    }
+    static let uncategorisedSymbolName = "tag"
 
     /// One system colour per category, all thirteen distinct, so a category can be told
     /// apart at a glance. System colours adapt to light and dark mode on their own.
@@ -76,16 +69,16 @@ extension MemoryCategory {
         self == .document
     }
 
-    /// The name with its Linear icon, as a row of a menu or picker.
+    /// The name and symbol in a menu or picker.
     var menuLabel: some View {
-        Label { Text(title) } icon: { Image(menuSymbolName) }
+        Label { Text(title) } icon: { Image(systemName: symbolName) }
     }
 
     /// The icon carries the colour; the name stays in the text colour, so it reads well
     /// whatever the tint.
     var label: some View {
         Label { Text(title) } icon: {
-            Image(symbolName)
+            Image(systemName: symbolName)
                 .symbolRenderingMode(.hierarchical)
                 .foregroundStyle(tint)
         }
@@ -109,7 +102,7 @@ struct CategoryTile: View {
     var size: CGFloat = 30
 
     var body: some View {
-        Image(category?.symbolName ?? MemoryCategory.uncategorisedSymbolName)
+        Image(systemName: category?.symbolName ?? MemoryCategory.uncategorisedSymbolName)
             .symbolRenderingMode(.hierarchical)
             .font(.system(size: size * 0.48, weight: .semibold))
             .foregroundStyle(.white)

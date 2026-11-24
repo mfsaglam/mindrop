@@ -69,7 +69,7 @@ struct SpotlightGuide: View {
 
             if let newMemory {
                 Button(action: newMemory) {
-                    Label("Save Your First Memory", image: "ix.add.linear")
+                    Label("Save Your First Memory", systemImage: "plus")
                         .labelStyle(.titleAndIcon)
                         .font(.headline)
                         // The accent is black, white in dark mode: the label takes the opposite.
@@ -171,7 +171,7 @@ private struct SpotlightPreview: View {
     var body: some View {
         VStack(spacing: 12) {
             HStack(spacing: 10) {
-                Image("ix.search-normal.linear")
+                Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
                 // The cursor follows the last letter closely, as a real text field's does.
                 HStack(spacing: 1) {

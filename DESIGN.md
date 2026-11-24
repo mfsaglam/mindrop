@@ -36,6 +36,8 @@ Uygulama ikonunda **büyüteç ve imleç** birlikte QI işaretini oluşturur. Va
 
 Uygulama ikonu, Control Center’daki Yeni Kayıt kontrolü, Mac menü çubuğu, paylaşım uzantıları ve web’deki marka işareti aynı QI çizimini kullanır. Sistem şablonlarında renk ve boşluk platforma göre uygulanır. Ana çizim [Icon Composer SVG katmanında](Mindrop/Resources/mindrop_icon.icon/Assets/01-search-mark.svg) tutulur.
 
+Uygulama içi eylemler ve kategoriler için SF Symbols kullan. Kategorinin simgesi listede, detayda, menüde ve Spotlight sonucunda aynıdır. Kategori renkleri mevcut paleti kullanır.
+
 ## İnce düşünülmüş ayrıntılar
 
 Mindrop’ta özen, kullanıcının tam ihtiyaç duyduğu anda fark ettiği küçük ayrıntılarda hissedilmeli. Bir ayrıntı bilgiyi daha rahat okutabilir, bir eylemin sonucunu anlaşılır kılabilir veya aynı hikâyeyi uygulamadan web’e ve App Store’a taşıyabilir.

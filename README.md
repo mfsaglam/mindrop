@@ -43,7 +43,7 @@ Mindrop/
 ├── MindropAction/               action extension — the share sheet's action row
 ├── MindropControls/             widget extension — the New Memory and Scan controls for Control Center
 ├── MindropWatch/                Apple Watch app (watchOS 9+), embedded in the iPhone app
-├── Tools/                       RenderAppIcon.swift, MakeIconsaxSymbols.py
+├── Tools/                       RenderAppIcon.swift
 └── Design/                      the earlier Lucide brain icon and its ISC licence
 ```
 
@@ -426,42 +426,14 @@ To check on the Duo simulator:
 - folding while editing, with a sheet open, and with a search typed;
 - Split View on each side.
 
-## Icons: Iconsax
+## Interface icons
 
-The app's own icons are from the free Iconsax set (iconsax.io), not SF Symbols, so Mindrop
-does not look like a stock iOS app. Two styles:
+The app, Apple Watch, widgets, and controls use SF Symbols for interface actions and
+categories. A category uses the same symbol in lists, detail tiles, menus, and Spotlight
+results. Category colors come from the existing category palette.
 
-- **Bulk for categories**, in section headers, on cards, the detail screen's tile and the
-  Spotlight icons: a soft 40% shape under solid detail. The soft parts are the symbol's
-  secondary layer, so `.symbolRenderingMode(.hierarchical)` draws them in a lighter shade of
-  the category's colour.
-- **Linear for everything tapped**: the toolbar, Copy, Share, the value's action, menus,
-  swipe and long-press actions, empty states. Filter turns Bold while a category is
-  chosen, and the sensitive lock is Bold.
-- **Menus use the Linear category icons** (`MemoryCategory.menuSymbolName`). iOS draws menus
-  in one colour, where Bulk's soft layer would cover its detail.
-
-They are custom symbols in `Assets.xcassets/Iconsax` (`ix.<name>.<style>`), so they size
-with the text and work in toolbars and menus like SF Symbols. `Tools/MakeIconsaxSymbols.py`
-makes them from the official `iconsax` npm package with SwiftDraw (`brew install
-swiftdraw`); the list of icons is at its top. Two things it takes care of:
-
-- **One fixed margin** around Iconsax's 24-point grid for every icon. SwiftDraw's automatic
-  fitting drew them at about half the size of SF Symbols, each to its own outline.
-- **Weights must interpolate.** Linear icons get a thinner and a heavier outline, so they
-  follow bold text. When thickening a stroke changes its points, Xcode silently leaves the
-  symbol out ("No image named …"); those icons keep one weight.
-
-Still SF Symbols: what the system draws (back button, the search button and field, the share
-sheet), the Siri/Shortcuts tiles (`systemImageName` only), the share extension for now, the
-ways to save on How Mindrop Works that point at Apple's own features (they carry Apple's
-glyphs: share, Control Center, the Action button, Siri, Apple Watch; Scan is Mindrop's own
-and keeps its Iconsax icon), and the Debug screens. Iconsax has no infinity, so Keep Forever is
-a paused timer.
-
-Licence: free for apps, commercial ones included, without attribution; loose icon files may
-not be redistributed, so the icons live only in the asset catalog. Changing them reindexes
-Spotlight (index format 12), since its category icons are drawn from the same symbols.
+Spotlight thumbnails are generated from these symbols. Index format 13 refreshes existing
+results on launch. The Mindrop QI mark is generated from the Icon Composer artwork.
 
 ## Temporary memories
 
@@ -757,11 +729,9 @@ moves the cursor to an empty keyword; the + menu opens with Scan (forced on for 
 since it is hidden there). Not yet seen on a device: the
 scanner itself, the camera prompt, Wi-Fi QR codes, and the Scan control.
 
-Scan in the + menu, the scanner's empty state, the control and How Mindrop Works use
-Iconsax's `ix.scan.linear` (the control's extension has its own copy, since it cannot reach
-the app's catalog). The Siri/Shortcuts tile takes only SF Symbols, so it shows
-`text.viewfinder`. How Mindrop Works lists Scan only where the editor offers it, and its
-Siri line names both phrases.
+Scan uses `text.viewfinder` in the editor, the scanner's empty state, Control Center,
+How Mindrop Works, and Siri and Shortcuts. How Mindrop Works lists Scan only where the
+editor offers it, and its Siri line names both phrases.
 
 ## Localization
 

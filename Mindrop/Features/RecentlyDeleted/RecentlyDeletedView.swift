@@ -126,9 +126,9 @@ struct RecentlyDeletedView: View {
 
     @ViewBuilder
     private func actions(for memory: Memory) -> some View {
-        Button { recover(memory) } label: { Label("Recover", image: "ix.undo-arrow.linear") }
+        Button { recover(memory) } label: { Label("Recover", systemImage: "arrow.uturn.backward") }
         Button(role: .destructive) { pendingDeletion = memory } label: {
-            Label("Delete Now", image: "ix.trash.linear")
+            Label("Delete Now", systemImage: "trash")
         }
     }
 
@@ -190,7 +190,7 @@ private struct DeletedMemoryCard: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 5) {
                 if let category = memory.category?.category {
-                    Image(category.symbolName)
+                    Image(systemName: category.symbolName)
                         .symbolRenderingMode(.hierarchical)
                         .foregroundStyle(category.tint)
                         .accessibilityLabel(Text(category.title))
@@ -235,7 +235,7 @@ private struct DeletedMemoryCountdown: View {
 
     var body: some View {
         HStack(spacing: 4) {
-            Image("ix.clock.linear")
+            Image(systemName: "clock")
             Text(date, format: Self.daysAway)
         }
         .font(.caption.weight(.medium))
@@ -256,7 +256,7 @@ private struct DeletedMemoryCountdown: View {
 private struct EmptyRecentlyDeleted: View {
     var body: some View {
         VStack(spacing: 28) {
-            Image("ix.trash.bulk")
+            Image(systemName: "trash.fill")
                 .symbolRenderingMode(.hierarchical)
                 .font(.system(size: 40))
                 .foregroundStyle(.secondary)
@@ -274,11 +274,11 @@ private struct EmptyRecentlyDeleted: View {
             .multilineTextAlignment(.center)
 
             HStack(alignment: .top, spacing: 0) {
-                stage("ix.trash.linear", Text("Deleted"))
+                stage("trash", Text("Deleted"))
                 connector
-                stage("ix.clock.linear", Text("30 days to recover"))
+                stage("clock", Text("30 days to recover"))
                 connector
-                stage("ix.close-circle.linear", Text("Gone for good"))
+                stage("xmark.circle", Text("Gone for good"))
             }
             .accessibilityElement(children: .combine)
         }
@@ -288,7 +288,7 @@ private struct EmptyRecentlyDeleted: View {
 
     private func stage(_ symbol: String, _ title: Text) -> some View {
         VStack(spacing: 8) {
-            Image(symbol)
+            Image(systemName: symbol)
                 .font(.title3)
                 .frame(width: 52, height: 52)
                 .glassEffect(.regular, in: .circle)
