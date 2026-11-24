@@ -92,9 +92,7 @@ struct MemoryListView: View {
         .modifier(FolderPullScrollFeedback(
             feedback: folderPullFeedback,
             enabled: canPullForFeedback,
-            onLaunch: {
-                if folderID == nil { createFolder() } else { createMemory() }
-            }
+            onLaunch: createMemory
         ))
         .animation(.default, value: showsSections)
         .navigationTitle(folderID.map { repository.folders.title(for: $0) } ?? Text("Mindrop"))
