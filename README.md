@@ -517,6 +517,13 @@ here or in iCloud, and turning it back on sends whatever changed in the meantime
   text edits, and still orders the list.
 - **Each device keeps its own Spotlight index.** Changes from iCloud go through the same
   Spotlight synchronisation as local edits (`MemoryRepository.applyRemote`).
+- **Folders and Stack.** The same zone holds `LibraryMetadata` records for custom folders,
+  folder assignments, and Stack entries. Each contains an encrypted string field named
+  `payload`. Folder names, placement, and Stack changes sync independently of memory text.
+  Stack membership and rank merge separately, including when removal and reorder happen
+  offline. Existing folder and Stack files seed this metadata on upgrade. A device with no
+  local organization contributes no assignments. The first upgraded launch fetches the zone
+  again so it can read metadata an older build may have previously skipped.
 - **Pushes.** The remote-notification background mode lets iCloud wake Mindrop when another
   device changes something, so its Spotlight catches up without the app being opened. iOS
   decides when; on returning to the foreground the app also asks for changes.
@@ -537,6 +544,11 @@ sync engine starting and waiting for an account (the simulator was not signed in
 The device build is signed with the iCloud container and push entitlements. Not yet verified:
 sync between two real devices. Before an App Store release, the CloudKit schema has to be
 deployed from the development environment to production in the CloudKit Console.
+For folder and Stack sync, create or verify the `LibraryMetadata` record type and encrypted
+`payload` field in development. Before deployment, check that a device with an existing
+local folder layout and Stack can transfer them to a second device, including an empty folder.
+Check offline moves, a Stack reorder concurrent with a removal, and memory edits from an older
+build. These checks require two devices signed into the same iCloud account.
 
 ### iCloud backup
 

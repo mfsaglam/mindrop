@@ -42,6 +42,7 @@ public final class CloudSync {
     /// devices changed. Without an iCloud account the engine waits for one.
     public func start() {
         guard engine == nil else { return }
+        if state.library == nil { mutateState { $0.prepareLibrarySync() } }
         let configuration = CKSyncEngine.Configuration(
             database: CKContainer(identifier: containerIdentifier).privateCloudDatabase,
             stateSerialization: state.engineState,
@@ -52,6 +53,7 @@ public final class CloudSync {
         if state.engineState == nil {
             engine.state.add(pendingDatabaseChanges: [.saveZone(CKRecordZone(zoneID: CloudRecord.zoneID))])
         }
+        applyLibraryInbox()
         sendLocalChanges()
     }
 
@@ -63,14 +65,20 @@ public final class CloudSync {
         Task { await engine.cancelOperations() }
     }
 
-    /// Queues every memory that changed since iCloud last saw it, and every memory deleted
-    /// for good here. Cheap: call it after any change and on returning to the foreground.
+    /// Queues changes to memories and their library metadata. This can run inside a local
+    /// file transaction and must only read the in-memory library here.
     public func sendLocalChanges() {
         guard let engine else { return }
         let pending = state.pendingChanges(for: repository.memories)
-        let changes: [CKSyncEngine.PendingRecordZoneChange] =
+        var changes: [CKSyncEngine.PendingRecordZoneChange] =
             pending.saves.map { .saveRecord(CloudRecord.recordID(for: $0)) }
             + pending.deletes.map { .deleteRecord(CloudRecord.recordID(for: $0)) }
+        if state.library?.inbox.isEmpty != false {
+            let known = state.library?.known ?? [:]
+            changes += repository.libraryRevisions.compactMap { id, revision in
+                known[id] == revision ? nil : .saveRecord(id.cloudID)
+            }
+        }
         guard !changes.isEmpty else { return }
         engine.state.add(pendingRecordZoneChanges: changes)
     }
@@ -79,6 +87,10 @@ public final class CloudSync {
     /// foreground.
     public func fetchChanges() async {
         guard let engine else { return }
+        if state.library?.inbox.isEmpty == false {
+            applyLibraryInbox()
+            sendLocalChanges()
+        }
         do {
             try await engine.fetchChanges()
         } catch {
@@ -120,7 +132,8 @@ public final class CloudSync {
         case .fetchedRecordZoneChanges(let changes):
             take(
                 records: changes.modifications.map(\.record),
-                deletedIDs: changes.deletions.compactMap { CloudRecord.memoryID(of: $0.recordID) }
+                deletedIDs: changes.deletions.compactMap { CloudRecord.memoryID(of: $0.recordID) },
+                deletedLibraryIDs: changes.deletions.compactMap { CloudLibraryRecord.ID($0.recordID) }
             )
             sendLocalChanges()
 
@@ -136,8 +149,34 @@ public final class CloudSync {
     /// Merges records from iCloud into the local memories. A memory whose merged version is
     /// exactly what iCloud has is in step; one that kept something of its own stays pending
     /// and is sent back.
-    private func take(records: [CKRecord], deletedIDs: [UUID]) {
-        let incoming = records.compactMap { record in CloudRecord.memory(from: record).map { (record, $0) } }
+    private func take(
+        records: [CKRecord], deletedIDs: [UUID], deletedLibraryIDs: [CloudLibraryRecord.ID] = []
+    ) {
+        let libraryRecords = records.compactMap { record -> (CloudLibraryRecord.ID, CloudLibrarySyncState.Received)? in
+            guard let (id, value) = CloudLibraryRecord.read(record) else { return nil }
+            return (id, .init(value: value, systemFields: CloudRecord.systemFields(of: record)))
+        }
+        if !libraryRecords.isEmpty || !deletedLibraryIDs.isEmpty {
+            mutateState { state in
+                var library = state.library ?? CloudLibrarySyncState()
+                for (id, record) in libraryRecords { library.inbox[id] = record }
+                for id in deletedLibraryIDs {
+                    library.inbox[id] = nil
+                    library.known[id] = nil
+                    library.systemFields[id] = nil
+                }
+                state.library = library
+            }
+            applyLibraryInbox()
+        }
+
+        let incoming = records.compactMap { record -> (CKRecord, Memory)? in
+            guard let memory = CloudRecord.memory(from: record) else { return nil }
+            // Fetching the same server version again must not undo a pending local deletion.
+            if repository.memory(id: memory.id) == nil, let known = state.known[memory.id],
+               CloudSyncState.isSameInstant(known, memory.modifiedAt) { return nil }
+            return (record, memory)
+        }
         guard !incoming.isEmpty || !deletedIDs.isEmpty else { return }
         let applied: [UUID: Memory]
         do {
@@ -160,9 +199,32 @@ public final class CloudSync {
         }
     }
 
+    private func applyLibraryInbox() {
+        guard let inbox = state.library?.inbox, !inbox.isEmpty else { return }
+        do {
+            try repository.applyRemoteLibrary(inbox.mapValues(\.value))
+        } catch {
+            log.error("Could not store library metadata from iCloud")
+            return
+        }
+        mutateState { state in
+            for (id, record) in inbox {
+                state.library?.known[id] = record.value.revision
+                state.library?.systemFields[id] = record.systemFields
+                state.library?.inbox[id] = nil
+            }
+        }
+    }
+
     private func handleSent(_ sent: CKSyncEngine.Event.SentRecordZoneChanges) {
         mutateState { state in
+            var library = state.library ?? CloudLibrarySyncState()
             for record in sent.savedRecords {
+                if let (id, value) = CloudLibraryRecord.read(record) {
+                    library.systemFields[id] = CloudRecord.systemFields(of: record)
+                    library.known[id] = value.revision
+                    continue
+                }
                 guard let id = CloudRecord.memoryID(of: record.recordID) else { continue }
                 state.systemFields[id] = CloudRecord.systemFields(of: record)
                 state.known[id] = record["modifiedAt"] as? Date
@@ -178,11 +240,14 @@ public final class CloudSync {
                 state.known[id] = nil
                 state.systemFields[id] = nil
             }
+            state.library = library
         }
 
         for failure in sent.failedRecordSaves {
             let recordID = failure.record.recordID
-            guard let id = CloudRecord.memoryID(of: recordID) else { continue }
+            let memoryID = CloudRecord.memoryID(of: recordID)
+            let libraryID = CloudLibraryRecord.ID(recordID)
+            guard memoryID != nil || libraryID != nil else { continue }
             switch failure.error.code {
             case .serverRecordChanged:
                 // Another device saved first. Merge with its version; whatever this device
@@ -192,12 +257,12 @@ public final class CloudSync {
                 }
             case .zoneNotFound:
                 engine?.state.add(pendingDatabaseChanges: [.saveZone(CKRecordZone(zoneID: CloudRecord.zoneID))])
-                mutateState { $0.systemFields[id] = nil }
+                forgetSystemFields(memoryID: memoryID, libraryID: libraryID)
                 engine?.state.add(pendingRecordZoneChanges: [.saveRecord(recordID)])
             case .unknownItem:
                 // Deleted from iCloud in the meantime. Kept: an edit here outweighs a
                 // deletion elsewhere, and is saved as a new record.
-                mutateState { $0.systemFields[id] = nil }
+                forgetSystemFields(memoryID: memoryID, libraryID: libraryID)
                 engine?.state.add(pendingRecordZoneChanges: [.saveRecord(recordID)])
             default:
                 // Network trouble, rate limits and the like are retried by the engine.
@@ -206,9 +271,17 @@ public final class CloudSync {
         }
     }
 
+    private func forgetSystemFields(memoryID: UUID?, libraryID: CloudLibraryRecord.ID?) {
+        mutateState { state in
+            if let memoryID { state.systemFields[memoryID] = nil }
+            if let libraryID { state.library?.systemFields[libraryID] = nil }
+        }
+    }
+
     /// The record to send for a pending save, or nil if the memory is gone, in which case
     /// the save is dropped.
     private func record(for recordID: CKRecord.ID) -> CKRecord? {
+        if let id = CloudLibraryRecord.ID(recordID) { return libraryRecord(for: id) }
         guard let id = CloudRecord.memoryID(of: recordID), let memory = repository.memory(id: id) else {
             engine?.state.remove(pendingRecordZoneChanges: [.saveRecord(recordID)])
             return nil
@@ -217,6 +290,23 @@ public final class CloudSync {
             ?? CKRecord(recordType: CloudRecord.recordType, recordID: recordID)
         CloudRecord.fill(record, from: memory)
         return record
+    }
+
+    private func libraryRecord(for id: CloudLibraryRecord.ID) -> CKRecord? {
+        guard state.library?.inbox[id] == nil else { return nil }
+        guard let value = repository.libraryRecord(for: id) else {
+            engine?.state.remove(pendingRecordZoneChanges: [.saveRecord(id.cloudID)])
+            return nil
+        }
+        let record = state.library?.systemFields[id].flatMap(CloudRecord.record(fromSystemFields:))
+            ?? CKRecord(recordType: CloudLibraryRecord.recordType, recordID: id.cloudID)
+        do {
+            try CloudLibraryRecord.fill(record, from: value)
+            return record
+        } catch {
+            log.error("Could not encode library metadata for iCloud")
+            return nil
+        }
     }
 
     private func mutateState(_ change: (inout CloudSyncState) -> Void) {

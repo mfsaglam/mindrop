@@ -14,6 +14,8 @@ public struct CloudSyncState: Codable, Sendable {
     public var known: [UUID: Date] = [:]
     /// Each record's system fields, so a save updates the server's version.
     public var systemFields: [UUID: Data] = [:]
+    /// Absent only on devices that have never fetched library metadata.
+    var library: CloudLibrarySyncState?
 
     public init() {}
 
@@ -39,7 +41,29 @@ public struct CloudSyncState: Codable, Sendable {
     mutating func forgetServer() {
         known = [:]
         systemFields = [:]
+        if library != nil { library = CloudLibrarySyncState() }
     }
+
+    mutating func prepareLibrarySync() {
+        guard library == nil else { return }
+        library = CloudLibrarySyncState()
+        // An older app can acknowledge a zone cursor after ignoring library metadata.
+        // Fetch the zone from the beginning once, keeping record tags and pending deletions.
+        engineState = nil
+    }
+}
+
+struct CloudLibrarySyncState: Codable, Sendable {
+    struct Received: Codable, Sendable {
+        let value: LibraryRecord
+        let systemFields: Data
+    }
+
+    var known: [CloudLibraryRecord.ID: LibraryRecordRevision] = [:]
+    var systemFields: [CloudLibraryRecord.ID: Data] = [:]
+    /// The engine can advance its cursor while a local file write fails. Keep the payload
+    /// until both the folder and Stack stores have applied it.
+    var inbox: [CloudLibraryRecord.ID: Received] = [:]
 }
 
 @available(watchOS 10.0, *)
