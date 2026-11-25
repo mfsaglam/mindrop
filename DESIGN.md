@@ -79,6 +79,25 @@ Yukarıdaki üç gerçek kullanım örneğini web’de ayrıntılandır. Okuyucu
 
 İndeks kartı hissini açılışın altındaki statik bölümlerde kullan. Onaylanan taslakta açık zemindeki üç adımı başlık, açıklama ve aralık ayırır. Altındaki lacivert bölümde küçük bir örnek kart, ince bir kobalt çizgi veya ufak bir ayraçla kâğıdı çağrıştırır. Bu taslağı yeni uygulama ekranlarıyla birlikte yeniden değerlendir.
 
+### Stack bölümündeki cihaz görselleri
+
+Stack’i Spotlight açılışının hemen altında **Today’s details, at a glance.** başlığıyla göster. Masaüstü kompozisyonunda üç gerçek ekran görüntüsünün her biri kendi cihaz çerçevesi içinde yer alır.
+
+- **Solda** 9° sola yatık iPhone. Ana Ekran’da orta boy Stack widget’ı.
+- **Ortada** dik iPhone. Kilit Ekranı’nda saatin altında, alt alta yerleşimli Stack widget’ı.
+- **Sağ önde** 9° sağa yatık Apple Watch. Akıllı Gruplama’da Stack widget’ı.
+
+Cihazları kenarlarından hafifçe üst üste bindir. Apple Watch’u ortadaki iPhone’un sağ alt köşesine al. Üç ekranda da `gate` ve `seat` kayıtlarının `C24` ve `18A` değerleri görünür kalsın. Mobilde Kilit Ekranı ile Apple Watch’u birlikte göster ve sola yatık Ana Ekran iPhone’unu bu çiftin altına yerleştir.
+
+### Web’de iCloud senkronizasyonu
+
+Ana sayfanın altbilgiden önceki son bölümünde **Save it here. Find it there.** başlığıyla iCloud senkronizasyonunu anlat. iPhone’da `Lisbon trip` klasörüne kaydedilen `hotel address` kaydını iPad ve Mac’te `12 Rua Exemplo, Lisbon` değeriyle göster.
+
+- **iPad.** `Lisbon trip` klasörü açık ve adres kartı görünür. iPad’i dikey, düz karşıdan çekilmiş bir kadrajla Mac’in sol önüne yerleştir.
+- **macOS.** Mindrop kenar çubuğunda `Lisbon trip` seçili, adresin detay ekranı açık. Mac’i yatay, düz karşıdan çekilmiş bir kadrajla arkaya yerleştir. İki cihazın çerçevesi kenarlarından hafifçe örtüşür.
+
+Gerçek çekimleri aynı iCloud hesabındaki desteklenen cihazlar senkronizasyonu tamamladıktan sonra al. Kısa metin, isteğe bağlı iCloud Sync açıkken kayıtların, klasörlerin ve Stack’in cihazlar arasında güncel kaldığını söyler. Adres iki görselde de mobil genişlikte okunabilmeli.
+
 ### Günlük hayattan sahneler
 
 Açılışın altında gerçek kullanım hikâyelerine ayrı bölümler ayır. Her bölüm tek bir tanıdık sahneyi anlatır. Fotoğraf, ihtiyacın doğduğu yeri ve nesneyi gösterir. Başlık o anda neye ihtiyaç duyulduğunu söyler. Gerçek Spotlight sonucu veya uygulama ekranı, Mindrop’la bilginin nasıl geri bulunduğunu ve kullanıldığını gösterir.
