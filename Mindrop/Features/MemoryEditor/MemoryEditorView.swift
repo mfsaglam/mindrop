@@ -23,6 +23,7 @@ struct MemoryEditorView: View {
     /// Opens on the camera, for the Scan control: the value is scanned, the keyword typed.
     var startsScanning = false
     private let folderID: UUID
+    private let onCreate: (() -> Void)?
     private let onClose: (() -> Void)?
 
     @Environment(\.dismiss) private var dismiss
@@ -49,12 +50,14 @@ struct MemoryEditorView: View {
 
     init(
         mode: Mode, repository: MemoryRepository, startsScanning: Bool = false,
-        initialDetails: String = "", folderID: UUID = MemoryFolders.generalID, onClose: (() -> Void)? = nil
+        initialDetails: String = "", folderID: UUID = MemoryFolders.generalID,
+        onCreate: (() -> Void)? = nil, onClose: (() -> Void)? = nil
     ) {
         self.mode = mode
         self.repository = repository
         self.startsScanning = startsScanning
         self.folderID = folderID
+        self.onCreate = onCreate
         self.onClose = onClose
         switch mode {
         case .create:
@@ -380,6 +383,7 @@ struct MemoryEditorView: View {
                     keyword: keyword, value: value, expiresAt: expiresAt, isSensitive: isSensitive,
                     folderID: folderID, addsToStack: addsToStack
                 )
+                onCreate?()
             case .edit(let memory):
                 try repository.update(
                     memory,

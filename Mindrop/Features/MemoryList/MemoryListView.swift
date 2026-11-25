@@ -2,6 +2,7 @@
 import MindropCore
 import MindropIntents
 import MindropWidgetData
+import StoreKit
 import SwiftUI
 
 struct MemoryListView: View {
@@ -28,16 +29,24 @@ struct MemoryListView: View {
     @State private var pendingDeletion: [Memory] = []
     @State private var pendingFolderDeletion: MemoryFolder?
     @State private var isConfirmingEmptyTrash = false
+    @State private var shouldRequestReviewAfterDismissal = false
+    @State private var reviewRequestID: UUID?
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
     @ScaledMetric(relativeTo: .title3) private var folderIconWidth: CGFloat = 24
     @Environment(\.sensitiveAccess) private var sensitiveAccess
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.requestReview) private var requestReview
+    @Environment(\.scenePhase) private var scenePhase
     private let newMemoryRequest = NewMemoryRequest.shared
 
     private var isShowingFolders: Bool { folderID == nil && query.allSatisfy(\.isWhitespace) }
 
     private var canPullForFeedback: Bool {
         guard !isSearching, query.allSatisfy(\.isWhitespace), !isSelecting, sheet == nil else { return false }
+        return isCurrentLibraryScreen
+    }
+
+    private var isCurrentLibraryScreen: Bool {
         if let folderID { return session.path.last == .folder(folderID) }
         return session.path.isEmpty
     }
@@ -150,11 +159,12 @@ struct MemoryListView: View {
             }
         }
         // One sheet modifier for both: a second `.sheet` on the same view never presented.
-        .sheet(item: $sheet) { sheet in
+        .sheet(item: $sheet, onDismiss: sheetDidDismiss) { sheet in
             switch sheet {
             case .newMemory(let folderID, let scanning):
                 MemoryEditorView(
-                    mode: .create, repository: repository, startsScanning: scanning, folderID: folderID
+                    mode: .create, repository: repository, startsScanning: scanning, folderID: folderID,
+                    onCreate: { shouldRequestReviewAfterDismissal = AppReviewPrompt.recordSuccessfulCreation() }
                 )
             case .folderEditor(let mode):
                 FolderEditorView(folders: repository.folders, mode: mode)
@@ -164,6 +174,14 @@ struct MemoryListView: View {
                 SettingsView(repository: repository, session: session)
             }
         }
+        .task(id: reviewRequestID) { await requestReviewAfterDismissal() }
+        .onChange(of: scenePhase) { _, phase in
+            if phase != .active { reviewRequestID = nil }
+        }
+        .onChange(of: sheet) { _, item in
+            if item != nil { reviewRequestID = nil }
+        }
+        .onDisappear { reviewRequestID = nil }
         // A Control Center control, the Action button or Siri asked for a new memory.
         // Replaces Settings if it was open: the user came here to write something down.
         .onChange(of: newMemoryRequest.isPending, initial: true) { _, isPending in
@@ -394,6 +412,22 @@ struct MemoryListView: View {
 
     private func createMemory() {
         sheet = .newMemory(folderID: folderID ?? MemoryFolders.generalID)
+    }
+
+    private func sheetDidDismiss() {
+        guard shouldRequestReviewAfterDismissal else { return }
+        shouldRequestReviewAfterDismissal = false
+        reviewRequestID = UUID()
+    }
+
+    private func requestReviewAfterDismissal() async {
+        guard let scheduledID = reviewRequestID else { return }
+        try? await Task.sleep(for: AppReviewPrompt.presentationDelay)
+        guard !Task.isCancelled, reviewRequestID == scheduledID else { return }
+        reviewRequestID = nil
+        guard scenePhase == .active, isCurrentLibraryScreen, sheet == nil, !isSearching, !isSelecting,
+              !changeFailed, pendingDeletion.isEmpty, pendingFolderDeletion == nil, !isConfirmingEmptyTrash else { return }
+        AppReviewPrompt.requestIfEligible { requestReview() }
     }
 
     private var categoryMenu: some View {
