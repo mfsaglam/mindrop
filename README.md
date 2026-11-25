@@ -362,8 +362,7 @@ and [`MemorySheetDarkRowBackground`](Mindrop/Resources/Assets.xcassets/MemoryShe
   tile (the same icon as in Spotlight) and the keyword sit above it. Below it: Copy in the
   category's colour, which reads "Copied" for a moment; Share; and the value's own action
   when it has one (`MemoryAction`): Open for a web address, Directions to an address in
-  Apple Maps, or Call for a number in Contacts, Family & People or Health. Then the line
-  the memory shows in Spotlight.
+  Apple Maps, or Call for a number in Contacts, Family & People or Health.
 - **The value's typeface follows its category** (`ValueStyle`). Monospaced, which tells 0
   from O and l from 1, for Codes & PINs, Banking, Accounts, Wi-Fi, IDs & Documents and
   Vehicles, and always for card numbers and IBANs; the system font for people and places;

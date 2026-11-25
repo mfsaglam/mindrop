@@ -50,15 +50,6 @@ struct MemoryDetailView: View {
                 if repository.isEligibleForStack(memory) {
                     stackOption(for: memory)
                 }
-
-                // Not while expired: it has already left Spotlight.
-                if !memory.isExpired(at: .now) {
-                    let line = SpotlightAttributesFactory.make(for: memory).displayName
-                    Text("Shows in Spotlight as “\(line)”")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, 6)
-                }
             }
             .padding()
         }
