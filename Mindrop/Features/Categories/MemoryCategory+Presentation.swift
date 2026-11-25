@@ -63,12 +63,6 @@ extension MemoryCategory {
         }
     }
 
-    /// White text on yellow is barely readable, so a button filled with it is labelled in
-    /// black.
-    var prefersDarkText: Bool {
-        self == .document
-    }
-
     /// The name and symbol in a menu or picker.
     var menuLabel: some View {
         Label { Text(title) } icon: { Image(systemName: symbolName) }
@@ -94,20 +88,31 @@ extension Glass {
     }
 }
 
-/// The category's symbol, white on a rounded square of its colour: the icon each result
-/// carries in Spotlight (`SpotlightIcons`), so the app and Spotlight look like one thing.
-/// A grey tag without a category.
+extension Color {
+    /// Keep white labels on medium tints and use black on pale fills.
+    func contrastingForeground(in environment: EnvironmentValues) -> Color {
+        let color = resolve(in: environment)
+        let luminance = 0.2126 * color.linearRed + 0.7152 * color.linearGreen + 0.0722 * color.linearBlue
+        return luminance >= 0.45 ? .black : .white
+    }
+}
+
+/// The category's symbol on a rounded square of its colour. The symbol and category
+/// palette also appear in Spotlight. A grey tag represents a memory without a category.
 struct CategoryTile: View {
     let category: MemoryCategory?
     var size: CGFloat = 30
 
+    @Environment(\.self) private var environment
+
     var body: some View {
+        let background = category?.tint ?? .gray
         Image(systemName: category?.symbolName ?? MemoryCategory.uncategorisedSymbolName)
             .symbolRenderingMode(.hierarchical)
             .font(.system(size: size * 0.48, weight: .semibold))
-            .foregroundStyle(.white)
+            .foregroundStyle(background.contrastingForeground(in: environment))
             .frame(width: size, height: size)
-            .background(category?.tint ?? .gray, in: .rect(cornerRadius: size * 0.225, style: .continuous))
+            .background(background, in: .rect(cornerRadius: size * 0.225, style: .continuous))
             .accessibilityHidden(true)
     }
 }

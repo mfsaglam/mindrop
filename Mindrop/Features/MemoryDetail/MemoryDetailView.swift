@@ -12,6 +12,7 @@ struct MemoryDetailView: View {
     @State private var didCopy = false
     @State private var copyCount = 0
     @State private var changeFailed = false
+    @Environment(\.self) private var environment
     @Environment(\.sensitiveAccess) private var sensitiveAccess
 
     private var memory: Memory? {
@@ -188,7 +189,9 @@ struct MemoryDetailView: View {
 
     /// Copy, in the category's colour, says "Copied" for a moment after copying.
     private func actions(for memory: Memory) -> some View {
-        GlassEffectContainer(spacing: 10) {
+        let copyTint = memory.category?.category.tint ?? .accentColor
+        let labelColor = copyTint.contrastingForeground(in: environment)
+        return GlassEffectContainer(spacing: 10) {
             HStack(spacing: 10) {
                 Button {
                     copy(memory.value)
@@ -201,12 +204,12 @@ struct MemoryDetailView: View {
                         }
                     }
                     .font(.headline)
-                    .foregroundStyle(memory.category?.category.prefersDarkText == true ? .black : .white)
+                    .foregroundStyle(labelColor)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 6)
                 }
                 .buttonStyle(.glassProminent)
-                .tint(memory.category?.category.tint)
+                .tint(copyTint)
 
                 ShareLink(item: memory.value) {
                     Label("Share", systemImage: "square.and.arrow.up")
