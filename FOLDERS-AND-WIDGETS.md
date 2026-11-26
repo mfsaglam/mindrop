@@ -10,8 +10,8 @@ Anahtar kelimeyi ve değeri girip kaydetmek temel akıştır. Kullanıcı klasö
 
 - **Kategori**, kaydın türünü belirtir. Wi‑Fi, Bağlantılar ve Kodlar gibi mevcut kategoriler otomatik belirlenir.
 - **Klasör**, kullanıcının kendi bağlamını belirtir. Her kayıt tek bir klasöre aittir. Mindrop başlangıçta Genel klasörünü sağlar. Kullanıcı İş, Aile veya Roma Seyahati gibi klasörler oluşturup kayıtlarını bunlara taşıyabilir.
-- Ana ekran ilk açılıştan itibaren klasör listesidir. Başlangıçta Genel görünür. Kullanıcının oluşturduğu klasörler aynı listeye eklenir. Silinmiş kayıtlar varsa listenin sonunda Son Silinenler görünür.
-- Bir klasöre dokunulduğunda kayıtları kategori başlıkları altında iPhone ve iPad’in mevcut kart grid’iyle göster. Geri gidildiğinde klasör listesine dön. Örneğin İş klasöründe Wi‑Fi ve Bağlantılar ayrı bölümler olabilir.
+- iPhone’da ana ekran klasör listesidir ve klasöre dokunulunca kayıt ızgarası açılır. iPad’de aynı klasörler sol kenar çubuğunda, seçili klasörün kayıt ızgarası sağ sütunda görünür. iPad ilk açılışta Genel’i seçer. Silinmiş kayıt varsa Son Silinenler de listelenir.
+- Kayıtları kategori başlıkları altında göster. iPad’de kayıt detayı sağ sütunda açılır ve geri dönünce seçili klasörün ızgarası görünür. Dar pencerede düzen tek sütuna iner ve seçim korunur. Örneğin İş klasöründe Wi‑Fi ve Bağlantılar ayrı bölümler olabilir.
 - Klasörde Kayıt Seç ile birden fazla kaydı işaretle. Arama sonuçlarından ve filtrelenmiş kategorilerden seçime kayıt ekle. Arama veya kategori filtresi değiştiğinde ya da kaldırıldığında seçimi koru. Seçim menüsünden kayıtları başka bir klasöre taşı, Yığın’a ekle veya onaydan sonra Son Silinenler’e gönder. Seçimin bir bölümü Yığın’a eklenebiliyorsa eklenecek yeni kayıt sayısını menüde göster.
 - Özel klasör, bağlam menüsündeki Klasörü Sil eylemi onaylandıktan sonra kaldırılır. İçindeki kayıtlar Son Silinenler’e gider ve buradan geri yüklenen kayıtlar Genel’e döner. Genel, varsayılan klasör olarak korunur.
 - Klasör üyeliği olmayan kayıtları Genel’de göster. iCloud eşitlemesi açıksa özel klasörleri, adlarını ve kayıtların klasör üyeliğini cihazlar arasında eşitle. İlk eşitlemede mevcut yerel düzeni kayıt kimliklerini koruyarak aktar. Cihazda bulunmayan üyelik, açıkça Genel’e taşınmış üyelikten ayrı tutulur.
@@ -34,7 +34,7 @@ Anahtar kelimeyi ve değeri girip kaydetmek temel akıştır. Kullanıcı klasö
 
 ## Yığın ve widget’lar
 
-**Yığın**, kullanıcının bir süre gözünün önünde tutmak istediği kayıtların sıralı listesidir. iPhone ve iPad’de Genel’in hemen üstündeki önizlemeden, Mac’te kenar çubuğundan açılır. Örneğin `parking` kaydı Seyahat klasöründen ve Yığın’dan açılabilir. iCloud eşitlemesi açıksa Yığın üyeliği ve sırası cihazlar arasında eşitlenir. Üyelik ve sıra ayrı birleştirilir, böylece bir cihazdan çıkarılan kayıt başka cihazdaki sıralama değişikliğiyle geri gelmez.
+**Yığın**, kullanıcının bir süre gözünün önünde tutmak istediği kayıtların sıralı listesidir. iPhone’da Genel’in hemen üstündeki önizlemeden, iPad ve Mac’te kenar çubuğundan açılır. Örneğin `parking` kaydı Seyahat klasöründen ve Yığın’dan açılabilir. iCloud eşitlemesi açıksa Yığın üyeliği ve sırası cihazlar arasında eşitlenir. Üyelik ve sıra ayrı birleştirilir, böylece bir cihazdan çıkarılan kayıt başka cihazdaki sıralama değişikliğiyle geri gelmez.
 
 - **Yığında Göster** seçeneği yeni kayıt formunda ve kayıt detayında yer alır. Yeni seçimler listenin sonuna eklenir.
 - Yığın’a uygun bir kaydın bağlam menüsünde **Yığına Ekle** eylemi **Kopyala**’nın hemen altında yer alır.

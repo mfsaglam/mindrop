@@ -18,6 +18,7 @@ struct MemoryListView: View {
     let repository: MemoryRepository
     let session: MindropSession
     var folderID: UUID? = nil
+    var isSplitColumn = false
     let folderPullFeedback: FolderPullFeedback
 
     @State private var query = ""
@@ -39,16 +40,27 @@ struct MemoryListView: View {
     @Environment(\.scenePhase) private var scenePhase
     private let newMemoryRequest = NewMemoryRequest.shared
 
-    private var isShowingFolders: Bool { folderID == nil && query.allSatisfy(\.isWhitespace) }
+    private var isGlobalSearch: Bool { isSplitColumn && folderID == nil }
+    private var isShowingFolders: Bool { !isGlobalSearch && folderID == nil && query.allSatisfy(\.isWhitespace) }
+
+    private var listTitle: Text {
+        if let folderID { return repository.folders.title(for: folderID) }
+        return isGlobalSearch ? Text("Search memories") : Text("Mindrop")
+    }
 
     private var canPullForFeedback: Bool {
-        guard !isSearching, query.allSatisfy(\.isWhitespace), !isSelecting, sheet == nil else { return false }
+        guard !isGlobalSearch, !isSearching, query.allSatisfy(\.isWhitespace), !isSelecting, sheet == nil else { return false }
         return isCurrentLibraryScreen
     }
 
     private var isCurrentLibraryScreen: Bool {
         if let folderID { return session.path.last == .folder(folderID) }
+        if isGlobalSearch { return session.path.last == .search }
         return session.path.isEmpty
+    }
+
+    private var shouldHandleNewMemoryRequest: Bool {
+        newMemoryRequest.isPending && (!isSplitColumn || isCurrentLibraryScreen)
     }
 
     private var categories: [MemoryCategory] { repository.categories(in: folderID) }
@@ -105,7 +117,7 @@ struct MemoryListView: View {
             onLaunch: createMemory
         ))
         .animation(.default, value: showsSections)
-        .navigationTitle(folderID.map { repository.folders.title(for: $0) } ?? Text("Mindrop"))
+        .navigationTitle(listTitle)
         .searchable(text: $query, isPresented: $isSearching, placement: .toolbar, prompt: "Search memories")
         .searchToolbarBehavior(.minimize)
         .toolbar {
@@ -119,7 +131,7 @@ struct MemoryListView: View {
                         showsSelectionCount: true
                     )
                 } else {
-                    if folderID == nil {
+                    if folderID == nil, !isSplitColumn {
                         Button("New Folder", systemImage: "folder.badge.plus") {
                             sheet = .folderEditor(.create)
                         }
@@ -142,16 +154,20 @@ struct MemoryListView: View {
                             .disabled(results.isEmpty && expiredResults.isEmpty)
                     }
                 }
-                ToolbarSpacer(.fixed, placement: .bottomBar)
-            } else {
+                if !isSplitColumn { ToolbarSpacer(.fixed, placement: .bottomBar) }
+            } else if !isSplitColumn {
                 ToolbarItemGroup(placement: .memoryLeading) {
                     Button { sheet = .settings } label: { Label("Settings", systemImage: "gearshape") }
                     if !isShowingFolders, !categories.isEmpty {
                         categoryMenu
                     }
                 }
+            } else if !categories.isEmpty {
+                ToolbarItem(placement: .bottomBar) { categoryMenu }
             }
-            DefaultToolbarItem(kind: .search, placement: .bottomBar)
+            if !isSplitColumn {
+                DefaultToolbarItem(kind: .search, placement: .bottomBar)
+            }
         }
         .overlay {
             if !isShowingFolders, results.isEmpty, expiredResults.isEmpty {
@@ -184,14 +200,20 @@ struct MemoryListView: View {
         .onDisappear { reviewRequestID = nil }
         // A Control Center control, the Action button or Siri asked for a new memory.
         // Replaces Settings if it was open: the user came here to write something down.
-        .onChange(of: newMemoryRequest.isPending, initial: true) { _, isPending in
-            let openFolderID = session.path.compactMap { route -> UUID? in
-                if case .folder(let id) = route { return id }
-                return nil
-            }.last
-            guard isPending, folderID == openFolderID else { return }
+        .onChange(of: shouldHandleNewMemoryRequest, initial: true) { _, shouldHandle in
+            guard shouldHandle else { return }
+            if !isSplitColumn {
+                let openFolderID = session.path.compactMap { route -> UUID? in
+                    if case .folder(let id) = route { return id }
+                    return nil
+                }.last
+                guard folderID == openFolderID else { return }
+            }
             newMemoryRequest.isPending = false
             sheet = .newMemory(folderID: MemoryFolders.generalID, scanning: newMemoryRequest.scans)
+        }
+        .onChange(of: isGlobalSearch, initial: true) { _, search in
+            if search { isSearching = true }
         }
         // "Search in Mindrop" in Spotlight: the same search here, across every category.
         .onChange(of: session.pendingSearch, initial: true) { _, pending in
