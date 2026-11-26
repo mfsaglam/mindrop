@@ -302,7 +302,11 @@ final class MindropSession {
             }
             spotlightHighlight = query.map { (id, $0) }
         case .search(let query):
+            #if os(iOS)
+            path = UIDevice.current.userInterfaceIdiom == .pad ? [.search] : []
+            #else
             path = []
+            #endif
             pendingSearch = query
         case nil:
             break
