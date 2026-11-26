@@ -190,7 +190,10 @@ struct PadLibraryView: View {
                 areaContent(for: route)
                     .navigationDestination(for: LibraryRoute.self) { destination in
                         if case .memory(let id) = destination {
-                            MemoryDetailView(repository: repository, memoryID: id, highlight: session.highlight(for: id))
+                            MemoryDetailView(
+                                repository: repository, memoryID: id, highlight: session.highlight(for: id),
+                                narrowsActions: true
+                            )
                                 .memoryScreenBackground(usesGradient: true)
                         }
                     }

@@ -7,16 +7,24 @@ struct MemoryDetailView: View {
     /// What was typed in Spotlight to find this memory, marked on screen. Nil when it was
     /// opened from the list, or Spotlight did not say.
     var highlight: String?
+    var narrowsActions = false
 
     @State private var isEditing = false
     @State private var didCopy = false
     @State private var copyCount = 0
     @State private var changeFailed = false
+    @State private var contentWidth: CGFloat = 0
+    @ScaledMetric(relativeTo: .body) private var minimumActionWidth: CGFloat = 280
     @Environment(\.self) private var environment
     @Environment(\.sensitiveAccess) private var sensitiveAccess
 
     private var memory: Memory? {
         repository.memory(id: memoryID)
+    }
+
+    private var actionWidth: CGFloat? {
+        guard narrowsActions, contentWidth > 0 else { return nil }
+        return min(contentWidth, max(contentWidth / 2, minimumActionWidth))
     }
 
     var body: some View {
@@ -36,7 +44,8 @@ struct MemoryDetailView: View {
     /// colour, and Copy, Share and the value's own action below it. On iPhone Duo's inner
     /// display, the value on the leading page and what to do with it on the trailing one.
     private func content(for memory: Memory) -> some View {
-        ScrollView {
+        let narrowsActions = narrowsActions
+        return ScrollView {
             FoldSpread(spacing: 18) {
                 header(for: memory)
 
@@ -46,12 +55,17 @@ struct MemoryDetailView: View {
             } secondary: {
                 if sensitiveAccess.canShow(memory) {
                     actions(for: memory)
+                        .frame(width: actionWidth, alignment: .leading)
                 }
 
                 if repository.isEligibleForStack(memory) {
                     stackOption(for: memory)
+                        .frame(width: actionWidth, alignment: .leading)
                 }
             }
+            .onGeometryChange(for: CGFloat.self) { geometry in
+                narrowsActions ? geometry.size.width : 0
+            } action: { contentWidth = $0 }
             .padding()
         }
         // No navigation title: the keyword is already on screen, above the value.
