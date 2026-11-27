@@ -163,6 +163,59 @@ Bir bölümde kısa ve güçlü bir ana başlık, onu açan bir açıklama ve va
 
 Yeni uygulamadan gerçek ekran görüntüleri al. İlk görsel için kullanıcının kendi bilgisini Spotlight’ta bulduğu an mevcut serinin temelidir. Devamında hızlı kayıt, kategorili kütüphane ve QR kodu veya tarayıcıda açma gibi türüne özel eylemlerle hikâyeyi tamamla. Cihazlar arası erişim önemliyse aynı kaydı iki cihazda gerçek ekranlarla göster. Her görselin pazarlama başlığını ekranın dışında Bricolage Grotesque ile diz.
 
+App Store görsellerinin üstüne uygulama adı veya logo içeren ayrı bir marka satırı ekleme. Görseli, faydayı anlatan başlıkla aç.
+
+Her kare için önce kullanıcının göreceği faydayı ve onu gösteren gerçek ekranı seç. Başlığı, satır kırılımını, yerleşimi ve vurgulanacak kelimeyi veya kısa ifadeyi birlikte kararlaştır. Vurgu biçimini ve rengini Mindrop paletine göre belirle. Başlığı ve odak bölgesini yaklaşık 160 px genişlikte de kontrol et. [Parth Jadhav’ın başlık rehberi](https://github.com/ParthJadhav/app-store-screenshots/blob/main/skills/app-store-screenshots/copy-ideas.md) · [Görsel tasarım ilkeleri](https://github.com/ParthJadhav/app-store-screenshots/blob/main/skills/app-store-screenshots/SKILL.md#visual-design-principles)
+
+Onaylanan kompozisyonu `$app-store-screenshots` becerisiyle yerelde HTML/CSS olarak hazırla ve hedef cihaz ölçüsünde PNG’ye aktar.
+
+### İngilizce iPhone serisi
+
+Sekiz karelik taslak, Spotlight’ta bir bilgiyi geri bulma anıyla açılır. Ardından nelerin kaydedilebildiğini, kaydın nasıl eklendiğini, klasörde nasıl düzenlendiğini ve Wi‑Fi örneğinde nasıl kullanıldığını gösterir. Son üç kare, sık gereken bilgileri Yığın’da seçmeyi, widget’ta bir bakışta görmeyi ve iCloud ile başka bir cihazdan açmayı anlatır. `gate → C24` ilk dört kareyi Yığın ve widget karelerine bağlayan örnektir.
+
+1. **Find it in Spotlight.** Alt metin “Search the keyword. See what you saved.” Başlığı sol üstte iki satırda diz ve ikinci satırdaki **Spotlight** sözcüğünü kırık beyaz zeminde kobalt `#3456D1` metinle ve ince bir çemberle vurgula. Gerçek Spotlight sonucundaki `gate → C24` satırını büyüt. [Spotlight çekimi](docs/assets/devices/iphone-spotlight-gate-result.webp)
+2. **Save the little things.** Alt metin “Give each one a keyword.” Başlığı aynı hizada iki satırda diz ve ikinci satırdaki **little things** ifadesini gece laciverti zeminde açık kobalt `#B9CAFF` metinle vurgula. `gate`, `parking` ve `printer ink` hücrelerini ana ekrandaki Yığın önizlemesinden alıp alt alta diz. [Mindrop ana ekran çekimi](docs/assets/screens/library.jpg)
+3. **Two fields. You’re done.** İlk satırdaki **Two fields** ifadesini kırık beyaz zeminde kobalt `#3456D1` ile vurgula. Yeni Kayıt ekranını `gate` ve `C24` girilmiş halde yeniden çek. İki alanı birlikte öne çıkar ve Kaydet işaretini görünür bırak. [Yeni Kayıt yerleşim referansı](docs/assets/devices/iphone-new-memory-arrival.webp)
+4. **One trip. One folder.** İkinci satırdaki **One folder** ifadesini gece laciverti zeminde açık kobalt `#B9CAFF` ile vurgula. Paris trip klasörünü açık göster. `gate → C24`, otel adresi ve müze bağlantısı farklı türde ayrıntıların bir arada olduğunu kanıtlar. Yeni çekimde `parking` değeri ikinci karedeki `B2 · Blue zone` ile eşleşsin. [Paris trip çekim referansı](docs/assets/devices/iphone-paris-trip-folder.webp)
+5. **Share Wi‑Fi with a scan.** İkinci satırdaki **with a scan** ifadesini kırık beyaz zeminde kobalt `#3456D1` ile vurgula. Kilidi açılmış örnek misafir Wi‑Fi kaydının detay ekranını kullan. Ağa katılma QR kodunu boş kenarlarıyla birlikte büyüt. [Misafir Wi‑Fi çekimi](docs/assets/devices/iphone-guest-wifi-qr.webp)
+6. **Keep it in your Stack.** Alt metin “Pick the details you reach for most.” İkinci satırdaki **Stack** sözcüğünü gece laciverti zeminde açık kobalt `#B9CAFF` ile vurgula. Yığın ekranını açık çek. `gate → C24` ve kullanıcı tarafından seçilmiş diğer kayıtları göster. Ana ekrandaki önizleme, kayıtların görünümü için referans. [Yığın önizlemesi](docs/assets/devices/iphone-library-stack-preview.webp)
+7. **See it at a glance.** Alt metin “On your Home Screen or Lock Screen.” İkinci satırdaki **at a glance** ifadesini kırık beyaz zeminde kobalt `#3456D1` ile vurgula. Orta boy Ana Ekran widget’ını öne al ve Kilit Ekranı widget’ını yanında göster. Yığın karesindeki aynı demo kayıtlarını ve sıralamayı kullan. [Ana Ekran widget’ı](docs/assets/devices/iphone-home-screen-stack-widget.webp) · [Kilit Ekranı widget’ı](docs/assets/devices/iphone-lock-screen-stack-widget.webp)
+8. **In sync with iCloud.** İkinci satırdaki **iCloud** sözcüğünü gece laciverti zeminde açık kobalt `#B9CAFF` ile vurgula. `Lisbon trip` içindeki `hotel address → 12 Rua Exemplo, Lisbon` kaydını iPhone ve Mac’te birlikte göster. iCloud Sync açıkken ve iki cihazda senkronizasyon tamamlandıktan sonra iPhone çekimini al. Her iki ekrandaki adres okunabilmeli. [Mac çekim referansı](docs/assets/devices/mac-paris-trip-address.webp)
+
+Sekiz karelik inceleme seti mevcut çekimlerle üretildi. Üçüncü kare `film recommendation → Arrival (2016)` örneğini kullanır. Dördüncü kare park yerinin daha ayrıntılı değerini gösterir. Altıncı karede Yığın’ın ana ekran önizlemesi öne çıkar. Sekizinci karede aynı Paris otel adresini gösteren iPhone ve iPad çekimleri kullanıldı. [iPad çekimi](docs/assets/devices/ipad-paris-trip-folder-02.webp)
+
+### İngilizce iPad serisi
+
+Altı kareyi mevcut iPad çekimleriyle 13 inç dikey, `2064 × 2752 px` hazırla. Kayıt bulma anıyla aç, ardından hızlı kayıt ve kaydedilen bilgiyi kullanma örneklerini göster. Stack ve widget’ları tek karede birleştir. Aynı kaydın iki cihazda görünmesiyle bitir. Başlıklarda açık zeminde kobalt `#3456D1`, koyu zeminde açık kobalt `#B9CAFF` kullan. [Apple ekran görüntüsü ölçüleri](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/)
+
+1. **Find what you saved.** Alt metin “Open a folder and spot the detail you need.” **you saved** ifadesini ince çemberle vurgula. Paris trip klasörü ve kenar çubuğu aynı yatay iPad çekiminde görünsün. `gate → C24` kartını büyüt. [Paris trip iPad çekimi](docs/assets/devices/ipad-paris-trip-folder-02.webp)
+2. **Two fields. You’re done.** **Two fields** ifadesini vurgula. Yeni Kayıt penceresinde `film recommendation → Arrival (2016)` alanlarını ve kaydetme işaretini birlikte öne çıkar.
+3. **Keep the steps handy.** **steps handy** ifadesini vurgula. Kahve makinesi bakım kaydını, adımların tamamı ve Kopyala eylemi görünür halde göster.
+4. **Share Wi‑Fi with a scan.** **with a scan** ifadesini vurgula. Misafir Wi‑Fi kaydından ağa katılma QR kodunu boş kenarlarıyla büyüt.
+5. **Your Stack, at a glance.** Alt metin “On your Home Screen or Lock Screen.” **at a glance** ifadesini vurgula. iPad Ana Ekran widget’ını öne al ve aynı `gate → C24` ile `seat → 18A · Window` kayıtlarını gösteren Kilit Ekranı widget’ına yer ver.
+6. **In sync with iCloud.** **iCloud** sözcüğünü vurgula. Paris trip klasörünün iPad ve iPhone çekimlerini eşleştir ve aynı otel adresini iki cihazda öne çıkar. [Paris trip iPad çekimi](docs/assets/devices/ipad-paris-trip-folder-02.webp) · [Paris trip iPhone çekimi](docs/assets/devices/iphone-paris-trip-folder.webp)
+
+### İngilizce iPhone Duo serisi
+
+Mindrop V2’deki sekiz yatay iç ekran çekimini Night Sky cihaz çerçevesine yerleştir. İngilizce mağaza serisini `2853 × 2007 px` hazırla. Geniş iç ekranın klasör kenar çubuğunu ve dikey araç çubuğunu, akışın parçası oldukları karelerde görünür tut. [Apple ekran görüntüsü ölçüleri](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/)
+
+1. **Find it in Spotlight.** “Search the keyword. See what you saved.” alt metniyle aç ve `gate → C24` sonucunu büyüt.
+2. **Two fields. You’re done.** Yeni Kayıt ekranındaki `film recommendation → Arrival (2016)` alanlarını öne çıkar.
+3. **One trip. One folder.** Paris trip klasörünü kenar çubuğuyla göster ve `gate → C24` kartını büyüt.
+4. **Keep the steps handy.** Kahve makinesi bakım adımlarını geniş detay ekranında göster.
+5. **Share Wi‑Fi with a scan.** Misafir ağının gerçek QR kodunu boş kenarlarıyla büyüt.
+6. **Keep it in your Stack.** Açık Stack ekranında seçilmiş altı kaydı kenar çubuğuyla birlikte göster.
+7. **See it at a glance.** `gate → C24` örneğini Ana Ekran ve Kilit Ekranı widget’larında göster.
+8. **In sync with iCloud.** Aynı Paris otel adresini Duo ve iPad çekimlerinde öne çıkar.
+
+### İngilizce Apple Watch serisi
+
+Mindrop V2’deki üç Apple Watch çekimini `422 × 514 px` mağaza görseli olarak hazırla. Arayüzü yalnızca saat çerçevesinin içindeki özgün tam çekimde göster. Üç karede aynı Watch Ultra çerçevesini ve ölçeği kullan. [Apple ekran görüntüsü ölçüleri](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/)
+
+1. **Two fields. You’re done.** `Gate → C24` girilmiş kayıt formunu göster. Açık zeminde **Two fields** ifadesini kobaltla vurgula.
+2. **Save here. Find it in Spotlight.** Kaydet düğmesini ve iPhone’un kaydı Spotlight’a eklediğini açıklayan ekranı göster. Koyu zeminde **Find it in Spotlight** ifadesini açık kobaltla vurgula.
+3. **See it at a glance.** `gate → C24` örneğini saat kadranındaki Mindrop komplikasyonunda göster. Açık zeminde **at a glance** ifadesini kobaltla vurgula.
+
 ## Çalışma sırası ve kaynaklar
 
 Önce uygulama tasarımını güncelle ve yeni sürümden gerçek ekran görüntülerini al. App Store görsellerini bu ekranlarla hazırla. Web aşamasında günlük hayat sahnelerinden uygun olanları seç, görselleri Gemini’da yeni ekran görüntüleriyle hazırla ve ardından web sitesini güncelle.
