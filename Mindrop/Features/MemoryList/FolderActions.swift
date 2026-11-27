@@ -1,6 +1,47 @@
 import MindropCore
 import SwiftUI
 
+extension MemoryRepository {
+    var activeMemoryCountsByFolder: [UUID: Int] {
+        results(for: "").reduce(into: [:]) { counts, memory in
+            counts[folders.folderID(for: memory.id), default: 0] += 1
+        }
+    }
+}
+
+struct LibrarySidebarLabel: View {
+    static let rowHeight: CGFloat = 44
+
+    let title: Text
+    let symbol: String
+    let count: Int
+
+    @Environment(\.self) private var environment
+    @Environment(\.backgroundProminence) private var backgroundProminence
+
+    var body: some View {
+        let highlightForeground = backgroundProminence == .increased
+            ? Color.accentColor.contrastingForeground(in: environment)
+            : nil
+
+        HStack {
+            Label {
+                title.foregroundStyle(highlightForeground ?? .primary)
+            } icon: {
+                Image(systemName: symbol).foregroundStyle(highlightForeground ?? Color(.folderAccent))
+            }
+            Spacer(minLength: 4)
+            Text(count, format: .number)
+                .monospacedDigit()
+                .foregroundStyle(highlightForeground ?? .secondary)
+                .accessibilityLabel(Text("Memory Count"))
+                .accessibilityValue(Text(count, format: .number))
+        }
+        .frame(minHeight: Self.rowHeight)
+        .contentShape(.rect)
+    }
+}
+
 struct FolderEditorView: View {
     enum Mode: Hashable, Identifiable {
         case create

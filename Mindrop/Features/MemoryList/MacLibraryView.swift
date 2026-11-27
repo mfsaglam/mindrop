@@ -13,12 +13,14 @@ struct MacLibraryView: View {
     let repository: MemoryRepository
     let session: MindropSession
 
-    @State private var area: Area?
+    @State private var area: Area? = .folder(MemoryFolders.generalID)
+    @State private var columnVisibility: NavigationSplitViewVisibility = .all
     @State private var query = ""
     @State private var isSearching = false
     @State private var selectedIDs: Set<UUID>?
     @State private var pendingDeletion: [Memory] = []
     @State private var pendingFolderDeletion: MemoryFolder?
+    @State private var isConfirmingEmptyTrash = false
     @State private var changeFailed = false
     @State private var folderEditor: FolderEditorView.Mode?
     @AppStorage(Preference.groupsByCategory) private var groupsByCategory = true
@@ -33,6 +35,13 @@ struct MacLibraryView: View {
     private var showsStack: Bool { query.isEmpty && area == .stack }
     private var isSelecting: Bool { selectedIDs != nil }
 
+    private var sidebarSelection: Binding<Area?> {
+        Binding(get: { area }, set: { destination in
+            guard let destination, destination != area else { return }
+            showArea(destination)
+        })
+    }
+
     private var selection: Binding<UUID?> {
         Binding(
             get: { session.selectedMemoryID },
@@ -42,6 +51,12 @@ struct MacLibraryView: View {
                 session.clearSpotlightHighlight()
             }
         )
+    }
+
+    private var detailPath: Binding<[UUID]> {
+        Binding(get: { session.selectedMemoryID.map { [$0] } ?? [] }, set: { path in
+            selection.wrappedValue = path.last
+        })
     }
 
     private var memories: [Memory] {
@@ -58,50 +73,42 @@ struct MacLibraryView: View {
     }
 
     var body: some View {
-        NavigationSplitView {
-            List(selection: $area) {
-                folderRow(Text("General"), area: .folder(MemoryFolders.generalID))
-                folderRow(
-                    Text("Stack"), symbol: "square.stack", area: .stack, count: repository.stackMemories.count
-                )
-                ForEach(repository.folders.custom) { folder in
-                    folderRow(Text(folder.name), area: .folder(folder.id))
-                        .contextMenu {
-                            FolderMenuActions(
-                                rename: { folderEditor = .rename(folder.id) },
-                                delete: { pendingFolderDeletion = folder }
-                            )
-                        }
-                }
-                if !repository.deletedMemories.isEmpty || area == .recentlyDeleted {
-                    folderRow(Text("Recently Deleted"), symbol: "trash", area: .recentlyDeleted)
-                }
-            }
-            .listStyle(.sidebar)
-            .navigationTitle("Mindrop")
-            .navigationSplitViewColumnWidth(min: 155, ideal: 175, max: 225)
-        } content: {
-            Group {
-                if showsRecentlyDeleted {
-                    RecentlyDeletedView(repository: repository)
-                } else if showsStack {
-                    MemoryStackView(repository: repository, selection: selection)
-                } else if area != nil || !query.isEmpty {
-                    memoryList
-                } else {
-                    ContentUnavailableView("Select a Folder", systemImage: "folder")
-                }
-            }
-            .navigationSplitViewColumnWidth(min: 220, ideal: 255)
+        NavigationSplitView(columnVisibility: $columnVisibility) {
+            sidebar
+                .toolbar(removing: .sidebarToggle)
         } detail: {
-            detail
-                .frame(minWidth: 270)
+            NavigationStack(path: detailPath) {
+                areaContent
+                    .navigationDestination(for: UUID.self) { id in
+                        if repository.memory(id: id)?.isDeleted == true {
+                            ContentUnavailableView("Memory Not Found", systemImage: "info.circle")
+                        } else {
+                            MemoryDetailView(
+                                repository: repository, memoryID: id, highlight: session.highlight(for: id),
+                                narrowsActions: true
+                            )
+                            .id(id)
+                        }
+                    }
+            }
+            .frame(minWidth: 270)
         }
+        .navigationSplitViewStyle(.balanced)
         .searchable(text: $query, isPresented: $isSearching, placement: .toolbar, prompt: "Search memories")
         .focusedSceneValue(\.findMemories, { isSearching = true })
         .toolbar {
-            ToolbarItem {
+            ToolbarItem(placement: .navigation) {
+                SettingsLink {
+                    Label("Settings", systemImage: "gearshape")
+                }
+                .labelStyle(.iconOnly)
+            }
+            ToolbarItemGroup(placement: .primaryAction) {
                 Button("New Folder", systemImage: "folder.badge.plus") { folderEditor = .create }
+                Button("Toggle Sidebar", systemImage: "sidebar.left") {
+                    columnVisibility = columnVisibility == .detailOnly ? .all : .detailOnly
+                }
+                .labelStyle(.iconOnly)
             }
             ToolbarItem {
                 Button("New Memory", systemImage: "plus") {
@@ -112,14 +119,12 @@ struct MacLibraryView: View {
                 ToolbarItem {
                     Menu("Manage Memories", systemImage: "ellipsis.circle") {
                         Button("Expired", systemImage: "clock") {
-                            query = ""
-                            isSearching = false
-                            area = .expired
+                            showArea(.expired)
                         }
                     }
                 }
             }
-            if let folderID, isSelecting || query.isEmpty {
+            if let folderID, session.selectedMemoryID == nil, isSelecting || query.isEmpty {
                 ToolbarItemGroup {
                     if let selectedIDs {
                         let selected = repository.results(for: "", folderID: folderID)
@@ -149,18 +154,14 @@ struct MacLibraryView: View {
         }
         .onChange(of: repository.folders.custom.map(\.id)) { _, ids in
             if let folderID, folderID != MemoryFolders.generalID, !ids.contains(folderID) {
-                area = .folder(MemoryFolders.generalID)
+                showArea(.folder(MemoryFolders.generalID))
             }
+        }
+        .onChange(of: query) { _, query in
+            if !query.isEmpty { selection.wrappedValue = nil }
         }
         .onChange(of: area) {
             selectedIDs = nil
-            if area == .recentlyDeleted || area == .stack {
-                query = ""
-                isSearching = false
-            }
-            if let id = selection.wrappedValue, !memories.contains(where: { $0.id == id }) {
-                selection.wrappedValue = nil
-            }
         }
         .onChange(of: repository.stackMemories.map(\.id)) { _, ids in
             if showsStack, let id = selection.wrappedValue, !ids.contains(id) {
@@ -191,9 +192,10 @@ struct MacLibraryView: View {
         .folderDeletionAlert(for: $pendingFolderDeletion) { folder in
             change {
                 try repository.deleteFolder(folder.id)
-                if area == .folder(folder.id) { area = nil }
+                if area == .folder(folder.id) { showArea(.folder(MemoryFolders.generalID)) }
             }
         }
+        .emptyTrashAlert(isPresented: $isConfirmingEmptyTrash, repository: repository) { _ in changeFailed = true }
         .alert("Couldn’t save", isPresented: $changeFailed) {
             Button("OK", role: .cancel) {}
         } message: {
@@ -201,27 +203,67 @@ struct MacLibraryView: View {
         }
     }
 
-    private func folderRow(_ title: Text, symbol: String = "folder", area: Area, count: Int? = nil) -> some View {
-        HStack {
-            Label {
-                title
-            } icon: {
-                Image(systemName: symbol)
-                    .foregroundStyle(area == .recentlyDeleted ? Color.primary : Color(.folderAccent))
+    private func showArea(_ destination: Area) {
+        selection.wrappedValue = nil
+        query = ""
+        isSearching = false
+        area = destination
+    }
+
+    private var sidebar: some View {
+        let counts = repository.activeMemoryCountsByFolder
+        let deletedCount = repository.deletedMemories.count
+        return List(selection: sidebarSelection) {
+            folderRow(
+                Text("General"), area: .folder(MemoryFolders.generalID), count: counts[MemoryFolders.generalID, default: 0]
+            )
+            ForEach(repository.folders.custom) { folder in
+                folderRow(Text(folder.name), area: .folder(folder.id), count: counts[folder.id, default: 0])
+                    .contextMenu {
+                        FolderMenuActions(
+                            rename: { folderEditor = .rename(folder.id) },
+                            delete: { pendingFolderDeletion = folder }
+                        )
+                    }
             }
-            if let count {
-                Spacer(minLength: 4)
-                Text(count, format: .number)
-                    .monospacedDigit()
-                    .foregroundStyle(.secondary)
-                    .accessibilityLabel(Text("Memory Count"))
-                    .accessibilityValue(Text(count, format: .number))
+            folderRow(Text("Stack"), symbol: "square.stack", area: .stack, count: repository.stackMemories.count)
+            if deletedCount > 0 || area == .recentlyDeleted {
+                folderRow(Text("Recently Deleted"), symbol: "trash", area: .recentlyDeleted, count: deletedCount)
+                    .contextMenu {
+                        if deletedCount > 0 {
+                            Button("Empty Trash", systemImage: "trash", role: .destructive) { isConfirmingEmptyTrash = true }
+                        }
+                    }
             }
         }
-        .frame(maxWidth: .infinity, minHeight: 60, alignment: .leading)
-        .contentShape(.rect)
-        .listRowInsets(.vertical, 0)
-        .tag(area)
+        .listStyle(.sidebar)
+        .environment(\.defaultMinListRowHeight, LibrarySidebarLabel.rowHeight)
+        .navigationSplitViewColumnWidth(min: 200, ideal: 280, max: 300)
+    }
+
+    private func folderRow(_ title: Text, symbol: String = "folder", area: Area, count: Int) -> some View {
+        LibrarySidebarLabel(title: title, symbol: symbol, count: count)
+            .listRowInsets(.vertical, 0)
+            .tag(area)
+    }
+
+    @ViewBuilder
+    private var areaContent: some View {
+        if showsRecentlyDeleted {
+            RecentlyDeletedView(repository: repository)
+        } else if showsStack {
+            MemoryStackView(repository: repository, selection: selection)
+        } else if isEmptyLibrary {
+            ScrollView {
+                SpotlightGuide { session.showMacCapture() }
+                    .padding(24)
+            }
+            .navigationTitle(listTitle)
+        } else if area != nil || !query.isEmpty {
+            memoryList
+        } else {
+            ContentUnavailableView("Select a Folder", systemImage: "folder")
+        }
     }
 
     private var memoryList: some View {
@@ -262,25 +304,6 @@ struct MacLibraryView: View {
         case .expired: Text("Expired")
         case .recentlyDeleted: Text("Recently Deleted")
         case nil: Text("Mindrop")
-        }
-    }
-
-    @ViewBuilder
-    private var detail: some View {
-        if isSelecting {
-            Color.clear
-        } else if let id = selection.wrappedValue, repository.memory(id: id)?.isDeleted != true {
-            MemoryDetailView(repository: repository, memoryID: id, highlight: session.highlight(for: id))
-                .id(id)
-        } else if isEmptyLibrary {
-            ScrollView {
-                SpotlightGuide { session.showMacCapture() }
-                    .padding(24)
-            }
-        } else if !showsRecentlyDeleted, area != nil || !query.isEmpty {
-            ContentUnavailableView("Select a Memory", systemImage: "text.alignleft")
-        } else {
-            Color.clear
         }
     }
 

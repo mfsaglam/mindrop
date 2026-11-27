@@ -25,7 +25,6 @@ struct PadLibraryView: View {
     @State private var changeFailed = false
 
     private let newMemoryRequest = NewMemoryRequest.shared
-    private static let sidebarRowHeight: CGFloat = 44
 
     private var general: LibraryRoute { .folder(MemoryFolders.generalID) }
 
@@ -77,9 +76,7 @@ struct PadLibraryView: View {
     }
 
     private var sidebar: some View {
-        let counts = repository.results(for: "").reduce(into: [UUID: Int]()) { counts, memory in
-            counts[repository.folders.folderID(for: memory.id), default: 0] += 1
-        }
+        let counts = repository.activeMemoryCountsByFolder
         let deletedCount = repository.deletedMemories.count
         return List(selection: sidebarSelection) {
             sidebarButton(Text("General"), symbol: "folder", count: counts[MemoryFolders.generalID, default: 0], route: general)
@@ -91,7 +88,7 @@ struct PadLibraryView: View {
                         delete: { pendingFolderDeletion = folder }
                     )
                 } label: {
-                    SidebarLabel(title: Text(folder.name), symbol: "folder", count: counts[folder.id, default: 0])
+                    LibrarySidebarLabel(title: Text(folder.name), symbol: "folder", count: counts[folder.id, default: 0])
                 } primaryAction: {
                     select(route)
                 }
@@ -105,7 +102,7 @@ struct PadLibraryView: View {
                 Menu {
                     Button("Empty Trash", systemImage: "trash", role: .destructive) { isConfirmingEmptyTrash = true }
                 } label: {
-                    SidebarLabel(title: Text("Recently Deleted"), symbol: "trash", count: deletedCount)
+                    LibrarySidebarLabel(title: Text("Recently Deleted"), symbol: "trash", count: deletedCount)
                 } primaryAction: {
                     select(.recentlyDeleted)
                 }
@@ -117,7 +114,7 @@ struct PadLibraryView: View {
             }
         }
         .listStyle(.sidebar)
-        .environment(\.defaultMinListRowHeight, Self.sidebarRowHeight)
+        .environment(\.defaultMinListRowHeight, LibrarySidebarLabel.rowHeight)
         .navigationSplitViewColumnWidth(min: 200, ideal: 280, max: 300)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -146,42 +143,11 @@ struct PadLibraryView: View {
 
     private func sidebarButton(_ title: Text, symbol: String, count: Int, route: LibraryRoute) -> some View {
         Button { select(route) } label: {
-            SidebarLabel(title: title, symbol: symbol, count: count)
+            LibrarySidebarLabel(title: title, symbol: symbol, count: count)
         }
         .buttonStyle(.plain)
         .listRowInsets(.vertical, 0)
         .tag(route)
-    }
-
-    private struct SidebarLabel: View {
-        let title: Text
-        let symbol: String
-        let count: Int
-
-        @Environment(\.self) private var environment
-        @Environment(\.backgroundProminence) private var backgroundProminence
-
-        var body: some View {
-            let highlightForeground = backgroundProminence == .increased
-                ? Color.accentColor.contrastingForeground(in: environment)
-                : nil
-
-            HStack {
-                Label {
-                    title.foregroundStyle(highlightForeground ?? .primary)
-                } icon: {
-                    Image(systemName: symbol).foregroundStyle(highlightForeground ?? Color(.folderAccent))
-                }
-                Spacer(minLength: 4)
-                Text(count, format: .number)
-                    .monospacedDigit()
-                    .foregroundStyle(highlightForeground ?? .secondary)
-                    .accessibilityLabel(Text("Memory Count"))
-                    .accessibilityValue(Text(count, format: .number))
-            }
-            .frame(minHeight: PadLibraryView.sidebarRowHeight)
-            .contentShape(.rect)
-        }
     }
 
     private func detail(for route: LibraryRoute) -> some View {
