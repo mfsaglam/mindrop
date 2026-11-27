@@ -16,6 +16,17 @@ enum LibraryRoute: Hashable {
 struct RootView: View {
     let session: MindropSession
     @Environment(\.scenePhase) private var scenePhase
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
+    private var usesSplitLibrary: Bool {
+        let idiom = UIDevice.current.userInterfaceIdiom
+        if idiom == .pad { return true }
+        guard #available(iOS 27.1, *), idiom == .phone else { return false }
+        // The Duo's inner display is regular width. The outer display is compact.
+        return horizontalSizeClass == .regular
+    }
+    #endif
 
     var body: some View {
         Group {
@@ -30,13 +41,15 @@ struct RootView: View {
                         if scenePhase == .active { session.refreshOnActivation() }
                     }
                 #else
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    PadLibraryView(repository: repository, session: session)
-                        .task {
-                            if scenePhase == .active { session.refreshOnActivation() }
-                        }
-                } else {
-                    PhoneLibraryView(repository: repository, session: session)
+                Group {
+                    if usesSplitLibrary {
+                        SplitLibraryView(repository: repository, session: session)
+                    } else {
+                        PhoneLibraryView(repository: repository, session: session)
+                    }
+                }
+                .task {
+                    if scenePhase == .active { session.refreshOnActivation() }
                 }
                 #endif
             case .failed:
@@ -58,7 +71,11 @@ struct RootView: View {
             session.open(activity: activity)
         }
         .onContinueUserActivity(SpotlightRouter.searchActivityType) { activity in
+            #if os(iOS)
+            session.open(activity: activity, usesSplitLibrary: usesSplitLibrary)
+            #else
             session.open(activity: activity)
+            #endif
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { session.refreshOnActivation() }
@@ -72,7 +89,6 @@ struct RootView: View {
 private struct PhoneLibraryView: View {
     let repository: MemoryRepository
     let session: MindropSession
-    @Environment(\.scenePhase) private var scenePhase
     @State private var libraryPullFeedback = FolderPullFeedback()
     @State private var folderPullFeedback = FolderPullFeedback()
     @State private var stackPullFeedback = FolderPullFeedback()
@@ -96,8 +112,11 @@ private struct PhoneLibraryView: View {
                     .navigationDestination(for: LibraryRoute.self) { route in
                         switch route {
                         case .search:
-                            MemoryListView(repository: repository, session: session, folderPullFeedback: libraryPullFeedback)
-                                .memoryScreenBackground(usesGradient: true)
+                            MemoryListView(
+                                repository: repository, session: session, isGlobalSearch: true,
+                                folderPullFeedback: libraryPullFeedback
+                            )
+                            .memoryScreenBackground(usesGradient: true)
                         case .folder(let id):
                             MemoryListView(
                                 repository: repository, session: session, folderID: id,
@@ -134,9 +153,6 @@ private struct PhoneLibraryView: View {
                 return id != MemoryFolders.generalID && !ids.contains(id)
             }) else { return }
             session.path.removeSubrange(removedFolder...)
-        }
-        .task {
-            if scenePhase == .active { session.refreshOnActivation() }
         }
     }
 }

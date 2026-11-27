@@ -5,6 +5,7 @@ import SwiftUI
 /// grids: an even number, the same on each page, with a wider gap at the fold, so no card
 /// lies across it. Two columns, as before, on every other iPhone.
 struct CardGrid<Content: View>: View {
+    var spansFold = true
     @ViewBuilder var content: Content
 
     private let spacing: CGFloat = 12
@@ -14,13 +15,14 @@ struct CardGrid<Content: View>: View {
 
     var body: some View {
         let minimumCardWidth = minimumCardWidth
+        let spansFold = spansFold
         LazyVGrid(columns: columns, alignment: .leading, spacing: spacing) {
             content
         }
         // Measured on the full-width frame, which the columns inside it can't change.
         .frame(maxWidth: .infinity)
         .onGeometryChange(for: Space.self) { proxy in
-            Space(width: proxy.size.width, fold: Fold(in: proxy, minimumPage: minimumCardWidth))
+            Space(width: proxy.size.width, fold: spansFold ? Fold(in: proxy, minimumPage: minimumCardWidth) : nil)
         } action: { space = $0 }
     }
 

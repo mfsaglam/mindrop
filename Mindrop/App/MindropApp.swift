@@ -75,6 +75,9 @@ final class MindropSession {
     /// Back at the list, a highlight from Spotlight has served its purpose.
     var path: [LibraryRoute] = [] {
         didSet {
+            #if os(iOS)
+            if oldValue.first == .search, path.first != .search { globalSearchQuery = "" }
+            #endif
             if case .memory = path.last { return }
             spotlightHighlight = nil
         }
@@ -91,6 +94,10 @@ final class MindropSession {
     /// A search carried on from Spotlight ("Search in Mindrop"), for the list to show.
     /// The list clears it once shown.
     var pendingSearch: String?
+    #if os(iOS)
+    /// The dedicated search screen can move between the split and single-column libraries.
+    var globalSearchQuery = ""
+    #endif
     /// What was typed in Spotlight before the memory on screen was tapped, when Spotlight
     /// passes it along, so the detail screen can mark it.
     private(set) var spotlightHighlight: (memoryID: UUID, query: String)?
@@ -289,7 +296,7 @@ final class MindropSession {
     /// Opens the memory behind a tapped Spotlight result, without animating in from
     /// the list first, so the detail screen is what the user sees. "Search in Mindrop"
     /// goes back to the list, searching for what was typed.
-    func open(activity: NSUserActivity) {
+    func open(activity: NSUserActivity, usesSplitLibrary: Bool = false) {
         #if DEBUG
         lastSpotlightActivity = (activity.activityType, (activity.userInfo ?? [:]).keys.map { "\($0)" }.sorted())
         #endif
@@ -302,11 +309,7 @@ final class MindropSession {
             }
             spotlightHighlight = query.map { (id, $0) }
         case .search(let query):
-            #if os(iOS)
-            path = UIDevice.current.userInterfaceIdiom == .pad ? [.search] : []
-            #else
-            path = []
-            #endif
+            path = usesSplitLibrary ? [.search] : []
             pendingSearch = query
         case nil:
             break

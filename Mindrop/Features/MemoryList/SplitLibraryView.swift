@@ -3,7 +3,7 @@ import MindropCore
 import MindropIntents
 import SwiftUI
 
-struct PadLibraryView: View {
+struct SplitLibraryView: View {
     private enum SidebarSheet: Hashable, Identifiable {
         case folderEditor(FolderEditorView.Mode)
         case settings
@@ -56,6 +56,9 @@ struct PadLibraryView: View {
                 session.path = [area] + path
             }
             compactColumn = .detail
+        }
+        .onChange(of: session.pendingSearch, initial: true) { _, pending in
+            if pending != nil, area != .search { select(.search) }
         }
         .onChange(of: repository.folders.custom.map(\.id)) { _, ids in
             if case .folder(let id) = area, area != general, !ids.contains(id) { select(general) }
@@ -191,11 +194,12 @@ struct PadLibraryView: View {
         case .stack:
             MemoryStackView(
                 repository: repository, pullFeedback: stackPullFeedback, isActiveScreen: session.path.last == route,
-                openMemory: { session.path.append(.memory($0)) }
+                openMemory: { session.path.append(.memory($0)) }, isSplitColumn: true
             )
         case .recentlyDeleted:
             RecentlyDeletedView(
-                repository: repository, pullFeedback: recentlyDeletedPullFeedback, isActiveScreen: session.path.last == route
+                repository: repository, pullFeedback: recentlyDeletedPullFeedback,
+                isActiveScreen: session.path.last == route, isSplitColumn: true
             )
         case .memory:
             memoryList(folderID: MemoryFolders.generalID)
@@ -205,6 +209,7 @@ struct PadLibraryView: View {
     private func memoryList(folderID: UUID?) -> some View {
         MemoryListView(
             repository: repository, session: session, folderID: folderID, isSplitColumn: true,
+            isGlobalSearch: folderID == nil,
             folderPullFeedback: folderPullFeedback
         )
         .memoryScreenBackground(usesGradient: true)

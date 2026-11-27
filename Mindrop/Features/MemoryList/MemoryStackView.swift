@@ -10,6 +10,7 @@ struct MemoryStackView: View {
     let isActiveScreen: Bool
     let openMemory: (UUID) -> Void
     #endif
+    var isSplitColumn = false
 
     @State private var showsPicker = false
     @State private var changeFailed = false
@@ -19,7 +20,7 @@ struct MemoryStackView: View {
         stackList(memories)
             .overlay {
                 if memories.isEmpty {
-                    ContentUnavailableView {
+                    let emptyState = ContentUnavailableView {
                         Label("Stack is Empty", systemImage: "square.stack")
                     } description: {
                         Text("Choose memories from your folders to keep them together here.")
@@ -28,7 +29,11 @@ struct MemoryStackView: View {
                             .buttonStyle(.borderedProminent)
                             .tint(Color(.brandCobalt))
                     }
-                    .onLeadingPage()
+                    if isSplitColumn {
+                        emptyState.frame(maxWidth: .infinity, alignment: .center)
+                    } else {
+                        emptyState.onLeadingPage()
+                    }
                 }
             }
             .navigationTitle("Stack")

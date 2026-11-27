@@ -9,6 +9,7 @@ struct RecentlyDeletedView: View {
     #if os(iOS)
     let pullFeedback: FolderPullFeedback
     let isActiveScreen: Bool
+    var isSplitColumn = false
     #endif
 
     /// The memory the user chose to delete for good, waiting for them to confirm.
@@ -24,7 +25,7 @@ struct RecentlyDeletedView: View {
             .toolbar {
                 if !repository.deletedMemories.isEmpty {
                     ToolbarItem(placement: .primaryAction) {
-                        Button("Delete All", role: .destructive, action: confirmDeleteAll)
+                        Button("Delete All", systemImage: "trash", role: .destructive, action: confirmDeleteAll)
                             .tint(.red)
                     }
                 }
@@ -91,7 +92,7 @@ struct RecentlyDeletedView: View {
         ScrollView {
             if memories.isEmpty {
                 EmptyRecentlyDeleted()
-                    .onLeadingPage()
+                    .onLeadingPage(when: !isSplitColumn)
             } else {
                 retentionNotice
                     .font(.footnote)
@@ -99,9 +100,9 @@ struct RecentlyDeletedView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 4)
                     .padding(.vertical, 12)
-                    .onLeadingPage()
+                    .onLeadingPage(when: !isSplitColumn)
 
-                CardGrid {
+                CardGrid(spansFold: !isSplitColumn) {
                     ForEach(memories) { memory in
                         Menu {
                             actions(for: memory)
@@ -299,14 +300,15 @@ private struct EmptyRecentlyDeleted: View {
                 // Wraps rather than truncates: "30 days to recover" needs two lines.
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .frame(width: 106)
+        .frame(maxWidth: 106)
+        .layoutPriority(1)
     }
 
     private var connector: some View {
         Rectangle()
             .fill(.quaternary)
             .frame(height: 2)
-            .frame(maxWidth: .infinity)
+            .frame(minWidth: 12, maxWidth: .infinity)
             .padding(.top, 25)
     }
 }

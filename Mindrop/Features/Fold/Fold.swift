@@ -43,8 +43,13 @@ extension View {
     /// Keeps a full-width row, line of text or empty state on the leading page where iPhone
     /// Duo folds down the screen, so nothing is read or tapped across the fold. Unchanged on
     /// every other iPhone.
-    func onLeadingPage() -> some View {
-        modifier(LeadingPage())
+    @ViewBuilder
+    func onLeadingPage(when spansFold: Bool = true) -> some View {
+        if spansFold {
+            modifier(LeadingPage())
+        } else {
+            self
+        }
     }
 }
 

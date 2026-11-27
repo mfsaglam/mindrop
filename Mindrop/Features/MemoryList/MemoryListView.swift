@@ -4,6 +4,7 @@ import MindropIntents
 import MindropWidgetData
 import StoreKit
 import SwiftUI
+import UIKit
 
 struct MemoryListView: View {
     private enum Sheet: Hashable, Identifiable {
@@ -19,9 +20,10 @@ struct MemoryListView: View {
     let session: MindropSession
     var folderID: UUID? = nil
     var isSplitColumn = false
+    var isGlobalSearch = false
     let folderPullFeedback: FolderPullFeedback
 
-    @State private var query = ""
+    @State private var localQuery = ""
     @State private var isSearching = false
     @State private var categoryFilter: MemoryCategory?
     @State private var sheet: Sheet?
@@ -40,7 +42,11 @@ struct MemoryListView: View {
     @Environment(\.scenePhase) private var scenePhase
     private let newMemoryRequest = NewMemoryRequest.shared
 
-    private var isGlobalSearch: Bool { isSplitColumn && folderID == nil }
+    private var searchText: Binding<String> {
+        isGlobalSearch ? Bindable(session).globalSearchQuery : $localQuery
+    }
+
+    private var query: String { searchText.wrappedValue }
     private var isShowingFolders: Bool { !isGlobalSearch && folderID == nil && query.allSatisfy(\.isWhitespace) }
 
     private var listTitle: Text {
@@ -102,6 +108,7 @@ struct MemoryListView: View {
     }
 
     var body: some View {
+        let searchBeforePrimaryAction = isSplitColumn && UIDevice.current.userInterfaceIdiom == .phone
         ScrollView {
             if isShowingFolders {
                 folderList
@@ -118,10 +125,13 @@ struct MemoryListView: View {
         ))
         .animation(.default, value: showsSections)
         .navigationTitle(listTitle)
-        .searchable(text: $query, isPresented: $isSearching, placement: .toolbar, prompt: "Search memories")
+        .searchable(text: searchText, isPresented: $isSearching, placement: .toolbar, prompt: "Search memories")
         .searchToolbarBehavior(.minimize)
         .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
+            if searchBeforePrimaryAction {
+                DefaultToolbarItem(kind: .search, placement: .topBarTrailing)
+            }
+            ToolbarItemGroup(placement: searchBeforePrimaryAction ? .topBarTrailing : .primaryAction) {
                 if let folderID, isSelecting {
                     FolderSelectionMenu(
                         repository: repository, folderID: folderID, selection: selectedMemories,
@@ -207,7 +217,7 @@ struct MemoryListView: View {
                     if case .folder(let id) = route { return id }
                     return nil
                 }.last
-                guard folderID == openFolderID else { return }
+                guard folderID == openFolderID, isGlobalSearch == (session.path.first == .search) else { return }
             }
             newMemoryRequest.isPending = false
             sheet = .newMemory(folderID: MemoryFolders.generalID, scanning: newMemoryRequest.scans)
@@ -217,10 +227,10 @@ struct MemoryListView: View {
         }
         // "Search in Mindrop" in Spotlight: the same search here, across every category.
         .onChange(of: session.pendingSearch, initial: true) { _, pending in
-            guard folderID == nil, let pending else { return }
+            guard folderID == nil, isCurrentLibraryScreen, let pending else { return }
             session.pendingSearch = nil
             categoryFilter = nil
-            query = pending
+            searchText.wrappedValue = pending
             isSearching = true
         }
         .memoryDeletionAlert(for: $pendingDeletion, onDelete: delete)

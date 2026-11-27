@@ -386,12 +386,16 @@ everything looks exactly as before; that was checked on the iPhone 18 Pro Max si
 
 - **Already right, nothing changed**:
   - SwiftUI scenes and a launch screen, and no `UIRequiresFullScreen`.
-  - No `UIScreen.main`, idiom or orientation checks. Xcode's App Resizability skill finds
-    nothing to fix.
+  - The Duo layout follows the window’s horizontal size class without checking the
+    device model or using `UIScreen.main`.
   - Standard toolbars, which the system stands up vertically beside the side status bar.
   - Sheets, alerts and menus, which move off the fold by themselves.
 - **Portrait only, as before**: the outer display honours it. The inner display ignores it,
   and every layout below follows the space it is given, never the orientation.
+- **The library uses the iPad split view** at regular width on the inner display.
+  Folders, Stack and Recently Deleted appear in the sidebar. General is selected at
+  first, and the memory grid and its details use the right pane. The outer display
+  uses the single-column library and keeps the open folder or memory.
 - **`Fold` finds where the inner display folds down a view**, through
   `reservedRegions(kind: .division, options: .includeInactive)` (iOS 27.1).
   - It finds the fold even while the display lies flat, so a layout keeps its shape as the
@@ -404,14 +408,9 @@ everything looks exactly as before; that was checked on the iPhone 18 Pro Max si
     on each page.
   - The outer margins stay as they are, and the gap at the fold is wider. A card never lies
     across the fold.
-- **The detail screen and the guide (`FoldSpread`)** become two pages, one each side of the
-  fold, like a book.
-  - Detail screen: the value on the leading page; Copy, Share and the Spotlight line on the
-    trailing one.
-  - Guide: the Spotlight search on the leading page, the steps and the button on the
-    trailing one.
-  - Everywhere else they are one column, as before. Either way the views stay the same, so
-    nothing starts over when the device opens, closes or turns.
+- **The detail screen and the guide (`FoldSpread`)** stack their content in one
+  column when it fits inside a single pane. If a full-width layout crosses a vertical
+  fold, they can use two pages with their content kept clear of the hinge.
 - **Full-width rows and empty states stay on the leading page** (`onLeadingPage()`): the
   Recently Deleted row, the footnotes and the empty views. Nothing is read or tapped across
   the fold.
