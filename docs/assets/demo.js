@@ -9,9 +9,9 @@
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const examples = [
     { keyword: 'gate', value: 'C24' },
-    { keyword: 'film recommendation', value: 'Arrival' },
-    { keyword: 'parking', value: 'Level B2 blue zone 147' },
-    { keyword: 'printer ink', value: '305XL black' }
+    { keyword: 'film recommendation', value: 'Arrival (2016)' },
+    { keyword: 'parking', value: 'Level B2 · Blue zone · Bay 147' },
+    { keyword: 'printer ink', value: 'HP 305XL Black' }
   ];
   let index = 0, character = 0, phase = 'typing', timer, paused = false;
   function showExample() {

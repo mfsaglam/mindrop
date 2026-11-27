@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101522">
-  <title>Mindrop — Remember less. Find it faster.</title>
+  <title>Mindrop — What you want to remember, within reach.</title>
   <meta name="description" content="Save the details you’ll need again. Find them in Spotlight, organize them in folders, and keep the ones you need today in Stack.">
-  <meta property="og:title" content="Mindrop — Remember less. Find it faster.">
+  <meta property="og:title" content="Mindrop — What you want to remember, within reach.">
   <meta property="og:description" content="The little details you’ll need again, a Spotlight search or a glance away.">
   <meta property="og:type" content="website">
   <link rel="icon" type="image/svg+xml" href="assets/brand-icon.svg">
-  <link rel="stylesheet" href="assets/site.css?v=7">
-  <script src="assets/demo.js" defer></script>
+  <link rel="stylesheet" href="assets/site.css?v=10">
+  <script src="assets/demo.js?v=2" defer></script>
 </head>
 <body class="home-page">
 <a class="skip" href="#main">Skip to content</a>
@@ -27,7 +27,7 @@
 <main id="main">
   <section class="hero shell" aria-labelledby="hero-title">
     <div class="hero-copy">
-      <h1 id="hero-title">Remember less.<br><span>Find it faster.</span></h1>
+      <h1 id="hero-title">What you want to remember,<br><span>within reach.</span></h1>
       <p class="intro">Your departure gate. A film someone recommended. The little details you’ll need again.</p>
       <p class="hero-detail">Save a detail in Mindrop with a keyword you’ll remember. Find it right in Spotlight when you need it.</p>
       <div class="hero-actions">
@@ -54,35 +54,18 @@
           <p class="eyebrow">Stack</p>
           <h2 id="stack-title">Today’s details,<br>at a glance.</h2>
         </div>
-        <p>You’re walking through the terminal. Keep your gate and seat in Stack, then glance at your Home Screen, Lock Screen, or Apple Watch to see where you’re headed.</p>
+        <p>You’re walking through the terminal. Keep your gate and seat in Stack, then glance at your Home Screen or Lock Screen. On Apple Watch, put your first Stack detail right on your watch face.</p>
       </div>
-      <div class="stack-gallery">
-        <figure class="stack-device">
-          <div class="phone phone-stack"><img src="assets/screens/library.jpg" width="667" height="1450" alt="Mindrop’s library with a Stack preview showing gate C24 and seat 18A." loading="lazy" decoding="async"></div>
-          <figcaption>In Mindrop</figcaption>
+      <div class="device-stage stack-stage">
+        <figure class="stack-home">
+          <img src="assets/devices/iphone-home-screen-stack-widget.webp" width="620" height="1278" alt="iPhone Home Screen Stack widget showing gate C24, seat 18A, and four other saved details." loading="lazy" decoding="async">
         </figure>
-        <div class="widget-gallery">
-          <figure class="widget-card widget-card-home">
-            <div class="widget-home">
-              <div><small>gate</small><strong>C24</strong></div>
-              <div><small>seat</small><strong>18A</strong></div>
-              <div><small>parking</small><strong>B2 · Blue zone</strong></div>
-              <div><small>hotel room</small><strong>412</strong></div>
-              <div><small>printer ink</small><strong>305XL black</strong></div>
-              <div><small>shoe size</small><strong>EU 42</strong></div>
-            </div>
-            <figcaption>Home Screen</figcaption>
-          </figure>
-          <figure class="widget-card widget-card-lock">
-            <div class="widget-lock"><div><small>gate</small><strong>C24</strong></div><div><small>seat</small><strong>18A</strong></div></div>
-            <figcaption>Lock Screen</figcaption>
-          </figure>
-          <figure class="widget-card widget-card-watch">
-            <img src="assets/screens/watch-stack.jpg" width="510" height="219" alt="Apple Watch Smart Stack widget showing departure gate C24 and seat 18A." loading="lazy" decoding="async">
-            <figcaption>Apple Watch</figcaption>
-          </figure>
-          <p class="widget-caption">Widget previews</p>
-        </div>
+        <figure class="stack-lock">
+          <img src="assets/devices/iphone-lock-screen-stack-widget.webp" width="620" height="1278" alt="iPhone Lock Screen Stack widget showing gate C24 and seat 18A." loading="lazy" decoding="async">
+        </figure>
+        <figure class="stack-watch">
+          <img src="assets/devices/watch-face-stack-complication.webp" width="562" height="925" alt="Apple Watch face with the Mindrop complication showing gate C24." loading="lazy" decoding="async">
+        </figure>
       </div>
       <p class="stack-note">Pick the memories you want at the top and reorder them as your day changes. Sensitive values stay off widgets.</p>
     </div>
@@ -92,30 +75,33 @@
     <div class="chapter-copy">
       <p class="eyebrow">Capture</p>
       <h2 id="capture-title">Save it while<br>it’s on your mind.</h2>
-      <p>Halfway through a video, someone recommends <em>Arrival</em>. Pull down in Mindrop to open a new memory and save it under <strong>film recommendation</strong>. When you want something to watch, that’s all you need to type in Spotlight.</p>
+      <p>Halfway through a video, someone recommends <em>Arrival</em>. Pull down in Mindrop to open a new memory and save it under <strong>film recommendation</strong>. When you want something to watch, type that keyword in Spotlight. The same trick works at the airport. Search for <strong>gate</strong> to see <strong>C24</strong>.</p>
       <p class="secondary">From another app, use the share sheet to save text, a link, or text from a screenshot. You can also scan a QR code or capture with Siri, Shortcuts, Control Center, or Apple Watch.</p>
     </div>
-    <figure class="capture-art">
-      <div class="capture-example">
-        <div class="index-card"><span>film recommendation</span><strong>Arrival</strong></div>
-        <div class="capture-result">
-          <img src="assets/brand-icon.svg" width="42" height="42" alt="">
-          <div><strong>Arrival</strong><small>film recommendation · Mindrop</small></div>
-        </div>
-      </div>
-      <figcaption>Example memory and Spotlight result</figcaption>
-    </figure>
+    <div class="device-stage device-pair capture-art">
+      <figure>
+        <img src="assets/devices/iphone-new-memory-arrival.webp" width="620" height="1278" alt="Mindrop’s New Memory form with film recommendation and Arrival (2016) entered." loading="lazy" decoding="async">
+      </figure>
+      <figure>
+        <img src="assets/devices/iphone-spotlight-gate-result.webp" width="620" height="1278" alt="iPhone Spotlight results for gate, showing C24 in the Mindrop result." loading="lazy" decoding="async">
+      </figure>
+    </div>
   </section>
 
   <section class="library paper" id="library" aria-labelledby="library-title">
     <div class="shell chapter">
-      <figure class="chapter-art library-art">
-        <div class="phone phone-folder"><img src="assets/screens/library.jpg" width="667" height="1450" alt="Mindrop’s library with General, Lisbon trip, Around the house, and Watch later folders." loading="lazy" decoding="async"></div>
-      </figure>
+      <div class="device-stage device-pair library-art">
+        <figure>
+          <img src="assets/devices/iphone-library-stack-preview.webp" width="620" height="1278" alt="Mindrop’s library with a Stack preview and four folders, including Paris trip." loading="lazy" decoding="async">
+        </figure>
+        <figure>
+          <img src="assets/devices/iphone-paris-trip-folder.webp" width="620" height="1278" alt="Paris trip folder with flight details, the hotel address, and a museum ticket link grouped by category." loading="lazy" decoding="async">
+        </figure>
+      </div>
       <div class="chapter-copy">
         <p class="eyebrow">Folders</p>
         <h2 id="library-title">Keep related<br>details together.</h2>
-        <p>Put your flight details, hotel address, and ticket links in a travel folder. Browse by category, search within the folder, or select several memories to move them together.</p>
+        <p>Put your flight details, hotel address, and ticket links in a folder like <strong>Paris trip</strong>. Browse by category, search within the folder, or select several memories to move them together.</p>
         <p class="secondary">You can pull down inside a folder to save directly into it. When plans change, set a memory to expire or recover something you deleted from Recently Deleted.</p>
       </div>
     </div>
@@ -125,13 +111,17 @@
     <div class="chapter-copy">
       <p class="eyebrow">Memory details</p>
       <h2 id="use-title">Find it.<br>Put it to use.</h2>
-      <p>It’s time to clean the coffee machine. Search for <strong>coffee machine care</strong> and open the steps you saved when the manual was handy.</p>
+      <p>The descale light is on. Search for <strong>descale sage</strong> and open the steps you saved from your Barista Express Impress manual.</p>
       <p class="secondary">When a guest asks for Wi-Fi, open the saved network and show its QR code. You can also tap a value to copy it or open a saved link in your browser.</p>
     </div>
-    <figure class="chapter-art detail-art">
-      <div class="phone phone-detail"><img src="assets/screens/detail.jpg" width="667" height="1450" alt="Mindrop’s Wi-Fi memory detail with a sample network name and copy and share controls." loading="lazy" decoding="async"></div>
-      <figcaption>Wi-Fi memory detail</figcaption>
-    </figure>
+    <div class="device-stage device-pair detail-art">
+      <figure>
+        <img src="assets/devices/iphone-descale-sage-detail.webp" width="620" height="1278" alt="Saved descaling instructions for the Sage Barista Express Impress." loading="lazy" decoding="async">
+      </figure>
+      <figure>
+        <img src="assets/devices/iphone-guest-wifi-qr.webp" width="620" height="1278" alt="Unlocked guest Wi-Fi memory with a QR code for joining the example network." loading="lazy" decoding="async">
+      </figure>
+    </div>
   </section>
 
   <section class="closing paper" aria-labelledby="closing-title">
@@ -142,9 +132,30 @@
       </div>
       <div class="privacy-copy">
         <h3>Your details stay in your hands.</h3>
-        <p>Mindrop works offline without an account. Optional iCloud sync keeps memories available on supported devices. Mark a memory Sensitive to hide its value in Spotlight and unlock it in Mindrop with device authentication.</p>
+        <p>Mindrop works offline without a Mindrop account. Mark a memory Sensitive to hide its value in Spotlight and unlock it in Mindrop with device authentication.</p>
         <a class="text-link" href="privacy.html">Read the Privacy Policy</a>
       </div>
+    </div>
+  </section>
+  <section class="sync shell" id="icloud" aria-labelledby="sync-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">iCloud Sync</p>
+        <h2 id="sync-title">Save it here.<br>Find it there.</h2>
+      </div>
+      <p>Save your hotel address on iPhone and pull it up later on iPad or Mac. With iCloud Sync enabled, memories, folders, and Stack stay up to date on supported devices signed in to the same Apple Account.</p>
+    </div>
+    <div class="device-stage sync-stage">
+      <figure class="sync-ipad">
+        <a href="assets/devices/ipad-paris-trip-folder-02.webp" aria-label="View the full-size iPad screenshot">
+          <img src="assets/devices/ipad-paris-trip-folder-02.webp" width="1450" height="1111" alt="Mindrop on iPad with Paris trip open and the hotel address at 9 rue des Gobelins." decoding="async">
+        </a>
+      </figure>
+      <figure class="sync-mac">
+        <a href="assets/devices/mac-paris-trip-address.webp" aria-label="View the full-size Mac screenshot">
+          <img src="assets/devices/mac-paris-trip-address.webp" width="1500" height="877" alt="Mindrop on Mac with Paris trip selected and the saved Paris hotel address open." decoding="async">
+        </a>
+      </figure>
     </div>
   </section>
 </main>
