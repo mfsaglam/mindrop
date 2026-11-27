@@ -1,5 +1,8 @@
 import MindropCore
 import SwiftUI
+#if os(iOS)
+import UIKit
+#endif
 
 struct MemoryStackView: View {
     let repository: MemoryRepository
@@ -14,6 +17,20 @@ struct MemoryStackView: View {
 
     @State private var showsPicker = false
     @State private var changeFailed = false
+    #if os(iOS)
+    @State private var editMode: EditMode = .inactive
+
+    private var usesDuoToolbar: Bool {
+        isSplitColumn && UIDevice.current.userInterfaceIdiom == .phone
+    }
+    #endif
+
+    private var toolbarPlacement: ToolbarItemPlacement {
+        #if os(iOS)
+        if usesDuoToolbar { return .topBarTrailing }
+        #endif
+        return .primaryAction
+    }
 
     var body: some View {
         let memories = repository.stackMemories
@@ -39,14 +56,23 @@ struct MemoryStackView: View {
             .navigationTitle("Stack")
             .toolbar {
                 if !memories.isEmpty {
-                    ToolbarItemGroup(placement: .primaryAction) {
+                    ToolbarItemGroup(placement: toolbarPlacement) {
+                        #if os(iOS)
+                        if usesDuoToolbar, memories.count > 1 { reorderButton }
+                        #endif
                         Button("Choose Memories", systemImage: "plus") { showsPicker = true }
                         #if os(iOS)
-                        if memories.count > 1 { EditButton() }
+                        if !usesDuoToolbar, memories.count > 1 { EditButton() }
                         #endif
                     }
                 }
             }
+            #if os(iOS)
+            .environment(\.editMode, $editMode)
+            .onChange(of: memories.count) { _, count in
+                if count < 2 { editMode = .inactive }
+            }
+            #endif
             .sheet(isPresented: $showsPicker) {
                 StackMemoryPicker(repository: repository)
             }
@@ -56,6 +82,21 @@ struct MemoryStackView: View {
                 Text("Please try again.")
             }
     }
+
+    #if os(iOS)
+    private var reorderButton: some View {
+        Button {
+            withAnimation { editMode = editMode.isEditing ? .inactive : .active }
+        } label: {
+            Label {
+                editMode.isEditing ? Text("Done") : Text("Edit")
+            } icon: {
+                Image(systemName: editMode.isEditing ? "checkmark" : "arrow.up.arrow.down")
+            }
+            .labelStyle(.iconOnly)
+        }
+    }
+    #endif
 
     @ViewBuilder
     private func stackList(_ memories: [Memory]) -> some View {
@@ -69,7 +110,7 @@ struct MemoryStackView: View {
                 enabled: isActiveScreen && !showsPicker && !changeFailed,
                 onLaunch: { showsPicker = true }
             ))
-            .onLeadingPage()
+            .onLeadingPage(when: !isSplitColumn)
             .memoryScreenBackground(usesGradient: true)
         #endif
     }
