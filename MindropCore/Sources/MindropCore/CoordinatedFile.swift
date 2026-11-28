@@ -25,6 +25,10 @@ struct CoordinatedFile: Sendable {
         try coordinateWrite { url in try Self.write(data, to: url) }
     }
 
+    func remove() throws {
+        try coordinateWrite(options: .forDeleting) { url in try FileManager.default.removeItem(at: url) }
+    }
+
     func update(_ transform: (Data?) throws -> Data?) throws {
         try coordinateWrite { url in
             let existing = FileManager.default.fileExists(atPath: url.path) ? try Data(contentsOf: url) : nil
@@ -40,14 +44,18 @@ struct CoordinatedFile: Sendable {
         #endif
     }
 
-    private func coordinateWrite(_ action: (URL) throws -> Void) throws {
-        try FileManager.default.createDirectory(
-            at: url.deletingLastPathComponent(),
-            withIntermediateDirectories: true
-        )
+    private func coordinateWrite(
+        options: NSFileCoordinator.WritingOptions = .forReplacing, _ action: (URL) throws -> Void
+    ) throws {
+        if options != .forDeleting {
+            try FileManager.default.createDirectory(
+                at: url.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
+        }
         var coordinatorError: NSError?
         var writeError: Error?
-        NSFileCoordinator().coordinate(writingItemAt: url, options: .forReplacing, error: &coordinatorError) { url in
+        NSFileCoordinator().coordinate(writingItemAt: url, options: options, error: &coordinatorError) { url in
             do {
                 try action(url)
             } catch {

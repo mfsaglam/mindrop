@@ -548,40 +548,28 @@ local folder layout and Stack can transfer them to a second device, including an
 Check offline moves, a Stack reorder concurrent with a removal, and memory edits from an older
 build. These checks require two devices signed into the same iCloud account.
 
-### iCloud backup
+### iCloud Drive backups
 
-Settings → iCloud Backup lets users save a dated snapshot of active memories, restore an
-older snapshot or delete it. Snapshots use encrypted CloudKit assets in the private
-`MemoryBackups` zone of the existing container. Backups are available on iPhone, iPad and
-Mac with the same iCloud account and can be created with iCloud Sync switched off.
+Settings → iCloud Drive Backups supports manual file backups and enables
+automatic backups by default. Mindrop checks for library changes when it opens and after
+local edits. It backs up at most once every 24 hours per device and retains the three latest
+uploaded files in iCloud Drive → Mindrop → Backups. Settings shows the last confirmed upload.
 
-Saved Backups reads a local catalogue of dates and memory counts. The app checks the
-CloudKit backup zone's change history in the background when it becomes active and
-persists its cursor with the catalogue. Creating or deleting a backup updates the
-local list immediately. Restoring fetches the selected snapshot from iCloud.
+Drive backups include active memories, custom folders, and folder assignments. Mindrop
+compresses the snapshot, encrypts it with AES-GCM, and stores its key in iCloud Keychain.
+On a fresh installation with no local library, Mindrop downloads and restores the latest
+Drive backup when the file and its key become available. Restore from File brings back
+missing memories by their original IDs and adds copies of earlier versions. Earlier
+files can still be restored and contain memories only. Review Duplicate Memories lets
+users move selected matching copies from General to Recently Deleted.
 
-Restore adds copies of missing memories and earlier versions. A copy keeps the original
-expiry and preserves Sensitive protection. Each restored memory has a stable copy
-identifier across devices and retries. Backups capture active entries, and only entries
-that are still active can be restored. Saved snapshots remain available until deleted.
+If older CloudKit backups exist, Previous iCloud Backups lists them from the private
+`MemoryBackups` zone. Users can restore active memories as copies, delete a single
+backup, or confirm deletion of all listed backups. The archive link disappears when the
+account has no previous backups.
 
-Before distribution, create a development backup to initialize the `MemoryBackup` record
-type and deploy its schema to production. Verify create, list, restore and delete across
-two devices on the same iCloud account using the same CloudKit environment.
-
-#### iCloud Drive files
-
-Settings → iCloud Backup → iCloud Drive Backups adds manual file backups and optional
-automatic backups. When the app opens, it checks the active library and creates a backup
-if it changed and at least 24 hours have elapsed since the last automatic backup on this
-device. The device stages the file in iCloud Drive → Mindrop → Backups. Settings shows
-the last upload confirmed by iCloud Drive.
-
-Mindrop encrypts the entire snapshot with AES-GCM and stores its key in iCloud Keychain.
-Enable iCloud Keychain on your devices to restore a file created elsewhere. Restore from
-File uses the same copy-based restore as CloudKit backups. For distribution, ensure the
-iOS and macOS signing profiles include CloudDocuments and refresh the app's build version
-so iCloud Drive picks up its document container metadata.
+For distribution, ensure the iOS and macOS signing profiles include CloudDocuments and
+refresh the app's build version so iCloud Drive picks up its document container metadata.
 
 ## Apple Watch
 

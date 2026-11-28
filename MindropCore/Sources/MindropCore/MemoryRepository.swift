@@ -158,40 +158,175 @@ public final class MemoryRepository {
         return try store.load().filter { !$0.isDeleted && !$0.isExpired(at: now) }
     }
 
+    #if os(iOS) || os(macOS)
+    public struct BackupDuplicate: Hashable, Identifiable, Sendable {
+        public let id: UUID
+        public let keyword: String
+        public let originalFolderID: UUID
+        let originalID: UUID
+    }
+
+    private struct BackupDuplicateContent: Hashable {
+        let createdAt: TimeInterval
+        let keyword: String
+        let value: String
+        let expiresAt: Date?
+        let isSensitive: Bool
+        let manualCategory: MemoryCategory?
+
+        init(_ memory: Memory) {
+            // Older local stores persisted creation dates to whole seconds.
+            createdAt = memory.createdAt.timeIntervalSinceReferenceDate.rounded(.down)
+            keyword = memory.keyword
+            value = memory.value
+            expiresAt = memory.expiresAt
+            isSensitive = memory.isSensitive
+            manualCategory = memory.category?.source == .manual ? memory.category?.category : nil
+        }
+    }
+
+    public var backupDuplicates: [BackupDuplicate] {
+        backupDuplicates(in: memories, at: now())
+    }
+
+    public func deleteBackupDuplicates(_ approved: [BackupDuplicate]) throws -> Int {
+        try folders.load()
+        let approved = Set(approved)
+        return try moveToRecentlyDeleted { stored, date in
+            Set(backupDuplicates(in: stored, at: date).filter(approved.contains).map(\.id))
+        }
+    }
+
+    private func backupDuplicates(in stored: [Memory], at date: Date) -> [BackupDuplicate] {
+        let active = stored.filter { !$0.isDeleted && !$0.isExpired(at: date) }
+        let groups = Dictionary(grouping: active, by: BackupDuplicateContent.init)
+        return groups.values.flatMap { group -> [BackupDuplicate] in
+            guard group.count > 1, let original = group.min(by: { lhs, rhs in
+                (backupDuplicatePriority(lhs.id), lhs.updatedAt, lhs.id.uuidString)
+                    < (backupDuplicatePriority(rhs.id), rhs.updatedAt, rhs.id.uuidString)
+            }) else { return [] }
+            let folderID = folders.folderID(for: original.id)
+            return group.compactMap { copy in
+                // Legacy restores kept createdAt but wrote the restore time to updatedAt.
+                // Offer only unfiled copies without any explicit placement or Stack membership.
+                guard copy.id != original.id, backupDuplicatePriority(copy.id) == 2,
+                      copy.updatedAt.timeIntervalSince(copy.createdAt) >= 1,
+                      folderID != MemoryFolders.generalID || copy.updatedAt > original.updatedAt else { return nil }
+                return BackupDuplicate(id: copy.id, keyword: copy.keyword, originalFolderID: folderID, originalID: original.id)
+            }
+        }.sorted { ($0.keyword, $0.id.uuidString) < ($1.keyword, $1.id.uuidString) }
+    }
+
+    private func backupDuplicatePriority(_ id: UUID) -> Int {
+        if folders.folderID(for: id) != MemoryFolders.generalID { return 0 }
+        return folders.placements[id] != nil || stack.contains(id) ? 1 : 2
+    }
+
+    public func driveBackupLibrary() throws -> DriveBackupLibrary {
+        try folders.load()
+        let memories = try memoriesForBackup()
+        let members = Dictionary(grouping: memories.map(\.id), by: folders.folderID(for:))
+        let folders = folders.custom.map { folder in
+            DriveBackupLibrary.Folder(id: folder.id, name: folder.name, memoryIDs: members[folder.id] ?? [])
+        }
+        return DriveBackupLibrary(memories: memories, folders: folders)
+    }
+
+    /// First-install recovery keeps the original IDs so iCloud Sync can match its records.
+    public func recoverDriveBackup(_ snapshot: DriveBackupSnapshot) throws {
+        let now = now()
+        let active = snapshot.library.memories.filter { !$0.isDeleted && !$0.isExpired(at: now) }
+        let updated = try store.update { stored in
+            guard stored.isEmpty else { return nil }
+            let ids = Dictionary(uniqueKeysWithValues: active.map { ($0.id, $0.id) })
+            try folders.restore(snapshot.library.folders, memoryIDs: ids)
+            return active.sorted(by: Self.isOrderedBefore)
+        }
+        finishBackupRestore(updated, indexing: active)
+    }
+
+    /// Restores missing entries by ID and adds older versions of existing entries as copies.
+    @discardableResult
+    public func restoreDriveBackup(_ snapshot: DriveBackupSnapshot) throws -> Int {
+        let library = snapshot.library
+        let backup = MemoryBackup(id: snapshot.id, createdAt: snapshot.createdAt, memoryCount: library.memories.count)
+
+        var restored: [Memory] = []
+        let now = now()
+        let previousDefinitions = folders.definitions
+        let previousPlacements = folders.placements
+        let updated = try store.update { stored in
+            restored = Self.restoredMemories(
+                from: library.memories, in: backup, alongside: stored, now: now, keepingMissingIDs: true
+            )
+            guard !library.folders.isEmpty else {
+                return restored.isEmpty ? nil : (stored + restored).sorted(by: Self.isOrderedBefore)
+            }
+            let active = (stored + restored).filter { !$0.isDeleted && !$0.isExpired(at: now) }
+            let byID = Dictionary(active.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            var destinations: [UUID: UUID] = [:]
+            for memory in library.memories where !memory.isDeleted && !memory.isExpired(at: now) {
+                let copyID = backup.restoredID(for: memory.id)
+                if let existing = byID[memory.id], Self.matchesDriveBackup(memory, existing: existing) {
+                    destinations[memory.id] = memory.id
+                } else if let copy = byID[copyID], Self.matchesDriveBackup(memory, existing: copy) {
+                    destinations[memory.id] = copyID
+                }
+            }
+            try folders.restore(library.folders, memoryIDs: destinations, restoredFolderID: backup.restoredID(for:))
+            return restored.isEmpty ? nil : (stored + restored).sorted(by: Self.isOrderedBefore)
+        }
+        finishBackupRestore(updated, indexing: restored)
+        if updated == nil, previousDefinitions != folders.definitions || previousPlacements != folders.placements {
+            onLocalChange?()
+        }
+        return restored.count
+    }
+    #endif
+
     /// Restores earlier or missing entries as copies, preserving the current library.
     @discardableResult
     public func restore(_ snapshot: [Memory], from backup: MemoryBackup) throws -> Int {
         var restored: [Memory] = []
         let updated = try store.update { stored in
-            restored = Self.restoredCopies(from: snapshot, in: backup, alongside: stored, now: now())
+            restored = Self.restoredMemories(from: snapshot, in: backup, alongside: stored, now: now())
             guard !restored.isEmpty else { return nil }
             return (stored + restored).sorted(by: Self.isOrderedBefore)
         }
-        guard let updated else { return 0 }
+        finishBackupRestore(updated, indexing: restored)
+        return restored.count
+    }
+
+    private func finishBackupRestore(_ updated: [Memory]?, indexing restored: [Memory]) {
+        guard let updated else { return }
         memories = updated
         onLocalChange?()
         indexInBackground(restored)
         categorizePending()
-        return restored.count
     }
 
-    private static func restoredCopies(
-        from snapshot: [Memory], in backup: MemoryBackup, alongside stored: [Memory], now: Date
+    private static func restoredMemories(
+        from snapshot: [Memory], in backup: MemoryBackup, alongside stored: [Memory], now: Date,
+        keepingMissingIDs: Bool = false
     ) -> [Memory] {
         let current = Dictionary(stored.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         var knownIDs = Set(current.keys)
         var restored: [Memory] = []
         for memory in snapshot where !memory.isDeleted && !memory.isExpired(at: now) {
             let existing = current[memory.id]
-            let sensitive = memory.isSensitive || (existing?.isSensitive ?? false)
-            if let existing, !existing.isDeleted,
-               existing.keyword == memory.keyword, existing.value == memory.value,
-               existing.expiresAt == memory.expiresAt, existing.isSensitive == sensitive,
-               existing.category == memory.category {
+            let id = backup.restoredID(for: memory.id)
+            if keepingMissingIDs, existing == nil {
+                // This file may already have been restored as copies by an older version.
+                guard !knownIDs.contains(id), knownIDs.insert(memory.id).inserted else { continue }
+                restored.append(memory)
                 continue
             }
-
-            let id = backup.restoredID(for: memory.id)
+            if let existing {
+                let alreadyRestored = keepingMissingIDs
+                    ? Self.matchesDriveBackup(memory, existing: existing)
+                    : Self.matchesBackup(memory, existing: existing)
+                if alreadyRestored { continue }
+            }
             guard knownIDs.insert(id).inserted else { continue }
             restored.append(Memory(
                 id: id,
@@ -201,10 +336,24 @@ public final class MemoryRepository {
                 updatedAt: now,
                 category: memory.category,
                 expiresAt: memory.expiresAt,
-                isSensitive: sensitive
+                isSensitive: memory.isSensitive || (existing?.isSensitive ?? false)
             ))
         }
         return restored
+    }
+
+    private static func matchesBackup(_ memory: Memory, existing: Memory) -> Bool {
+        matchesBackupContent(memory, existing: existing) && existing.category == memory.category
+    }
+
+    private static func matchesDriveBackup(_ memory: Memory, existing: Memory) -> Bool {
+        matchesBackupContent(memory, existing: existing)
+            && (memory.category?.source != .manual || existing.category == memory.category)
+    }
+
+    private static func matchesBackupContent(_ memory: Memory, existing: Memory) -> Bool {
+        !existing.isDeleted && existing.keyword == memory.keyword && existing.value == memory.value
+            && existing.expiresAt == memory.expiresAt && (existing.isSensitive || !memory.isSensitive)
     }
 
     /// In-app filtering, newest first. An empty query and no category return every memory
@@ -561,10 +710,16 @@ public final class MemoryRepository {
     public func delete(ids: [UUID]) throws {
         let doomed = Set(ids)
         guard !doomed.isEmpty else { return }
+        try moveToRecentlyDeleted { _, _ in doomed }
+    }
+
+    @discardableResult
+    private func moveToRecentlyDeleted(_ selection: ([Memory], Date) -> Set<UUID>) throws -> Int {
         let now = now()
         var moved: [UUID] = []
         // Read and write under the same coordination so a concurrent share save survives.
         let updated = try store.update { stored in
+            let doomed = selection(stored, now)
             var updated = stored
             for position in updated.indices where doomed.contains(updated[position].id) && !updated[position].isDeleted {
                 updated[position].deletedAt = now
@@ -573,11 +728,12 @@ public final class MemoryRepository {
             }
             return moved.isEmpty ? nil : updated.sorted(by: Self.isOrderedBefore)
         }
-        guard let updated else { return }
+        guard let updated else { return 0 }
         memories = updated
         onLocalChange?()
         let synchronizer = synchronizer
         indexingTask = Task { await synchronizer.remove(ids: moved) }
+        return moved.count
     }
 
     /// Brings a memory back from Recently Deleted, into Spotlight again. An expired one

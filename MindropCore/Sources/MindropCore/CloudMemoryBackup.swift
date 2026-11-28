@@ -69,39 +69,6 @@ public struct CloudMemoryBackup: Sendable {
         return catalog
     }
 
-    public func create(memories: [Memory]) async throws -> MemoryBackup {
-        guard !memories.isEmpty else { throw MemoryBackupError.empty }
-
-        let directory = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
-        try FileManager.default.createDirectory(
-            at: directory,
-            withIntermediateDirectories: false,
-            attributes: [.posixPermissions: 0o700]
-        )
-        defer { try? FileManager.default.removeItem(at: directory) }
-        let file = directory.appending(path: "memories.json")
-        let payload = try JSONEncoder.mindrop.encode(MemoryBackupSnapshot(memories: memories))
-        #if os(iOS)
-        try payload.write(to: file, options: [.atomic, .completeFileProtection])
-        #else
-        try payload.write(to: file, options: .atomic)
-        #endif
-
-        let record = CKRecord(recordType: Self.recordType, recordID: Self.recordID(for: UUID()))
-        record["memoryCount"] = memories.count
-        // CloudKit encrypts assets by default. The payload contains all record contents.
-        record["snapshot"] = CKAsset(fileURL: file)
-        let saved: CKRecord
-        do {
-            saved = try await database.save(record)
-        } catch let error as CKError where error.code == .zoneNotFound {
-            _ = try await database.save(CKRecordZone(zoneID: Self.zone))
-            saved = try await database.save(record)
-        }
-        guard let backup = Self.summary(for: saved) else { throw MemoryBackupError.invalid }
-        return backup
-    }
-
     public func memories(in backup: MemoryBackup) async throws -> [Memory] {
         let record = try await database.record(for: Self.recordID(for: backup.id))
         guard let summary = Self.summary(for: record),
@@ -145,12 +112,11 @@ public struct CloudMemoryBackup: Sendable {
 }
 
 enum MemoryBackupError: Error {
-    case empty
     case invalid
 }
 
-private struct MemoryBackupSnapshot: Codable {
-    var version = 1
+private struct MemoryBackupSnapshot: Decodable {
+    let version: Int
     let memories: [Memory]
 }
 

@@ -2,10 +2,10 @@ import CloudKit
 import MindropCore
 import SwiftUI
 
-struct ICloudBackupsView: View {
+struct PreviousCloudBackupsView: View {
     private enum Action {
         case restore(MemoryBackup)
-        case delete(MemoryBackup)
+        case delete([MemoryBackup])
     }
 
     private struct Message: Identifiable {
@@ -15,7 +15,6 @@ struct ICloudBackupsView: View {
     }
 
     let repository: MemoryRepository
-    let drive: DriveMemoryBackup
     let cloud: SavedCloudBackups
 
     @State private var isWorking = false
@@ -25,32 +24,6 @@ struct ICloudBackupsView: View {
     var body: some View {
         MemorySheetForm {
             Section {
-                NavigationLink("iCloud Drive Backups") {
-                    DriveBackupsView(repository: repository, drive: drive)
-                        .settingsBackButton()
-                }
-            }
-
-            Section {
-                #if os(macOS)
-                LabeledContent {
-                    backUpButton
-                        .buttonStyle(.bordered)
-                } label: {
-                    backupDescription
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                #else
-                backUpButton
-                #endif
-            } footer: {
-                #if os(iOS)
-                backupDescription
-                #endif
-            }
-
-            Section("Saved Backups") {
                 if isWorking || (cloud.backups == nil && cloud.isRefreshing) {
                     ProgressView()
                         #if os(macOS)
@@ -70,15 +43,22 @@ struct ICloudBackupsView: View {
                     Button("Try Again") { Task { await load() } }
                 }
             }
+
+            if let backups = cloud.backups, backups.count > 1 {
+                Section {
+                    Button("Delete All Previous Backups", role: .destructive) { confirmation = .delete(backups) }
+                        .disabled(isWorking)
+                }
+            }
         }
         #if os(macOS)
         .formStyle(.grouped)
         #endif
-        .navigationTitle("iCloud Backup")
+        .navigationTitle("Previous iCloud Backups")
         .inlineNavigationTitle()
         .refreshable { await load() }
         .confirmationDialog(
-            "iCloud Backup",
+            "Previous iCloud Backups",
             isPresented: Binding(get: { confirmation != nil }, set: { if !$0 { confirmation = nil } }),
             titleVisibility: .hidden,
             presenting: confirmation
@@ -86,30 +66,29 @@ struct ICloudBackupsView: View {
             switch action {
             case .restore(let backup):
                 Button("Restore as Copies") { Task { await restore(backup) } }
-            case .delete(let backup):
-                Button("Delete Backup", role: .destructive) { Task { await delete(backup) } }
+            case .delete(let backups):
+                Button(role: .destructive) {
+                    Task { await delete(backups) }
+                } label: {
+                    backups.count == 1 ? Text("Delete Backup") : Text("Delete All Previous Backups")
+                }
             }
             Button("Cancel", role: .cancel) {}
         } message: { action in
             switch action {
             case .restore:
                 Text("Adds copies of missing or changed memories that are still active.")
-            case .delete:
-                Text("This backup will be deleted from iCloud on all your devices.")
+            case .delete(let backups):
+                if backups.count == 1 {
+                    Text("This backup will be deleted from iCloud on all your devices.")
+                } else {
+                    Text("The selected backups will be permanently deleted from iCloud on all your devices.")
+                }
             }
         }
         .alert(item: $message) { message in
             Alert(title: Text(message.title), message: Text(message.detail), dismissButton: .default(Text("OK")))
         }
-    }
-
-    private var backUpButton: some View {
-        Button("Back Up Now") { Task { await create() } }
-            .disabled(isWorking)
-    }
-
-    private var backupDescription: Text {
-        Text("A backup keeps a dated copy of your active memories in iCloud. Backups stay available until you delete them.")
     }
 
     private func backupRow(_ backup: MemoryBackup) -> some View {
@@ -119,7 +98,7 @@ struct ICloudBackupsView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             Button("Restore Backup") { confirmation = .restore(backup) }
-            Button(role: .destructive) { confirmation = .delete(backup) } label: {
+            Button(role: .destructive) { confirmation = .delete([backup]) } label: {
                 Label("Delete Backup", systemImage: "trash")
                     .labelStyle(.iconOnly)
             }
@@ -136,7 +115,7 @@ struct ICloudBackupsView: View {
 
             Menu {
                 Button("Restore Backup") { confirmation = .restore(backup) }
-                Button("Delete Backup", role: .destructive) { confirmation = .delete(backup) }
+                Button("Delete Backup", role: .destructive) { confirmation = .delete([backup]) }
             } label: {
                 Label("Backup Actions", systemImage: "ellipsis.circle")
                     .labelStyle(.iconOnly)
@@ -163,17 +142,6 @@ struct ICloudBackupsView: View {
         }
     }
 
-    private func create() async {
-        await perform("Couldn’t Create Backup") {
-            let memories = try repository.memoriesForBackup()
-            guard !memories.isEmpty else {
-                message = Message(title: "No Memories to Back Up", detail: String(localized: "Save a memory before creating a backup."))
-                return
-            }
-            try await cloud.create(memories: memories)
-        }
-    }
-
     private func restore(_ backup: MemoryBackup) async {
         await perform("Couldn’t Restore Backup") {
             let memories = try await cloud.memories(in: backup)
@@ -185,9 +153,9 @@ struct ICloudBackupsView: View {
         }
     }
 
-    private func delete(_ backup: MemoryBackup) async {
+    private func delete(_ backups: [MemoryBackup]) async {
         await perform("Couldn’t Delete Backup") {
-            try await cloud.delete(backup)
+            try await cloud.delete(backups)
         }
     }
 

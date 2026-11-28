@@ -7,6 +7,10 @@ enum Preference {
     static let groupsByCategory = "groupsByCategory"
     static let syncsWithICloud = "syncsWithICloud"
     static let automaticDriveBackup = "automaticDriveBackup"
+    static let automaticDriveBackupDefault = true
+    static var makesAutomaticDriveBackups: Bool {
+        UserDefaults.standard.object(forKey: automaticDriveBackup) as? Bool ?? automaticDriveBackupDefault
+    }
     #if os(macOS)
     static let showsMenuBarIcon = "showsMenuBarIcon"
     #endif
@@ -45,8 +49,8 @@ struct SettingsView: View {
                     Toggle("iCloud Sync", isOn: $syncsWithICloud)
                         .tint(Color(.brandCobalt))
                         .onChange(of: syncsWithICloud) { session.syncPreferenceChanged() }
-                    NavigationLink("iCloud Backup") {
-                        ICloudBackupsView(repository: repository, drive: session.driveBackup, cloud: session.cloudBackups)
+                    NavigationLink("iCloud Drive Backups") {
+                        DriveBackupsView(repository: repository, session: session)
                             .settingsBackButton()
                     }
                 } footer: {

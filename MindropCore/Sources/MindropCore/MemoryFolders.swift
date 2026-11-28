@@ -124,6 +124,34 @@ public final class MemoryFolders {
         }
     }
 
+    #if os(iOS) || os(macOS)
+    func restore(
+        _ folders: [DriveBackupLibrary.Folder], memoryIDs: [UUID: UUID], restoredFolderID: ((UUID) -> UUID)? = nil
+    ) throws {
+        guard !folders.isEmpty else { return }
+        try update(isLocal: false) { index in
+            var order = (index.definitions.values.compactMap { $0.value?.order }.max() ?? -1) + 1
+            for folder in folders where folder.id != Self.generalID {
+                var id = folder.id
+                if let previous = index.definitions[id], previous.value == nil {
+                    guard let restoredFolderID else { continue }
+                    id = restoredFolderID(id)
+                }
+                if index.definitions[id] == nil {
+                    // A restored definition must yield to newer folder edits from iCloud Sync.
+                    index.definitions[id] = .legacy(LibraryFolderDetails(name: folder.name, order: order))
+                    order += 1
+                }
+                guard index.definitions[id]?.value != nil else { continue }
+                for source in folder.memoryIDs {
+                    guard let memoryID = memoryIDs[source], index.placements[memoryID] == nil else { continue }
+                    index.placements[memoryID] = .legacy(id)
+                }
+            }
+        }
+    }
+    #endif
+
     private func update(isLocal: Bool = true, _ change: (inout Index) throws -> Void) throws {
         var updated = index
         var changed = false

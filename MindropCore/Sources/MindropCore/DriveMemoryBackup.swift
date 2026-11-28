@@ -3,7 +3,32 @@ import CryptoKit
 import Foundation
 import Security
 
+public struct DriveBackupLibrary: Codable, Sendable {
+    struct Folder: Codable, Sendable {
+        let id: UUID
+        let name: String
+        let memoryIDs: [UUID]
+    }
+
+    let memories: [Memory]
+    let folders: [Folder]
+
+    public var isEmpty: Bool { memories.isEmpty && folders.isEmpty }
+}
+
+public struct DriveBackupSnapshot: Sendable {
+    let id: UUID
+    let createdAt: Date
+    let library: DriveBackupLibrary
+}
+
 public actor DriveMemoryBackup {
+    public enum LatestBackup: Sendable {
+        case notFound
+        case downloading
+        case ready(DriveBackupSnapshot)
+    }
+
     public struct Status: Sendable {
         public let lastUploadedAt: Date?
         public let uploadPending: Bool
@@ -30,10 +55,13 @@ public actor DriveMemoryBackup {
 
     public init() {}
 
-    /// An explicit opt-in or manual save associates this device with the current Drive account.
-    public func authorizeCurrentAccount() throws {
+    /// An explicit opt-in or manual save can move backups to a different Drive account.
+    public func authorizeCurrentAccount(allowAccountChange: Bool = true) throws {
         let token = try currentIdentity()
         if !matchesStoredIdentity(token) {
+            guard allowAccountChange || defaults.data(forKey: identityKey) == nil else {
+                throw DriveBackupError.accountChanged
+            }
             defaults.removeObject(forKey: historyKey)
             defaults.removeObject(forKey: localKeyID)
             let encoded = try NSKeyedArchiver.archivedData(withRootObject: token, requiringSecureCoding: false)
@@ -41,9 +69,15 @@ public actor DriveMemoryBackup {
         }
     }
 
+    public func prepareDiscovery(automaticBackupsEnabled: Bool) throws -> Bool {
+        if !automaticBackupsEnabled, defaults.data(forKey: identityKey) == nil { return false }
+        try authorizeCurrentAccount(allowAccountChange: false)
+        _ = try backupDirectory()
+        return true
+    }
+
     @discardableResult
-    public func create(memories: [Memory], automatically: Bool) throws -> Bool {
-        guard !memories.isEmpty else { return false }
+    public func create(library: DriveBackupLibrary, automatically: Bool, discovered: [URL] = []) throws -> Bool {
         let now = Date()
         let token = try currentIdentity()
         guard matchesStoredIdentity(token) else { throw DriveBackupError.accountChanged }
@@ -51,9 +85,16 @@ public actor DriveMemoryBackup {
         if automatically, !DriveBackupPolicy.isDue(lastAutomaticAt: history.lastAutomaticAt, now: now) {
             return false
         }
+        let payload = try DriveBackupCodec.encodeLibrary(library)
+        if automatically, history.latest == nil,
+           let newest = try managedFiles(discovered: discovered).first,
+           let snapshot = try? openWhenDownloaded(newest),
+           try DriveBackupCodec.encodeLibrary(snapshot.library) == payload {
+            // A restored or newly synced device may already have an identical Drive backup.
+            return false
+        }
         let (keyID, key) = try encryptionKey()
-        let snapshot = try DriveBackupCodec.encodeMemories(memories)
-        let fingerprint = Data(HMAC<SHA256>.authenticationCode(for: snapshot, using: key))
+        let fingerprint = Data(HMAC<SHA256>.authenticationCode(for: payload, using: key))
         let directory = try backupDirectory()
         if automatically, let latest = history.latest, latest.fingerprint == fingerprint,
            Self.hasUsableFile(at: directory.appending(path: latest.name)) {
@@ -62,7 +103,7 @@ public actor DriveMemoryBackup {
 
         let id = UUID()
         let name = "Mindrop-\(Self.fileDate(now))-\(id.uuidString).mindropbackup"
-        let data = try DriveBackupCodec.seal(snapshot, id: id, createdAt: now, keyID: keyID, key: key)
+        let data = try DriveBackupCodec.seal(library, id: id, createdAt: now, keyID: keyID, key: key)
         guard token.isEqual(try currentIdentity()) else { throw DriveBackupError.accountChanged }
         try CoordinatedFile(url: directory.appending(path: name)).write(data)
         history.latest = Receipt(name: name, createdAt: now, fingerprint: fingerprint)
@@ -92,11 +133,68 @@ public actor DriveMemoryBackup {
         return Status(lastUploadedAt: history.lastUploadedAt, uploadPending: error == nil, uploadError: error)
     }
 
-    public func open(_ url: URL) throws -> (MemoryBackup, [Memory]) {
+    public func open(_ url: URL) throws -> DriveBackupSnapshot {
         let accessing = url.startAccessingSecurityScopedResource()
         defer { if accessing { url.stopAccessingSecurityScopedResource() } }
         guard let data = try CoordinatedFile(url: url).read() else { throw DriveBackupError.invalidFile }
         return try DriveBackupCodec.open(data, key: BackupKeychain.load)
+    }
+
+    public func latestBackup(discovered: [URL]) throws -> LatestBackup {
+        let token = try currentIdentity()
+        guard matchesStoredIdentity(token) else { throw DriveBackupError.accountChanged }
+        guard let newest = try managedFiles(discovered: discovered).first else { return .notFound }
+        let snapshot = try openWhenDownloaded(newest)
+        guard token.isEqual(try currentIdentity()) else { throw DriveBackupError.accountChanged }
+        return snapshot.map(LatestBackup.ready) ?? .downloading
+    }
+
+    /// Keeps three uploaded snapshots and leaves pending uploads alone. Verify the newest
+    /// snapshot can actually be decrypted before removing any older ones.
+    public func prune(discovered: [URL]) throws {
+        let token = try currentIdentity()
+        guard matchesStoredIdentity(token) else { throw DriveBackupError.accountChanged }
+        let uploaded = try managedFiles(discovered: discovered).filter { url in
+            let values = try? url.resourceValues(forKeys: [
+                .isDirectoryKey, .isSymbolicLinkKey, .ubiquitousItemIsUploadedKey, .ubiquitousItemHasUnresolvedConflictsKey
+            ])
+            return values?.ubiquitousItemIsUploaded == true && values?.ubiquitousItemHasUnresolvedConflicts != true
+                && values?.isDirectory != true && values?.isSymbolicLink != true
+        }
+        let obsolete = uploaded.dropFirst(DriveBackupPolicy.retainedCount)
+        guard !obsolete.isEmpty, let newest = uploaded.first, try openWhenDownloaded(newest) != nil else { return }
+        for url in obsolete {
+            guard token.isEqual(try currentIdentity()) else { throw DriveBackupError.accountChanged }
+            do {
+                try CoordinatedFile(url: url).remove()
+            } catch let error as CocoaError where error.code == .fileNoSuchFile || error.code == .fileReadNoSuchFile {
+                // Another device already removed this file.
+            }
+        }
+    }
+
+    private func managedFiles(discovered: [URL]) throws -> [URL] {
+        let directory = try backupDirectory()
+        let local: [URL]
+        do {
+            local = try files.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)
+        } catch let error as CocoaError where error.code == .fileReadNoSuchFile || error.code == .fileNoSuchFile {
+            local = []
+        }
+        return DriveBackupPolicy.managedFiles(discovered + local, in: directory)
+    }
+
+    private func openWhenDownloaded(_ url: URL) throws -> DriveBackupSnapshot? {
+        let values = try url.resourceValues(forKeys: [
+            .ubiquitousItemDownloadingStatusKey, .ubiquitousItemDownloadRequestedKey, .ubiquitousItemDownloadingErrorKey
+        ])
+        if let status = values.ubiquitousItemDownloadingStatus, status != .current {
+            if values.ubiquitousItemDownloadRequested != true || values.ubiquitousItemDownloadingError != nil {
+                try files.startDownloadingUbiquitousItem(at: url)
+            }
+            return nil
+        }
+        return try open(url)
     }
 
     private func backupDirectory() throws -> URL {
@@ -141,8 +239,8 @@ public actor DriveMemoryBackup {
     }
 
     private static func hasUsableFile(at url: URL) -> Bool {
-        guard FileManager.default.fileExists(atPath: url.path),
-              let values = try? url.resourceValues(forKeys: [.ubiquitousItemUploadingErrorKey])
+        guard let values = try? url.resourceValues(forKeys: [.isUbiquitousItemKey, .ubiquitousItemUploadingErrorKey]),
+              values.isUbiquitousItem == true || FileManager.default.fileExists(atPath: url.path)
         else { return false }
         return values.ubiquitousItemUploadingError == nil
     }
@@ -158,9 +256,22 @@ public actor DriveMemoryBackup {
 }
 
 enum DriveBackupPolicy {
+    static let retainedCount = 3
+
     static func isDue(lastAutomaticAt: Date?, now: Date) -> Bool {
         guard let lastAutomaticAt else { return true }
         return now.timeIntervalSince(lastAutomaticAt) >= 24 * 60 * 60
+    }
+
+    static func managedFiles(_ urls: [URL], in directory: URL) -> [URL] {
+        let directoryPath = directory.standardizedFileURL.path
+        var seen = Set<String>()
+        return urls.filter { url in
+            url.isFileURL && url.deletingLastPathComponent().standardizedFileURL.path == directoryPath
+                && url.lastPathComponent.wholeMatch(of: /^Mindrop-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{6}Z-[A-Fa-f0-9-]{36}\.mindropbackup$/) != nil
+                && UUID(uuidString: String(url.deletingPathExtension().lastPathComponent.suffix(36))) != nil
+                && seen.insert(url.lastPathComponent).inserted
+        }.sorted { $0.lastPathComponent > $1.lastPathComponent }
     }
 }
 
@@ -177,39 +288,67 @@ enum DriveBackupCodec {
         let sealed: Data
     }
 
-    private struct Snapshot: Codable {
+    private struct LegacySnapshot: Decodable {
         let id: UUID
         let createdAt: Date
         let memories: Data
     }
 
-    static func encodeMemories(_ memories: [Memory]) throws -> Data {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .sortedKeys
-        return try encoder.encode(memories.sorted { $0.id.uuidString < $1.id.uuidString })
+    private struct Snapshot: Codable {
+        let id: UUID
+        let createdAt: Date
+        let library: DriveBackupLibrary
     }
 
-    static func seal(_ memories: Data, id: UUID, createdAt: Date, keyID: UUID, key: SymmetricKey) throws -> Data {
-        let header = Header(version: 1, keyID: keyID)
-        let payload = try JSONEncoder().encode(Snapshot(id: id, createdAt: createdAt, memories: memories))
-        guard let combined = try AES.GCM.seal(payload, using: key, authenticating: header.authenticationData).combined else {
+    static func encodeLibrary(_ library: DriveBackupLibrary) throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        let folders = library.folders.map { folder in
+            DriveBackupLibrary.Folder(id: folder.id, name: folder.name, memoryIDs: folder.memoryIDs.sorted {
+                $0.uuidString < $1.uuidString
+            })
+        }
+        return try encoder.encode(DriveBackupLibrary(
+            memories: library.memories.sorted { $0.id.uuidString < $1.id.uuidString }, folders: folders
+        ))
+    }
+
+    static func seal(_ library: DriveBackupLibrary, id: UUID, createdAt: Date, keyID: UUID, key: SymmetricKey) throws -> Data {
+        let header = Header(version: 2, keyID: keyID)
+        let payload = try JSONEncoder().encode(Snapshot(id: id, createdAt: createdAt, library: library))
+        let compressed = try (payload as NSData).compressed(using: .lzfse) as Data
+        guard let combined = try AES.GCM.seal(compressed, using: key, authenticating: header.authenticationData).combined else {
             throw DriveBackupError.invalidFile
         }
         return try JSONEncoder().encode(Envelope(header: header, sealed: combined))
     }
 
-    static func open(_ data: Data, key: (UUID) throws -> SymmetricKey) throws -> (MemoryBackup, [Memory]) {
+    static func open(_ data: Data, key: (UUID) throws -> SymmetricKey) throws -> DriveBackupSnapshot {
         let decoder = JSONDecoder()
         let envelope = try decoder.decode(Envelope.self, from: data)
-        guard envelope.header.version == 1 else { throw DriveBackupError.invalidFile }
+        guard (1...2).contains(envelope.header.version) else { throw DriveBackupError.invalidFile }
         let key = try key(envelope.header.keyID)
         let cleartext = try AES.GCM.open(
             AES.GCM.SealedBox(combined: envelope.sealed), using: key, authenticating: envelope.header.authenticationData
         )
-        let snapshot = try decoder.decode(Snapshot.self, from: cleartext)
-        let memories = try decoder.decode([Memory].self, from: snapshot.memories)
-        guard Set(memories.map(\.id)).count == memories.count else { throw DriveBackupError.invalidFile }
-        return (MemoryBackup(id: snapshot.id, createdAt: snapshot.createdAt, memoryCount: memories.count), memories)
+        let snapshot: Snapshot
+        if envelope.header.version == 1 {
+            let legacy = try decoder.decode(LegacySnapshot.self, from: cleartext)
+            let memories = try decoder.decode([Memory].self, from: legacy.memories)
+            snapshot = Snapshot(id: legacy.id, createdAt: legacy.createdAt, library: .init(memories: memories, folders: []))
+        } else {
+            let payload = try (cleartext as NSData).decompressed(using: .lzfse) as Data
+            snapshot = try decoder.decode(Snapshot.self, from: payload)
+        }
+        let library = snapshot.library
+        let memoryIDs = Set(library.memories.map(\.id))
+        let assignedIDs = library.folders.flatMap(\.memoryIDs)
+        guard memoryIDs.count == library.memories.count,
+              Set(library.folders.map(\.id)).count == library.folders.count,
+              Set(assignedIDs).count == assignedIDs.count,
+              memoryIDs.isSuperset(of: assignedIDs)
+        else { throw DriveBackupError.invalidFile }
+        return DriveBackupSnapshot(id: snapshot.id, createdAt: snapshot.createdAt, library: library)
     }
 }
 

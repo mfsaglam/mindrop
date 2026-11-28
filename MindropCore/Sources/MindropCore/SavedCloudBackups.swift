@@ -48,6 +48,7 @@ public final class SavedCloudBackups {
     private var catalogRevision = 0
     private var catalog: CloudBackupCatalog?
     private var refreshTask: Task<Void, Error>?
+    @ObservationIgnored private var hasRequestedArchive = false
 
     public init() {
         let directory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
@@ -58,6 +59,7 @@ public final class SavedCloudBackups {
     public var isRefreshing: Bool { refreshTask != nil }
 
     public func refresh() async throws {
+        hasRequestedArchive = true
         if let refreshTask { return try await refreshTask.value }
         let generation = accountGeneration
         let task = Task {
@@ -76,17 +78,7 @@ public final class SavedCloudBackups {
         catalog = nil
         refreshTask?.cancel()
         refreshTask = nil
-        Task { try? await refresh() }
-    }
-
-    public func create(memories: [Memory]) async throws {
-        let generation = accountGeneration
-        let account = try await identifyAccount(generation: generation)
-        let backup = try await cloud.create(memories: memories)
-        try checkAccount(account, generation: generation)
-        var next = catalog ?? CloudBackupCatalog(accountID: account)
-        next.apply(updates: [backup], deletions: [])
-        update(next)
+        if hasRequestedArchive { Task { try? await refresh() } }
     }
 
     public func memories(in backup: MemoryBackup) async throws -> [Memory] {
@@ -97,14 +89,19 @@ public final class SavedCloudBackups {
         return memories
     }
 
-    public func delete(_ backup: MemoryBackup) async throws {
+    public func delete(_ backups: [MemoryBackup]) async throws {
+        guard !backups.isEmpty, let account = accountID else { return }
         let generation = accountGeneration
-        let account = try await identifyAccount(generation: generation)
-        try await cloud.delete(backup)
-        try checkAccount(account, generation: generation)
-        guard var next = catalog else { return }
-        next.apply(updates: [], deletions: [backup.id])
-        update(next)
+        guard try await cloud.accountID() == account else { throw CancellationError() }
+        for backup in backups {
+            try checkAccount(account, generation: generation)
+            guard catalog?.backups[backup.id] == backup else { continue }
+            try await cloud.delete(backup)
+            try checkAccount(account, generation: generation)
+            guard var next = catalog else { return }
+            next.apply(updates: [], deletions: [backup.id])
+            update(next)
+        }
     }
 
     private func fetchChanges(generation: Int) async throws {
@@ -113,7 +110,7 @@ public final class SavedCloudBackups {
             let revision = catalogRevision
             let updated = try await cloud.updatedCatalog(from: catalog ?? CloudBackupCatalog(accountID: account))
             try checkAccount(account, generation: generation)
-            // A save or deletion can finish while this request is in flight. Fetch again
+            // A deletion can finish while this request is in flight. Fetch again
             // from the retained cursor rather than overwriting the newer local result.
             guard revision == catalogRevision else { continue }
             update(updated)

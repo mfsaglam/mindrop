@@ -5,12 +5,12 @@ import Foundation
 public protocol MemoryStore: Sendable {
     func load() throws -> [Memory]
     func save(_ memories: [Memory]) throws
-    func update(_ transform: ([Memory]) -> [Memory]?) throws -> [Memory]?
+    func update(_ transform: ([Memory]) throws -> [Memory]?) throws -> [Memory]?
 }
 
 public extension MemoryStore {
-    func update(_ transform: ([Memory]) -> [Memory]?) throws -> [Memory]? {
-        guard let updated = transform(try load()) else { return nil }
+    func update(_ transform: ([Memory]) throws -> [Memory]?) throws -> [Memory]? {
+        guard let updated = try transform(load()) else { return nil }
         try save(updated)
         return updated
     }
@@ -43,10 +43,10 @@ public struct FileMemoryStore: MemoryStore {
         try file.write(try JSONEncoder.mindrop.encode(memories))
     }
 
-    public func update(_ transform: ([Memory]) -> [Memory]?) throws -> [Memory]? {
+    public func update(_ transform: ([Memory]) throws -> [Memory]?) throws -> [Memory]? {
         var updated: [Memory]?
         try file.update { data in
-            updated = transform(try Self.decode(data))
+            updated = try transform(Self.decode(data))
             return try updated.map { try JSONEncoder.mindrop.encode($0) }
         }
         return updated
@@ -82,9 +82,9 @@ public final class InMemoryMemoryStore: MemoryStore, @unchecked Sendable {
         lock.withLock { self.memories = memories }
     }
 
-    public func update(_ transform: ([Memory]) -> [Memory]?) throws -> [Memory]? {
+    public func update(_ transform: ([Memory]) throws -> [Memory]?) throws -> [Memory]? {
         try lock.withLock {
-            guard let updated = transform(memories) else { return nil }
+            guard let updated = try transform(memories) else { return nil }
             if let saveError { throw saveError }
             memories = updated
             return updated

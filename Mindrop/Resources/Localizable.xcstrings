@@ -677,6 +677,7 @@
     },
     "A backup keeps a dated copy of your active memories in iCloud. Backups stay available until you delete them." : {
       "comment" : "iCloud backup screen.",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1822,6 +1823,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yedekleme İşlemleri"
+          }
+        }
+      }
+    },
+    "Backup restored." : {
+      "comment" : "An iCloud Drive restore completed without adding any memory copies.",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedek geri yüklendi."
           }
         }
       }
@@ -3077,6 +3089,7 @@
     },
     "Couldn’t Create Backup" : {
       "comment" : "iCloud backup screen.",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3991,6 +4004,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "永久刪除所有項目？"
+          }
+        }
+      }
+    },
+    "Delete All Previous Backups" : {
+      "comment" : "Deletes all CloudKit backups shown in the archive.",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önceki Yedeklerin Tümünü Sil"
           }
         }
       }
@@ -7175,6 +7199,7 @@
     },
     "iCloud Backup" : {
       "comment" : "iCloud backup screen.",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7963,6 +7988,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "永久保留"
+          }
+        }
+      }
+    },
+    "Keep in %@" : {
+      "comment" : "The folder containing the memory to keep in a duplicate pair.",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ klasöründeki kayıt kalsın"
           }
         }
       }
@@ -8812,6 +8848,17 @@
         }
       }
     },
+    "Mindrop keeps the three latest uploaded backups in this folder." : {
+      "comment" : "Retention policy for iCloud Drive backup files.",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindrop bu klasörde iCloud Drive’a yüklenen en yeni üç yedeği tutar."
+          }
+        }
+      }
+    },
     "Mindrop uses the camera to scan text and QR codes. You can turn on camera access in Settings." : {
       "comment" : "Explains why the camera is needed, when access is off.",
       "localizations" : {
@@ -9096,6 +9143,17 @@
         }
       }
     },
+    "Move Selected Copies?" : {
+      "comment" : "Confirmation title for moving selected backup copies to Recently Deleted.",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilen Kopyalar Taşınsın mı?"
+          }
+        }
+      }
+    },
     "Move to Folder" : {
       "localizations" : {
         "ar" : {
@@ -9186,6 +9244,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移至資料夾"
+          }
+        }
+      }
+    },
+    "Move to Recently Deleted" : {
+      "comment" : "Button to move selected backup copies to Recently Deleted.",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son Silinenler’e Taşı"
           }
         }
       }
@@ -9619,6 +9688,17 @@
         }
       }
     },
+    "No matching copies found." : {
+      "comment" : "Empty state in duplicate memory review.",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eşleşen kopya bulunamadı."
+          }
+        }
+      }
+    },
     "No Memories" : {
       "localizations" : {
         "ar" : {
@@ -9809,6 +9889,7 @@
     },
     "No Memories to Back Up" : {
       "comment" : "iCloud backup screen.",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11094,6 +11175,17 @@
         }
       }
     },
+    "Previous iCloud Backups" : {
+      "comment" : "An archive of backups created by earlier versions of Mindrop.",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önceki iCloud Yedekleri"
+          }
+        }
+      }
+    },
     "Privacy Policy" : {
 
     },
@@ -11635,6 +11727,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dosyadan Geri Yükle"
+          }
+        }
+      }
+    },
+    "Restores missing active memories and saved folders. Earlier versions of changed memories are added as copies." : {
+      "comment" : "Confirming a manual restore from an iCloud Drive backup.",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eksik etkin kayıtları ve yedekteki klasörleri geri yükler. Değişmiş kayıtların önceki sürümlerini kopya olarak ekler."
+          }
+        }
+      }
+    },
+    "Review Duplicate Memories" : {
+      "comment" : "Title of the iCloud Drive duplicate review screen and navigation link.",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yinelenen Kayıtları İncele"
           }
         }
       }
@@ -12245,6 +12359,7 @@
     },
     "Saved Backups" : {
       "comment" : "iCloud backup screen.",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13128,6 +13243,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bir Kayıt Seç"
+          }
+        }
+      }
+    },
+    "Select All" : {
+      "comment" : "Selects all the duplicate copies shown for review.",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tümünü Seç"
+          }
+        }
+      }
+    },
+    "Select matching copies to move out of General." : {
+      "comment" : "Instructions for selecting which duplicate copies to move out of General.",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genel’den taşımak istediğiniz eşleşen kopyaları seçin."
           }
         }
       }
@@ -14528,6 +14665,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "資料夾將被刪除。其中的記錄會移至「最近刪除」，你可在 30 天內復原。"
+          }
+        }
+      }
+    },
+    "The selected backups will be permanently deleted from iCloud on all your devices." : {
+      "comment" : "Confirmation before deleting the CloudKit backup archive.",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilen yedekler tüm cihazlarınızda iCloud’dan kalıcı olarak silinecek."
           }
         }
       }

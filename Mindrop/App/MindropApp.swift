@@ -1,6 +1,7 @@
 import CloudKit
 import MindropCore
 import MindropIntents
+import os
 import SwiftUI
 #if os(macOS)
 import AppKit
@@ -109,6 +110,12 @@ final class MindropSession {
     let sensitiveAccess = SensitiveAccess()
     let driveBackup = DriveMemoryBackup()
     let cloudBackups = SavedCloudBackups()
+    private let driveBackupQuery = NSMetadataQuery()
+    @ObservationIgnored private var driveBackupObservers: [NSObjectProtocol] = []
+    private var driveBackupTask: Task<Void, Never>?
+    private var driveBackupRefreshRequested = false
+    private var memoryFileURL: URL?
+    private let backupLog = Logger(subsystem: "mfsaglam.Mindrop", category: "drive-backup")
     private(set) var cloudSync: CloudSync?
     #if os(iOS)
     private let watchLink: WatchLink
@@ -124,6 +131,14 @@ final class MindropSession {
         #else
         NewMemoryRequest.shared.handleMacRequests { [weak self] in self?.showMacCapture() }
         #endif
+        driveBackupQuery.searchScopes = [NSMetadataQueryUbiquitousDocumentsScope]
+        driveBackupQuery.predicate = NSPredicate(format: "%K LIKE %@", NSMetadataItemFSNameKey, "Mindrop-*.mindropbackup")
+        let discoveryEvents: [Notification.Name] = [.NSMetadataQueryDidFinishGathering, .NSMetadataQueryDidUpdate]
+        driveBackupObservers = discoveryEvents.map { name in
+            NotificationCenter.default.addObserver(forName: name, object: driveBackupQuery, queue: .main) { [weak self] _ in
+                Task { @MainActor in self?.refreshDriveBackups() }
+            }
+        }
         // Started here as well as by the first screen: a push from iCloud can launch the
         // app in the background, where no screen appears to start it.
         Task { await start() }
@@ -139,6 +154,18 @@ final class MindropSession {
                 self?.cloudBackups.accountDidChange()
             }
         }
+        Task { [weak self] in
+            for await _ in NotificationCenter.default.notifications(named: NSNotification.Name.NSUbiquityIdentityDidChange) {
+                await self?.restartDriveDiscovery()
+            }
+        }
+    }
+
+    isolated deinit {
+        for observer in driveBackupObservers {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        driveBackupQuery.stop()
     }
 
     /// What was asked of Apple Intelligence this launch. Debug builds only: it holds
@@ -158,6 +185,7 @@ final class MindropSession {
         guard case .loading = phase else { return }
         do {
             guard let container = AppGroup.containerURL else { throw MemoryStoreError.appGroupUnavailable }
+            memoryFileURL = container.appending(path: AppGroup.memoriesFileName)
             let folders = MemoryFolders(url: container.appending(path: "folders.json"))
             try? folders.load()
             let stack = MemoryStack(url: container.appending(path: "stack.json"))
@@ -186,6 +214,11 @@ final class MindropSession {
             // Show the list first: reconciling the Spotlight index can take seconds.
             phase = .ready(repository)
             startCloudSync(for: repository)
+            repository.onLocalChange = { [weak self] in
+                self?.cloudSync?.sendLocalChanges()
+                self?.refreshDriveBackups()
+            }
+            if canRecoverDriveBackup { refreshDriveBackups() }
             #if os(iOS)
             watchLink.deliver { [weak self] memory in self?.takeFromWatch(memory) }
             #endif
@@ -225,14 +258,13 @@ final class MindropSession {
     #endif
 
     func refreshOnActivation() {
-        refresh(backsUpToDrive: true)
-        Task { try? await cloudBackups.refresh() }
+        refresh(checksDriveBackup: true)
     }
 
     /// Picks up memories the share extension added while the app was in the background,
     /// and categorises them, since the extension does not. Also where expired memories
     /// past their 7 days are deleted for good.
-    func refresh(backsUpToDrive: Bool = false) {
+    func refresh(checksDriveBackup: Bool = false) {
         try? repository?.load()
         #if os(macOS)
         importMacShares()
@@ -242,11 +274,109 @@ final class MindropSession {
         cloudSync?.sendLocalChanges()
         Task {
             await cloudSync?.fetchChanges()
-            guard backsUpToDrive, UserDefaults.standard.bool(forKey: Preference.automaticDriveBackup),
-                  let repository,
-                  let memories = try? repository.memoriesForBackup()
-            else { return }
-            try? await driveBackup.create(memories: memories, automatically: true)
+            if checksDriveBackup { refreshDriveBackups() }
+        }
+    }
+
+    func refreshDriveBackups() {
+        guard let repository else { return }
+        guard driveBackupTask == nil else {
+            driveBackupRefreshRequested = true
+            return
+        }
+        driveBackupTask = Task {
+            defer {
+                driveBackupTask = nil
+                if driveBackupRefreshRequested {
+                    driveBackupRefreshRequested = false
+                    if !Task.isCancelled { refreshDriveBackups() }
+                }
+            }
+            do {
+                guard try await driveBackup.prepareDiscovery(automaticBackupsEnabled: Preference.makesAutomaticDriveBackups),
+                      !Task.isCancelled else { return }
+                if !driveBackupQuery.isStarted || driveBackupQuery.isStopped {
+                    if !driveBackupQuery.start() { backupLog.error("Couldn't start the iCloud Drive backup query") }
+                    return
+                }
+                guard !driveBackupQuery.isGathering else { return }
+                try await checkDriveBackups(for: repository)
+            } catch DriveBackupError.driveUnavailable {
+                // Drive is disabled or the user is signed out. An identity change or activation retries.
+            } catch is CancellationError {
+                return
+            } catch {
+                backupLog.error("Checking iCloud Drive backups failed: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private func restartDriveDiscovery() async {
+        driveBackupQuery.stop()
+        let previous = driveBackupTask
+        previous?.cancel()
+        await previous?.value
+        refreshDriveBackups()
+    }
+
+    private var canRecoverDriveBackup: Bool {
+        guard let memoryFileURL, repository?.memories.isEmpty == true else { return false }
+        // An empty file is still a library. In particular, deleting every memory must
+        // never trigger a restore on this installation.
+        return !FileManager.default.fileExists(atPath: memoryFileURL.path)
+    }
+
+    private func checkDriveBackups(for repository: MemoryRepository) async throws {
+        var checkedForNewBackup = false
+        for _ in 0..<12 {
+            try Task.checkCancellation()
+            let discovered = discoveredDriveBackups()
+            if Preference.makesAutomaticDriveBackups, !checkedForNewBackup {
+                checkedForNewBackup = try await backUpOrRecover(repository, discovered: discovered)
+            }
+            if checkedForNewBackup || !Preference.makesAutomaticDriveBackups {
+                try await driveBackup.prune(discovered: discovered)
+                if try await driveBackup.status().uploadPending == false { return }
+            }
+            try await Task.sleep(for: .seconds(5))
+        }
+    }
+
+    /// Returns false while a fresh installation is waiting for a download or its key.
+    private func backUpOrRecover(_ repository: MemoryRepository, discovered: [URL]) async throws -> Bool {
+        if canRecoverDriveBackup {
+            do {
+                let result = try await driveBackup.latestBackup(discovered: discovered)
+                try Task.checkCancellation()
+                guard Preference.makesAutomaticDriveBackups else { return false }
+                if canRecoverDriveBackup {
+                    switch result {
+                    case .ready(let snapshot):
+                        try repository.recoverDriveBackup(snapshot)
+                        return true
+                    case .downloading:
+                        return false
+                    case .notFound:
+                        // A library with only custom folders can still be backed up.
+                        guard !repository.folders.custom.isEmpty else { return true }
+                    }
+                }
+            } catch DriveBackupError.keyUnavailable {
+                // Keychain can catch up after the file has downloaded.
+                return false
+            }
+        }
+
+        let library = try repository.driveBackupLibrary()
+        try await driveBackup.create(library: library, automatically: true, discovered: discovered)
+        return true
+    }
+
+    private func discoveredDriveBackups() -> [URL] {
+        driveBackupQuery.disableUpdates()
+        defer { driveBackupQuery.enableUpdates() }
+        return driveBackupQuery.results.compactMap { result in
+            (result as? NSMetadataItem)?.value(forAttribute: NSMetadataItemURLKey) as? URL
         }
     }
 
@@ -283,7 +413,6 @@ final class MindropSession {
     private func startCloudSync(for repository: MemoryRepository) {
         guard let cloudSync = try? CloudSync.live(repository: repository) else { return }
         self.cloudSync = cloudSync
-        repository.onLocalChange = { [weak cloudSync] in cloudSync?.sendLocalChanges() }
         // Lets iCloud wake the app when another device changes something.
         #if os(macOS)
         NSApplication.shared.registerForRemoteNotifications()
